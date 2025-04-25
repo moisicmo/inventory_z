@@ -1,0 +1,271 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  numberDocument String           @unique @db.VarChar(255)
+  typeDocument   TypeDocument
+  name           String           @db.VarChar(255)
+  lastName       String           @db.VarChar(255)
+  email          String?          @unique @db.VarChar(255)
+  active         Boolean          @default(true)
+  codeActivation String?          @db.VarChar(255)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  customers      Customer[]
+  staffs         Staff[]
+  sessions       Session[]
+  forgotPassword forgotPassword[]
+
+  @@map("users")
+}
+
+model forgotPassword {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @db.Integer
+  code      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("forgot_passwords")
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @db.Integer
+  token     String   @unique @db.VarChar(255)
+  ipAddress String   @db.VarChar(255)
+  userAgent String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model Customer {
+  userId    Int      @unique @db.Integer
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  orers     Order[]
+
+  @@map("customers")
+}
+
+model Staff {
+  userId    Int      @unique @db.Integer
+  roleId    Int      @db.Integer
+  password  String   @db.VarChar(255)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  role      Role     @relation(fields: [roleId], references: [id])
+  branches  Branch[]
+  orders    Order[]
+
+  @@id([userId])
+  @@map("staffs")
+}
+
+model Branch {
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(255)
+  address      String?       @db.VarChar(255)
+  phone        String?       @db.VarChar(255)
+  active       Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  staffs       Staff[]
+  karedxs      Kardex[]
+  inputs       Input[]
+  outputs      Output[]
+  pointsOfSale PointOfSale[]
+
+  @@map("branches")
+}
+
+model PointOfSale {
+  id        Int      @id @default(autoincrement())
+  branchId  Int      @db.Integer
+  code      String?  @db.VarChar(255)
+  name      String   @db.VarChar(255)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  branch    Branch   @relation(fields: [branchId], references: [id])
+  orders    Order[]
+
+  @@map("pointsOfSale")
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(255)
+  active      Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  permissions Permission[]
+  staffs      Staff[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.VarChar(255)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  roles       Role[]
+
+  @@map("permissions")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id         Int      @id @default(autoincrement())
+  categoryId Int      @db.Integer
+  code       String   @db.VarChar(255)
+  name       String   @db.VarChar(255)
+  image      String?  @db.VarChar(255)
+  barCode    String?  @db.VarChar(255)
+  visible    Boolean  @default(true)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  inputs     Input[]
+  outputs    Output[]
+  prices     Price[]
+  kardexs    Kardex[]
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@map("products")
+}
+
+model Price {
+  id           Int          @id @default(autoincrement())
+  productId    Int          @db.Integer
+  typeUnit     TypeUnit     @default(UNIDAD)
+  price        Float        @default(0.0)
+  discount     Float        @default(0.0)
+  typeDiscount TypeDiscount @default(MONTO)
+  active       Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  product      Product      @relation(fields: [productId], references: [id])
+
+  @@map("prices")
+}
+
+model Input {
+  id        Int       @id @default(autoincrement())
+  branchId  Int       @db.Integer
+  productId Int       @db.Integer
+  quantity  Int       @db.Integer
+  price     Float     @default(0.0)
+  dueDate   DateTime? @db.Date
+  createdAt DateTime  @default(now())
+  branch    Branch    @relation(fields: [branchId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+
+  @@map("inputs")
+}
+
+model Output {
+  id        Int      @id @default(autoincrement())
+  branchId  Int      @db.Integer
+  orderId   Int      @db.Integer
+  productId Int      @db.Integer
+  quantity  Int      @db.Integer
+  price     Float    @default(0.0)
+  createdAt DateTime @default(now())
+  branch    Branch   @relation(fields: [branchId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@map("outputs")
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  pointSaleId Int         @db.Integer
+  staffId     Int         @db.Integer
+  customerId  Int         @db.Integer
+  amount      Float       @default(0.0)
+  active      Boolean     @default(true) @db.Boolean
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  outputs     Output[]
+  pointSale   PointOfSale @relation(fields: [pointSaleId], references: [id])
+  staff       Staff       @relation(fields: [staffId], references: [userId])
+  customer    Customer    @relation(fields: [customerId], references: [userId])
+
+  @@map("orders")
+}
+
+model Kardex {
+  branchId      Int           @db.Integer
+  productId     Int           @db.Integer
+  referenceId   Int           @db.Integer
+  typeReference TypeReference
+  detail        String        @db.VarChar(255)
+  stock         Int           @db.Integer
+  product       Product       @relation(fields: [productId], references: [id])
+  branch        Branch        @relation(fields: [branchId], references: [id])
+
+  @@unique([branchId, productId])
+  @@map("kardexs")
+}
+
+// emuns section
+enum TypeDocument {
+  DNI
+  RUC
+  PASAPORTE
+}
+
+enum TypeDiscount {
+  MONTO
+  PORCENTAJE
+}
+
+enum TypeUnit {
+  UNIDAD
+  LIBRA
+  KILO
+  CAJA
+  DOCENA
+}
+
+enum TypeReference {
+  inputs
+  outputs
+}
