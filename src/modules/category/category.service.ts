@@ -10,7 +10,7 @@ export class CategoryService {
   constructor(private prisma: PrismaService) { }
 
   async create(createCategoryDto: CreateCategoryDto) {
-    return await this.prisma.branch.create({
+    return await this.prisma.category.create({
       data: {
         ...createCategoryDto
       }
@@ -44,7 +44,7 @@ export class CategoryService {
     });
 
     if (!category) {
-      throw new NotFoundException(`Staff with id #${id} not found`);
+      throw new NotFoundException(`Customer with id #${id} not found`);
     }
 
     return category;
@@ -52,7 +52,7 @@ export class CategoryService {
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     await this.findOne(id);
-    return this.prisma.branch.update({
+    return this.prisma.category.update({
       where: { id },
       data: updateCategoryDto,
     });

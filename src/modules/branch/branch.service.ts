@@ -44,7 +44,7 @@ export class BranchService {
     });
 
     if (!branch) {
-      throw new NotFoundException(`Staff with id #${id} not found`);
+      throw new NotFoundException(`Branch with id #${id} not found`);
     }
 
     return branch;

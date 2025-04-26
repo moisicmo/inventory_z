@@ -6,14 +6,14 @@ export class CreateInputDto {
   @IsNumber()
   @ApiProperty({
     example: 1,
-    description: 'ID del branch',
+    description: 'Identificador de la sucursal',
   })
   branchId:number;
 
   @IsNumber()
   @ApiProperty({
     example: 1,
-    description: 'ID del producto',
+    description: 'Identificador del producto',
   })
   productId: number;
 

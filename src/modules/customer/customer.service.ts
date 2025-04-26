@@ -60,7 +60,7 @@ export class CustomerService {
   }
 
   async findOne(userId: number) {
-    const customer = await this.prisma.staff.findFirst({
+    const customer = await this.prisma.customer.findFirst({
       where: { userId, active: true },
     });
 

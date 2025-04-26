@@ -134,7 +134,7 @@ model Category {
 model Product {
   id                    Int                 @id @default(autoincrement())
   categoryId            Int                 @db.Integer
-  code                  String?              @db.VarChar(255)
+  code                  String?             @db.VarChar(255)
   name                  String              @db.VarChar(255)
   image                 String?             @db.VarChar(255)
   barCode               String?             @db.VarChar(255)

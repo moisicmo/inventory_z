@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { TypeUnit } from "@prisma/client";
-import { IsDecimal, IsEnum, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNumber, IsString } from "class-validator";
 
 export class CreateProductDto {
 
@@ -26,7 +26,7 @@ export class CreateProductDto {
   })
   typeUnit: TypeUnit;
 
-  @IsDecimal()
+  @IsNumber()
   @ApiProperty({
     example: 10.5,
     description: 'Precio del producto',

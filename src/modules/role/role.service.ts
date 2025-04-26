@@ -10,7 +10,7 @@ export class RoleService {
   constructor(private prisma: PrismaService) { }
 
   async create(createRoleDto: CreateRoleDto) {
-    return await this.prisma.branch.create({
+    return await this.prisma.role.create({
       data: {
         ...createRoleDto
       }

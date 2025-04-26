@@ -10,11 +10,31 @@ export class ProductService {
   constructor(private prisma: PrismaService) { }
 
   async create(createProductDto: CreateProductDto) {
-    return await this.prisma.branch.create({
+    const { categoryId, name, typeUnit, price } = createProductDto;
+    const product = await this.prisma.product.create({
       data: {
-        ...createProductDto
+        code: `P${Date.now()}`,
+        categoryId,
+        name,
+        prices: {
+          create: {
+            typeUnit,
+            price,
+          }
+        }
+      },
+      include: {
+        prices: {
+          select: {
+            id: true,
+            typeUnit: true,
+            price: true,
+          }
+        }
       }
     });
+    return product;
+
   }
 
   async findAll(paginationDto: PaginationDto) {
@@ -29,6 +49,15 @@ export class ProductService {
         where: {
           active: true,
         },
+        include: {
+          prices: {
+            select: {
+              id: true,
+              typeUnit: true,
+              price: true,
+            }
+          }
+        }
       }),
       meta: {
         total: totalPages,
@@ -39,21 +68,21 @@ export class ProductService {
   }
 
   async findOne(id: number) {
-    const branch = await this.prisma.product.findFirst({
+    const product = await this.prisma.product.findFirst({
       where: { id, active: true },
     });
 
-    if (!branch) {
-      throw new NotFoundException(`Staff with id #${id} not found`);
+    if (!product) {
+      throw new NotFoundException(`Product with id #${id} not found`);
     }
 
-    return branch;
+    return product;
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
     await this.findOne(id);
 
-    return this.prisma.branch.update({
+    return this.prisma.product.update({
       where: { id },
       data: updateProductDto,
     });
