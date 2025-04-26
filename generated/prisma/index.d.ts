@@ -2381,12 +2381,10 @@ export namespace Prisma {
 
   export type StaffCountOutputType = {
     branches: number
-    orders: number
   }
 
   export type StaffCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     branches?: boolean | StaffCountOutputTypeCountBranchesArgs
-    orders?: boolean | StaffCountOutputTypeCountOrdersArgs
   }
 
   // Custom InputTypes
@@ -2405,13 +2403,6 @@ export namespace Prisma {
    */
   export type StaffCountOutputTypeCountBranchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BranchWhereInput
-  }
-
-  /**
-   * StaffCountOutputType without action
-   */
-  export type StaffCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OrderWhereInput
   }
 
 
@@ -2488,10 +2479,12 @@ export namespace Prisma {
 
   export type PointOfSaleCountOutputType = {
     orders: number
+    staffs: number
   }
 
   export type PointOfSaleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | PointOfSaleCountOutputTypeCountOrdersArgs
+    staffs?: boolean | PointOfSaleCountOutputTypeCountStaffsArgs
   }
 
   // Custom InputTypes
@@ -2510,6 +2503,13 @@ export namespace Prisma {
    */
   export type PointOfSaleCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderWhereInput
+  }
+
+  /**
+   * PointOfSaleCountOutputType without action
+   */
+  export type PointOfSaleCountOutputTypeCountStaffsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StaffWhereInput
   }
 
 
@@ -7303,16 +7303,19 @@ export namespace Prisma {
   export type StaffAvgAggregateOutputType = {
     userId: number | null
     roleId: number | null
+    pointSaleId: number | null
   }
 
   export type StaffSumAggregateOutputType = {
     userId: number | null
     roleId: number | null
+    pointSaleId: number | null
   }
 
   export type StaffMinAggregateOutputType = {
     userId: number | null
     roleId: number | null
+    pointSaleId: number | null
     password: string | null
     active: boolean | null
     createdAt: Date | null
@@ -7322,6 +7325,7 @@ export namespace Prisma {
   export type StaffMaxAggregateOutputType = {
     userId: number | null
     roleId: number | null
+    pointSaleId: number | null
     password: string | null
     active: boolean | null
     createdAt: Date | null
@@ -7331,6 +7335,7 @@ export namespace Prisma {
   export type StaffCountAggregateOutputType = {
     userId: number
     roleId: number
+    pointSaleId: number
     password: number
     active: number
     createdAt: number
@@ -7342,16 +7347,19 @@ export namespace Prisma {
   export type StaffAvgAggregateInputType = {
     userId?: true
     roleId?: true
+    pointSaleId?: true
   }
 
   export type StaffSumAggregateInputType = {
     userId?: true
     roleId?: true
+    pointSaleId?: true
   }
 
   export type StaffMinAggregateInputType = {
     userId?: true
     roleId?: true
+    pointSaleId?: true
     password?: true
     active?: true
     createdAt?: true
@@ -7361,6 +7369,7 @@ export namespace Prisma {
   export type StaffMaxAggregateInputType = {
     userId?: true
     roleId?: true
+    pointSaleId?: true
     password?: true
     active?: true
     createdAt?: true
@@ -7370,6 +7379,7 @@ export namespace Prisma {
   export type StaffCountAggregateInputType = {
     userId?: true
     roleId?: true
+    pointSaleId?: true
     password?: true
     active?: true
     createdAt?: true
@@ -7466,6 +7476,7 @@ export namespace Prisma {
   export type StaffGroupByOutputType = {
     userId: number
     roleId: number
+    pointSaleId: number | null
     password: string
     active: boolean
     createdAt: Date
@@ -7494,63 +7505,71 @@ export namespace Prisma {
   export type StaffSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     roleId?: boolean
+    pointSaleId?: boolean
     password?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    pointSale?: boolean | Staff$pointSaleArgs<ExtArgs>
     branches?: boolean | Staff$branchesArgs<ExtArgs>
-    orders?: boolean | Staff$ordersArgs<ExtArgs>
     _count?: boolean | StaffCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
   export type StaffSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     roleId?: boolean
+    pointSaleId?: boolean
     password?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    pointSale?: boolean | Staff$pointSaleArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
   export type StaffSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     roleId?: boolean
+    pointSaleId?: boolean
     password?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    pointSale?: boolean | Staff$pointSaleArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
   export type StaffSelectScalar = {
     userId?: boolean
     roleId?: boolean
+    pointSaleId?: boolean
     password?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "roleId" | "password" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
+  export type StaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "roleId" | "pointSaleId" | "password" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
   export type StaffInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    pointSale?: boolean | Staff$pointSaleArgs<ExtArgs>
     branches?: boolean | Staff$branchesArgs<ExtArgs>
-    orders?: boolean | Staff$ordersArgs<ExtArgs>
     _count?: boolean | StaffCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StaffIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    pointSale?: boolean | Staff$pointSaleArgs<ExtArgs>
   }
   export type StaffIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    pointSale?: boolean | Staff$pointSaleArgs<ExtArgs>
   }
 
   export type $StaffPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7558,12 +7577,13 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       role: Prisma.$RolePayload<ExtArgs>
+      pointSale: Prisma.$PointOfSalePayload<ExtArgs> | null
       branches: Prisma.$BranchPayload<ExtArgs>[]
-      orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: number
       roleId: number
+      pointSaleId: number | null
       password: string
       active: boolean
       createdAt: Date
@@ -7964,8 +7984,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    pointSale<T extends Staff$pointSaleArgs<ExtArgs> = {}>(args?: Subset<T, Staff$pointSaleArgs<ExtArgs>>): Prisma__PointOfSaleClient<$Result.GetResult<Prisma.$PointOfSalePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     branches<T extends Staff$branchesArgs<ExtArgs> = {}>(args?: Subset<T, Staff$branchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    orders<T extends Staff$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Staff$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7997,6 +8017,7 @@ export namespace Prisma {
   interface StaffFieldRefs {
     readonly userId: FieldRef<"Staff", 'Int'>
     readonly roleId: FieldRef<"Staff", 'Int'>
+    readonly pointSaleId: FieldRef<"Staff", 'Int'>
     readonly password: FieldRef<"Staff", 'String'>
     readonly active: FieldRef<"Staff", 'Boolean'>
     readonly createdAt: FieldRef<"Staff", 'DateTime'>
@@ -8397,6 +8418,25 @@ export namespace Prisma {
   }
 
   /**
+   * Staff.pointSale
+   */
+  export type Staff$pointSaleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PointOfSale
+     */
+    select?: PointOfSaleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PointOfSale
+     */
+    omit?: PointOfSaleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PointOfSaleInclude<ExtArgs> | null
+    where?: PointOfSaleWhereInput
+  }
+
+  /**
    * Staff.branches
    */
   export type Staff$branchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8418,30 +8458,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
-  }
-
-  /**
-   * Staff.orders
-   */
-  export type Staff$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Order
-     */
-    select?: OrderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Order
-     */
-    omit?: OrderOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OrderInclude<ExtArgs> | null
-    where?: OrderWhereInput
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
-    cursor?: OrderWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
   /**
@@ -9925,6 +9941,7 @@ export namespace Prisma {
     updatedAt?: boolean
     branch?: boolean | BranchDefaultArgs<ExtArgs>
     orders?: boolean | PointOfSale$ordersArgs<ExtArgs>
+    staffs?: boolean | PointOfSale$staffsArgs<ExtArgs>
     _count?: boolean | PointOfSaleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pointOfSale"]>
 
@@ -9964,6 +9981,7 @@ export namespace Prisma {
   export type PointOfSaleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     branch?: boolean | BranchDefaultArgs<ExtArgs>
     orders?: boolean | PointOfSale$ordersArgs<ExtArgs>
+    staffs?: boolean | PointOfSale$staffsArgs<ExtArgs>
     _count?: boolean | PointOfSaleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PointOfSaleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9978,6 +9996,7 @@ export namespace Prisma {
     objects: {
       branch: Prisma.$BranchPayload<ExtArgs>
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      staffs: Prisma.$StaffPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -10383,6 +10402,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     branch<T extends BranchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BranchDefaultArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     orders<T extends PointOfSale$ordersArgs<ExtArgs> = {}>(args?: Subset<T, PointOfSale$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    staffs<T extends PointOfSale$staffsArgs<ExtArgs> = {}>(args?: Subset<T, PointOfSale$staffsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10836,6 +10856,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * PointOfSale.staffs
+   */
+  export type PointOfSale$staffsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Staff
+     */
+    select?: StaffSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Staff
+     */
+    omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    where?: StaffWhereInput
+    orderBy?: StaffOrderByWithRelationInput | StaffOrderByWithRelationInput[]
+    cursor?: StaffWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StaffScalarFieldEnum | StaffScalarFieldEnum[]
   }
 
   /**
@@ -14412,7 +14456,7 @@ export namespace Prisma {
   export type ProductGroupByOutputType = {
     id: number
     categoryId: number
-    code: string
+    code: string | null
     name: string
     image: string | null
     barCode: string | null
@@ -14529,7 +14573,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       categoryId: number
-      code: string
+      code: string | null
       name: string
       image: string | null
       barCode: string | null
@@ -18952,7 +18996,6 @@ export namespace Prisma {
   export type OrderAvgAggregateOutputType = {
     id: number | null
     pointSaleId: number | null
-    staffId: number | null
     customerId: number | null
     amount: number | null
   }
@@ -18960,7 +19003,6 @@ export namespace Prisma {
   export type OrderSumAggregateOutputType = {
     id: number | null
     pointSaleId: number | null
-    staffId: number | null
     customerId: number | null
     amount: number | null
   }
@@ -18968,7 +19010,6 @@ export namespace Prisma {
   export type OrderMinAggregateOutputType = {
     id: number | null
     pointSaleId: number | null
-    staffId: number | null
     customerId: number | null
     amount: number | null
     active: boolean | null
@@ -18979,7 +19020,6 @@ export namespace Prisma {
   export type OrderMaxAggregateOutputType = {
     id: number | null
     pointSaleId: number | null
-    staffId: number | null
     customerId: number | null
     amount: number | null
     active: boolean | null
@@ -18990,7 +19030,6 @@ export namespace Prisma {
   export type OrderCountAggregateOutputType = {
     id: number
     pointSaleId: number
-    staffId: number
     customerId: number
     amount: number
     active: number
@@ -19003,7 +19042,6 @@ export namespace Prisma {
   export type OrderAvgAggregateInputType = {
     id?: true
     pointSaleId?: true
-    staffId?: true
     customerId?: true
     amount?: true
   }
@@ -19011,7 +19049,6 @@ export namespace Prisma {
   export type OrderSumAggregateInputType = {
     id?: true
     pointSaleId?: true
-    staffId?: true
     customerId?: true
     amount?: true
   }
@@ -19019,7 +19056,6 @@ export namespace Prisma {
   export type OrderMinAggregateInputType = {
     id?: true
     pointSaleId?: true
-    staffId?: true
     customerId?: true
     amount?: true
     active?: true
@@ -19030,7 +19066,6 @@ export namespace Prisma {
   export type OrderMaxAggregateInputType = {
     id?: true
     pointSaleId?: true
-    staffId?: true
     customerId?: true
     amount?: true
     active?: true
@@ -19041,7 +19076,6 @@ export namespace Prisma {
   export type OrderCountAggregateInputType = {
     id?: true
     pointSaleId?: true
-    staffId?: true
     customerId?: true
     amount?: true
     active?: true
@@ -19139,7 +19173,6 @@ export namespace Prisma {
   export type OrderGroupByOutputType = {
     id: number
     pointSaleId: number
-    staffId: number
     customerId: number
     amount: number
     active: boolean
@@ -19169,7 +19202,6 @@ export namespace Prisma {
   export type OrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     pointSaleId?: boolean
-    staffId?: boolean
     customerId?: boolean
     amount?: boolean
     active?: boolean
@@ -19177,7 +19209,6 @@ export namespace Prisma {
     updatedAt?: boolean
     outputs?: boolean | Order$outputsArgs<ExtArgs>
     pointSale?: boolean | PointOfSaleDefaultArgs<ExtArgs>
-    staff?: boolean | StaffDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
@@ -19185,35 +19216,30 @@ export namespace Prisma {
   export type OrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     pointSaleId?: boolean
-    staffId?: boolean
     customerId?: boolean
     amount?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     pointSale?: boolean | PointOfSaleDefaultArgs<ExtArgs>
-    staff?: boolean | StaffDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     pointSaleId?: boolean
-    staffId?: boolean
     customerId?: boolean
     amount?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     pointSale?: boolean | PointOfSaleDefaultArgs<ExtArgs>
-    staff?: boolean | StaffDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
     id?: boolean
     pointSaleId?: boolean
-    staffId?: boolean
     customerId?: boolean
     amount?: boolean
     active?: boolean
@@ -19221,22 +19247,19 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pointSaleId" | "staffId" | "customerId" | "amount" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pointSaleId" | "customerId" | "amount" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     outputs?: boolean | Order$outputsArgs<ExtArgs>
     pointSale?: boolean | PointOfSaleDefaultArgs<ExtArgs>
-    staff?: boolean | StaffDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pointSale?: boolean | PointOfSaleDefaultArgs<ExtArgs>
-    staff?: boolean | StaffDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
   export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pointSale?: boolean | PointOfSaleDefaultArgs<ExtArgs>
-    staff?: boolean | StaffDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
 
@@ -19245,13 +19268,11 @@ export namespace Prisma {
     objects: {
       outputs: Prisma.$OutputPayload<ExtArgs>[]
       pointSale: Prisma.$PointOfSalePayload<ExtArgs>
-      staff: Prisma.$StaffPayload<ExtArgs>
       customer: Prisma.$CustomerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       pointSaleId: number
-      staffId: number
       customerId: number
       amount: number
       active: boolean
@@ -19653,7 +19674,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     outputs<T extends Order$outputsArgs<ExtArgs> = {}>(args?: Subset<T, Order$outputsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pointSale<T extends PointOfSaleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PointOfSaleDefaultArgs<ExtArgs>>): Prisma__PointOfSaleClient<$Result.GetResult<Prisma.$PointOfSalePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    staff<T extends StaffDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StaffDefaultArgs<ExtArgs>>): Prisma__StaffClient<$Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -19686,7 +19706,6 @@ export namespace Prisma {
   interface OrderFieldRefs {
     readonly id: FieldRef<"Order", 'Int'>
     readonly pointSaleId: FieldRef<"Order", 'Int'>
-    readonly staffId: FieldRef<"Order", 'Int'>
     readonly customerId: FieldRef<"Order", 'Int'>
     readonly amount: FieldRef<"Order", 'Float'>
     readonly active: FieldRef<"Order", 'Boolean'>
@@ -21322,6 +21341,7 @@ export namespace Prisma {
   export const StaffScalarFieldEnum: {
     userId: 'userId',
     roleId: 'roleId',
+    pointSaleId: 'pointSaleId',
     password: 'password',
     active: 'active',
     createdAt: 'createdAt',
@@ -21451,7 +21471,6 @@ export namespace Prisma {
   export const OrderScalarFieldEnum: {
     id: 'id',
     pointSaleId: 'pointSaleId',
-    staffId: 'staffId',
     customerId: 'customerId',
     amount: 'amount',
     active: 'active',
@@ -21901,27 +21920,29 @@ export namespace Prisma {
     NOT?: StaffWhereInput | StaffWhereInput[]
     userId?: IntFilter<"Staff"> | number
     roleId?: IntFilter<"Staff"> | number
+    pointSaleId?: IntNullableFilter<"Staff"> | number | null
     password?: StringFilter<"Staff"> | string
     active?: BoolFilter<"Staff"> | boolean
     createdAt?: DateTimeFilter<"Staff"> | Date | string
     updatedAt?: DateTimeFilter<"Staff"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
+    pointSale?: XOR<PointOfSaleNullableScalarRelationFilter, PointOfSaleWhereInput> | null
     branches?: BranchListRelationFilter
-    orders?: OrderListRelationFilter
   }
 
   export type StaffOrderByWithRelationInput = {
     userId?: SortOrder
     roleId?: SortOrder
+    pointSaleId?: SortOrderInput | SortOrder
     password?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     role?: RoleOrderByWithRelationInput
+    pointSale?: PointOfSaleOrderByWithRelationInput
     branches?: BranchOrderByRelationAggregateInput
-    orders?: OrderOrderByRelationAggregateInput
   }
 
   export type StaffWhereUniqueInput = Prisma.AtLeast<{
@@ -21930,19 +21951,21 @@ export namespace Prisma {
     OR?: StaffWhereInput[]
     NOT?: StaffWhereInput | StaffWhereInput[]
     roleId?: IntFilter<"Staff"> | number
+    pointSaleId?: IntNullableFilter<"Staff"> | number | null
     password?: StringFilter<"Staff"> | string
     active?: BoolFilter<"Staff"> | boolean
     createdAt?: DateTimeFilter<"Staff"> | Date | string
     updatedAt?: DateTimeFilter<"Staff"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
+    pointSale?: XOR<PointOfSaleNullableScalarRelationFilter, PointOfSaleWhereInput> | null
     branches?: BranchListRelationFilter
-    orders?: OrderListRelationFilter
   }, "userId" | "userId">
 
   export type StaffOrderByWithAggregationInput = {
     userId?: SortOrder
     roleId?: SortOrder
+    pointSaleId?: SortOrderInput | SortOrder
     password?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -21960,6 +21983,7 @@ export namespace Prisma {
     NOT?: StaffScalarWhereWithAggregatesInput | StaffScalarWhereWithAggregatesInput[]
     userId?: IntWithAggregatesFilter<"Staff"> | number
     roleId?: IntWithAggregatesFilter<"Staff"> | number
+    pointSaleId?: IntNullableWithAggregatesFilter<"Staff"> | number | null
     password?: StringWithAggregatesFilter<"Staff"> | string
     active?: BoolWithAggregatesFilter<"Staff"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Staff"> | Date | string
@@ -22058,6 +22082,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PointOfSale"> | Date | string
     branch?: XOR<BranchScalarRelationFilter, BranchWhereInput>
     orders?: OrderListRelationFilter
+    staffs?: StaffListRelationFilter
   }
 
   export type PointOfSaleOrderByWithRelationInput = {
@@ -22070,6 +22095,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     branch?: BranchOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
+    staffs?: StaffOrderByRelationAggregateInput
   }
 
   export type PointOfSaleWhereUniqueInput = Prisma.AtLeast<{
@@ -22085,6 +22111,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PointOfSale"> | Date | string
     branch?: XOR<BranchScalarRelationFilter, BranchWhereInput>
     orders?: OrderListRelationFilter
+    staffs?: StaffListRelationFilter
   }, "id">
 
   export type PointOfSaleOrderByWithAggregationInput = {
@@ -22300,7 +22327,7 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     id?: IntFilter<"Product"> | number
     categoryId?: IntFilter<"Product"> | number
-    code?: StringFilter<"Product"> | string
+    code?: StringNullableFilter<"Product"> | string | null
     name?: StringFilter<"Product"> | string
     image?: StringNullableFilter<"Product"> | string | null
     barCode?: StringNullableFilter<"Product"> | string | null
@@ -22318,7 +22345,7 @@ export namespace Prisma {
   export type ProductOrderByWithRelationInput = {
     id?: SortOrder
     categoryId?: SortOrder
-    code?: SortOrder
+    code?: SortOrderInput | SortOrder
     name?: SortOrder
     image?: SortOrderInput | SortOrder
     barCode?: SortOrderInput | SortOrder
@@ -22339,7 +22366,7 @@ export namespace Prisma {
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
     categoryId?: IntFilter<"Product"> | number
-    code?: StringFilter<"Product"> | string
+    code?: StringNullableFilter<"Product"> | string | null
     name?: StringFilter<"Product"> | string
     image?: StringNullableFilter<"Product"> | string | null
     barCode?: StringNullableFilter<"Product"> | string | null
@@ -22357,7 +22384,7 @@ export namespace Prisma {
   export type ProductOrderByWithAggregationInput = {
     id?: SortOrder
     categoryId?: SortOrder
-    code?: SortOrder
+    code?: SortOrderInput | SortOrder
     name?: SortOrder
     image?: SortOrderInput | SortOrder
     barCode?: SortOrderInput | SortOrder
@@ -22378,7 +22405,7 @@ export namespace Prisma {
     NOT?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Product"> | number
     categoryId?: IntWithAggregatesFilter<"Product"> | number
-    code?: StringWithAggregatesFilter<"Product"> | string
+    code?: StringNullableWithAggregatesFilter<"Product"> | string | null
     name?: StringWithAggregatesFilter<"Product"> | string
     image?: StringNullableWithAggregatesFilter<"Product"> | string | null
     barCode?: StringNullableWithAggregatesFilter<"Product"> | string | null
@@ -22614,7 +22641,6 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     id?: IntFilter<"Order"> | number
     pointSaleId?: IntFilter<"Order"> | number
-    staffId?: IntFilter<"Order"> | number
     customerId?: IntFilter<"Order"> | number
     amount?: FloatFilter<"Order"> | number
     active?: BoolFilter<"Order"> | boolean
@@ -22622,14 +22648,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     outputs?: OutputListRelationFilter
     pointSale?: XOR<PointOfSaleScalarRelationFilter, PointOfSaleWhereInput>
-    staff?: XOR<StaffScalarRelationFilter, StaffWhereInput>
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }
 
   export type OrderOrderByWithRelationInput = {
     id?: SortOrder
     pointSaleId?: SortOrder
-    staffId?: SortOrder
     customerId?: SortOrder
     amount?: SortOrder
     active?: SortOrder
@@ -22637,7 +22661,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
     outputs?: OutputOrderByRelationAggregateInput
     pointSale?: PointOfSaleOrderByWithRelationInput
-    staff?: StaffOrderByWithRelationInput
     customer?: CustomerOrderByWithRelationInput
   }
 
@@ -22647,7 +22670,6 @@ export namespace Prisma {
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     pointSaleId?: IntFilter<"Order"> | number
-    staffId?: IntFilter<"Order"> | number
     customerId?: IntFilter<"Order"> | number
     amount?: FloatFilter<"Order"> | number
     active?: BoolFilter<"Order"> | boolean
@@ -22655,14 +22677,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     outputs?: OutputListRelationFilter
     pointSale?: XOR<PointOfSaleScalarRelationFilter, PointOfSaleWhereInput>
-    staff?: XOR<StaffScalarRelationFilter, StaffWhereInput>
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }, "id">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder
     pointSaleId?: SortOrder
-    staffId?: SortOrder
     customerId?: SortOrder
     amount?: SortOrder
     active?: SortOrder
@@ -22681,7 +22701,6 @@ export namespace Prisma {
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Order"> | number
     pointSaleId?: IntWithAggregatesFilter<"Order"> | number
-    staffId?: IntWithAggregatesFilter<"Order"> | number
     customerId?: IntWithAggregatesFilter<"Order"> | number
     amount?: FloatWithAggregatesFilter<"Order"> | number
     active?: BoolWithAggregatesFilter<"Order"> | boolean
@@ -23036,19 +23055,19 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutStaffsInput
     role: RoleCreateNestedOneWithoutStaffsInput
+    pointSale?: PointOfSaleCreateNestedOneWithoutStaffsInput
     branches?: BranchCreateNestedManyWithoutStaffsInput
-    orders?: OrderCreateNestedManyWithoutStaffInput
   }
 
   export type StaffUncheckedCreateInput = {
     userId: number
     roleId: number
+    pointSaleId?: number | null
     password: string
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     branches?: BranchUncheckedCreateNestedManyWithoutStaffsInput
-    orders?: OrderUncheckedCreateNestedManyWithoutStaffInput
   }
 
   export type StaffUpdateInput = {
@@ -23058,24 +23077,25 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutStaffsNestedInput
     role?: RoleUpdateOneRequiredWithoutStaffsNestedInput
+    pointSale?: PointOfSaleUpdateOneWithoutStaffsNestedInput
     branches?: BranchUpdateManyWithoutStaffsNestedInput
-    orders?: OrderUpdateManyWithoutStaffNestedInput
   }
 
   export type StaffUncheckedUpdateInput = {
     userId?: IntFieldUpdateOperationsInput | number
     roleId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     branches?: BranchUncheckedUpdateManyWithoutStaffsNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutStaffNestedInput
   }
 
   export type StaffCreateManyInput = {
     userId: number
     roleId: number
+    pointSaleId?: number | null
     password: string
     active?: boolean
     createdAt?: Date | string
@@ -23092,6 +23112,7 @@ export namespace Prisma {
   export type StaffUncheckedUpdateManyInput = {
     userId?: IntFieldUpdateOperationsInput | number
     roleId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23193,6 +23214,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     branch: BranchCreateNestedOneWithoutPointsOfSaleInput
     orders?: OrderCreateNestedManyWithoutPointSaleInput
+    staffs?: StaffCreateNestedManyWithoutPointSaleInput
   }
 
   export type PointOfSaleUncheckedCreateInput = {
@@ -23204,6 +23226,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutPointSaleInput
+    staffs?: StaffUncheckedCreateNestedManyWithoutPointSaleInput
   }
 
   export type PointOfSaleUpdateInput = {
@@ -23214,6 +23237,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     branch?: BranchUpdateOneRequiredWithoutPointsOfSaleNestedInput
     orders?: OrderUpdateManyWithoutPointSaleNestedInput
+    staffs?: StaffUpdateManyWithoutPointSaleNestedInput
   }
 
   export type PointOfSaleUncheckedUpdateInput = {
@@ -23225,6 +23249,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutPointSaleNestedInput
+    staffs?: StaffUncheckedUpdateManyWithoutPointSaleNestedInput
   }
 
   export type PointOfSaleCreateManyInput = {
@@ -23438,7 +23463,7 @@ export namespace Prisma {
   }
 
   export type ProductCreateInput = {
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -23456,7 +23481,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateInput = {
     id?: number
     categoryId: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -23471,7 +23496,7 @@ export namespace Prisma {
   }
 
   export type ProductUpdateInput = {
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23489,7 +23514,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23506,7 +23531,7 @@ export namespace Prisma {
   export type ProductCreateManyInput = {
     id?: number
     categoryId: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -23517,7 +23542,7 @@ export namespace Prisma {
   }
 
   export type ProductUpdateManyMutationInput = {
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23530,7 +23555,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23756,14 +23781,12 @@ export namespace Prisma {
     updatedAt?: Date | string
     outputs?: OutputCreateNestedManyWithoutOrderInput
     pointSale: PointOfSaleCreateNestedOneWithoutOrdersInput
-    staff: StaffCreateNestedOneWithoutOrdersInput
     customer: CustomerCreateNestedOneWithoutOrersInput
   }
 
   export type OrderUncheckedCreateInput = {
     id?: number
     pointSaleId: number
-    staffId: number
     customerId: number
     amount?: number
     active?: boolean
@@ -23779,14 +23802,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     outputs?: OutputUpdateManyWithoutOrderNestedInput
     pointSale?: PointOfSaleUpdateOneRequiredWithoutOrdersNestedInput
-    staff?: StaffUpdateOneRequiredWithoutOrdersNestedInput
     customer?: CustomerUpdateOneRequiredWithoutOrersNestedInput
   }
 
   export type OrderUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     pointSaleId?: IntFieldUpdateOperationsInput | number
-    staffId?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
@@ -23798,7 +23819,6 @@ export namespace Prisma {
   export type OrderCreateManyInput = {
     id?: number
     pointSaleId: number
-    staffId: number
     customerId: number
     amount?: number
     active?: boolean
@@ -23816,7 +23836,6 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     pointSaleId?: IntFieldUpdateOperationsInput | number
-    staffId?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
@@ -24243,9 +24262,25 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type RoleScalarRelationFilter = {
     is?: RoleWhereInput
     isNot?: RoleWhereInput
+  }
+
+  export type PointOfSaleNullableScalarRelationFilter = {
+    is?: PointOfSaleWhereInput | null
+    isNot?: PointOfSaleWhereInput | null
   }
 
   export type BranchListRelationFilter = {
@@ -24261,6 +24296,7 @@ export namespace Prisma {
   export type StaffCountOrderByAggregateInput = {
     userId?: SortOrder
     roleId?: SortOrder
+    pointSaleId?: SortOrder
     password?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -24270,11 +24306,13 @@ export namespace Prisma {
   export type StaffAvgOrderByAggregateInput = {
     userId?: SortOrder
     roleId?: SortOrder
+    pointSaleId?: SortOrder
   }
 
   export type StaffMaxOrderByAggregateInput = {
     userId?: SortOrder
     roleId?: SortOrder
+    pointSaleId?: SortOrder
     password?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -24284,6 +24322,7 @@ export namespace Prisma {
   export type StaffMinOrderByAggregateInput = {
     userId?: SortOrder
     roleId?: SortOrder
+    pointSaleId?: SortOrder
     password?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -24293,6 +24332,23 @@ export namespace Prisma {
   export type StaffSumOrderByAggregateInput = {
     userId?: SortOrder
     roleId?: SortOrder
+    pointSaleId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type KardexListRelationFilter = {
@@ -24856,11 +24912,6 @@ export namespace Prisma {
     isNot?: PointOfSaleWhereInput
   }
 
-  export type StaffScalarRelationFilter = {
-    is?: StaffWhereInput
-    isNot?: StaffWhereInput
-  }
-
   export type CustomerScalarRelationFilter = {
     is?: CustomerWhereInput
     isNot?: CustomerWhereInput
@@ -24869,7 +24920,6 @@ export namespace Prisma {
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
     pointSaleId?: SortOrder
-    staffId?: SortOrder
     customerId?: SortOrder
     amount?: SortOrder
     active?: SortOrder
@@ -24880,7 +24930,6 @@ export namespace Prisma {
   export type OrderAvgOrderByAggregateInput = {
     id?: SortOrder
     pointSaleId?: SortOrder
-    staffId?: SortOrder
     customerId?: SortOrder
     amount?: SortOrder
   }
@@ -24888,7 +24937,6 @@ export namespace Prisma {
   export type OrderMaxOrderByAggregateInput = {
     id?: SortOrder
     pointSaleId?: SortOrder
-    staffId?: SortOrder
     customerId?: SortOrder
     amount?: SortOrder
     active?: SortOrder
@@ -24899,7 +24947,6 @@ export namespace Prisma {
   export type OrderMinOrderByAggregateInput = {
     id?: SortOrder
     pointSaleId?: SortOrder
-    staffId?: SortOrder
     customerId?: SortOrder
     amount?: SortOrder
     active?: SortOrder
@@ -24910,7 +24957,6 @@ export namespace Prisma {
   export type OrderSumOrderByAggregateInput = {
     id?: SortOrder
     pointSaleId?: SortOrder
-    staffId?: SortOrder
     customerId?: SortOrder
     amount?: SortOrder
   }
@@ -25270,30 +25316,22 @@ export namespace Prisma {
     connect?: RoleWhereUniqueInput
   }
 
+  export type PointOfSaleCreateNestedOneWithoutStaffsInput = {
+    create?: XOR<PointOfSaleCreateWithoutStaffsInput, PointOfSaleUncheckedCreateWithoutStaffsInput>
+    connectOrCreate?: PointOfSaleCreateOrConnectWithoutStaffsInput
+    connect?: PointOfSaleWhereUniqueInput
+  }
+
   export type BranchCreateNestedManyWithoutStaffsInput = {
     create?: XOR<BranchCreateWithoutStaffsInput, BranchUncheckedCreateWithoutStaffsInput> | BranchCreateWithoutStaffsInput[] | BranchUncheckedCreateWithoutStaffsInput[]
     connectOrCreate?: BranchCreateOrConnectWithoutStaffsInput | BranchCreateOrConnectWithoutStaffsInput[]
     connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
   }
 
-  export type OrderCreateNestedManyWithoutStaffInput = {
-    create?: XOR<OrderCreateWithoutStaffInput, OrderUncheckedCreateWithoutStaffInput> | OrderCreateWithoutStaffInput[] | OrderUncheckedCreateWithoutStaffInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutStaffInput | OrderCreateOrConnectWithoutStaffInput[]
-    createMany?: OrderCreateManyStaffInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-  }
-
   export type BranchUncheckedCreateNestedManyWithoutStaffsInput = {
     create?: XOR<BranchCreateWithoutStaffsInput, BranchUncheckedCreateWithoutStaffsInput> | BranchCreateWithoutStaffsInput[] | BranchUncheckedCreateWithoutStaffsInput[]
     connectOrCreate?: BranchCreateOrConnectWithoutStaffsInput | BranchCreateOrConnectWithoutStaffsInput[]
     connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
-  }
-
-  export type OrderUncheckedCreateNestedManyWithoutStaffInput = {
-    create?: XOR<OrderCreateWithoutStaffInput, OrderUncheckedCreateWithoutStaffInput> | OrderCreateWithoutStaffInput[] | OrderUncheckedCreateWithoutStaffInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutStaffInput | OrderCreateOrConnectWithoutStaffInput[]
-    createMany?: OrderCreateManyStaffInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutStaffsNestedInput = {
@@ -25312,6 +25350,16 @@ export namespace Prisma {
     update?: XOR<XOR<RoleUpdateToOneWithWhereWithoutStaffsInput, RoleUpdateWithoutStaffsInput>, RoleUncheckedUpdateWithoutStaffsInput>
   }
 
+  export type PointOfSaleUpdateOneWithoutStaffsNestedInput = {
+    create?: XOR<PointOfSaleCreateWithoutStaffsInput, PointOfSaleUncheckedCreateWithoutStaffsInput>
+    connectOrCreate?: PointOfSaleCreateOrConnectWithoutStaffsInput
+    upsert?: PointOfSaleUpsertWithoutStaffsInput
+    disconnect?: PointOfSaleWhereInput | boolean
+    delete?: PointOfSaleWhereInput | boolean
+    connect?: PointOfSaleWhereUniqueInput
+    update?: XOR<XOR<PointOfSaleUpdateToOneWithWhereWithoutStaffsInput, PointOfSaleUpdateWithoutStaffsInput>, PointOfSaleUncheckedUpdateWithoutStaffsInput>
+  }
+
   export type BranchUpdateManyWithoutStaffsNestedInput = {
     create?: XOR<BranchCreateWithoutStaffsInput, BranchUncheckedCreateWithoutStaffsInput> | BranchCreateWithoutStaffsInput[] | BranchUncheckedCreateWithoutStaffsInput[]
     connectOrCreate?: BranchCreateOrConnectWithoutStaffsInput | BranchCreateOrConnectWithoutStaffsInput[]
@@ -25325,18 +25373,12 @@ export namespace Prisma {
     deleteMany?: BranchScalarWhereInput | BranchScalarWhereInput[]
   }
 
-  export type OrderUpdateManyWithoutStaffNestedInput = {
-    create?: XOR<OrderCreateWithoutStaffInput, OrderUncheckedCreateWithoutStaffInput> | OrderCreateWithoutStaffInput[] | OrderUncheckedCreateWithoutStaffInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutStaffInput | OrderCreateOrConnectWithoutStaffInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutStaffInput | OrderUpsertWithWhereUniqueWithoutStaffInput[]
-    createMany?: OrderCreateManyStaffInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutStaffInput | OrderUpdateWithWhereUniqueWithoutStaffInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutStaffInput | OrderUpdateManyWithWhereWithoutStaffInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type BranchUncheckedUpdateManyWithoutStaffsNestedInput = {
@@ -25350,20 +25392,6 @@ export namespace Prisma {
     update?: BranchUpdateWithWhereUniqueWithoutStaffsInput | BranchUpdateWithWhereUniqueWithoutStaffsInput[]
     updateMany?: BranchUpdateManyWithWhereWithoutStaffsInput | BranchUpdateManyWithWhereWithoutStaffsInput[]
     deleteMany?: BranchScalarWhereInput | BranchScalarWhereInput[]
-  }
-
-  export type OrderUncheckedUpdateManyWithoutStaffNestedInput = {
-    create?: XOR<OrderCreateWithoutStaffInput, OrderUncheckedCreateWithoutStaffInput> | OrderCreateWithoutStaffInput[] | OrderUncheckedCreateWithoutStaffInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutStaffInput | OrderCreateOrConnectWithoutStaffInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutStaffInput | OrderUpsertWithWhereUniqueWithoutStaffInput[]
-    createMany?: OrderCreateManyStaffInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutStaffInput | OrderUpdateWithWhereUniqueWithoutStaffInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutStaffInput | OrderUpdateManyWithWhereWithoutStaffInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type StaffCreateNestedManyWithoutBranchesInput = {
@@ -25585,11 +25613,25 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type StaffCreateNestedManyWithoutPointSaleInput = {
+    create?: XOR<StaffCreateWithoutPointSaleInput, StaffUncheckedCreateWithoutPointSaleInput> | StaffCreateWithoutPointSaleInput[] | StaffUncheckedCreateWithoutPointSaleInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutPointSaleInput | StaffCreateOrConnectWithoutPointSaleInput[]
+    createMany?: StaffCreateManyPointSaleInputEnvelope
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+  }
+
   export type OrderUncheckedCreateNestedManyWithoutPointSaleInput = {
     create?: XOR<OrderCreateWithoutPointSaleInput, OrderUncheckedCreateWithoutPointSaleInput> | OrderCreateWithoutPointSaleInput[] | OrderUncheckedCreateWithoutPointSaleInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutPointSaleInput | OrderCreateOrConnectWithoutPointSaleInput[]
     createMany?: OrderCreateManyPointSaleInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type StaffUncheckedCreateNestedManyWithoutPointSaleInput = {
+    create?: XOR<StaffCreateWithoutPointSaleInput, StaffUncheckedCreateWithoutPointSaleInput> | StaffCreateWithoutPointSaleInput[] | StaffUncheckedCreateWithoutPointSaleInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutPointSaleInput | StaffCreateOrConnectWithoutPointSaleInput[]
+    createMany?: StaffCreateManyPointSaleInputEnvelope
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
   }
 
   export type BranchUpdateOneRequiredWithoutPointsOfSaleNestedInput = {
@@ -25614,6 +25656,20 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type StaffUpdateManyWithoutPointSaleNestedInput = {
+    create?: XOR<StaffCreateWithoutPointSaleInput, StaffUncheckedCreateWithoutPointSaleInput> | StaffCreateWithoutPointSaleInput[] | StaffUncheckedCreateWithoutPointSaleInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutPointSaleInput | StaffCreateOrConnectWithoutPointSaleInput[]
+    upsert?: StaffUpsertWithWhereUniqueWithoutPointSaleInput | StaffUpsertWithWhereUniqueWithoutPointSaleInput[]
+    createMany?: StaffCreateManyPointSaleInputEnvelope
+    set?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    disconnect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    delete?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    update?: StaffUpdateWithWhereUniqueWithoutPointSaleInput | StaffUpdateWithWhereUniqueWithoutPointSaleInput[]
+    updateMany?: StaffUpdateManyWithWhereWithoutPointSaleInput | StaffUpdateManyWithWhereWithoutPointSaleInput[]
+    deleteMany?: StaffScalarWhereInput | StaffScalarWhereInput[]
+  }
+
   export type OrderUncheckedUpdateManyWithoutPointSaleNestedInput = {
     create?: XOR<OrderCreateWithoutPointSaleInput, OrderUncheckedCreateWithoutPointSaleInput> | OrderCreateWithoutPointSaleInput[] | OrderUncheckedCreateWithoutPointSaleInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutPointSaleInput | OrderCreateOrConnectWithoutPointSaleInput[]
@@ -25626,6 +25682,20 @@ export namespace Prisma {
     update?: OrderUpdateWithWhereUniqueWithoutPointSaleInput | OrderUpdateWithWhereUniqueWithoutPointSaleInput[]
     updateMany?: OrderUpdateManyWithWhereWithoutPointSaleInput | OrderUpdateManyWithWhereWithoutPointSaleInput[]
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type StaffUncheckedUpdateManyWithoutPointSaleNestedInput = {
+    create?: XOR<StaffCreateWithoutPointSaleInput, StaffUncheckedCreateWithoutPointSaleInput> | StaffCreateWithoutPointSaleInput[] | StaffUncheckedCreateWithoutPointSaleInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutPointSaleInput | StaffCreateOrConnectWithoutPointSaleInput[]
+    upsert?: StaffUpsertWithWhereUniqueWithoutPointSaleInput | StaffUpsertWithWhereUniqueWithoutPointSaleInput[]
+    createMany?: StaffCreateManyPointSaleInputEnvelope
+    set?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    disconnect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    delete?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    update?: StaffUpdateWithWhereUniqueWithoutPointSaleInput | StaffUpdateWithWhereUniqueWithoutPointSaleInput[]
+    updateMany?: StaffUpdateManyWithWhereWithoutPointSaleInput | StaffUpdateManyWithWhereWithoutPointSaleInput[]
+    deleteMany?: StaffScalarWhereInput | StaffScalarWhereInput[]
   }
 
   export type PermissionCreateNestedManyWithoutRolesInput = {
@@ -26087,12 +26157,6 @@ export namespace Prisma {
     connect?: PointOfSaleWhereUniqueInput
   }
 
-  export type StaffCreateNestedOneWithoutOrdersInput = {
-    create?: XOR<StaffCreateWithoutOrdersInput, StaffUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: StaffCreateOrConnectWithoutOrdersInput
-    connect?: StaffWhereUniqueInput
-  }
-
   export type CustomerCreateNestedOneWithoutOrersInput = {
     create?: XOR<CustomerCreateWithoutOrersInput, CustomerUncheckedCreateWithoutOrersInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutOrersInput
@@ -26126,14 +26190,6 @@ export namespace Prisma {
     upsert?: PointOfSaleUpsertWithoutOrdersInput
     connect?: PointOfSaleWhereUniqueInput
     update?: XOR<XOR<PointOfSaleUpdateToOneWithWhereWithoutOrdersInput, PointOfSaleUpdateWithoutOrdersInput>, PointOfSaleUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type StaffUpdateOneRequiredWithoutOrdersNestedInput = {
-    create?: XOR<StaffCreateWithoutOrdersInput, StaffUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: StaffCreateOrConnectWithoutOrdersInput
-    upsert?: StaffUpsertWithoutOrdersInput
-    connect?: StaffWhereUniqueInput
-    update?: XOR<XOR<StaffUpdateToOneWithWhereWithoutOrdersInput, StaffUpdateWithoutOrdersInput>, StaffUncheckedUpdateWithoutOrdersInput>
   }
 
   export type CustomerUpdateOneRequiredWithoutOrersNestedInput = {
@@ -26356,6 +26412,33 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumTypeUnitFilter<$PrismaModel = never> = {
     equals?: $Enums.TypeUnit | EnumTypeUnitFieldRefInput<$PrismaModel>
     in?: $Enums.TypeUnit[] | ListEnumTypeUnitFieldRefInput<$PrismaModel>
@@ -26478,18 +26561,18 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role: RoleCreateNestedOneWithoutStaffsInput
+    pointSale?: PointOfSaleCreateNestedOneWithoutStaffsInput
     branches?: BranchCreateNestedManyWithoutStaffsInput
-    orders?: OrderCreateNestedManyWithoutStaffInput
   }
 
   export type StaffUncheckedCreateWithoutUserInput = {
     roleId: number
+    pointSaleId?: number | null
     password: string
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     branches?: BranchUncheckedCreateNestedManyWithoutStaffsInput
-    orders?: OrderUncheckedCreateNestedManyWithoutStaffInput
   }
 
   export type StaffCreateOrConnectWithoutUserInput = {
@@ -26600,6 +26683,7 @@ export namespace Prisma {
     NOT?: StaffScalarWhereInput | StaffScalarWhereInput[]
     userId?: IntFilter<"Staff"> | number
     roleId?: IntFilter<"Staff"> | number
+    pointSaleId?: IntNullableFilter<"Staff"> | number | null
     password?: StringFilter<"Staff"> | string
     active?: BoolFilter<"Staff"> | boolean
     createdAt?: DateTimeFilter<"Staff"> | Date | string
@@ -26861,13 +26945,11 @@ export namespace Prisma {
     updatedAt?: Date | string
     outputs?: OutputCreateNestedManyWithoutOrderInput
     pointSale: PointOfSaleCreateNestedOneWithoutOrdersInput
-    staff: StaffCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutCustomerInput = {
     id?: number
     pointSaleId: number
-    staffId: number
     amount?: number
     active?: boolean
     createdAt?: Date | string
@@ -26949,7 +27031,6 @@ export namespace Prisma {
     NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
     id?: IntFilter<"Order"> | number
     pointSaleId?: IntFilter<"Order"> | number
-    staffId?: IntFilter<"Order"> | number
     customerId?: IntFilter<"Order"> | number
     amount?: FloatFilter<"Order"> | number
     active?: BoolFilter<"Order"> | boolean
@@ -27015,6 +27096,32 @@ export namespace Prisma {
     create: XOR<RoleCreateWithoutStaffsInput, RoleUncheckedCreateWithoutStaffsInput>
   }
 
+  export type PointOfSaleCreateWithoutStaffsInput = {
+    code?: string | null
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    branch: BranchCreateNestedOneWithoutPointsOfSaleInput
+    orders?: OrderCreateNestedManyWithoutPointSaleInput
+  }
+
+  export type PointOfSaleUncheckedCreateWithoutStaffsInput = {
+    id?: number
+    branchId: number
+    code?: string | null
+    name: string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orders?: OrderUncheckedCreateNestedManyWithoutPointSaleInput
+  }
+
+  export type PointOfSaleCreateOrConnectWithoutStaffsInput = {
+    where: PointOfSaleWhereUniqueInput
+    create: XOR<PointOfSaleCreateWithoutStaffsInput, PointOfSaleUncheckedCreateWithoutStaffsInput>
+  }
+
   export type BranchCreateWithoutStaffsInput = {
     name: string
     address?: string | null
@@ -27045,37 +27152,6 @@ export namespace Prisma {
   export type BranchCreateOrConnectWithoutStaffsInput = {
     where: BranchWhereUniqueInput
     create: XOR<BranchCreateWithoutStaffsInput, BranchUncheckedCreateWithoutStaffsInput>
-  }
-
-  export type OrderCreateWithoutStaffInput = {
-    amount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    outputs?: OutputCreateNestedManyWithoutOrderInput
-    pointSale: PointOfSaleCreateNestedOneWithoutOrdersInput
-    customer: CustomerCreateNestedOneWithoutOrersInput
-  }
-
-  export type OrderUncheckedCreateWithoutStaffInput = {
-    id?: number
-    pointSaleId: number
-    customerId: number
-    amount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    outputs?: OutputUncheckedCreateNestedManyWithoutOrderInput
-  }
-
-  export type OrderCreateOrConnectWithoutStaffInput = {
-    where: OrderWhereUniqueInput
-    create: XOR<OrderCreateWithoutStaffInput, OrderUncheckedCreateWithoutStaffInput>
-  }
-
-  export type OrderCreateManyStaffInputEnvelope = {
-    data: OrderCreateManyStaffInput | OrderCreateManyStaffInput[]
-    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutStaffsInput = {
@@ -27148,6 +27224,38 @@ export namespace Prisma {
     permissions?: PermissionUncheckedUpdateManyWithoutRolesNestedInput
   }
 
+  export type PointOfSaleUpsertWithoutStaffsInput = {
+    update: XOR<PointOfSaleUpdateWithoutStaffsInput, PointOfSaleUncheckedUpdateWithoutStaffsInput>
+    create: XOR<PointOfSaleCreateWithoutStaffsInput, PointOfSaleUncheckedCreateWithoutStaffsInput>
+    where?: PointOfSaleWhereInput
+  }
+
+  export type PointOfSaleUpdateToOneWithWhereWithoutStaffsInput = {
+    where?: PointOfSaleWhereInput
+    data: XOR<PointOfSaleUpdateWithoutStaffsInput, PointOfSaleUncheckedUpdateWithoutStaffsInput>
+  }
+
+  export type PointOfSaleUpdateWithoutStaffsInput = {
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branch?: BranchUpdateOneRequiredWithoutPointsOfSaleNestedInput
+    orders?: OrderUpdateManyWithoutPointSaleNestedInput
+  }
+
+  export type PointOfSaleUncheckedUpdateWithoutStaffsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    branchId?: IntFieldUpdateOperationsInput | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUncheckedUpdateManyWithoutPointSaleNestedInput
+  }
+
   export type BranchUpsertWithWhereUniqueWithoutStaffsInput = {
     where: BranchWhereUniqueInput
     update: XOR<BranchUpdateWithoutStaffsInput, BranchUncheckedUpdateWithoutStaffsInput>
@@ -27177,22 +27285,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Branch"> | Date | string
   }
 
-  export type OrderUpsertWithWhereUniqueWithoutStaffInput = {
-    where: OrderWhereUniqueInput
-    update: XOR<OrderUpdateWithoutStaffInput, OrderUncheckedUpdateWithoutStaffInput>
-    create: XOR<OrderCreateWithoutStaffInput, OrderUncheckedCreateWithoutStaffInput>
-  }
-
-  export type OrderUpdateWithWhereUniqueWithoutStaffInput = {
-    where: OrderWhereUniqueInput
-    data: XOR<OrderUpdateWithoutStaffInput, OrderUncheckedUpdateWithoutStaffInput>
-  }
-
-  export type OrderUpdateManyWithWhereWithoutStaffInput = {
-    where: OrderScalarWhereInput
-    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutStaffInput>
-  }
-
   export type StaffCreateWithoutBranchesInput = {
     password: string
     active?: boolean
@@ -27200,17 +27292,17 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutStaffsInput
     role: RoleCreateNestedOneWithoutStaffsInput
-    orders?: OrderCreateNestedManyWithoutStaffInput
+    pointSale?: PointOfSaleCreateNestedOneWithoutStaffsInput
   }
 
   export type StaffUncheckedCreateWithoutBranchesInput = {
     userId: number
     roleId: number
+    pointSaleId?: number | null
     password: string
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    orders?: OrderUncheckedCreateNestedManyWithoutStaffInput
   }
 
   export type StaffCreateOrConnectWithoutBranchesInput = {
@@ -27305,6 +27397,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderCreateNestedManyWithoutPointSaleInput
+    staffs?: StaffCreateNestedManyWithoutPointSaleInput
   }
 
   export type PointOfSaleUncheckedCreateWithoutBranchInput = {
@@ -27315,6 +27408,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutPointSaleInput
+    staffs?: StaffUncheckedCreateNestedManyWithoutPointSaleInput
   }
 
   export type PointOfSaleCreateOrConnectWithoutBranchInput = {
@@ -27496,13 +27590,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     outputs?: OutputCreateNestedManyWithoutOrderInput
-    staff: StaffCreateNestedOneWithoutOrdersInput
     customer: CustomerCreateNestedOneWithoutOrersInput
   }
 
   export type OrderUncheckedCreateWithoutPointSaleInput = {
     id?: number
-    staffId: number
     customerId: number
     amount?: number
     active?: boolean
@@ -27518,6 +27610,36 @@ export namespace Prisma {
 
   export type OrderCreateManyPointSaleInputEnvelope = {
     data: OrderCreateManyPointSaleInput | OrderCreateManyPointSaleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StaffCreateWithoutPointSaleInput = {
+    password: string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutStaffsInput
+    role: RoleCreateNestedOneWithoutStaffsInput
+    branches?: BranchCreateNestedManyWithoutStaffsInput
+  }
+
+  export type StaffUncheckedCreateWithoutPointSaleInput = {
+    userId: number
+    roleId: number
+    password: string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    branches?: BranchUncheckedCreateNestedManyWithoutStaffsInput
+  }
+
+  export type StaffCreateOrConnectWithoutPointSaleInput = {
+    where: StaffWhereUniqueInput
+    create: XOR<StaffCreateWithoutPointSaleInput, StaffUncheckedCreateWithoutPointSaleInput>
+  }
+
+  export type StaffCreateManyPointSaleInputEnvelope = {
+    data: StaffCreateManyPointSaleInput | StaffCreateManyPointSaleInput[]
     skipDuplicates?: boolean
   }
 
@@ -27575,6 +27697,22 @@ export namespace Prisma {
     data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutPointSaleInput>
   }
 
+  export type StaffUpsertWithWhereUniqueWithoutPointSaleInput = {
+    where: StaffWhereUniqueInput
+    update: XOR<StaffUpdateWithoutPointSaleInput, StaffUncheckedUpdateWithoutPointSaleInput>
+    create: XOR<StaffCreateWithoutPointSaleInput, StaffUncheckedCreateWithoutPointSaleInput>
+  }
+
+  export type StaffUpdateWithWhereUniqueWithoutPointSaleInput = {
+    where: StaffWhereUniqueInput
+    data: XOR<StaffUpdateWithoutPointSaleInput, StaffUncheckedUpdateWithoutPointSaleInput>
+  }
+
+  export type StaffUpdateManyWithWhereWithoutPointSaleInput = {
+    where: StaffScalarWhereInput
+    data: XOR<StaffUpdateManyMutationInput, StaffUncheckedUpdateManyWithoutPointSaleInput>
+  }
+
   export type PermissionCreateWithoutRolesInput = {
     name: string
     description?: string | null
@@ -27603,18 +27741,18 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutStaffsInput
+    pointSale?: PointOfSaleCreateNestedOneWithoutStaffsInput
     branches?: BranchCreateNestedManyWithoutStaffsInput
-    orders?: OrderCreateNestedManyWithoutStaffInput
   }
 
   export type StaffUncheckedCreateWithoutRoleInput = {
     userId: number
+    pointSaleId?: number | null
     password: string
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     branches?: BranchUncheckedCreateNestedManyWithoutStaffsInput
-    orders?: OrderUncheckedCreateNestedManyWithoutStaffInput
   }
 
   export type StaffCreateOrConnectWithoutRoleInput = {
@@ -27721,7 +27859,7 @@ export namespace Prisma {
   }
 
   export type ProductCreateWithoutCategoryInput = {
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -27737,7 +27875,7 @@ export namespace Prisma {
 
   export type ProductUncheckedCreateWithoutCategoryInput = {
     id?: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -27783,7 +27921,7 @@ export namespace Prisma {
     NOT?: ProductScalarWhereInput | ProductScalarWhereInput[]
     id?: IntFilter<"Product"> | number
     categoryId?: IntFilter<"Product"> | number
-    code?: StringFilter<"Product"> | string
+    code?: StringNullableFilter<"Product"> | string | null
     name?: StringFilter<"Product"> | string
     image?: StringNullableFilter<"Product"> | string | null
     barCode?: StringNullableFilter<"Product"> | string | null
@@ -28030,7 +28168,7 @@ export namespace Prisma {
   }
 
   export type ProductCreateWithoutPricesInput = {
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28047,7 +28185,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateWithoutPricesInput = {
     id?: number
     categoryId: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28077,7 +28215,7 @@ export namespace Prisma {
   }
 
   export type ProductUpdateWithoutPricesInput = {
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28094,7 +28232,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateWithoutPricesInput = {
     id?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28140,7 +28278,7 @@ export namespace Prisma {
   }
 
   export type ProductCreateWithoutInputsInput = {
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28157,7 +28295,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateWithoutInputsInput = {
     id?: number
     categoryId: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28225,7 +28363,7 @@ export namespace Prisma {
   }
 
   export type ProductUpdateWithoutInputsInput = {
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28242,7 +28380,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateWithoutInputsInput = {
     id?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28293,14 +28431,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     pointSale: PointOfSaleCreateNestedOneWithoutOrdersInput
-    staff: StaffCreateNestedOneWithoutOrdersInput
     customer: CustomerCreateNestedOneWithoutOrersInput
   }
 
   export type OrderUncheckedCreateWithoutOutputsInput = {
     id?: number
     pointSaleId: number
-    staffId: number
     customerId: number
     amount?: number
     active?: boolean
@@ -28314,7 +28450,7 @@ export namespace Prisma {
   }
 
   export type ProductCreateWithoutOutputsInput = {
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28331,7 +28467,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateWithoutOutputsInput = {
     id?: number
     categoryId: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28404,14 +28540,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pointSale?: PointOfSaleUpdateOneRequiredWithoutOrdersNestedInput
-    staff?: StaffUpdateOneRequiredWithoutOrdersNestedInput
     customer?: CustomerUpdateOneRequiredWithoutOrersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutOutputsInput = {
     id?: IntFieldUpdateOperationsInput | number
     pointSaleId?: IntFieldUpdateOperationsInput | number
-    staffId?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
@@ -28431,7 +28565,7 @@ export namespace Prisma {
   }
 
   export type ProductUpdateWithoutOutputsInput = {
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28448,7 +28582,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateWithoutOutputsInput = {
     id?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28495,6 +28629,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     branch: BranchCreateNestedOneWithoutPointsOfSaleInput
+    staffs?: StaffCreateNestedManyWithoutPointSaleInput
   }
 
   export type PointOfSaleUncheckedCreateWithoutOrdersInput = {
@@ -28505,36 +28640,12 @@ export namespace Prisma {
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    staffs?: StaffUncheckedCreateNestedManyWithoutPointSaleInput
   }
 
   export type PointOfSaleCreateOrConnectWithoutOrdersInput = {
     where: PointOfSaleWhereUniqueInput
     create: XOR<PointOfSaleCreateWithoutOrdersInput, PointOfSaleUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type StaffCreateWithoutOrdersInput = {
-    password: string
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutStaffsInput
-    role: RoleCreateNestedOneWithoutStaffsInput
-    branches?: BranchCreateNestedManyWithoutStaffsInput
-  }
-
-  export type StaffUncheckedCreateWithoutOrdersInput = {
-    userId: number
-    roleId: number
-    password: string
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    branches?: BranchUncheckedCreateNestedManyWithoutStaffsInput
-  }
-
-  export type StaffCreateOrConnectWithoutOrdersInput = {
-    where: StaffWhereUniqueInput
-    create: XOR<StaffCreateWithoutOrdersInput, StaffUncheckedCreateWithoutOrdersInput>
   }
 
   export type CustomerCreateWithoutOrersInput = {
@@ -28590,6 +28701,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     branch?: BranchUpdateOneRequiredWithoutPointsOfSaleNestedInput
+    staffs?: StaffUpdateManyWithoutPointSaleNestedInput
   }
 
   export type PointOfSaleUncheckedUpdateWithoutOrdersInput = {
@@ -28600,37 +28712,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type StaffUpsertWithoutOrdersInput = {
-    update: XOR<StaffUpdateWithoutOrdersInput, StaffUncheckedUpdateWithoutOrdersInput>
-    create: XOR<StaffCreateWithoutOrdersInput, StaffUncheckedCreateWithoutOrdersInput>
-    where?: StaffWhereInput
-  }
-
-  export type StaffUpdateToOneWithWhereWithoutOrdersInput = {
-    where?: StaffWhereInput
-    data: XOR<StaffUpdateWithoutOrdersInput, StaffUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type StaffUpdateWithoutOrdersInput = {
-    password?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutStaffsNestedInput
-    role?: RoleUpdateOneRequiredWithoutStaffsNestedInput
-    branches?: BranchUpdateManyWithoutStaffsNestedInput
-  }
-
-  export type StaffUncheckedUpdateWithoutOrdersInput = {
-    userId?: IntFieldUpdateOperationsInput | number
-    roleId?: IntFieldUpdateOperationsInput | number
-    password?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    branches?: BranchUncheckedUpdateManyWithoutStaffsNestedInput
+    staffs?: StaffUncheckedUpdateManyWithoutPointSaleNestedInput
   }
 
   export type CustomerUpsertWithoutOrersInput = {
@@ -28659,7 +28741,7 @@ export namespace Prisma {
   }
 
   export type ProductCreateWithoutKardexsInput = {
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28676,7 +28758,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateWithoutKardexsInput = {
     id?: number
     categoryId: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -28738,7 +28820,7 @@ export namespace Prisma {
   }
 
   export type ProductUpdateWithoutKardexsInput = {
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28755,7 +28837,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateWithoutKardexsInput = {
     id?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28814,6 +28896,7 @@ export namespace Prisma {
 
   export type StaffCreateManyUserInput = {
     roleId: number
+    pointSaleId?: number | null
     password: string
     active?: boolean
     createdAt?: Date | string
@@ -28862,22 +28945,23 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: RoleUpdateOneRequiredWithoutStaffsNestedInput
+    pointSale?: PointOfSaleUpdateOneWithoutStaffsNestedInput
     branches?: BranchUpdateManyWithoutStaffsNestedInput
-    orders?: OrderUpdateManyWithoutStaffNestedInput
   }
 
   export type StaffUncheckedUpdateWithoutUserInput = {
     roleId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     branches?: BranchUncheckedUpdateManyWithoutStaffsNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutStaffNestedInput
   }
 
   export type StaffUncheckedUpdateManyWithoutUserInput = {
     roleId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28933,7 +29017,6 @@ export namespace Prisma {
   export type OrderCreateManyCustomerInput = {
     id?: number
     pointSaleId: number
-    staffId: number
     amount?: number
     active?: boolean
     createdAt?: Date | string
@@ -28947,13 +29030,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     outputs?: OutputUpdateManyWithoutOrderNestedInput
     pointSale?: PointOfSaleUpdateOneRequiredWithoutOrdersNestedInput
-    staff?: StaffUpdateOneRequiredWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     pointSaleId?: IntFieldUpdateOperationsInput | number
-    staffId?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28964,21 +29045,10 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     pointSaleId?: IntFieldUpdateOperationsInput | number
-    staffId?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type OrderCreateManyStaffInput = {
-    id?: number
-    pointSaleId: number
-    customerId: number
-    amount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type BranchUpdateWithoutStaffsInput = {
@@ -29013,37 +29083,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type OrderUpdateWithoutStaffInput = {
-    amount?: FloatFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    outputs?: OutputUpdateManyWithoutOrderNestedInput
-    pointSale?: PointOfSaleUpdateOneRequiredWithoutOrdersNestedInput
-    customer?: CustomerUpdateOneRequiredWithoutOrersNestedInput
-  }
-
-  export type OrderUncheckedUpdateWithoutStaffInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    pointSaleId?: IntFieldUpdateOperationsInput | number
-    customerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    outputs?: OutputUncheckedUpdateManyWithoutOrderNestedInput
-  }
-
-  export type OrderUncheckedUpdateManyWithoutStaffInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    pointSaleId?: IntFieldUpdateOperationsInput | number
-    customerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29091,22 +29130,23 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutStaffsNestedInput
     role?: RoleUpdateOneRequiredWithoutStaffsNestedInput
-    orders?: OrderUpdateManyWithoutStaffNestedInput
+    pointSale?: PointOfSaleUpdateOneWithoutStaffsNestedInput
   }
 
   export type StaffUncheckedUpdateWithoutBranchesInput = {
     userId?: IntFieldUpdateOperationsInput | number
     roleId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orders?: OrderUncheckedUpdateManyWithoutStaffNestedInput
   }
 
   export type StaffUncheckedUpdateManyWithoutBranchesInput = {
     userId?: IntFieldUpdateOperationsInput | number
     roleId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29196,6 +29236,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUpdateManyWithoutPointSaleNestedInput
+    staffs?: StaffUpdateManyWithoutPointSaleNestedInput
   }
 
   export type PointOfSaleUncheckedUpdateWithoutBranchInput = {
@@ -29206,6 +29247,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutPointSaleNestedInput
+    staffs?: StaffUncheckedUpdateManyWithoutPointSaleNestedInput
   }
 
   export type PointOfSaleUncheckedUpdateManyWithoutBranchInput = {
@@ -29219,9 +29261,17 @@ export namespace Prisma {
 
   export type OrderCreateManyPointSaleInput = {
     id?: number
-    staffId: number
     customerId: number
     amount?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StaffCreateManyPointSaleInput = {
+    userId: number
+    roleId: number
+    password: string
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29233,13 +29283,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     outputs?: OutputUpdateManyWithoutOrderNestedInput
-    staff?: StaffUpdateOneRequiredWithoutOrdersNestedInput
     customer?: CustomerUpdateOneRequiredWithoutOrersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutPointSaleInput = {
     id?: IntFieldUpdateOperationsInput | number
-    staffId?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
@@ -29250,7 +29298,6 @@ export namespace Prisma {
 
   export type OrderUncheckedUpdateManyWithoutPointSaleInput = {
     id?: IntFieldUpdateOperationsInput | number
-    staffId?: IntFieldUpdateOperationsInput | number
     customerId?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
@@ -29258,8 +29305,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StaffUpdateWithoutPointSaleInput = {
+    password?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutStaffsNestedInput
+    role?: RoleUpdateOneRequiredWithoutStaffsNestedInput
+    branches?: BranchUpdateManyWithoutStaffsNestedInput
+  }
+
+  export type StaffUncheckedUpdateWithoutPointSaleInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    roleId?: IntFieldUpdateOperationsInput | number
+    password?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branches?: BranchUncheckedUpdateManyWithoutStaffsNestedInput
+  }
+
+  export type StaffUncheckedUpdateManyWithoutPointSaleInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    roleId?: IntFieldUpdateOperationsInput | number
+    password?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StaffCreateManyRoleInput = {
     userId: number
+    pointSaleId?: number | null
     password: string
     active?: boolean
     createdAt?: Date | string
@@ -29298,22 +29375,23 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutStaffsNestedInput
+    pointSale?: PointOfSaleUpdateOneWithoutStaffsNestedInput
     branches?: BranchUpdateManyWithoutStaffsNestedInput
-    orders?: OrderUpdateManyWithoutStaffNestedInput
   }
 
   export type StaffUncheckedUpdateWithoutRoleInput = {
     userId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     branches?: BranchUncheckedUpdateManyWithoutStaffsNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutStaffNestedInput
   }
 
   export type StaffUncheckedUpdateManyWithoutRoleInput = {
     userId?: IntFieldUpdateOperationsInput | number
+    pointSaleId?: NullableIntFieldUpdateOperationsInput | number | null
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29347,7 +29425,7 @@ export namespace Prisma {
 
   export type ProductCreateManyCategoryInput = {
     id?: number
-    code: string
+    code?: string | null
     name: string
     image?: string | null
     barCode?: string | null
@@ -29358,7 +29436,7 @@ export namespace Prisma {
   }
 
   export type ProductUpdateWithoutCategoryInput = {
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29374,7 +29452,7 @@ export namespace Prisma {
 
   export type ProductUncheckedUpdateWithoutCategoryInput = {
     id?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29390,7 +29468,7 @@ export namespace Prisma {
 
   export type ProductUncheckedUpdateManyWithoutCategoryInput = {
     id?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     barCode?: NullableStringFieldUpdateOperationsInput | string | null

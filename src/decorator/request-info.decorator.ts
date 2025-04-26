@@ -5,8 +5,7 @@ export interface RequestInfo {
   userAgent: string;
 }
 
-export const RequestInfo = createParamDecorator(
-  (_data: unknown, ctx: ExecutionContext): RequestInfo => {
+export const RequestInfo = createParamDecorator((_data: unknown, ctx: ExecutionContext): RequestInfo => {
     const request = ctx.switchToHttp().getRequest();
 
     const ipAddress =

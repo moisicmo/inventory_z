@@ -158,6 +158,7 @@ exports.Prisma.CustomerScalarFieldEnum = {
 exports.Prisma.StaffScalarFieldEnum = {
   userId: 'userId',
   roleId: 'roleId',
+  pointSaleId: 'pointSaleId',
   password: 'password',
   active: 'active',
   createdAt: 'createdAt',
@@ -257,7 +258,6 @@ exports.Prisma.OutputScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   pointSaleId: 'pointSaleId',
-  staffId: 'staffId',
   customerId: 'customerId',
   amount: 'amount',
   active: 'active',

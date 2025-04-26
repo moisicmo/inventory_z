@@ -62,14 +62,15 @@ model Customer {
 model Staff {
   userId                Int                 @db.Integer @unique
   roleId                Int                 @db.Integer
+  pointSaleId           Int?                @db.Integer
   password              String              @db.VarChar(255)
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   user                  User                @relation(fields: [userId], references: [id])
   role                  Role                @relation(fields: [roleId], references: [id])
+  pointSale             PointOfSale?        @relation(fields: [pointSaleId], references: [id])
   branches              Branch[]
-  orders                Order[]
   @@map("staffs")
   @@id([userId])
 }
@@ -98,6 +99,7 @@ model PointOfSale {
   updatedAt             DateTime            @updatedAt
   branch                Branch              @relation(fields: [branchId], references: [id])
   orders                Order[]
+  staffs                Staff[]
   @@map("pointsOfSale")
 }
 model Role {
@@ -132,7 +134,7 @@ model Category {
 model Product {
   id                    Int                 @id @default(autoincrement())
   categoryId            Int                 @db.Integer
-  code                  String              @db.VarChar(255)
+  code                  String?              @db.VarChar(255)
   name                  String              @db.VarChar(255)
   image                 String?             @db.VarChar(255)
   barCode               String?             @db.VarChar(255)
@@ -188,7 +190,6 @@ model Output {
 model Order {
   id                    Int                 @id @default(autoincrement())
   pointSaleId           Int                 @db.Integer
-  staffId               Int                 @db.Integer
   customerId            Int                 @db.Integer
   amount                Float               @default(0.0)
   active                Boolean             @db.Boolean @default(true)
@@ -196,7 +197,6 @@ model Order {
   updatedAt             DateTime            @updatedAt
   outputs               Output[]
   pointSale             PointOfSale         @relation(fields: [pointSaleId], references: [id])
-  staff                 Staff               @relation(fields: [staffId], references: [userId])
   customer              Customer            @relation(fields: [customerId], references: [userId])
   @@map("orders")
 }
