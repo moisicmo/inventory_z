@@ -11,6 +11,6 @@ export class PaginationDto {
   @IsPositive()
   @IsOptional()
   @Type(() => Number)
-  limit?: number = 10;
+  limit?: number = 1000000000;
 
 }

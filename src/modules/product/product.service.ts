@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -7,11 +7,13 @@ import { PaginationDto } from '@/common';
 @Injectable()
 export class ProductService {
 
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     const { categoryId, name, typeUnit, price } = createProductDto;
-    const product = await this.prisma.product.create({
+    return await this.prisma.product.create({
       data: {
         code: `P${Date.now()}`,
         categoryId,
@@ -23,53 +25,29 @@ export class ProductService {
           }
         }
       },
-      include: {
-        prices: {
-          select: {
-            id: true,
-            typeUnit: true,
-            price: true,
-          }
-        }
-      }
     });
-    return product;
-
   }
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
-    const totalPages = await this.prisma.product.count({ where: { active: true } });
+    const totalPages = await this.prisma.product.count({
+      where: { active: true },
+    });
     const lastPage = Math.ceil(totalPages / limit);
 
     return {
       data: await this.prisma.product.findMany({
         skip: (page - 1) * limit,
         take: limit,
-        where: {
-          active: true,
-        },
-        include: {
-          prices: {
-            select: {
-              id: true,
-              typeUnit: true,
-              price: true,
-            }
-          }
-        }
+        where: { active: true },
       }),
-      meta: {
-        total: totalPages,
-        page: page,
-        lastPage: lastPage,
-      },
+      meta: { total: totalPages, page, lastPage },
     };
   }
 
   async findOne(id: number) {
-    const product = await this.prisma.product.findFirst({
-      where: { id, active: true },
+    const product = await this.prisma.product.findUnique({
+      where: { id },
     });
 
     if (!product) {
@@ -89,14 +67,12 @@ export class ProductService {
   }
 
   async remove(id: number) {
-
-    const product = await this.prisma.product.update({
+    await this.findOne(id);
+    return await this.prisma.product.update({
       where: { id },
       data: {
         active: false,
       },
     });
-
-    return product;
   }
 }

@@ -12,12 +12,14 @@ import { RoleModule } from './modules/role/role.module';
 import { StaffModule } from './modules/staff/staff.module';
 import { InputModule } from './modules/input/input.module';
 import { OrderModule } from './modules/order/order.module';
+import { PermissionModule } from './modules/permission/permission.module';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     BranchModule,
+    PermissionModule,
     RoleModule,
     StaffModule,
     CategoryModule,

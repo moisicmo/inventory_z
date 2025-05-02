@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -7,7 +7,9 @@ import { PaginationDto } from '@/common';
 @Injectable()
 export class CustomerService {
 
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
+  ) { }
 
   async create(createCustomerDto: CreateCustomerDto) {
     const { numberDocument, typeDocument, name, lastName } = createCustomerDto;
@@ -19,86 +21,78 @@ export class CustomerService {
     if (userExists) {
       throw new Error('El cliente ya existe');
     }
-    const user = await this.prisma.user.create({
+    return await this.prisma.user.create({
       data: {
         numberDocument,
         typeDocument,
         name,
         lastName,
+        customers: {
+          create: {},
+        },
       },
     });
-    await this.prisma.customer.create({
-      data: {
-        userId: user.id,
-      },
-    });
-    return {
-      message: 'Cliente creado correctamente',
-      user,
-    }
   }
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
-    const totalPages = await this.prisma.customer.count({ where: { active: true } });
+    const totalPages = await this.prisma.user.count({
+      where: { active: true, customers: { some: {} } },
+    });
     const lastPage = Math.ceil(totalPages / limit);
 
     return {
-      data: await this.prisma.customer.findMany({
+      data: await this.prisma.user.findMany({
         skip: (page - 1) * limit,
         take: limit,
-        where: {
-          active: true,
-        },
+        where: { active: true, customers: { some: {} } },
       }),
-      meta: {
-        total: totalPages,
-        page: page,
-        lastPage: lastPage,
-      },
+      meta: { total: totalPages, page, lastPage },
     };
   }
 
-  async findOne(userId: number) {
-    const customer = await this.prisma.customer.findFirst({
-      where: { userId, active: true },
+  async findOne(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id, customers: { some: {} } },
     });
 
-    if (!customer) {
-      throw new NotFoundException(`Customer with id #${userId} not found`);
+    if (!user) {
+      throw new NotFoundException(`Customer with id #${id} not found`);
     }
 
-    return customer;
+    return user;
   }
 
-  async update(userId: number, updateCustomerDto: UpdateCustomerDto) {
-    const { numberDocument, typeDocument, name, lastName } = updateCustomerDto;
+  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
+    await this.findOne(id);
 
-    await this.findOne(userId);
-
-    return this.prisma.customer.update({
-      where: { userId },
+    return this.prisma.user.update({
+      where: { id },
       data: {
-        user: {
+        customers: {
           update: {
-            numberDocument,
-            typeDocument,
-            name,
-            lastName,
+            where: { userId: id },
+            data: updateCustomerDto,
           },
-        }
+        },
       },
     });
   }
 
   async remove(id: number) {
-    const customer = await this.prisma.customer.update({
-      where: { userId: id },
+    await this.findOne(id);
+    return await this.prisma.user.update({
+      where: { id },
       data: {
-        active: false,
+        customers: {
+          update: {
+            where: { userId: id },
+            data: {
+              active: false,
+            },
+          },
+        },
       },
     });
-
-    return customer;
   }
 }

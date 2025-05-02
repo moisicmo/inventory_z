@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -7,7 +7,9 @@ import { PaginationDto } from '@/common';
 @Injectable()
 export class CategoryService {
 
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
+  ) { }
 
   async create(createCategoryDto: CreateCategoryDto) {
     return await this.prisma.category.create({
@@ -19,32 +21,28 @@ export class CategoryService {
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
-    const totalPages = await this.prisma.category.count({ where: { active: true } });
+    const totalPages = await this.prisma.category.count({
+      where: { active: true },
+    });
     const lastPage = Math.ceil(totalPages / limit);
 
     return {
       data: await this.prisma.category.findMany({
         skip: (page - 1) * limit,
         take: limit,
-        where: {
-          active: true,
-        },
+        where: { active: true },
       }),
-      meta: {
-        total: totalPages,
-        page: page,
-        lastPage: lastPage,
-      },
+      meta: { total: totalPages, page, lastPage },
     };
   }
 
   async findOne(id: number) {
-    const category = await this.prisma.category.findFirst({
-      where: { id, active: true },
+    const category = await this.prisma.category.findUnique({
+      where: { id },
     });
 
     if (!category) {
-      throw new NotFoundException(`Customer with id #${id} not found`);
+      throw new NotFoundException(`Category with id #${id} not found`);
     }
 
     return category;
@@ -52,6 +50,7 @@ export class CategoryService {
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     await this.findOne(id);
+
     return this.prisma.category.update({
       where: { id },
       data: updateCategoryDto,
@@ -59,13 +58,12 @@ export class CategoryService {
   }
 
   async remove(id: number) {
-    const category = await this.prisma.category.update({
+    await this.findOne(id);
+    return await this.prisma.category.update({
       where: { id },
       data: {
         active: false,
       },
     });
-
-    return category;
   }
 }
