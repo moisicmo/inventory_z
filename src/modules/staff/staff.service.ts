@@ -32,7 +32,7 @@ export class StaffService {
         name,
         lastName,
         email,
-        staffs: {
+        staff: {
           create: {
             password: hashedPassword,
             roleId: roleId,
@@ -45,7 +45,12 @@ export class StaffService {
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.user.count({
-      where: { active: true, staffs: { some: {} } },
+      where: {
+        active: true,
+        staff: {
+          isNot: null,
+        },
+      },
     });
     const lastPage = Math.ceil(totalPages / limit);
 
@@ -53,7 +58,12 @@ export class StaffService {
       data: await this.prisma.user.findMany({
         skip: (page - 1) * limit,
         take: limit,
-        where: { active: true, staffs: { some: {} } },
+        where: {
+          active: true,
+          staff: {
+            isNot: null,
+          },
+        },
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -61,7 +71,12 @@ export class StaffService {
 
   async findOne(id: number) {
     const user = await this.prisma.user.findUnique({
-      where: { id, staffs: { some: {} }  },
+      where: {
+        id,
+        staff: {
+          isNot: null,
+        },
+      },
     });
 
     if (!user) {
@@ -73,14 +88,27 @@ export class StaffService {
 
   async update(id: number, updateStaffDto: UpdateStaffDto) {
     await this.findOne(id);
+    const { numberDocument, typeDocument, roleId, name, lastName, email } = updateStaffDto;
 
     return this.prisma.user.update({
-      where: { id },
+      where: {
+        id,
+        staff: {
+          isNot: null,
+        },
+      },
       data: {
-        staffs: {
+        numberDocument,
+        typeDocument,
+        name,
+        lastName,
+        email,
+        staff: {
           update: {
             where: { userId: id },
-            data: updateStaffDto,
+            data: {
+              roleId
+            },
           },
         },
       },
@@ -90,9 +118,14 @@ export class StaffService {
   async remove(id: number) {
     await this.findOne(id);
     return await this.prisma.user.update({
-      where: { id },
+      where: {
+        id,
+        staff: {
+          isNot: null,
+        },
+      },
       data: {
-        staffs: {
+        staff: {
           update: {
             where: { userId: id },
             data: {

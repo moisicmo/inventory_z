@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -24,11 +23,56 @@ model User {
   codeActivation        String?             @db.VarChar(255)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
-  customers             Customer[]
-  staffs                Staff[]
+  customer              Customer?
+  staff                 Staff?
   sessions              Session[]
   forgotPassword        forgotPassword[]
+  auditLog              AuditLog[]
   @@map("users")  
+}
+model Staff {
+  userId                Int                 @db.Integer @unique
+  roleId                Int                 @db.Integer
+  password              String              @db.VarChar(255)
+  active                Boolean             @default(true)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  user                  User                @relation(fields: [userId], references: [id])
+  role                  Role                @relation(fields: [roleId], references: [id])
+  branches              Branch[]
+  cashClosures          CashClosure[]
+  @@map("staffs")
+  @@id([userId])
+}
+model Role {
+  id                    Int                 @id @default(autoincrement())
+  name                  String              @db.VarChar(255)
+  active                Boolean             @default(true)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  permissions           Permission[]
+  staffs                Staff[]
+  @@map("roles")
+}
+model Permission {
+  id                    Int                 @id @default(autoincrement())
+  name                  String              @db.VarChar(255)
+  description           String?             @db.VarChar(255)
+  active                Boolean             @default(true)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  roles                 Role[]
+  @@map("permissions")
+}
+model CashClosure {
+  id                    Int                 @id @default(autoincrement())
+  userId                Int                 @db.Integer
+  endTime               DateTime
+  totalAmount           Float
+  createdAt             DateTime            @default(now())
+  staff                 Staff               @relation(fields: [userId], references: [userId])
+  orers                 Order[]
+  @@map("cashClosures")
 }
 model forgotPassword {
   id                    Int                 @id @default(autoincrement())
@@ -59,21 +103,7 @@ model Customer {
   orers                 Order[]
   @@map("customers")
 }
-model Staff {
-  userId                Int                 @db.Integer @unique
-  roleId                Int                 @db.Integer
-  pointSaleId           Int?                @db.Integer
-  password              String              @db.VarChar(255)
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
-  user                  User                @relation(fields: [userId], references: [id])
-  role                  Role                @relation(fields: [roleId], references: [id])
-  pointSale             PointOfSale?        @relation(fields: [pointSaleId], references: [id])
-  branches              Branch[]
-  @@map("staffs")
-  @@id([userId])
-}
+
 model Branch {
   id                    Int                 @id @default(autoincrement())
   name                  String              @db.VarChar(255)
@@ -86,41 +116,9 @@ model Branch {
   karedxs               Kardex[]
   inputs                Input[]
   outputs               Output[]
-  pointsOfSale         PointOfSale[]
-  @@map("branches")
-}
-model PointOfSale {
-  id                    Int                 @id @default(autoincrement())
-  branchId              Int                 @db.Integer
-  code                  String?             @db.VarChar(255)
-  name                  String              @db.VarChar(255)
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
-  branch                Branch              @relation(fields: [branchId], references: [id])
   orders                Order[]
-  staffs                Staff[]
-  @@map("pointsOfSale")
-}
-model Role {
-  id                    Int                 @id @default(autoincrement())
-  name                  String              @db.VarChar(255)
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
-  permissions           Permission[]
-  staffs                Staff[]
-  @@map("roles")
-}
-model Permission {
-  id                    Int                 @id @default(autoincrement())
-  name                  String              @db.VarChar(255)
-  description           String?             @db.VarChar(255)
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
-  roles                 Role[]
-  @@map("permissions")
+  prices                Price[]
+  @@map("branches")
 }
 model Category {
   id                    Int                 @id @default(autoincrement())
@@ -152,14 +150,17 @@ model Product {
 model Price {
   id                    Int                 @id @default(autoincrement())
   productId             Int                 @db.Integer
+  branchId              Int                 @db.Integer
   typeUnit              TypeUnit            @default(UNIDAD)
   price                 Float               @default(0.0)
   discount              Float               @default(0.0)
   typeDiscount          TypeDiscount        @default(MONTO)
   active                Boolean             @default(true)
+  changedReason         String              @default("creado")
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   product               Product             @relation(fields: [productId], references: [id])
+  branch                Branch              @relation(fields: [branchId], references: [id])
   @@map("prices")
 }
 model Input {
@@ -189,15 +190,17 @@ model Output {
 }
 model Order {
   id                    Int                 @id @default(autoincrement())
-  pointSaleId           Int                 @db.Integer
   customerId            Int                 @db.Integer
+  branchId              Int
+  closureId             Int?
   amount                Float               @default(0.0)
   active                Boolean             @db.Boolean @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   outputs               Output[]
-  pointSale             PointOfSale         @relation(fields: [pointSaleId], references: [id])
   customer              Customer            @relation(fields: [customerId], references: [userId])
+  branch                Branch              @relation(fields: [branchId], references: [id])
+  closure               CashClosure?        @relation(fields: [closureId], references: [id])
   @@map("orders")
 }
 model Kardex {
@@ -211,6 +214,19 @@ model Kardex {
   branch                Branch              @relation(fields: [branchId], references: [id])
   @@unique([branchId,productId])
   @@map("kardexs")
+}
+model AuditLog {
+  id                    Int                 @id @default(autoincrement())
+  userId                Int         
+  action                String              // 'CREATE', 'UPDATE', 'DELETE'
+  entity                String              // Nombre de la tabla: 'Price', 'Product', etc.
+  entityId              Int                 // ID del registro afectado
+  dataBefore            Json?               // Estado anterior (si aplica)
+  dataAfter             Json?               // Estado nuevo (si aplica)
+  timestamp             DateTime            @default(now())
+  description           String?             // Mensaje opcional ("Cambio de precio por inflación")
+  user                  User                @relation(fields: [userId], references: [id])
+  @@map("audit_logs")
 }
 
 // emuns section

@@ -1,36 +1,37 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { TypeUnit } from "@prisma/client";
-import { IsEnum, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
+import { Type } from 'class-transformer';
 
 export class CreateProductDto {
 
+  @Type(() => Number)
   @IsNumber()
-  @ApiProperty({
-    example: 1,
-    description: 'Identificador de la categoría a la que pertenece el producto',
-  })
+  @ApiProperty({ example: 1, description: 'ID de categoría' })
   categoryId: number;
 
   @IsString()
-  @ApiProperty({
-    example: 'Product 1',
-    description: 'Nombre del producto',
-  })
+  @ApiProperty({ example: 'Product 1' })
   name: string;
 
+  @Type(() => Number)
+  @IsNumber()
+  @ApiProperty({ example: 1, description: 'ID de la sucursal' })
+  branchId: number;
+
   @IsEnum(TypeUnit)
-  @ApiProperty({
-    example: TypeUnit.CAJA,
-    description: 'Unidad de medida del producto',
-    enum: TypeUnit,
-  })
+  @ApiProperty({ example: TypeUnit.CAJA, enum: TypeUnit })
   typeUnit: TypeUnit;
 
+  @Type(() => Number)
   @IsNumber()
-  @ApiProperty({
-    example: 10.5,
-    description: 'Precio del producto',
-  })
+  @ApiProperty({ example: 10.5 })
   price: number;
 
+  @IsOptional()
+  @ApiPropertyOptional({ type: 'string', format: 'binary', required: false })
+  image?: any;
+
+
+  
 }

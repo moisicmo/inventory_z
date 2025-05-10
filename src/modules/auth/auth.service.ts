@@ -4,6 +4,7 @@ import { RequestInfo } from '@/decorator';
 import { PrismaService } from '@/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { branchDefaultSelect, roleDefaultSelect } from '@/prisma/interfaces';
 
 @Injectable()
 export class AuthService {
@@ -17,59 +18,77 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  async login(createAuthDto: CreateAuthDto,requestInfo: RequestInfo) {
+  async login(createAuthDto: CreateAuthDto, requestInfo: RequestInfo) {
     const { email, password } = createAuthDto;
     const { userAgent, ipAddress } = requestInfo;
+
     try {
       const staff = await this.prisma.staff.findFirst({
         where: {
-          user: {
-            email,
-          }
+          user: { email },
         },
-        include: {
-          user: true,
-          role: true,
-        }
+        select: {
+          password: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              lastName: true,
+              email: true,
+              active: true,
+            },
+          },
+          role: {
+            select: roleDefaultSelect,
+          },
+          branches: {
+            select: branchDefaultSelect,
+          },
+        },
       });
 
-      if (!staff) {
-        throw new NotFoundException('User does not exist');
+      if (!staff || !staff.user.active) {
+        throw new NotFoundException('User does not exist or is inactive');
       }
+
       const isPasswordValid = bcrypt.compareSync(password, staff.password);
       if (!isPasswordValid) {
-        throw new UnauthorizedException('User or password is invalid');
-
+        throw new UnauthorizedException('Invalid credentials');
       }
 
-      const {  
-        createdAt:_,
-        updatedAt:__,
-        codeActivation:___,
-        active:____,
-        numberDocument:_____,
-        typeDocument:______ ,
-        ...rest
-      } = staff.user;
-      const token = this.signJWT(rest);
-      const refreshToken = this.signJWT(rest, '1d');
-      //registrar sesion
+      const { password: _, user, role, branches } = staff;
+
+      const tokenPayload = {
+        id: user.id,
+        name: user.name,
+        lastName: user.lastName,
+        email: user.email,
+      };
+
+      const token = this.signJWT(tokenPayload);
+      const refreshToken = this.signJWT(tokenPayload, '1d');
+
       await this.prisma.session.create({
         data: {
-          userId: rest.id,
+          userId: user.id,
           token,
           userAgent,
           ipAddress,
-        }
+        },
       });
+
       return {
-        ...rest,
+        ...tokenPayload,
         token,
         refreshToken,
+        role,
+        branches,
       };
+
     } catch (error) {
-      console.error('ERROR COMPLETO:', error);
+      console.error('Login error:', error);
       throw new InternalServerErrorException('Internal error');
     }
   }
+
 }

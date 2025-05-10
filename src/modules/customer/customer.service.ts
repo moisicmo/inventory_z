@@ -27,7 +27,7 @@ export class CustomerService {
         typeDocument,
         name,
         lastName,
-        customers: {
+        customer: {
           create: {},
         },
       },
@@ -37,7 +37,12 @@ export class CustomerService {
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.user.count({
-      where: { active: true, customers: { some: {} } },
+      where: {
+        active: true,
+        customer: {
+          isNot: null,
+        },
+      },
     });
     const lastPage = Math.ceil(totalPages / limit);
 
@@ -45,7 +50,12 @@ export class CustomerService {
       data: await this.prisma.user.findMany({
         skip: (page - 1) * limit,
         take: limit,
-        where: { active: true, customers: { some: {} } },
+        where: {
+          active: true,
+          customer: {
+            isNot: null,
+          },
+        },
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -53,7 +63,12 @@ export class CustomerService {
 
   async findOne(id: number) {
     const user = await this.prisma.user.findUnique({
-      where: { id, customers: { some: {} } },
+      where: {
+        id,
+        customer: {
+          isNot: null,
+        },
+      },
     });
 
     if (!user) {
@@ -65,14 +80,24 @@ export class CustomerService {
 
   async update(id: number, updateCustomerDto: UpdateCustomerDto) {
     await this.findOne(id);
+    const { numberDocument, typeDocument, name, lastName } = updateCustomerDto;
 
     return this.prisma.user.update({
-      where: { id },
+      where: {
+        id,
+        customer: {
+          isNot: null,
+        },
+      },
       data: {
-        customers: {
+        numberDocument,
+        typeDocument,
+        name,
+        lastName,
+        customer: {
           update: {
             where: { userId: id },
-            data: updateCustomerDto,
+            data: {},
           },
         },
       },
@@ -82,9 +107,14 @@ export class CustomerService {
   async remove(id: number) {
     await this.findOne(id);
     return await this.prisma.user.update({
-      where: { id },
+      where: {
+        id,
+        customer: {
+          isNot: null,
+        },
+      },
       data: {
-        customers: {
+        customer: {
           update: {
             where: { userId: id },
             data: {

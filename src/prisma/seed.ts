@@ -1,6 +1,6 @@
-
-import * as bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { createPriceActiveTrigger } from './triggers/price.trigger';
 
 async function main() {
   const prisma = new PrismaClient();
@@ -17,9 +17,23 @@ async function main() {
         email: 'moisic.mo@gmail.com',
       },
     });
+    const permissions = await prisma.permission.createManyAndReturn({
+      data: [
+        { name: 'Crear Usuarios' },
+        { name: 'Crear Clientes' },
+        { name: 'Crear Productos' },
+        { name: 'Crear Sucursales' },
+        { name: 'Crear Categorias' },
+        { name: 'Crear Roles' }
+      ]
+    });
+
     const role = await prisma.role.create({
       data: {
         name: 'admin',
+        permissions: {
+          connect: permissions.map(permission => ({ id: permission.id }))
+        }
       }
     });
     await prisma.staff.create({
@@ -27,9 +41,17 @@ async function main() {
         userId: user.id,
         roleId: role.id,
         password: hashedPassword,
+        branches: {
+          create: {
+            name: 'Casa Matríz',
+            address: 'Avenida X',
+          }
+        }
       }
     });
     console.log('✅ Datos de semilla insertados correctamente.');
+    await createPriceActiveTrigger(prisma);
+
   } catch (error) {
     console.error('❌ Error al insertar datos de semilla:', error);
   } finally {

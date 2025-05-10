@@ -1,3 +1,5 @@
+import { staffDefaultSelect } from ".";
+
 export const userDefaultSelect = {
   id: true,
   numberDocument: true,
@@ -5,17 +7,10 @@ export const userDefaultSelect = {
   name: true,
   lastName: true,
   email: true,
-  staffs: {
-    select: {
-      role: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
+  staff: {
+    select: staffDefaultSelect
   },
-  customers: {
+  customer: {
     select: {
       userId: false,
       active: true,

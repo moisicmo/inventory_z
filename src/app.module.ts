@@ -13,7 +13,8 @@ import { StaffModule } from './modules/staff/staff.module';
 import { InputModule } from './modules/input/input.module';
 import { OrderModule } from './modules/order/order.module';
 import { PermissionModule } from './modules/permission/permission.module';
-
+import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
+import { CloudinaryService } from './common/cloudinary/clodinary.service';
 @Module({
   imports: [
     PrismaModule,
@@ -27,6 +28,7 @@ import { PermissionModule } from './modules/permission/permission.module';
     CustomerModule,
     InputModule,
     OrderModule,
+    CloudinaryModule,
   ],
   providers: [
     PrismaService,
@@ -34,6 +36,7 @@ import { PermissionModule } from './modules/permission/permission.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    CloudinaryService,
   ],
   exports: [PrismaService],
 })

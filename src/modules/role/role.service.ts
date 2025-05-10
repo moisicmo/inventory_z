@@ -12,9 +12,13 @@ export class RoleService {
   ) { }
 
   async create(createRoleDto: CreateRoleDto) {
+    const {name ,permissionIds } = createRoleDto;
     return await this.prisma.role.create({
       data: {
-        ...createRoleDto
+        name,
+        permissions:{
+          connect: permissionIds.map(id => ({ id })),
+        }
       }
     });
   }
@@ -49,13 +53,21 @@ export class RoleService {
   }
 
   async update(id: number, updateRoleDto: UpdateRoleDto) {
+    const { name, permissionIds } = updateRoleDto;
+  
     await this.findOne(id);
-
+  
     return this.prisma.role.update({
       where: { id },
-      data: updateRoleDto,
+      data: {
+        name,
+        permissions: {
+          set: permissionIds?.map(id => ({ id }))??[],
+        },
+      },
     });
   }
+  
 
   async remove(id: number) {
     await this.findOne(id);

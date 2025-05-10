@@ -6,6 +6,7 @@ import {
   permissionDefaultSelect,
   productDefaultSelect,
   roleDefaultSelect,
+  staffDefaultSelect,
   userDefaultSelect,
 } from './interfaces';
 
@@ -20,6 +21,28 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   }
   readonly extendedPrisma = this.$extends({
     query: {
+      product: {
+        async create({ args, query }) {
+          args.select = args.select || productDefaultSelect;
+          return query(args);
+        },
+        async findMany({ args, query }) {
+          args.select = args.select || productDefaultSelect;
+          return query(args);
+        },
+        async findUnique({ args, query }) {
+          args.select = args.select || productDefaultSelect;
+          return query(args);
+        },
+        async findFirst({ args, query }) {
+          args.select = args.select || productDefaultSelect;
+          return query(args);
+        },
+        async update({ args, query }) {
+          args.select = args.select || productDefaultSelect;
+          return query(args);
+        },
+      },
       user: {
         async create({ args, query }) {
           args.select = args.select || userDefaultSelect;
@@ -39,6 +62,12 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         },
         async update({ args, query }) {
           args.select = args.select || userDefaultSelect;
+          return query(args);
+        },
+      },
+      staff: {
+        async findFirst({ args, query }) {
+          args.select = args.select || staffDefaultSelect;
           return query(args);
         },
       },
@@ -111,28 +140,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         },
         async update({ args, query }) {
           args.select = args.select || categoryDefaultSelect;
-          return query(args);
-        },
-      },
-      product: {
-        async create({ args, query }) {
-          args.select = args.select || productDefaultSelect;
-          return query(args);
-        },
-        async findMany({ args, query }) {
-          args.select = args.select || productDefaultSelect;
-          return query(args);
-        },
-        async findUnique({ args, query }) {
-          args.select = args.select || productDefaultSelect;
-          return query(args);
-        },
-        async findFirst({ args, query }) {
-          args.select = args.select || productDefaultSelect;
-          return query(args);
-        },
-        async update({ args, query }) {
-          args.select = args.select || productDefaultSelect;
           return query(args);
         },
       },

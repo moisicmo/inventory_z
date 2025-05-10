@@ -1,16 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from '@/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiConsumes } from '@nestjs/swagger';
+import { FileMimeTypeInterceptor } from '@/decorator';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  @UseInterceptors(
+    FileInterceptor('image'),
+    new FileMimeTypeInterceptor(['image/jpeg', 'image/png']),
+  )
+  @ApiConsumes('multipart/form-data')
+  create(
+    @Body() createProductDto: CreateProductDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    return this.productService.create(createProductDto, image);
   }
 
   @Get()
@@ -24,9 +35,19 @@ export class ProductController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @UseInterceptors(
+    FileInterceptor('image'),
+    new FileMimeTypeInterceptor(['image/jpeg', 'image/png']),
+  )
+  @ApiConsumes('multipart/form-data')
+  update(
+    @Param('id') id: number,
+    @Body() updateProductDto: UpdateProductDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    return this.productService.update(id, updateProductDto, image);
   }
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {
