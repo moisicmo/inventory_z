@@ -1,42 +1,26 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsNumber, IsOptional } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductInputDto } from './product-input.dto';
 
 export class CreateInputDto {
-  
   @IsNumber()
-  @ApiProperty({
-    example: 1,
-    description: 'Identificador de la sucursal',
-  })
-  branchId:number;
+  @ApiProperty({ example: 1, description: 'Identificador de la sucursal' })
+  branchId: number;
 
-  @IsNumber()
+  @IsString()
   @ApiProperty({
-    example: 1,
-    description: 'Identificador del producto',
+    example:'compra',
+    description: 'Detalle de ingreso',
   })
-  productId: number;
+  detail: string;
 
-  @IsNumber()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ProductInputDto)
   @ApiProperty({
-    example: 1,
-    description: 'cantidad de producto',
+    type: [ProductInputDto],
+    description: 'Lista de productos a ingresar',
   })
-  quantity: number;
-
-  @IsNumber()
-  @ApiProperty({
-    example: 1.00,
-    description: 'precio de producto',
-  })
-  price: number;
-
-  @IsDate()
-  @IsOptional()
-  @ApiProperty({
-    example: '2023-10-01',
-    description: 'fecha de vencimiento',
-  })
-  dueDate: Date;
-    
+  products: ProductInputDto[];
 }

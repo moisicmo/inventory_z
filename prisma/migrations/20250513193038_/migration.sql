@@ -169,6 +169,7 @@ CREATE TABLE "inputs" (
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "dueDate" DATE,
+    "detail" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "inputs_pkey" PRIMARY KEY ("id")
@@ -182,6 +183,7 @@ CREATE TABLE "outputs" (
     "productId" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "detail" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "outputs_pkey" PRIMARY KEY ("id")
@@ -207,7 +209,6 @@ CREATE TABLE "kardexs" (
     "productId" INTEGER NOT NULL,
     "referenceId" INTEGER NOT NULL,
     "typeReference" "TypeReference" NOT NULL,
-    "detail" VARCHAR(255) NOT NULL,
     "stock" INTEGER NOT NULL
 );
 
@@ -258,7 +259,7 @@ CREATE UNIQUE INDEX "sessions_token_key" ON "sessions"("token");
 CREATE UNIQUE INDEX "customers_userId_key" ON "customers"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "kardexs_branchId_productId_key" ON "kardexs"("branchId", "productId");
+CREATE UNIQUE INDEX "kardexs_referenceId_typeReference_key" ON "kardexs"("referenceId", "typeReference");
 
 -- CreateIndex
 CREATE INDEX "_PermissionToRole_B_index" ON "_PermissionToRole"("B");

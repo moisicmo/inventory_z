@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { createPriceActiveTrigger } from './triggers/price.trigger';
+import { createKardexInputTrigger } from './triggers/input.trigger';
+import { createKardexOutputTrigger } from './triggers/output.trigger';
 
 async function main() {
   const prisma = new PrismaClient();
@@ -51,6 +53,8 @@ async function main() {
     });
     console.log('✅ Datos de semilla insertados correctamente.');
     await createPriceActiveTrigger(prisma);
+    await createKardexInputTrigger(prisma);
+    await createKardexOutputTrigger(prisma);
 
   } catch (error) {
     console.error('❌ Error al insertar datos de semilla:', error);

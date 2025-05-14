@@ -8,10 +8,19 @@ export class InputService {
   constructor(private prisma: PrismaService) { }
 
   async create(createInputDto: CreateInputDto) {
-    return await this.prisma.input.create({
-      data: {
-        ...createInputDto
-      }
-    });
+    const { branchId, detail, products } = createInputDto;
+  
+    for (const element of products) {
+      await this.prisma.input.create({
+        data: {
+          branchId,
+          detail,
+          productId: element.productId,
+          quantity: element.quantity,
+          price: element.price,
+          dueDate: element.dueDate,
+        },
+      });
+    }
   }
 }
