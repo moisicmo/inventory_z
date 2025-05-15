@@ -15,6 +15,7 @@ import { OrderModule } from './modules/order/order.module';
 import { PermissionModule } from './modules/permission/permission.module';
 import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
 import { CloudinaryService } from './common/cloudinary/clodinary.service';
+import { KardexModule } from './modules/kardex/kardex.module';
 @Module({
   imports: [
     PrismaModule,
@@ -29,6 +30,7 @@ import { CloudinaryService } from './common/cloudinary/clodinary.service';
     InputModule,
     OrderModule,
     CloudinaryModule,
+    KardexModule,
   ],
   providers: [
     PrismaService,

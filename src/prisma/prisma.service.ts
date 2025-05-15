@@ -1,8 +1,11 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+
 import {
   branchDefaultSelect,
   categoryDefaultSelect,
+  inputDefaultSelect,
+  kardexDefaultSelect,
   permissionDefaultSelect,
   productDefaultSelect,
   roleDefaultSelect,
@@ -143,6 +146,30 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
           return query(args);
         },
       },
+      kardex: {
+        async findMany({ args, query }) {
+          args.select = args.select || kardexDefaultSelect;
+          return query(args);
+        },
+        async findUnique({ args, query }) {
+          args.select = args.select || kardexDefaultSelect;
+          return query(args);
+        },
+      },
+      input: {
+        async createManyAndReturn({ args, query }) {
+          args.select = args.select || inputDefaultSelect;
+          return query(args);
+        },
+        async findMany({ args, query }) {
+          args.select = args.select || inputDefaultSelect;
+          return query(args);
+        },
+        async findUnique({ args, query }) {
+          args.select = args.select || inputDefaultSelect;
+          return query(args);
+        },
+      }
     },
   });
 }

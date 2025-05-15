@@ -190,6 +190,17 @@ model Output {
   product               Product             @relation(fields: [productId], references: [id])
   @@map("outputs")
 }
+model Kardex {
+  branchId              Int                 @db.Integer
+  productId             Int                 @db.Integer
+  referenceId           Int                 @db.Integer
+  typeReference         TypeReference
+  stock                 Int                 @db.Integer
+  product               Product             @relation(fields: [productId], references: [id])
+  branch                Branch              @relation(fields: [branchId], references: [id])
+  @@unique([referenceId,typeReference])
+  @@map("kardexs")
+}
 model Order {
   id                    Int                 @id @default(autoincrement())
   customerId            Int                 @db.Integer
@@ -204,17 +215,6 @@ model Order {
   branch                Branch              @relation(fields: [branchId], references: [id])
   closure               CashClosure?        @relation(fields: [closureId], references: [id])
   @@map("orders")
-}
-model Kardex {
-  branchId              Int                 @db.Integer
-  productId             Int                 @db.Integer
-  referenceId           Int                 @db.Integer
-  typeReference         TypeReference
-  stock                 Int                 @db.Integer
-  product               Product             @relation(fields: [productId], references: [id])
-  branch                Branch              @relation(fields: [branchId], references: [id])
-  @@unique([referenceId,typeReference])
-  @@map("kardexs")
 }
 model AuditLog {
   id                    Int                 @id @default(autoincrement())
