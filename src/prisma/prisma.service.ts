@@ -4,13 +4,14 @@ import { PrismaClient } from '@prisma/client';
 import {
   branchDefaultSelect,
   categoryDefaultSelect,
-  inputDefaultSelect,
   kardexDefaultSelect,
   permissionDefaultSelect,
   productDefaultSelect,
   roleDefaultSelect,
   staffDefaultSelect,
   userDefaultSelect,
+  presentationDefaultSelect,
+  inputDefaultSelect,
 } from './interfaces';
 
 @Injectable()
@@ -24,6 +25,72 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   }
   readonly extendedPrisma = this.$extends({
     query: {
+      branch: {
+        async create({ args, query }) {
+          args.select = args.select || branchDefaultSelect;
+          return query(args);
+        },
+        async findMany({ args, query }) {
+          args.select = args.select || branchDefaultSelect;
+          return query(args);
+        },
+        async findUnique({ args, query }) {
+          args.select = args.select || branchDefaultSelect;
+          return query(args);
+        },
+        async findFirst({ args, query }) {
+          args.select = args.select || branchDefaultSelect;
+          return query(args);
+        },
+        async update({ args, query }) {
+          args.select = args.select || branchDefaultSelect;
+          return query(args);
+        },
+      },
+      category: {
+        async create({ args, query }) {
+          args.select = args.select || categoryDefaultSelect;
+          return query(args);
+        },
+        async findMany({ args, query }) {
+          args.select = args.select || categoryDefaultSelect;
+          return query(args);
+        },
+        async findUnique({ args, query }) {
+          args.select = args.select || categoryDefaultSelect;
+          return query(args);
+        },
+        async findFirst({ args, query }) {
+          args.select = args.select || categoryDefaultSelect;
+          return query(args);
+        },
+        async update({ args, query }) {
+          args.select = args.select || categoryDefaultSelect;
+          return query(args);
+        },
+      },
+      presentation: {
+        async create({ args, query }) {
+          args.select = args.select || presentationDefaultSelect;
+          return query(args);
+        },
+        async findMany({ args, query }) {
+          args.select = args.select || presentationDefaultSelect;
+          return query(args);
+        },
+        async findUnique({ args, query }) {
+          args.select = args.select || presentationDefaultSelect;
+          return query(args);
+        },
+        async findFirst({ args, query }) {
+          args.select = args.select || presentationDefaultSelect;
+          return query(args);
+        },
+        async update({ args, query }) {
+          args.select = args.select || presentationDefaultSelect;
+          return query(args);
+        },
+      },
       product: {
         async create({ args, query }) {
           args.select = args.select || productDefaultSelect;
@@ -99,50 +166,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
       permission: {
         async findMany({ args, query }) {
           args.select = args.select || permissionDefaultSelect;
-          return query(args);
-        },
-      },
-      branch: {
-        async create({ args, query }) {
-          args.select = args.select || branchDefaultSelect;
-          return query(args);
-        },
-        async findMany({ args, query }) {
-          args.select = args.select || branchDefaultSelect;
-          return query(args);
-        },
-        async findUnique({ args, query }) {
-          args.select = args.select || branchDefaultSelect;
-          return query(args);
-        },
-        async findFirst({ args, query }) {
-          args.select = args.select || branchDefaultSelect;
-          return query(args);
-        },
-        async update({ args, query }) {
-          args.select = args.select || branchDefaultSelect;
-          return query(args);
-        },
-      },
-      category: {
-        async create({ args, query }) {
-          args.select = args.select || categoryDefaultSelect;
-          return query(args);
-        },
-        async findMany({ args, query }) {
-          args.select = args.select || categoryDefaultSelect;
-          return query(args);
-        },
-        async findUnique({ args, query }) {
-          args.select = args.select || categoryDefaultSelect;
-          return query(args);
-        },
-        async findFirst({ args, query }) {
-          args.select = args.select || categoryDefaultSelect;
-          return query(args);
-        },
-        async update({ args, query }) {
-          args.select = args.select || categoryDefaultSelect;
           return query(args);
         },
       },

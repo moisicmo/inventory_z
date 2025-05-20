@@ -12,9 +12,9 @@ CREATE TYPE "TypeReference" AS ENUM ('inputs', 'outputs');
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "numberDocument" VARCHAR NOT NULL,
-    "typeDocument" "TypeDocument" NOT NULL,
+    "typeDocument" "TypeDocument" NOT NULL DEFAULT 'DNI',
     "name" VARCHAR NOT NULL,
     "lastName" VARCHAR NOT NULL,
     "email" VARCHAR,
@@ -28,8 +28,8 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "staffs" (
-    "userId" VARCHAR NOT NULL,
-    "roleId" VARCHAR NOT NULL,
+    "userId" UUID NOT NULL,
+    "roleId" UUID NOT NULL,
     "password" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -40,7 +40,7 @@ CREATE TABLE "staffs" (
 
 -- CreateTable
 CREATE TABLE "roles" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -51,7 +51,7 @@ CREATE TABLE "roles" (
 
 -- CreateTable
 CREATE TABLE "permissions" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
     "description" VARCHAR,
     "active" BOOLEAN NOT NULL DEFAULT true,
@@ -63,10 +63,10 @@ CREATE TABLE "permissions" (
 
 -- CreateTable
 CREATE TABLE "cashClosures" (
-    "id" TEXT NOT NULL,
-    "userId" VARCHAR NOT NULL,
+    "id" UUID NOT NULL,
+    "userId" UUID NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
-    "totalAmount" DOUBLE PRECISION NOT NULL,
+    "totalAmount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "cashClosures_pkey" PRIMARY KEY ("id")
@@ -74,8 +74,8 @@ CREATE TABLE "cashClosures" (
 
 -- CreateTable
 CREATE TABLE "forgot_passwords" (
-    "id" TEXT NOT NULL,
-    "userId" VARCHAR NOT NULL,
+    "id" UUID NOT NULL,
+    "userId" UUID NOT NULL,
     "code" VARCHAR NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -85,8 +85,8 @@ CREATE TABLE "forgot_passwords" (
 
 -- CreateTable
 CREATE TABLE "sessions" (
-    "id" TEXT NOT NULL,
-    "userId" VARCHAR NOT NULL,
+    "id" UUID NOT NULL,
+    "userId" UUID NOT NULL,
     "token" VARCHAR NOT NULL,
     "ipAddress" VARCHAR NOT NULL,
     "userAgent" VARCHAR NOT NULL,
@@ -98,28 +98,15 @@ CREATE TABLE "sessions" (
 
 -- CreateTable
 CREATE TABLE "customers" (
-    "userId" VARCHAR NOT NULL,
+    "userId" UUID NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL
 );
 
 -- CreateTable
-CREATE TABLE "branches" (
-    "id" TEXT NOT NULL,
-    "name" VARCHAR NOT NULL,
-    "address" VARCHAR,
-    "phone" VARCHAR,
-    "active" BOOLEAN NOT NULL DEFAULT true,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "branches_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "categories" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -130,8 +117,8 @@ CREATE TABLE "categories" (
 
 -- CreateTable
 CREATE TABLE "products" (
-    "id" TEXT NOT NULL,
-    "categoryId" VARCHAR NOT NULL,
+    "id" UUID NOT NULL,
+    "categoryId" UUID NOT NULL,
     "code" VARCHAR,
     "name" VARCHAR NOT NULL,
     "image" VARCHAR,
@@ -146,9 +133,9 @@ CREATE TABLE "products" (
 
 -- CreateTable
 CREATE TABLE "Presentation" (
-    "id" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "branchId" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "productId" UUID NOT NULL,
+    "branchId" UUID NOT NULL,
     "typeUnit" "TypeUnit" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
 
@@ -157,9 +144,9 @@ CREATE TABLE "Presentation" (
 
 -- CreateTable
 CREATE TABLE "prices" (
-    "id" TEXT NOT NULL,
-    "presentationId" TEXT NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
+    "id" UUID NOT NULL,
+    "presentationId" UUID NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "discount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "typeDiscount" "TypeDiscount" NOT NULL DEFAULT 'MONTO',
     "changedReason" TEXT NOT NULL DEFAULT 'creado',
@@ -171,8 +158,8 @@ CREATE TABLE "prices" (
 
 -- CreateTable
 CREATE TABLE "UnitConversion" (
-    "id" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "productId" UUID NOT NULL,
     "fromUnit" "TypeUnit" NOT NULL,
     "toUnit" "TypeUnit" NOT NULL,
     "factor" INTEGER NOT NULL,
@@ -181,10 +168,23 @@ CREATE TABLE "UnitConversion" (
 );
 
 -- CreateTable
+CREATE TABLE "branches" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR NOT NULL,
+    "address" VARCHAR,
+    "phone" VARCHAR,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "branches_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "inputs" (
-    "id" TEXT NOT NULL,
-    "branchId" VARCHAR NOT NULL,
-    "presentationId" VARCHAR NOT NULL,
+    "id" UUID NOT NULL,
+    "branchId" UUID NOT NULL,
+    "presentationId" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "dueDate" DATE,
@@ -196,10 +196,10 @@ CREATE TABLE "inputs" (
 
 -- CreateTable
 CREATE TABLE "outputs" (
-    "id" TEXT NOT NULL,
-    "branchId" VARCHAR NOT NULL,
-    "orderId" VARCHAR NOT NULL,
-    "presentationId" VARCHAR NOT NULL,
+    "id" UUID NOT NULL,
+    "branchId" UUID NOT NULL,
+    "orderId" UUID NOT NULL,
+    "presentationId" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "detail" VARCHAR NOT NULL,
@@ -210,19 +210,20 @@ CREATE TABLE "outputs" (
 
 -- CreateTable
 CREATE TABLE "kardexs" (
-    "branchId" VARCHAR NOT NULL,
-    "presentationId" VARCHAR NOT NULL,
-    "referenceId" VARCHAR NOT NULL,
+    "branchId" UUID NOT NULL,
+    "presentationId" UUID NOT NULL,
+    "referenceId" UUID NOT NULL,
     "typeReference" "TypeReference" NOT NULL,
-    "stock" INTEGER NOT NULL
+    "stock" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
 CREATE TABLE "orders" (
-    "id" TEXT NOT NULL,
-    "customerId" VARCHAR NOT NULL,
-    "branchId" TEXT NOT NULL,
-    "closureId" TEXT,
+    "id" UUID NOT NULL,
+    "customerId" UUID NOT NULL,
+    "branchId" UUID NOT NULL,
+    "closureId" UUID,
     "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -233,11 +234,11 @@ CREATE TABLE "orders" (
 
 -- CreateTable
 CREATE TABLE "audit_logs" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "userId" UUID NOT NULL,
     "action" TEXT NOT NULL,
     "entity" TEXT NOT NULL,
-    "entityId" INTEGER NOT NULL,
+    "entityId" UUID NOT NULL,
     "dataBefore" JSONB,
     "dataAfter" JSONB,
     "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -248,16 +249,16 @@ CREATE TABLE "audit_logs" (
 
 -- CreateTable
 CREATE TABLE "_PermissionToRole" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
+    "A" UUID NOT NULL,
+    "B" UUID NOT NULL,
 
     CONSTRAINT "_PermissionToRole_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
 CREATE TABLE "_BranchToStaff" (
-    "A" TEXT NOT NULL,
-    "B" VARCHAR NOT NULL,
+    "A" UUID NOT NULL,
+    "B" UUID NOT NULL,
 
     CONSTRAINT "_BranchToStaff_AB_pkey" PRIMARY KEY ("A","B")
 );

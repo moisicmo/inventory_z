@@ -13,19 +13,20 @@ export async function createKardexOutputTrigger(prisma: PrismaClient) {
         SELECT "stock"
         FROM "kardexs"
         WHERE "presentationId" = NEW."presentationId"
-        ORDER BY "referenceId" DESC
+          AND "branchId" = NEW."branchId"
+        ORDER BY "createdAt" DESC
         LIMIT 1
       ), 0) INTO last_stock;
 
       -- Insertar nuevo registro en kardex restando la cantidad
       INSERT INTO "kardexs" (
-        "presentationId", "referenceId", "typeReference", "detail", "stock"
+        "branchId", "presentationId", "referenceId", "typeReference", "stock"
       )
       VALUES (
+        NEW."branchId",
         NEW."presentationId",
         NEW."id",
         'outputs',
-        'venta',
         last_stock - NEW."quantity"
       );
 

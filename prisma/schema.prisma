@@ -13,9 +13,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model User {
-  id                    String              @id @default(uuid())
+  id                    String              @id @default(uuid()) @db.Uuid
   numberDocument        String              @db.VarChar @unique
-  typeDocument          TypeDocument
+  typeDocument          TypeDocument        @default(DNI)
   name                  String              @db.VarChar
   lastName              String              @db.VarChar
   email                 String?             @db.VarChar @unique
@@ -31,8 +31,8 @@ model User {
   @@map("users")  
 }
 model Staff {
-  userId                String              @db.VarChar @unique
-  roleId                String              @db.VarChar
+  userId                String              @db.Uuid @unique
+  roleId                String              @db.Uuid
   password              String              @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
@@ -45,7 +45,7 @@ model Staff {
   @@id([userId])
 }
 model Role {
-  id                    String              @id @default(uuid())
+  id                    String              @id @default(uuid()) @db.Uuid
   name                  String              @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
@@ -55,7 +55,7 @@ model Role {
   @@map("roles")
 }
 model Permission {
-  id                    String              @id @default(uuid())
+  id                    String              @id @default(uuid()) @db.Uuid
   name                  String              @db.VarChar
   description           String?             @db.VarChar
   active                Boolean             @default(true)
@@ -65,18 +65,18 @@ model Permission {
   @@map("permissions")
 }
 model CashClosure {
-  id                    String              @id @default(uuid())
-  userId                String              @db.VarChar
+  id                    String              @id @default(uuid()) @db.Uuid
+  userId                String              @db.Uuid
   endTime               DateTime
-  totalAmount           Float
+  totalAmount           Float               @default(0.0)
   createdAt             DateTime            @default(now())
   staff                 Staff               @relation(fields: [userId], references: [userId])
   orers                 Order[]
   @@map("cashClosures")
 }
 model forgotPassword {
-  id                    String              @id @default(uuid())
-  userId                String              @db.VarChar
+  id                    String              @id @default(uuid()) @db.Uuid
+  userId                String              @db.Uuid
   code                  String              @db.VarChar
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -84,8 +84,8 @@ model forgotPassword {
   @@map("forgot_passwords")
 }
 model Session {
-  id                    String              @id @default(uuid())
-  userId                String              @db.VarChar
+  id                    String              @id @default(uuid()) @db.Uuid
+  userId                String              @db.Uuid
   token                 String              @db.VarChar @unique
   ipAddress             String              @db.VarChar
   userAgent             String              @db.VarChar
@@ -95,7 +95,7 @@ model Session {
   @@map("sessions")
 }
 model Customer {
-  userId                String              @db.VarChar @unique
+  userId                String              @db.Uuid @unique
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -103,25 +103,8 @@ model Customer {
   orers                 Order[]
   @@map("customers")
 }
-
-model Branch {
-  id                    String              @id @default(uuid())
-  name                  String              @db.VarChar
-  address               String?             @db.VarChar
-  phone                 String?             @db.VarChar
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
-  staffs                Staff[]
-  karedxs               Kardex[]
-  inputs                Input[]
-  outputs               Output[]
-  orders                Order[]
-  presentations         Presentation[]
-  @@map("branches")
-}
 model Category {
-  id                    String              @id @default(uuid())
+  id                    String              @id @default(uuid()) @db.Uuid
   name                  String              @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
@@ -130,8 +113,8 @@ model Category {
   @@map("categories")
 }
 model Product {
-  id                    String              @id @default(uuid())
-  categoryId            String              @db.VarChar
+  id                    String              @id @default(uuid()) @db.Uuid
+  categoryId            String              @db.Uuid
   code                  String?             @db.VarChar
   name                  String              @db.VarChar
   image                 String?             @db.VarChar
@@ -146,9 +129,9 @@ model Product {
   @@map("products")
 }
 model Presentation {
-  id                    String              @id @default(uuid())
-  productId             String
-  branchId              String
+  id                    String              @id @default(uuid()) @db.Uuid
+  productId             String              @db.Uuid 
+  branchId              String              @db.Uuid
   typeUnit              TypeUnit
   active                Boolean             @default(true)
   product               Product             @relation(fields: [productId], references: [id])
@@ -160,9 +143,9 @@ model Presentation {
   @@unique([productId, branchId, typeUnit])
 }
 model Price {
-  id                    String              @id @default(uuid())
-  presentationId        String
-  price                 Float
+  id                    String              @id @default(uuid()) @db.Uuid
+  presentationId        String              @db.Uuid
+  price                 Float               @default(0.0)  
   discount              Float               @default(0.0)
   typeDiscount          TypeDiscount        @default(MONTO)
   changedReason         String              @default("creado")
@@ -172,18 +155,34 @@ model Price {
   @@map("prices")
 }
 model UnitConversion {
-  id                    String              @id @default(uuid())
-  productId             String
+  id                    String              @id @default(uuid()) @db.Uuid
+  productId             String              @db.Uuid
   fromUnit              TypeUnit
   toUnit                TypeUnit
   factor                Int
   product               Product             @relation(fields: [productId], references: [id])
   @@unique([productId, fromUnit, toUnit])
 }
+model Branch {
+  id                    String              @id @default(uuid()) @db.Uuid
+  name                  String              @db.VarChar
+  address               String?             @db.VarChar
+  phone                 String?             @db.VarChar
+  active                Boolean             @default(true)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  staffs                Staff[]
+  karedxs               Kardex[]
+  inputs                Input[]
+  outputs               Output[]
+  orders                Order[]
+  presentations         Presentation[]
+  @@map("branches")
+}
 model Input {
-  id                    String              @id @default(uuid())
-  branchId              String              @db.VarChar
-  presentationId        String              @db.VarChar
+  id                    String              @id @default(uuid()) @db.Uuid
+  branchId              String              @db.Uuid
+  presentationId        String              @db.Uuid
   quantity              Int                 @db.Integer
   price                 Float               @default(0.0)
   dueDate               DateTime?           @db.Date
@@ -194,10 +193,10 @@ model Input {
   @@map("inputs")
 }
 model Output {
-  id                    String              @id @default(uuid())
-  branchId              String              @db.VarChar
-  orderId               String              @db.VarChar
-  presentationId        String              @db.VarChar
+  id                    String              @id @default(uuid()) @db.Uuid
+  branchId              String              @db.Uuid
+  orderId               String              @db.Uuid
+  presentationId        String              @db.Uuid
   quantity              Int                 @db.Integer
   price                 Float               @default(0.0)
   detail                String              @db.VarChar
@@ -208,21 +207,22 @@ model Output {
   @@map("outputs")
 }
 model Kardex {
-  branchId              String              @db.VarChar
-  presentationId        String              @db.VarChar
-  referenceId           String              @db.VarChar
+  branchId              String              @db.Uuid
+  presentationId        String              @db.Uuid
+  referenceId           String              @db.Uuid
   typeReference         TypeReference
   stock                 Int                 @db.Integer
   presentation          Presentation        @relation(fields: [presentationId], references: [id])
   branch                Branch              @relation(fields: [branchId], references: [id])
+  createdAt             DateTime            @default(now())
   @@unique([referenceId,typeReference])
   @@map("kardexs")
 }
 model Order {
-  id                    String              @id @default(uuid())
-  customerId            String              @db.VarChar
-  branchId              String
-  closureId             String?
+  id                    String              @id @default(uuid()) @db.Uuid
+  customerId            String              @db.Uuid
+  branchId              String              @db.Uuid
+  closureId             String?             @db.Uuid 
   amount                Float               @default(0.0)
   active                Boolean             @db.Boolean @default(true)
   createdAt             DateTime            @default(now())
@@ -234,11 +234,11 @@ model Order {
   @@map("orders")
 }
 model AuditLog {
-  id                    String              @id @default(uuid())
-  userId                String         
+  id                    String              @id @default(uuid()) @db.Uuid
+  userId                String              @db.Uuid
   action                String              // 'CREATE', 'UPDATE', 'DELETE'
   entity                String              // Nombre de la tabla: 'Price', 'Product', etc.
-  entityId              Int                 // ID del registro afectado
+  entityId              String              @db.Uuid
   dataBefore            Json?               // Estado anterior (si aplica)
   dataAfter             Json?               // Estado nuevo (si aplica)
   timestamp             DateTime            @default(now())
