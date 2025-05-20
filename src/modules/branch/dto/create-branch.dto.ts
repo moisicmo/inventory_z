@@ -3,7 +3,6 @@ import { IsString } from "class-validator";
 
 export class CreateBranchDto {
 
-
   @IsString()
   @ApiProperty({
     example: 'Product 1',

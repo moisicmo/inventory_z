@@ -15,5 +15,5 @@ export class CreateRoleDto {
     example: [1, 2, 3],
     description: 'Lista de permisos del rol',
   })
-  permissionIds: number[];
+  permissionIds: string[];
 }

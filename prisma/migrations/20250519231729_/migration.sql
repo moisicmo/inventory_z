@@ -12,14 +12,14 @@ CREATE TYPE "TypeReference" AS ENUM ('inputs', 'outputs');
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" SERIAL NOT NULL,
-    "numberDocument" VARCHAR(255) NOT NULL,
+    "id" TEXT NOT NULL,
+    "numberDocument" VARCHAR NOT NULL,
     "typeDocument" "TypeDocument" NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "lastName" VARCHAR(255) NOT NULL,
-    "email" VARCHAR(255),
+    "name" VARCHAR NOT NULL,
+    "lastName" VARCHAR NOT NULL,
+    "email" VARCHAR,
     "active" BOOLEAN NOT NULL DEFAULT true,
-    "codeActivation" VARCHAR(255),
+    "codeActivation" VARCHAR,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -28,9 +28,9 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "staffs" (
-    "userId" INTEGER NOT NULL,
-    "roleId" INTEGER NOT NULL,
-    "password" VARCHAR(255) NOT NULL,
+    "userId" VARCHAR NOT NULL,
+    "roleId" VARCHAR NOT NULL,
+    "password" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -40,8 +40,8 @@ CREATE TABLE "staffs" (
 
 -- CreateTable
 CREATE TABLE "roles" (
-    "id" SERIAL NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
+    "id" TEXT NOT NULL,
+    "name" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -51,9 +51,9 @@ CREATE TABLE "roles" (
 
 -- CreateTable
 CREATE TABLE "permissions" (
-    "id" SERIAL NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "description" VARCHAR(255),
+    "id" TEXT NOT NULL,
+    "name" VARCHAR NOT NULL,
+    "description" VARCHAR,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -63,8 +63,8 @@ CREATE TABLE "permissions" (
 
 -- CreateTable
 CREATE TABLE "cashClosures" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "userId" VARCHAR NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
     "totalAmount" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -74,9 +74,9 @@ CREATE TABLE "cashClosures" (
 
 -- CreateTable
 CREATE TABLE "forgot_passwords" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "code" VARCHAR(255) NOT NULL,
+    "id" TEXT NOT NULL,
+    "userId" VARCHAR NOT NULL,
+    "code" VARCHAR NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -85,11 +85,11 @@ CREATE TABLE "forgot_passwords" (
 
 -- CreateTable
 CREATE TABLE "sessions" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "token" VARCHAR(255) NOT NULL,
-    "ipAddress" VARCHAR(255) NOT NULL,
-    "userAgent" VARCHAR(255) NOT NULL,
+    "id" TEXT NOT NULL,
+    "userId" VARCHAR NOT NULL,
+    "token" VARCHAR NOT NULL,
+    "ipAddress" VARCHAR NOT NULL,
+    "userAgent" VARCHAR NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -98,7 +98,7 @@ CREATE TABLE "sessions" (
 
 -- CreateTable
 CREATE TABLE "customers" (
-    "userId" INTEGER NOT NULL,
+    "userId" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL
@@ -106,10 +106,10 @@ CREATE TABLE "customers" (
 
 -- CreateTable
 CREATE TABLE "branches" (
-    "id" SERIAL NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "address" VARCHAR(255),
-    "phone" VARCHAR(255),
+    "id" TEXT NOT NULL,
+    "name" VARCHAR NOT NULL,
+    "address" VARCHAR,
+    "phone" VARCHAR,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -119,8 +119,8 @@ CREATE TABLE "branches" (
 
 -- CreateTable
 CREATE TABLE "categories" (
-    "id" SERIAL NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
+    "id" TEXT NOT NULL,
+    "name" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -130,12 +130,12 @@ CREATE TABLE "categories" (
 
 -- CreateTable
 CREATE TABLE "products" (
-    "id" SERIAL NOT NULL,
-    "categoryId" INTEGER NOT NULL,
-    "code" VARCHAR(255),
-    "name" VARCHAR(255) NOT NULL,
-    "image" VARCHAR(255),
-    "barCode" VARCHAR(255),
+    "id" TEXT NOT NULL,
+    "categoryId" VARCHAR NOT NULL,
+    "code" VARCHAR,
+    "name" VARCHAR NOT NULL,
+    "image" VARCHAR,
+    "barCode" VARCHAR,
     "visible" BOOLEAN NOT NULL DEFAULT true,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -145,31 +145,50 @@ CREATE TABLE "products" (
 );
 
 -- CreateTable
+CREATE TABLE "Presentation" (
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "branchId" TEXT NOT NULL,
+    "typeUnit" "TypeUnit" NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+
+    CONSTRAINT "Presentation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "prices" (
-    "id" SERIAL NOT NULL,
-    "productId" INTEGER NOT NULL,
-    "branchId" INTEGER NOT NULL,
-    "typeUnit" "TypeUnit" NOT NULL DEFAULT 'UNIDAD',
-    "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "id" TEXT NOT NULL,
+    "presentationId" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
     "discount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "typeDiscount" "TypeDiscount" NOT NULL DEFAULT 'MONTO',
-    "active" BOOLEAN NOT NULL DEFAULT true,
     "changedReason" TEXT NOT NULL DEFAULT 'creado',
+    "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "prices_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "UnitConversion" (
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "fromUnit" "TypeUnit" NOT NULL,
+    "toUnit" "TypeUnit" NOT NULL,
+    "factor" INTEGER NOT NULL,
+
+    CONSTRAINT "UnitConversion_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "inputs" (
-    "id" SERIAL NOT NULL,
-    "branchId" INTEGER NOT NULL,
-    "productId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "branchId" VARCHAR NOT NULL,
+    "presentationId" VARCHAR NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "dueDate" DATE,
-    "detail" VARCHAR(255) NOT NULL,
+    "detail" VARCHAR NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "inputs_pkey" PRIMARY KEY ("id")
@@ -177,24 +196,33 @@ CREATE TABLE "inputs" (
 
 -- CreateTable
 CREATE TABLE "outputs" (
-    "id" SERIAL NOT NULL,
-    "branchId" INTEGER NOT NULL,
-    "orderId" INTEGER NOT NULL,
-    "productId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "branchId" VARCHAR NOT NULL,
+    "orderId" VARCHAR NOT NULL,
+    "presentationId" VARCHAR NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
-    "detail" VARCHAR(255) NOT NULL,
+    "detail" VARCHAR NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "outputs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "kardexs" (
+    "branchId" VARCHAR NOT NULL,
+    "presentationId" VARCHAR NOT NULL,
+    "referenceId" VARCHAR NOT NULL,
+    "typeReference" "TypeReference" NOT NULL,
+    "stock" INTEGER NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "orders" (
-    "id" SERIAL NOT NULL,
-    "customerId" INTEGER NOT NULL,
-    "branchId" INTEGER NOT NULL,
-    "closureId" INTEGER,
+    "id" TEXT NOT NULL,
+    "customerId" VARCHAR NOT NULL,
+    "branchId" TEXT NOT NULL,
+    "closureId" TEXT,
     "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -204,18 +232,9 @@ CREATE TABLE "orders" (
 );
 
 -- CreateTable
-CREATE TABLE "kardexs" (
-    "branchId" INTEGER NOT NULL,
-    "productId" INTEGER NOT NULL,
-    "referenceId" INTEGER NOT NULL,
-    "typeReference" "TypeReference" NOT NULL,
-    "stock" INTEGER NOT NULL
-);
-
--- CreateTable
 CREATE TABLE "audit_logs" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "action" TEXT NOT NULL,
     "entity" TEXT NOT NULL,
     "entityId" INTEGER NOT NULL,
@@ -229,16 +248,16 @@ CREATE TABLE "audit_logs" (
 
 -- CreateTable
 CREATE TABLE "_PermissionToRole" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
 
     CONSTRAINT "_PermissionToRole_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
 CREATE TABLE "_BranchToStaff" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
+    "A" TEXT NOT NULL,
+    "B" VARCHAR NOT NULL,
 
     CONSTRAINT "_BranchToStaff_AB_pkey" PRIMARY KEY ("A","B")
 );
@@ -257,6 +276,12 @@ CREATE UNIQUE INDEX "sessions_token_key" ON "sessions"("token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "customers_userId_key" ON "customers"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Presentation_productId_branchId_typeUnit_key" ON "Presentation"("productId", "branchId", "typeUnit");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UnitConversion_productId_fromUnit_toUnit_key" ON "UnitConversion"("productId", "fromUnit", "toUnit");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "kardexs_referenceId_typeReference_key" ON "kardexs"("referenceId", "typeReference");
@@ -289,16 +314,22 @@ ALTER TABLE "customers" ADD CONSTRAINT "customers_userId_fkey" FOREIGN KEY ("use
 ALTER TABLE "products" ADD CONSTRAINT "products_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "prices" ADD CONSTRAINT "prices_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Presentation" ADD CONSTRAINT "Presentation_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "prices" ADD CONSTRAINT "prices_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Presentation" ADD CONSTRAINT "Presentation_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "prices" ADD CONSTRAINT "prices_presentationId_fkey" FOREIGN KEY ("presentationId") REFERENCES "Presentation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UnitConversion" ADD CONSTRAINT "UnitConversion_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "inputs" ADD CONSTRAINT "inputs_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "inputs" ADD CONSTRAINT "inputs_presentationId_fkey" FOREIGN KEY ("presentationId") REFERENCES "Presentation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -307,7 +338,13 @@ ALTER TABLE "outputs" ADD CONSTRAINT "outputs_branchId_fkey" FOREIGN KEY ("branc
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "orders"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "outputs" ADD CONSTRAINT "outputs_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "outputs" ADD CONSTRAINT "outputs_presentationId_fkey" FOREIGN KEY ("presentationId") REFERENCES "Presentation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_presentationId_fkey" FOREIGN KEY ("presentationId") REFERENCES "Presentation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "orders" ADD CONSTRAINT "orders_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -317,12 +354,6 @@ ALTER TABLE "orders" ADD CONSTRAINT "orders_branchId_fkey" FOREIGN KEY ("branchI
 
 -- AddForeignKey
 ALTER TABLE "orders" ADD CONSTRAINT "orders_closureId_fkey" FOREIGN KEY ("closureId") REFERENCES "cashClosures"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

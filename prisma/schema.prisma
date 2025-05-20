@@ -13,14 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model User {
-  id                    Int                 @id @default(autoincrement())
-  numberDocument        String              @db.VarChar(255) @unique
+  id                    String              @id @default(uuid())
+  numberDocument        String              @db.VarChar @unique
   typeDocument          TypeDocument
-  name                  String              @db.VarChar(255)
-  lastName              String              @db.VarChar(255)
-  email                 String?             @db.VarChar(255) @unique
+  name                  String              @db.VarChar
+  lastName              String              @db.VarChar
+  email                 String?             @db.VarChar @unique
   active                Boolean             @default(true)
-  codeActivation        String?             @db.VarChar(255)
+  codeActivation        String?             @db.VarChar
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   customer              Customer?
@@ -31,9 +31,9 @@ model User {
   @@map("users")  
 }
 model Staff {
-  userId                Int                 @db.Integer @unique
-  roleId                Int                 @db.Integer
-  password              String              @db.VarChar(255)
+  userId                String              @db.VarChar @unique
+  roleId                String              @db.VarChar
+  password              String              @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -45,8 +45,8 @@ model Staff {
   @@id([userId])
 }
 model Role {
-  id                    Int                 @id @default(autoincrement())
-  name                  String              @db.VarChar(255)
+  id                    String              @id @default(uuid())
+  name                  String              @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -55,9 +55,9 @@ model Role {
   @@map("roles")
 }
 model Permission {
-  id                    Int                 @id @default(autoincrement())
-  name                  String              @db.VarChar(255)
-  description           String?             @db.VarChar(255)
+  id                    String              @id @default(uuid())
+  name                  String              @db.VarChar
+  description           String?             @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -65,8 +65,8 @@ model Permission {
   @@map("permissions")
 }
 model CashClosure {
-  id                    Int                 @id @default(autoincrement())
-  userId                Int                 @db.Integer
+  id                    String              @id @default(uuid())
+  userId                String              @db.VarChar
   endTime               DateTime
   totalAmount           Float
   createdAt             DateTime            @default(now())
@@ -75,27 +75,27 @@ model CashClosure {
   @@map("cashClosures")
 }
 model forgotPassword {
-  id                    Int                 @id @default(autoincrement())
-  userId                Int                 @db.Integer
-  code                  String              @db.VarChar(255)
+  id                    String              @id @default(uuid())
+  userId                String              @db.VarChar
+  code                  String              @db.VarChar
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   user                  User                @relation(fields: [userId], references: [id])
   @@map("forgot_passwords")
 }
 model Session {
-  id                    Int                 @id @default(autoincrement())
-  userId                Int                 @db.Integer
-  token                 String              @db.VarChar(255) @unique
-  ipAddress             String              @db.VarChar(255)
-  userAgent             String              @db.VarChar(255)
+  id                    String              @id @default(uuid())
+  userId                String              @db.VarChar
+  token                 String              @db.VarChar @unique
+  ipAddress             String              @db.VarChar
+  userAgent             String              @db.VarChar
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   user                  User                @relation(fields: [userId], references: [id])
   @@map("sessions")
 }
 model Customer {
-  userId                Int                 @db.Integer @unique
+  userId                String              @db.VarChar @unique
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -105,10 +105,10 @@ model Customer {
 }
 
 model Branch {
-  id                    Int                 @id @default(autoincrement())
-  name                  String              @db.VarChar(255)
-  address               String?             @db.VarChar(255)
-  phone                 String?             @db.VarChar(255)
+  id                    String              @id @default(uuid())
+  name                  String              @db.VarChar
+  address               String?             @db.VarChar
+  phone                 String?             @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -117,12 +117,12 @@ model Branch {
   inputs                Input[]
   outputs               Output[]
   orders                Order[]
-  prices                Price[]
+  presentations         Presentation[]
   @@map("branches")
 }
 model Category {
-  id                    Int                 @id @default(autoincrement())
-  name                  String              @db.VarChar(255)
+  id                    String              @id @default(uuid())
+  name                  String              @db.VarChar
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
@@ -130,82 +130,99 @@ model Category {
   @@map("categories")
 }
 model Product {
-  id                    Int                 @id @default(autoincrement())
-  categoryId            Int                 @db.Integer
-  code                  String?             @db.VarChar(255)
-  name                  String              @db.VarChar(255)
-  image                 String?             @db.VarChar(255)
-  barCode               String?             @db.VarChar(255)
+  id                    String              @id @default(uuid())
+  categoryId            String              @db.VarChar
+  code                  String?             @db.VarChar
+  name                  String              @db.VarChar
+  image                 String?             @db.VarChar
+  barCode               String?             @db.VarChar
   visible               Boolean             @default(true)
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
-  inputs                Input[]
-  outputs               Output[]
-  prices                Price[]
-  kardexs               Kardex[]
-  category              Category           @relation(fields: [categoryId], references: [id])
+  category              Category            @relation(fields: [categoryId], references: [id])
+  presentations         Presentation[]
+  unitConversions       UnitConversion[]
   @@map("products")
 }
-model Price {
-  id                    Int                 @id @default(autoincrement())
-  productId             Int                 @db.Integer
-  branchId              Int                 @db.Integer
-  typeUnit              TypeUnit            @default(UNIDAD)
-  price                 Float               @default(0.0)
-  discount              Float               @default(0.0)
-  typeDiscount          TypeDiscount        @default(MONTO)
+model Presentation {
+  id                    String              @id @default(uuid())
+  productId             String
+  branchId              String
+  typeUnit              TypeUnit
   active                Boolean             @default(true)
-  changedReason         String              @default("creado")
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
   product               Product             @relation(fields: [productId], references: [id])
   branch                Branch              @relation(fields: [branchId], references: [id])
+  prices                Price[]
+  inputs                Input[]
+  outputs               Output[]
+  kardexs               Kardex[]
+  @@unique([productId, branchId, typeUnit])
+}
+model Price {
+  id                    String              @id @default(uuid())
+  presentationId        String
+  price                 Float
+  discount              Float               @default(0.0)
+  typeDiscount          TypeDiscount        @default(MONTO)
+  changedReason         String              @default("creado")
+  active                Boolean             @default(true)
+  createdAt             DateTime            @default(now())
+  presentation          Presentation        @relation(fields: [presentationId], references: [id])
   @@map("prices")
 }
+model UnitConversion {
+  id                    String              @id @default(uuid())
+  productId             String
+  fromUnit              TypeUnit
+  toUnit                TypeUnit
+  factor                Int
+  product               Product             @relation(fields: [productId], references: [id])
+  @@unique([productId, fromUnit, toUnit])
+}
 model Input {
-  id                    Int                 @id @default(autoincrement())
-  branchId              Int                 @db.Integer
-  productId             Int                 @db.Integer
+  id                    String              @id @default(uuid())
+  branchId              String              @db.VarChar
+  presentationId        String              @db.VarChar
   quantity              Int                 @db.Integer
   price                 Float               @default(0.0)
   dueDate               DateTime?           @db.Date
-  detail                String              @db.VarChar(255)
+  detail                String              @db.VarChar
   createdAt             DateTime            @default(now())
   branch                Branch              @relation(fields: [branchId], references: [id])
-  product               Product             @relation(fields: [productId], references: [id])
+  presentation          Presentation        @relation(fields: [presentationId], references: [id])
   @@map("inputs")
 }
 model Output {
-  id                    Int                 @id @default(autoincrement())
-  branchId              Int                 @db.Integer
-  orderId               Int                 @db.Integer
-  productId             Int                 @db.Integer
+  id                    String              @id @default(uuid())
+  branchId              String              @db.VarChar
+  orderId               String              @db.VarChar
+  presentationId        String              @db.VarChar
   quantity              Int                 @db.Integer
   price                 Float               @default(0.0)
-  detail                String              @db.VarChar(255)
+  detail                String              @db.VarChar
   createdAt             DateTime            @default(now())
   branch                Branch              @relation(fields: [branchId], references: [id])
   order                 Order               @relation(fields: [orderId], references: [id])
-  product               Product             @relation(fields: [productId], references: [id])
+  presentation          Presentation        @relation(fields: [presentationId], references: [id])
   @@map("outputs")
 }
 model Kardex {
-  branchId              Int                 @db.Integer
-  productId             Int                 @db.Integer
-  referenceId           Int                 @db.Integer
+  branchId              String              @db.VarChar
+  presentationId        String              @db.VarChar
+  referenceId           String              @db.VarChar
   typeReference         TypeReference
   stock                 Int                 @db.Integer
-  product               Product             @relation(fields: [productId], references: [id])
+  presentation          Presentation        @relation(fields: [presentationId], references: [id])
   branch                Branch              @relation(fields: [branchId], references: [id])
   @@unique([referenceId,typeReference])
   @@map("kardexs")
 }
 model Order {
-  id                    Int                 @id @default(autoincrement())
-  customerId            Int                 @db.Integer
-  branchId              Int
-  closureId             Int?
+  id                    String              @id @default(uuid())
+  customerId            String              @db.VarChar
+  branchId              String
+  closureId             String?
   amount                Float               @default(0.0)
   active                Boolean             @db.Boolean @default(true)
   createdAt             DateTime            @default(now())
@@ -217,8 +234,8 @@ model Order {
   @@map("orders")
 }
 model AuditLog {
-  id                    Int                 @id @default(autoincrement())
-  userId                Int         
+  id                    String              @id @default(uuid())
+  userId                String         
   action                String              // 'CREATE', 'UPDATE', 'DELETE'
   entity                String              // Nombre de la tabla: 'Price', 'Product', etc.
   entityId              Int                 // ID del registro afectado

@@ -40,18 +40,20 @@ export class ProductService {
         categoryId,
         name,
         image: imageUrl,
-        prices: {
+        presentations: {
           create: {
             branchId,
             typeUnit,
-            price,
+            prices: {
+              create: {
+                price,
+              }
+            },
           },
         },
       },
     });
   }
-
-
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
@@ -73,7 +75,7 @@ export class ProductService {
 
 
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
       select: productDefaultSelect,
@@ -86,7 +88,7 @@ export class ProductService {
     return product;
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto, image?: Express.Multer.File) {
+  async update(id: string, updateProductDto: UpdateProductDto, image?: Express.Multer.File) {
     const { categoryId, name, branchId, typeUnit, price, changedReason } = updateProductDto;
 
     const existingProduct = await this.findOne(id);
@@ -104,15 +106,14 @@ export class ProductService {
       imageUrl = uploadResult.secure_url;
     }
 
-    const resolvedBranchId = branchId ?? existingProduct.prices[0].branch.id;
+    const resolvedBranchId = branchId ?? existingProduct.presentations[0].branch.id;
 
-    // Validar si ya existe un precio activo con esos valores
-    const existingPrice = await this.prisma.price.findFirst({
+    // Buscar presentación existente
+    const existingPresentation = await this.prisma.presentation.findFirst({
       where: {
-        productId: id,
         branchId: resolvedBranchId,
         typeUnit,
-        price,
+        productId: id,
         active: true,
       },
     });
@@ -123,15 +124,42 @@ export class ProductService {
       ...(imageUrl ? { image: imageUrl } : {}),
     };
 
-    if (!existingPrice) {
-      updateData.prices = {
+    if (!existingPresentation) {
+      // Si no existe presentación, se crea junto con el precio
+      updateData.presentations = {
         create: {
           branchId: resolvedBranchId,
           typeUnit,
-          price,
-          changedReason,
+          prices: {
+            create: {
+              price,
+              changedReason,
+            },
+          },
         },
       };
+    } else {
+      // Si ya existe la presentación, verificamos si ya tiene ese precio activo
+      const existingPrice = await this.prisma.price.findFirst({
+        where: {
+          presentationId: existingPresentation.id,
+          price,
+          active: true,
+        },
+      });
+
+      const resolvedPrice = price ?? existingPrice?.price[0].price;
+
+      if (!existingPrice) {
+        // Creamos nuevo precio si no existe uno igual activo
+        await this.prisma.price.create({
+          data: {
+            presentationId: existingPresentation.id,
+            price: resolvedPrice,
+            changedReason,
+          },
+        });
+      }
     }
 
     return this.prisma.product.update({
@@ -140,10 +168,7 @@ export class ProductService {
     });
   }
 
-
-
-
-  async remove(id: number) {
+  async remove(id: string) {
     await this.findOne(id);
     return await this.prisma.product.update({
       where: { id },

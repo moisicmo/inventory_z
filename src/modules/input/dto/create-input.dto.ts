@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ProductInputDto } from './product-input.dto';
+import { PresentationInputDto } from './product-input.dto';
 
 export class CreateInputDto {
-  @IsNumber()
-  @ApiProperty({ example: 1, description: 'Identificador de la sucursal' })
-  branchId: number;
+  @IsString()
+  @ApiProperty({ example: 'abc', description: 'Identificador de la sucursal' })
+  branchId: string;
 
   @IsString()
   @ApiProperty({
@@ -17,10 +17,10 @@ export class CreateInputDto {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ProductInputDto)
+  @Type(() => PresentationInputDto)
   @ApiProperty({
-    type: [ProductInputDto],
-    description: 'Lista de productos a ingresar',
+    type: [PresentationInputDto],
+    description: 'Lista de presentaciones a ingresar',
   })
-  products: ProductInputDto[];
+  presentations: PresentationInputDto[];
 }

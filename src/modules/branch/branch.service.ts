@@ -36,7 +36,7 @@ export class BranchService {
       };
     }
 
-    async findOne(id: number) {
+    async findOne(id: string) {
       const branch = await this.prisma.branch.findUnique({
         where: { id },
       });
@@ -48,7 +48,7 @@ export class BranchService {
       return branch;
     }
 
-  async update(id: number, updateBranchDto: UpdateBranchDto) {
+  async update(id: string, updateBranchDto: UpdateBranchDto) {
     await this.findOne(id);
 
     return this.prisma.branch.update({
@@ -57,7 +57,7 @@ export class BranchService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.findOne(id);
     return this.prisma.branch.update({
       where: { id },

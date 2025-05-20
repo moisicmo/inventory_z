@@ -5,6 +5,7 @@ export * from './role.interface';
 export * from './category.interface';
 export * from './branch.interface';
 export * from './price.interface';
+export * from './presentation.interface';
 export * from './product.interface';
 export * from './kardex.interface';
 export * from './input.interface';

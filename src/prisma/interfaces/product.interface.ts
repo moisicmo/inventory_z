@@ -1,4 +1,4 @@
-import { categoryDefaultSelect, priceDefaultSelect } from ".";
+import { categoryDefaultSelect, presentationDefaultSelect } from ".";
 
 export const productDefaultSelect = {
   id: true,
@@ -10,12 +10,7 @@ export const productDefaultSelect = {
   category: {
     select: categoryDefaultSelect
   },
-  prices: {
-    where: {
-      active: true
-    },
-    select: {
-      ...priceDefaultSelect
-    }
+  presentations: {
+    select: presentationDefaultSelect
   }
 };

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { TypeDocument } from "@prisma/client";
-import { IsEmail, IsEnum, IsNumber, IsString } from "class-validator";
+import { IsEmail, IsEnum, IsString } from "class-validator";
 
 export class CreateStaffDto {
 
@@ -19,12 +19,12 @@ export class CreateStaffDto {
     })
     typeDocument: TypeDocument;
 
-    @IsNumber()
+    @IsString()
     @ApiProperty({
       example: 1,
       description: 'ID del rol del cliente',
     })
-    roleId: number;
+    roleId: string;
     
     @IsString()
     @ApiProperty({

@@ -9,9 +9,7 @@ export async function createPriceActiveTrigger(prisma: PrismaClient) {
     BEGIN
       UPDATE "prices"
       SET "active" = FALSE
-      WHERE "productId" = NEW."productId"
-        AND "branchId" = NEW."branchId"
-        AND "typeUnit" = NEW."typeUnit"
+      WHERE "presentationId" = NEW."presentationId"
         AND "active" = TRUE;
 
       RETURN NEW;

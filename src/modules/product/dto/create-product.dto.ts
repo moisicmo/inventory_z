@@ -5,22 +5,20 @@ import { Type } from 'class-transformer';
 
 export class CreateProductDto {
 
-  @Type(() => Number)
-  @IsNumber()
-  @ApiProperty({ example: 1, description: 'ID de categoría' })
-  categoryId: number;
+  @IsString()
+  @ApiProperty({ example: 'abc', description: 'ID de categoría' })
+  categoryId: string;
 
   @IsString()
   @ApiProperty({ example: 'Product 1' })
   name: string;
 
-  @Type(() => Number)
-  @IsNumber()
-  @ApiProperty({ example: 1, description: 'ID de la sucursal' })
-  branchId: number;
+  @IsString()
+  @ApiProperty({ example: 'abc', description: 'ID de la sucursal' })
+  branchId: string;
 
   @IsEnum(TypeUnit)
-  @ApiProperty({ example: TypeUnit.CAJA, enum: TypeUnit })
+  @ApiProperty({ example: TypeUnit.UNIDAD, enum: TypeUnit })
   typeUnit: TypeUnit;
 
   @Type(() => Number)

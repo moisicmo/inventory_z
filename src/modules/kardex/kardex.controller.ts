@@ -13,12 +13,12 @@ export class KardexController {
   }
 
   @Get('input/:inputId')
-  findOneInput(@Param('inputId') inputId: number) {
+  findOneInput(@Param('inputId') inputId: string) {
     return this.kardexService.findByReference(inputId, TypeReference.inputs);
   }
 
   @Get('output/:outputId')
-  findOneOutput(@Param('outputId') outputId: number) {
+  findOneOutput(@Param('outputId') outputId: string) {
     return this.kardexService.findByReference(outputId, TypeReference.outputs);
   }
 }

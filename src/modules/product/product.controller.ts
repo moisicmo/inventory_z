@@ -31,7 +31,7 @@ export class ProductController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+    return this.productService.findOne(id);
   }
 
   @Patch(':id')
@@ -41,7 +41,7 @@ export class ProductController {
   )
   @ApiConsumes('multipart/form-data')
   update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
@@ -51,6 +51,6 @@ export class ProductController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
+    return this.productService.remove(id);
   }
 }

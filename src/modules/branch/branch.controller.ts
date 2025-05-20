@@ -20,17 +20,17 @@ export class BranchController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.branchService.findOne(+id);
+    return this.branchService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBranchDto: UpdateBranchDto) {
-    return this.branchService.update(+id, updateBranchDto);
+    return this.branchService.update(id, updateBranchDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.branchService.remove(+id);
+    return this.branchService.remove(id);
   }
 }
 

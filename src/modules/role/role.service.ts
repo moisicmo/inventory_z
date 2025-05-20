@@ -40,7 +40,7 @@ export class RoleService {
     };
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const role = await this.prisma.role.findUnique({
       where: { id },
     });
@@ -52,7 +52,7 @@ export class RoleService {
     return role;
   }
 
-  async update(id: number, updateRoleDto: UpdateRoleDto) {
+  async update(id: string, updateRoleDto: UpdateRoleDto) {
     const { name, permissionIds } = updateRoleDto;
   
     await this.findOne(id);
@@ -69,7 +69,7 @@ export class RoleService {
   }
   
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.findOne(id);
     return this.prisma.role.update({
       where: { id },

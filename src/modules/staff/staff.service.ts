@@ -69,7 +69,7 @@ export class StaffService {
     };
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
@@ -86,7 +86,7 @@ export class StaffService {
     return user;
   }
 
-  async update(id: number, updateStaffDto: UpdateStaffDto) {
+  async update(id: string, updateStaffDto: UpdateStaffDto) {
     await this.findOne(id);
     const { numberDocument, typeDocument, roleId, name, lastName, email } = updateStaffDto;
 
@@ -115,7 +115,7 @@ export class StaffService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.findOne(id);
     return await this.prisma.user.update({
       where: {

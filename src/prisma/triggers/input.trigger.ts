@@ -1,29 +1,27 @@
 import { PrismaClient } from '@prisma/client';
 
 export async function createKardexInputTrigger(prisma: PrismaClient) {
-  // Crear la función
   await prisma.$executeRawUnsafe(`
     CREATE OR REPLACE FUNCTION register_kardex_on_input()
     RETURNS TRIGGER AS $$
     DECLARE
       last_stock INT := 0;
     BEGIN
-      -- Obtener el último stock o 0 si no existe
+      -- Obtener el último stock del mismo presentationId y branchId
       SELECT COALESCE((
         SELECT "stock"
         FROM "kardexs"
-        WHERE "branchId" = NEW."branchId" AND "productId" = NEW."productId"
+        WHERE "presentationId" = NEW."presentationId"
         ORDER BY "referenceId" DESC
         LIMIT 1
       ), 0) INTO last_stock;
 
-      -- Insertar nuevo registro con stock acumulado
+      -- Insertar nuevo registro en kardex
       INSERT INTO "kardexs" (
-        "branchId", "productId", "referenceId", "typeReference", "stock"
+        "presentationId", "referenceId", "typeReference", "stock"
       )
       VALUES (
-        NEW."branchId",
-        NEW."productId",
+        NEW."presentationId",
         NEW."id",
         'inputs',
         last_stock + NEW."quantity"
@@ -34,7 +32,7 @@ export async function createKardexInputTrigger(prisma: PrismaClient) {
     $$ LANGUAGE plpgsql;
   `);
 
-  // Eliminar trigger si existe
+  // Eliminar trigger si ya existe
   await prisma.$executeRawUnsafe(`
     DROP TRIGGER IF EXISTS trigger_kardex_input ON "inputs";
   `);
