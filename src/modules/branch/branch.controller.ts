@@ -7,41 +7,37 @@ import { checkAbilities } from '@/decorator';
 import { AbilitiesGuard } from '@/guard/abilities.guard';
 import { TypeAction, TypeSubject } from "@prisma/client";
 
+@UseGuards(AbilitiesGuard)
 @Controller('branch')
 export class BranchController {
   constructor(private readonly branchService: BranchService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.branch })
-  @UseGuards(AbilitiesGuard)
   create(@Body() createBranchDto: CreateBranchDto) {
     return this.branchService.create(createBranchDto);
   }
 
   @Get()
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.branch })
-  @UseGuards(AbilitiesGuard)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.branchService.findAll(paginationDto);
   }
 
   @Get(':id')
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.branch })
-  @UseGuards(AbilitiesGuard)
   findOne(@Param('id') id: string) {
     return this.branchService.findOne(id);
   }
 
   @Patch(':id')
   @checkAbilities({ action: TypeAction.update, subject: TypeSubject.branch })
-  @UseGuards(AbilitiesGuard)
   update(@Param('id') id: string, @Body() updateBranchDto: UpdateBranchDto) {
     return this.branchService.update(id, updateBranchDto);
   }
 
   @Delete(':id')
   @checkAbilities({ action: TypeAction.delete, subject: TypeSubject.branch })
-  @UseGuards(AbilitiesGuard)
   remove(@Param('id') id: string) {
     return this.branchService.remove(id);
   }

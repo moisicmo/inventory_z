@@ -7,41 +7,37 @@ import { checkAbilities } from '@/decorator';
 import { AbilitiesGuard } from '@/guard/abilities.guard';
 import { TypeAction, TypeSubject } from "@prisma/client";
 
+@UseGuards(AbilitiesGuard)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.category })
-  @UseGuards(AbilitiesGuard)
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoryService.create(createCategoryDto);
   }
 
   @Get()
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.category })
-  @UseGuards(AbilitiesGuard)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.categoryService.findAll(paginationDto);
   }
 
   @Get(':id')
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.category })
-  @UseGuards(AbilitiesGuard)
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(id);
   }
 
   @Patch(':id')
   @checkAbilities({ action: TypeAction.update, subject: TypeSubject.category })
-  @UseGuards(AbilitiesGuard)
   update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
     return this.categoryService.update(id, updateCategoryDto);
   }
 
   @Delete(':id')
   @checkAbilities({ action: TypeAction.delete, subject: TypeSubject.category })
-  @UseGuards(AbilitiesGuard)
   remove(@Param('id') id: string) {
     return this.categoryService.remove(id);
   }

@@ -3,12 +3,15 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
-import { PermissionEntity } from '@/modules/permission/entities/permission.entity';
 import { RoleEntity } from './entities/role.entity';
+import { PermissionService } from '@/modules/permission/permission.service';
 @Injectable()
 export class RoleService {
 
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private permissionService: PermissionService,
+  ) { }
 
   async create(createRoleDto: CreateRoleDto) {
     const { name, permissions } = createRoleDto;
@@ -18,25 +21,15 @@ export class RoleService {
         if (!perm.conditions) return { id: perm.id };
 
         // Creamos una copia con condiciones
-        const basePerm = await this.prisma.permission.findUnique({
-          where: { id: perm.id },
-          select: PermissionEntity,
-        });
+        const basePerm = await this.permissionService.findOne(perm.id);
 
-        if (!basePerm) {
-          throw new NotFoundException(`Permission with id #${perm.id} not found`);
-        }
-
-        const newPerm = await this.prisma.permission.create({
-          data: {
-            action: basePerm.action,
-            subject: basePerm.subject,
-            inverted: basePerm.inverted,
-            reason: basePerm.reason,
-            active: basePerm.active,
-            conditions: perm.conditions,
-          },
-          select: PermissionEntity,
+        const newPerm = await this.permissionService.create({
+          action: basePerm.action,
+          subject: basePerm.subject,
+          inverted: basePerm.inverted,
+          reason: basePerm.reason,
+          active: basePerm.active,
+          conditions: perm.conditions,
         });
 
         return { id: newPerm.id };
@@ -102,25 +95,19 @@ export class RoleService {
       permissions.map(async (perm) => {
         if (!perm.conditions) return { id: perm.id };
 
-        const basePerm = await this.prisma.permission.findUnique({
-          where: { id: perm.id },
-          select: PermissionEntity,
-        });
+        const basePerm = await this.permissionService.findOne(perm.id);
 
         if (!basePerm) {
           throw new NotFoundException(`Permission with id #${perm.id} not found`);
         }
 
-        const newPerm = await this.prisma.permission.create({
-          data: {
-            action: basePerm.action,
-            subject: basePerm.subject,
-            inverted: basePerm.inverted,
-            reason: basePerm.reason,
-            active: basePerm.active,
-            conditions: perm.conditions,
-          },
-          select: PermissionEntity,
+        const newPerm = await this.permissionService.create({
+          action: basePerm.action,
+          subject: basePerm.subject,
+          inverted: basePerm.inverted,
+          reason: basePerm.reason,
+          active: basePerm.active,
+          conditions: perm.conditions,
         });
 
         return { id: newPerm.id };

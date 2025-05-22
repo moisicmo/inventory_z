@@ -1,5 +1,5 @@
 import { CategoryEntity } from "@/modules/category/entities/category.entity";
-import { PresentationEntity } from "@/common";
+import { PresentationEntity } from "@/modules/presentation/entities/presentation.entity";
 
 export const ProductEntity = {
   id: true,

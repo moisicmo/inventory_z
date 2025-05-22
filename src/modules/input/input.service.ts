@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInputDto } from './dto/create-input.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { KardexService } from '../kardex/kardex.service';
 import { TypeReference } from '@prisma/client';
 import { InputEntity } from './entities/input.entity';
+import { KardexService } from '@/modules/kardex/kardex.service';
 @Injectable()
 export class InputService {
 

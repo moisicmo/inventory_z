@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { InputService } from './input.service';
 import { InputController } from './input.controller';
 import { PrismaModule } from '@/prisma/prisma.module';
-import { KardexService } from '../kardex/kardex.service';
 import { CaslModule } from '@/casl/casl.module';
+import { KardexService } from '@/modules/kardex/kardex.service';
 
 @Module({
   controllers: [InputController],

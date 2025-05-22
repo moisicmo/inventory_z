@@ -8,41 +8,37 @@ import { checkAbilities } from '@/decorator';
 import { AbilitiesGuard } from '@/guard/abilities.guard';
 import { TypeAction, TypeSubject } from "@prisma/client";
 
+@UseGuards(AbilitiesGuard)
 @Controller('staff')
 export class StaffController {
   constructor(private readonly staffService: StaffService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.staff })
-  @UseGuards(AbilitiesGuard)
   create(@Body() createStaffDto: CreateStaffDto) {
     return this.staffService.create(createStaffDto);
   }
 
   @Get()
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.staff })
-  @UseGuards(AbilitiesGuard)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.staffService.findAll(paginationDto);
   }
 
   @Get(':id')
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.staff })
-  @UseGuards(AbilitiesGuard)
   findOne(@Param('id') id: string) {
     return this.staffService.findOne(id);
   }
 
   @Patch(':id')
   @checkAbilities({ action: TypeAction.update, subject: TypeSubject.staff })
-  @UseGuards(AbilitiesGuard)
   update(@Param('id') id: string, @Body() updateStaffDto: UpdateStaffDto) {
     return this.staffService.update(id, updateStaffDto);
   }
 
   @Delete(':id')
   @checkAbilities({ action: TypeAction.delete, subject: TypeSubject.staff })
-  @UseGuards(AbilitiesGuard)
   remove(@Param('id') id: string) {
     return this.staffService.remove(id);
   }

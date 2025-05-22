@@ -16,6 +16,8 @@ import { PermissionModule } from './modules/permission/permission.module';
 import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
 import { CloudinaryService } from './common/cloudinary/clodinary.service';
 import { KardexModule } from './modules/kardex/kardex.module';
+import { PresentationModule } from './modules/presentation/presentation.module';
+import { PriceModule } from './modules/price/price.module';
 @Module({
   imports: [
     PrismaModule,
@@ -31,6 +33,8 @@ import { KardexModule } from './modules/kardex/kardex.module';
     OrderModule,
     CloudinaryModule,
     KardexModule,
+    PresentationModule,
+    PriceModule,
   ],
   providers: [
     PrismaService,

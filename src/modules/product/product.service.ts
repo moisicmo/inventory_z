@@ -2,16 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { PaginationDto, PresentationEntity, PriceEntity } from '@/common';
+import { PaginationDto } from '@/common';
 import { CloudinaryService } from '@/common/cloudinary/clodinary.service';
 import { ProductEntity } from './entities/product.entity';
+import { PresentationService } from '@/modules/presentation/presentation.service';
+import { PriceService } from '@/modules/price/price.service';
 @Injectable()
 export class ProductService {
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly cloudinaryService: CloudinaryService,
-  ) {}
+    private readonly presentationService: PresentationService,
+    private readonly priceService: PriceService,
+  ) { }
 
   private extractPublicIdFromUrl(url: string): string | null {
     try {
@@ -73,8 +77,6 @@ export class ProductService {
     };
   }
 
-
-
   async findOne(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
@@ -107,17 +109,11 @@ export class ProductService {
     }
 
     const resolvedBranchId = branchId ?? existingProduct.presentations[0].branch.id;
+    const resolvedTypeUnit = typeUnit ?? existingProduct.presentations[0].typeUnit;
+    let resolvedPrice = price ?? existingProduct.presentations[0].prices[0].price;
 
     // Buscar presentación existente
-    const existingPresentation = await this.prisma.presentation.findFirst({
-      where: {
-        branchId: resolvedBranchId,
-        typeUnit,
-        productId: id,
-        active: true,
-      },
-      select: PresentationEntity
-    });
+    const existingPresentation = await this.presentationService.findFirst(resolvedBranchId, resolvedTypeUnit, id);
 
     const updateData: any = {
       categoryId,
@@ -141,26 +137,16 @@ export class ProductService {
       };
     } else {
       // Si ya existe la presentación, verificamos si ya tiene ese precio activo
-      const existingPrice = await this.prisma.price.findFirst({
-        where: {
-          presentationId: existingPresentation.id,
-          price,
-          active: true,
-        },
-        select: PriceEntity
-      });
+      const existingPrice = await this.priceService.findFirst(id, resolvedPrice);
 
-      const resolvedPrice = price ?? existingPrice?.price[0].price;
+      resolvedPrice = price ?? existingPrice?.price[0].price;
 
       if (!existingPrice) {
         // Creamos nuevo precio si no existe uno igual activo
-        await this.prisma.price.create({
-          data: {
-            presentationId: existingPresentation.id,
-            price: resolvedPrice,
-            changedReason,
-          },
-          select: PriceEntity,
+        await this.priceService.create({
+          presentationId: existingPresentation.id,
+          price: resolvedPrice,
+          changedReason,
         });
       }
     }

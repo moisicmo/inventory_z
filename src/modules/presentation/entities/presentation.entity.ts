@@ -1,6 +1,6 @@
 import { BranchEntity } from "@/modules/branch/entities/branch.entity";
 import { CategoryEntity } from "@/modules/category/entities/category.entity";
-import { PriceEntity } from "@/common/entities/price.entity";
+import { PriceEntity } from "@/modules/price/entities/price.entity";
 
 export const PresentationEntity = {
   id: true,

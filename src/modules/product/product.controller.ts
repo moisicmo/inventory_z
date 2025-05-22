@@ -10,13 +10,13 @@ import { checkAbilities } from '@/decorator';
 import { AbilitiesGuard } from '@/guard/abilities.guard';
 import { TypeAction, TypeSubject } from "@prisma/client";
 
+@UseGuards(AbilitiesGuard)
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.product })
-  @UseGuards(AbilitiesGuard)
   @UseInterceptors(
     FileInterceptor('image'),
     new FileMimeTypeInterceptor(['image/jpeg', 'image/png']),
@@ -31,21 +31,18 @@ export class ProductController {
 
   @Get()
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.product })
-  @UseGuards(AbilitiesGuard)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.productService.findAll(paginationDto);
   }
 
   @Get(':id')
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.product })
-  @UseGuards(AbilitiesGuard)
   findOne(@Param('id') id: string) {
     return this.productService.findOne(id);
   }
 
   @Patch(':id')
   @checkAbilities({ action: TypeAction.update, subject: TypeSubject.product })
-  @UseGuards(AbilitiesGuard)
   @UseInterceptors(
     FileInterceptor('image'),
     new FileMimeTypeInterceptor(['image/jpeg', 'image/png']),
@@ -62,7 +59,6 @@ export class ProductController {
 
   @Delete(':id')
   @checkAbilities({ action: TypeAction.delete, subject: TypeSubject.product })
-  @UseGuards(AbilitiesGuard)
   remove(@Param('id') id: string) {
     return this.productService.remove(id);
   }
