@@ -5,8 +5,8 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { RoleEntity } from '@/modules/role/entities/role.entity';
 import { BranchEntity } from '@/modules/branch/entities/branch.entity';
-
 import * as bcrypt from 'bcrypt';
+import { JwtPayload } from './entities/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) { }
 
-  signJWT(payload: any, expiresIn?: string | number) {
+  signJWT(payload: JwtPayload, expiresIn?: string | number) {
     if (expiresIn) return this.jwtService.sign(payload, { expiresIn });
     return this.jwtService.sign(payload);
   }
@@ -88,7 +88,6 @@ export class AuthService {
           name: role.name,
         },
         branches,
-        permissions: role.permissions, // ✅ NECESARIO
       };
 
     } catch (error) {
