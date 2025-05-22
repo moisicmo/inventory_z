@@ -3,8 +3,10 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { RequestInfo } from '@/decorator';
 import { PrismaService } from '@/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { RoleEntity } from '@/modules/role/entities/role.entity';
+import { BranchEntity } from '@/modules/branch/entities/branch.entity';
+
 import * as bcrypt from 'bcrypt';
-import { branchDefaultSelect, roleDefaultSelect } from '@/prisma/interfaces';
 
 @Injectable()
 export class AuthService {
@@ -39,10 +41,10 @@ export class AuthService {
             },
           },
           role: {
-            select: roleDefaultSelect,
+            select: RoleEntity,
           },
           branches: {
-            select: branchDefaultSelect,
+            select: BranchEntity,
           },
         },
       });
@@ -81,8 +83,12 @@ export class AuthService {
         ...tokenPayload,
         token,
         refreshToken,
-        role,
+        role: {
+          id: role.id,
+          name: role.name,
+        },
         branches,
+        permissions: role.permissions, // ✅ NECESARIO
       };
 
     } catch (error) {

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, TypeAction, TypeSubject } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { createPriceActiveTrigger } from './triggers/price.trigger';
 import { createKardexInputTrigger } from './triggers/input.trigger';
@@ -21,12 +21,11 @@ async function main() {
     });
     const permissions = await prisma.permission.createManyAndReturn({
       data: [
-        { name: 'Crear Usuarios' },
-        { name: 'Crear Clientes' },
-        { name: 'Crear Productos' },
-        { name: 'Crear Sucursales' },
-        { name: 'Crear Categorias' },
-        { name: 'Crear Roles' }
+        { action: TypeAction.read, subject: TypeSubject.all },
+        { action: TypeAction.create, subject: TypeSubject.all },
+        { action: TypeAction.update, subject: TypeSubject.all },
+        { action: TypeAction.delete, subject: TypeSubject.all },
+        { action: TypeAction.manage, subject: TypeSubject.all },
       ]
     });
 

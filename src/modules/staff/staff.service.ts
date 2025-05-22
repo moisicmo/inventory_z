@@ -1,14 +1,12 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { PaginationDto } from '@/common'; @Injectable()
+import { PaginationDto, UserEntity } from '@/common'; @Injectable()
 export class StaffService {
 
-  constructor(
-    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
-  ) { }
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createStaffDto: CreateStaffDto) {
     const { numberDocument, typeDocument, roleId, name, lastName, email } =
@@ -16,6 +14,7 @@ export class StaffService {
 
     const userExists = await this.prisma.user.findUnique({
       where: { numberDocument },
+      select: UserEntity,
     });
 
     if (userExists) {
@@ -39,6 +38,7 @@ export class StaffService {
           },
         },
       },
+      select: UserEntity,
     });
   }
 
@@ -64,6 +64,7 @@ export class StaffService {
             isNot: null,
           },
         },
+        select: UserEntity,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -77,6 +78,7 @@ export class StaffService {
           isNot: null,
         },
       },
+      select: UserEntity,
     });
 
     if (!user) {
@@ -112,6 +114,7 @@ export class StaffService {
           },
         },
       },
+      select: UserEntity,
     });
   }
 
@@ -134,6 +137,7 @@ export class StaffService {
           },
         },
       },
+      select: UserEntity,
     });
   }
 }

@@ -10,6 +10,12 @@ CREATE TYPE "TypeUnit" AS ENUM ('UNIDAD', 'LIBRA', 'KILO', 'CAJA', 'DOCENA');
 -- CreateEnum
 CREATE TYPE "TypeReference" AS ENUM ('inputs', 'outputs');
 
+-- CreateEnum
+CREATE TYPE "TypeAction" AS ENUM ('manage', 'create', 'read', 'update', 'delete');
+
+-- CreateEnum
+CREATE TYPE "TypeSubject" AS ENUM ('all', 'branch', 'category', 'customer', 'input', 'kardex', 'order', 'permission', 'product', 'role', 'staff', 'user', 'presentation', 'price', 'output');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" UUID NOT NULL,
@@ -52,8 +58,11 @@ CREATE TABLE "roles" (
 -- CreateTable
 CREATE TABLE "permissions" (
     "id" UUID NOT NULL,
-    "name" VARCHAR NOT NULL,
-    "description" VARCHAR,
+    "action" "TypeAction" NOT NULL,
+    "subject" "TypeSubject" NOT NULL,
+    "inverted" BOOLEAN NOT NULL DEFAULT false,
+    "conditions" JSONB,
+    "reason" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

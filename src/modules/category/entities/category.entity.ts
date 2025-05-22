@@ -1,1 +1,4 @@
-export class Category {}
+export const CategoryEntity = {
+  id: true,
+  name: true,
+};

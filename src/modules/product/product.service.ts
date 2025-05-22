@@ -1,18 +1,17 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { PaginationDto } from '@/common';
+import { PaginationDto, PresentationEntity, PriceEntity } from '@/common';
 import { CloudinaryService } from '@/common/cloudinary/clodinary.service';
-import { productDefaultSelect } from '@/prisma/interfaces';
-
+import { ProductEntity } from './entities/product.entity';
 @Injectable()
 export class ProductService {
 
   constructor(
-    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma'],
+    private readonly prisma: PrismaService,
     private readonly cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   private extractPublicIdFromUrl(url: string): string | null {
     try {
@@ -52,6 +51,7 @@ export class ProductService {
           },
         },
       },
+      select: ProductEntity,
     });
   }
 
@@ -67,7 +67,7 @@ export class ProductService {
         skip: (page - 1) * limit,
         take: limit,
         where: { active: true },
-        select: productDefaultSelect,
+        select: ProductEntity,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -78,7 +78,7 @@ export class ProductService {
   async findOne(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
-      select: productDefaultSelect,
+      select: ProductEntity,
     });
 
     if (!product) {
@@ -116,6 +116,7 @@ export class ProductService {
         productId: id,
         active: true,
       },
+      select: PresentationEntity
     });
 
     const updateData: any = {
@@ -146,6 +147,7 @@ export class ProductService {
           price,
           active: true,
         },
+        select: PriceEntity
       });
 
       const resolvedPrice = price ?? existingPrice?.price[0].price;
@@ -158,6 +160,7 @@ export class ProductService {
             price: resolvedPrice,
             changedReason,
           },
+          select: PriceEntity,
         });
       }
     }
@@ -165,6 +168,7 @@ export class ProductService {
     return this.prisma.product.update({
       where: { id },
       data: updateData,
+      select: ProductEntity
     });
   }
 
@@ -175,6 +179,7 @@ export class ProductService {
       data: {
         active: false,
       },
+      select: ProductEntity
     });
   }
 }

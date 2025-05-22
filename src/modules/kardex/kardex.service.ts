@@ -1,14 +1,12 @@
 import { PaginationDto } from '@/common';
 import { PrismaService } from '@/prisma/prisma.service';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { TypeReference } from '@prisma/client';
-
+import { KardexEntity } from './entities/kardex.entity';
 @Injectable()
 export class KardexService {
 
-  constructor(
-    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
@@ -24,6 +22,7 @@ export class KardexService {
     const data = await Promise.all(
       presentations.map(async (presentation) => {
         const kardexList = await this.prisma.kardex.findMany({
+          select: KardexEntity,
           where: { presentationId: presentation.id },
         });
 
@@ -51,6 +50,7 @@ export class KardexService {
 
   async findByReference(referenceId: string, typeReference: TypeReference) {
     const kardex = await this.prisma.kardex.findFirst({
+      select: KardexEntity,
       where: {
         typeReference,
         referenceId,

@@ -1,25 +1,56 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
-
+import { PermissionEntity } from '@/modules/permission/entities/permission.entity';
+import { RoleEntity } from './entities/role.entity';
 @Injectable()
 export class RoleService {
 
-  constructor(
-    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
-  ) { }
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createRoleDto: CreateRoleDto) {
-    const {name ,permissionIds } = createRoleDto;
-    return await this.prisma.role.create({
+    const { name, permissions } = createRoleDto;
+
+    const createdPermissions = await Promise.all(
+      permissions.map(async (perm) => {
+        if (!perm.conditions) return { id: perm.id };
+
+        // Creamos una copia con condiciones
+        const basePerm = await this.prisma.permission.findUnique({
+          where: { id: perm.id },
+          select: PermissionEntity,
+        });
+
+        if (!basePerm) {
+          throw new NotFoundException(`Permission with id #${perm.id} not found`);
+        }
+
+        const newPerm = await this.prisma.permission.create({
+          data: {
+            action: basePerm.action,
+            subject: basePerm.subject,
+            inverted: basePerm.inverted,
+            reason: basePerm.reason,
+            active: basePerm.active,
+            conditions: perm.conditions,
+          },
+          select: PermissionEntity,
+        });
+
+        return { id: newPerm.id };
+      }),
+    );
+
+    return this.prisma.role.create({
       data: {
         name,
-        permissions:{
-          connect: permissionIds.map(id => ({ id })),
-        }
-      }
+        permissions: {
+          connect: createdPermissions,
+        },
+      },
+      select: RoleEntity,
     });
   }
 
@@ -35,6 +66,7 @@ export class RoleService {
         skip: (page - 1) * limit,
         take: limit,
         where: { active: true },
+        select: RoleEntity,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -53,21 +85,61 @@ export class RoleService {
   }
 
   async update(id: string, updateRoleDto: UpdateRoleDto) {
-    const { name, permissionIds } = updateRoleDto;
-  
+    const { name, permissions } = updateRoleDto;
+
+    // Verificar si existe el rol
     await this.findOne(id);
-  
+
+    // Procesar permisos con/ sin condiciones
+    if (!permissions || permissions.length === 0) {
+      return this.prisma.role.update({
+        where: { id },
+        data: { name },
+        select: RoleEntity,
+      });
+    }
+    const updatedPermissions = await Promise.all(
+      permissions.map(async (perm) => {
+        if (!perm.conditions) return { id: perm.id };
+
+        const basePerm = await this.prisma.permission.findUnique({
+          where: { id: perm.id },
+          select: PermissionEntity,
+        });
+
+        if (!basePerm) {
+          throw new NotFoundException(`Permission with id #${perm.id} not found`);
+        }
+
+        const newPerm = await this.prisma.permission.create({
+          data: {
+            action: basePerm.action,
+            subject: basePerm.subject,
+            inverted: basePerm.inverted,
+            reason: basePerm.reason,
+            active: basePerm.active,
+            conditions: perm.conditions,
+          },
+          select: PermissionEntity,
+        });
+
+        return { id: newPerm.id };
+      }),
+    );
+
+    // Actualizar el rol y sus permisos
     return this.prisma.role.update({
       where: { id },
       data: {
         name,
         permissions: {
-          set: permissionIds?.map(id => ({ id }))??[],
+          set: updatedPermissions, // Reemplaza todos los permisos previos
         },
       },
+      select: RoleEntity,
     });
   }
-  
+
 
   async remove(id: string) {
     await this.findOne(id);
@@ -76,6 +148,7 @@ export class RoleService {
       data: {
         active: false,
       },
+      select: RoleEntity,
     });
   }
 }

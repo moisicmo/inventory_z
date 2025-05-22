@@ -1,21 +1,19 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
+import { CategoryEntity } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
 
-  constructor(
-    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
     return await this.prisma.category.create({
-      data: {
-        ...createCategoryDto
-      }
+      data: createCategoryDto,
+      select: CategoryEntity
     });
   }
 
@@ -26,12 +24,15 @@ export class CategoryService {
     });
     const lastPage = Math.ceil(totalPages / limit);
 
+    const data = await this.prisma.category.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      where: { active: true },
+      select: CategoryEntity,
+    });
+
     return {
-      data: await this.prisma.category.findMany({
-        skip: (page - 1) * limit,
-        take: limit,
-        where: { active: true },
-      }),
+      data,
       meta: { total: totalPages, page, lastPage },
     };
   }
@@ -39,6 +40,7 @@ export class CategoryService {
   async findOne(id: string) {
     const category = await this.prisma.category.findUnique({
       where: { id },
+      select: CategoryEntity,
     });
 
     if (!category) {
@@ -54,6 +56,7 @@ export class CategoryService {
     return this.prisma.category.update({
       where: { id },
       data: updateCategoryDto,
+      select: CategoryEntity,
     });
   }
 
@@ -61,9 +64,8 @@ export class CategoryService {
     await this.findOne(id);
     return await this.prisma.category.update({
       where: { id },
-      data: {
-        active: false,
-      },
+      data: { active: false },
+      select: CategoryEntity,
     });
   }
 }

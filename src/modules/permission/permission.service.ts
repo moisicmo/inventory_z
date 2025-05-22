@@ -1,13 +1,11 @@
 import { PaginationDto } from '@/common';
 import { PrismaService } from '@/prisma/prisma.service';
-import { Inject, Injectable } from '@nestjs/common';
-
+import { Injectable } from '@nestjs/common';
+import { PermissionEntity } from './entities/permission.entity';
 @Injectable()
 export class PermissionService {
 
-  constructor(
-    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
@@ -21,6 +19,7 @@ export class PermissionService {
         skip: (page - 1) * limit,
         take: limit,
         where: { active: true },
+        select: PermissionEntity,
       }),
       meta: { total: totalPages, page, lastPage },
     };

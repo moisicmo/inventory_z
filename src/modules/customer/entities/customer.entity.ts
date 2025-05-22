@@ -1,1 +1,4 @@
-export class Customer {}
+export const CustomerEntity = {
+  userId: false,
+  active: true,
+};

@@ -3,7 +3,7 @@ import { CreateInputDto } from './dto/create-input.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { KardexService } from '../kardex/kardex.service';
 import { TypeReference } from '@prisma/client';
-
+import { InputEntity } from './entities/input.entity';
 @Injectable()
 export class InputService {
 
@@ -15,6 +15,7 @@ export class InputService {
   async create(createInputDto: CreateInputDto) {
     const { branchId, detail, presentations } = createInputDto;
     const inputs = await this.prisma.input.createManyAndReturn({
+      select: InputEntity,
       data: presentations.map((e) => ({
         presentationId: e.presentationId,
         quantity: e.quantity,

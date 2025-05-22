@@ -1,15 +1,13 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { PaginationDto } from '@/common';
+import { PaginationDto, UserEntity } from '@/common';
 
 @Injectable()
 export class CustomerService {
 
-  constructor(
-    @Inject('ExtendedPrisma') private readonly prisma: PrismaService['extendedPrisma']
-  ) { }
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createCustomerDto: CreateCustomerDto) {
     const { numberDocument, typeDocument, name, lastName } = createCustomerDto;
@@ -17,6 +15,7 @@ export class CustomerService {
       where: {
         numberDocument,
       },
+      select: UserEntity,
     });
     if (userExists) {
       throw new Error('El cliente ya existe');
@@ -31,6 +30,7 @@ export class CustomerService {
           create: {},
         },
       },
+      select: UserEntity,
     });
   }
 
@@ -56,6 +56,7 @@ export class CustomerService {
             isNot: null,
           },
         },
+        select: UserEntity,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -69,6 +70,7 @@ export class CustomerService {
           isNot: null,
         },
       },
+      select: UserEntity,
     });
 
     if (!user) {
@@ -101,6 +103,7 @@ export class CustomerService {
           },
         },
       },
+      select: UserEntity,
     });
   }
 
@@ -123,6 +126,7 @@ export class CustomerService {
           },
         },
       },
+      select: UserEntity,
     });
   }
 }

@@ -1,23 +1,32 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { KardexService } from './kardex.service';
 import { PaginationDto } from '@/common';
 import { TypeReference } from '@prisma/client';
+import { checkAbilities } from '@/decorator';
+import { AbilitiesGuard } from '@/guard/abilities.guard';
+import { TypeAction, TypeSubject } from "@prisma/client";
 
 @Controller('kardex')
 export class KardexController {
   constructor(private readonly kardexService: KardexService) { }
 
   @Get()
+  @checkAbilities({ action: TypeAction.read, subject: TypeSubject.kardex })
+  @UseGuards(AbilitiesGuard)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.kardexService.findAll(paginationDto);
   }
 
   @Get('input/:inputId')
+  @checkAbilities({ action: TypeAction.read, subject: TypeSubject.kardex })
+  @UseGuards(AbilitiesGuard)
   findOneInput(@Param('inputId') inputId: string) {
     return this.kardexService.findByReference(inputId, TypeReference.inputs);
   }
 
   @Get('output/:outputId')
+  @checkAbilities({ action: TypeAction.read, subject: TypeSubject.kardex })
+  @UseGuards(AbilitiesGuard)
   findOneOutput(@Param('outputId') outputId: string) {
     return this.kardexService.findByReference(outputId, TypeReference.outputs);
   }
