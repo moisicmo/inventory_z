@@ -7,6 +7,7 @@ import { RoleEntity } from '@/modules/role/entities/role.entity';
 import { BranchEntity } from '@/modules/branch/entities/branch.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtPayload } from './entities/jwt-payload.interface';
+import { CreateRefreshDto } from './dto/create-refresh.dto';
 
 @Injectable()
 export class AuthService {
@@ -83,10 +84,7 @@ export class AuthService {
         ...tokenPayload,
         token,
         refreshToken,
-        role: {
-          id: role.id,
-          name: role.name,
-        },
+        role,
         branches,
       };
 
@@ -95,5 +93,22 @@ export class AuthService {
       throw new InternalServerErrorException('Internal error');
     }
   }
+
+  refreshToken(createRefreshDto: CreateRefreshDto) {
+    try {
+      const payload = this.jwtService.verify(createRefreshDto.refreshToken);
+
+      const { exp: _, iat: __, nbf: ___, ...cleanPayload } = payload;
+
+      const newAccessToken = this.signJWT(cleanPayload);
+
+      return { token: newAccessToken };
+
+    } catch (error) {
+      console.error('refreshToken error:', error);
+      throw new UnauthorizedException('Refresh token inválido o expirado');
+    }
+  }
+
 
 }
