@@ -1,11 +1,11 @@
 import { CreateUserDto } from "@/common/dto/create-user.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsUUID } from "class-validator";
 
 export class CreateStaffDto extends CreateUserDto {
-  @IsString()
+  @IsUUID()
   @ApiProperty({
-    example: 1,
+    example: 'rol-123',
     description: 'ID del rol del cliente',
   })
   roleId: string;

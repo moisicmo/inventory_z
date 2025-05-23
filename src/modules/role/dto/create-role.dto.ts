@@ -1,16 +1,24 @@
+import { CreatePermissionDto } from "@/modules/permission/dto/create-permission.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsString, ValidateNested } from "class-validator";
 
 export class CreateRoleDto {
   @IsString()
+  @ApiProperty({
+    example: 'admin',
+    description: 'Nombre del rol',
+  })
   name: string;
 
+
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreatePermissionDto)
   @ApiProperty({
-    example: [
-      { id: 'perm-1', conditions: null },
-      { id: 'perm-2', conditions: { sucursalId: '3' } },
-    ],
+    type: [CreatePermissionDto],
+    description: 'Lista de permisos a ingresar',
   })
-  permissions: { id: string; conditions?: any }[];
+  permissions: CreatePermissionDto[];
+
 }

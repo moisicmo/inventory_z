@@ -58,6 +58,7 @@ CREATE TABLE "roles" (
 -- CreateTable
 CREATE TABLE "permissions" (
     "id" UUID NOT NULL,
+    "roleId" UUID NOT NULL,
     "action" "TypeAction" NOT NULL,
     "subject" "TypeSubject" NOT NULL,
     "inverted" BOOLEAN NOT NULL DEFAULT false,
@@ -257,14 +258,6 @@ CREATE TABLE "audit_logs" (
 );
 
 -- CreateTable
-CREATE TABLE "_PermissionToRole" (
-    "A" UUID NOT NULL,
-    "B" UUID NOT NULL,
-
-    CONSTRAINT "_PermissionToRole_AB_pkey" PRIMARY KEY ("A","B")
-);
-
--- CreateTable
 CREATE TABLE "_BranchToStaff" (
     "A" UUID NOT NULL,
     "B" UUID NOT NULL,
@@ -297,9 +290,6 @@ CREATE UNIQUE INDEX "UnitConversion_productId_fromUnit_toUnit_key" ON "UnitConve
 CREATE UNIQUE INDEX "kardexs_referenceId_typeReference_key" ON "kardexs"("referenceId", "typeReference");
 
 -- CreateIndex
-CREATE INDEX "_PermissionToRole_B_index" ON "_PermissionToRole"("B");
-
--- CreateIndex
 CREATE INDEX "_BranchToStaff_B_index" ON "_BranchToStaff"("B");
 
 -- AddForeignKey
@@ -307,6 +297,9 @@ ALTER TABLE "staffs" ADD CONSTRAINT "staffs_userId_fkey" FOREIGN KEY ("userId") 
 
 -- AddForeignKey
 ALTER TABLE "staffs" ADD CONSTRAINT "staffs_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "permissions" ADD CONSTRAINT "permissions_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "cashClosures" ADD CONSTRAINT "cashClosures_userId_fkey" FOREIGN KEY ("userId") REFERENCES "staffs"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -367,12 +360,6 @@ ALTER TABLE "orders" ADD CONSTRAINT "orders_closureId_fkey" FOREIGN KEY ("closur
 
 -- AddForeignKey
 ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_PermissionToRole" ADD CONSTRAINT "_PermissionToRole_A_fkey" FOREIGN KEY ("A") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_PermissionToRole" ADD CONSTRAINT "_PermissionToRole_B_fkey" FOREIGN KEY ("B") REFERENCES "roles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_BranchToStaff" ADD CONSTRAINT "_BranchToStaff_A_fkey" FOREIGN KEY ("A") REFERENCES "branches"("id") ON DELETE CASCADE ON UPDATE CASCADE;

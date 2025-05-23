@@ -56,6 +56,7 @@ model Role {
 }
 model Permission {
   id                    String              @id @default(uuid()) @db.Uuid
+  roleId                String              @db.Uuid
   action                TypeAction
   subject               TypeSubject
   inverted              Boolean             @default(false)
@@ -64,7 +65,7 @@ model Permission {
   active                Boolean             @default(true)
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
-  roles                 Role[]
+  role                  Role                @relation(fields: [roleId], references: [id])
   @@map("permissions")
 }
 model CashClosure {

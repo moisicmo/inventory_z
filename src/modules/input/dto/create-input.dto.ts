@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 import { PresentationInputDto } from './product-input.dto';
 
 export class CreateInputDto {
-  @IsString()
+  @IsUUID()
   @ApiProperty({ example: 'abc', description: 'Identificador de la sucursal' })
   branchId: string;
 

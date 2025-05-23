@@ -3,6 +3,14 @@ import { TypeAction, TypeSubject } from "@prisma/client";
 import { IsBoolean, IsEnum, IsObject, IsOptional, IsString } from "class-validator";
 
 export class CreatePermissionDto {
+
+  @IsString()
+  @ApiProperty({
+    example: 'role-1',
+    description: 'Identificador del rol',
+  })
+  roleId: string;
+
   @IsEnum(TypeAction)
   @ApiProperty({
     enum: TypeAction,

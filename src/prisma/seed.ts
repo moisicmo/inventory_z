@@ -19,24 +19,19 @@ async function main() {
         email: 'moisic.mo@gmail.com',
       },
     });
-    const permissions = await prisma.permission.createManyAndReturn({
+    const role = await prisma.role.create({
+      data: { name: 'admin' }
+    });
+    await prisma.permission.createManyAndReturn({
       data: [
-        { action: TypeAction.read, subject: TypeSubject.all },
-        { action: TypeAction.create, subject: TypeSubject.all },
-        { action: TypeAction.update, subject: TypeSubject.all },
-        { action: TypeAction.delete, subject: TypeSubject.all },
-        { action: TypeAction.manage, subject: TypeSubject.all },
+        { roleId: role.id, action: TypeAction.read, subject: TypeSubject.all },
+        { roleId: role.id, action: TypeAction.create, subject: TypeSubject.all },
+        { roleId: role.id, action: TypeAction.update, subject: TypeSubject.all },
+        { roleId: role.id, action: TypeAction.delete, subject: TypeSubject.all },
+        { roleId: role.id, action: TypeAction.manage, subject: TypeSubject.all },
       ]
     });
 
-    const role = await prisma.role.create({
-      data: {
-        name: 'admin',
-        permissions: {
-          connect: permissions.map(permission => ({ id: permission.id }))
-        }
-      }
-    });
     await prisma.staff.create({
       data: {
         userId: user.id,
