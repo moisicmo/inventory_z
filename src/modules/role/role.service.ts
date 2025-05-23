@@ -22,9 +22,8 @@ export class RoleService {
       });
 
       for (const permission of permissions) {
-        await this.permissionService.create({
+        await this.permissionService.create(role.id, {
           ...permission,
-          roleId: role.id,
         });
       }
 
@@ -89,10 +88,9 @@ export class RoleService {
           throw new NotFoundException(`Permission with id #${perm.id} not found`);
         }
 
-        const newPerm = await this.permissionService.create({
+        const newPerm = await this.permissionService.create(id, {
           ...basePerm,
           conditions: perm.conditions,
-          roleId: id,
         });
 
         permissionToAssign = { id: newPerm.id };

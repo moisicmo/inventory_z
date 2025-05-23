@@ -4,12 +4,6 @@ import { IsBoolean, IsEnum, IsObject, IsOptional, IsString } from "class-validat
 
 export class CreatePermissionDto {
 
-  @IsString()
-  @ApiProperty({
-    example: 'role-1',
-    description: 'Identificador del rol',
-  })
-  roleId: string;
 
   @IsEnum(TypeAction)
   @ApiProperty({
