@@ -20,10 +20,10 @@ export class PriceService {
     return `This action returns all price`;
   }
 
-  findFirst(presentationId: string, price: number) {
+  findFirst(productPresentationId: string, price: number) {
     return this.prisma.price.findFirst({
       where: {
-        presentationId,
+        productPresentationId,
         price,
         active: true,
       },

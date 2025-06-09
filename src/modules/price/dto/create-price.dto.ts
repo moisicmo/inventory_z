@@ -8,7 +8,7 @@ export class CreatePriceDto {
     example: 'presentation-123',
     description: 'Identificador de la presentación',
   })
-  presentationId: string;
+  productPresentationId: string;
 
   @IsNotEmpty()
   @IsNumber()

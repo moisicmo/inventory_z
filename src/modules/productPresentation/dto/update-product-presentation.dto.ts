@@ -1,8 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { CreatePresentationDto } from './create-presentation.dto';
+import { CreateProductPresentationDto } from './create-product-presentation.dto';
 import { IsOptional, IsString } from 'class-validator';
 
-export class UpdatePresentationDto extends PartialType(CreatePresentationDto) {
+export class UpdateProductPresentationDto extends PartialType(CreateProductPresentationDto) {
   @IsOptional()
   @IsString()
   @ApiProperty({ example: 'subio o rebajó el precio', description: 'razon del cambio', required: false })

@@ -1,22 +1,22 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNumber } from "class-validator";
+import { IsArray, IsNumber, IsString } from "class-validator";
 import { CreateOutputDto } from "./create-output.dto";
 
 export class CreateOrderDto {
 
-  @IsNumber()
+  @IsString()
   @ApiProperty({
-    example: 1,
-    description: 'ID del punto de venta',
+    example: 'customer123',
+    description: 'Identificador del cliente',
   })
-  pointSaleId: number
+  customerId: string;
 
-  @IsNumber()
+  @IsString()
   @ApiProperty({
-    example: 1,
-    description: 'ID del cliente',
+    example: 'branch123',
+    description: 'Identificador de la sucursal',
   })
-  customerId: number
+  branchId: string;
 
   @IsNumber()
   @ApiProperty({
@@ -29,7 +29,7 @@ export class CreateOrderDto {
   @ApiProperty({
     example: [
       {
-        productId: 1,
+        productPresentationId: 'presentation123',
         quantity: 1,
         price: 1.00
       }

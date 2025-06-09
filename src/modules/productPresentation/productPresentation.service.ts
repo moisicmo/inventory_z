@@ -1,23 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePresentationDto } from './dto/create-presentation.dto';
-import { UpdatePresentationDto } from './dto/update-presentation.dto';
+import { CreateProductPresentationDto } from './dto/create-product-presentation.dto';
+import { UpdateProductPresentationDto } from './dto/update-product-presentation.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { PresentationEntity } from './entities/presentation.entity';
+import { ProductPresentationEntity } from './entities/product-presentation.entity';
 import { TypeUnit } from '@prisma/client';
 import { PaginationDto } from '@/common';
 import { PriceService } from '@/modules/price/price.service';
 
 @Injectable()
-export class PresentationService {
+export class ProductPresentationService {
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly priceService: PriceService,
   ) { }
 
-  async create(createPresentationDto: CreatePresentationDto) {
+  async create(createPresentationDto: CreateProductPresentationDto) {
     const { price, ...restPresentation } = createPresentationDto;
-    return await this.prisma.presentation.create({
+    return await this.prisma.productPresentation.create({
       data: {
         ...restPresentation,
         prices: {
@@ -26,22 +26,22 @@ export class PresentationService {
           },
         },
       },
-      select: PresentationEntity
+      select: ProductPresentationEntity
     });
   }
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
-    const totalPages = await this.prisma.presentation.count({
+    const totalPages = await this.prisma.productPresentation.count({
       where: { active: true },
     });
     const lastPage = Math.ceil(totalPages / limit);
 
-    const data = await this.prisma.presentation.findMany({
+    const data = await this.prisma.productPresentation.findMany({
       skip: (page - 1) * limit,
       take: limit,
       where: { active: true },
-      select: PresentationEntity,
+      select: ProductPresentationEntity,
     });
 
     return {
@@ -51,20 +51,20 @@ export class PresentationService {
   }
 
   async findOne(id: string) {
-    const presentation = await this.prisma.presentation.findUnique({
+    const productPresentation = await this.prisma.productPresentation.findUnique({
       where: { id },
-      select: PresentationEntity,
+      select: ProductPresentationEntity,
     });
 
-    if (!presentation) {
+    if (!productPresentation) {
       throw new NotFoundException(`Category with id #${id} not found`);
     }
 
-    return presentation;
+    return productPresentation;
   }
 
   async findFirst(branchId: string, typeUnit: TypeUnit, productId: string) {
-    const presentation = await this.prisma.presentation.findUnique({
+    const productPresentation = await this.prisma.productPresentation.findUnique({
       where: {
         productId_branchId_typeUnit: {
           productId,
@@ -73,20 +73,20 @@ export class PresentationService {
         },
         active: true,
       },
-      select: PresentationEntity,
+      select: ProductPresentationEntity,
     });
 
-    if (!presentation) {
-      throw new NotFoundException(`Presentation with branchId #${branchId} not found`);
+    if (!productPresentation) {
+      throw new NotFoundException(`Product Presentation with branchId #${branchId} not found`);
     }
 
-    return presentation;
+    return productPresentation;
   }
 
-  async update(id: string, updatePresentationDto: UpdatePresentationDto) {
+  async update(id: string, updatePresentationDto: UpdateProductPresentationDto) {
     const { price, changedReason, ...restPresentation } = updatePresentationDto;
 
-    const existingPresentation = await this.prisma.presentation.findUnique({
+    const existingProductPresentation = await this.prisma.productPresentation.findUnique({
       where: { id },
       include: {
         prices: {
@@ -97,38 +97,38 @@ export class PresentationService {
       },
     });
 
-    if (!existingPresentation) {
-      throw new NotFoundException(`Presentation with id #${id} not found`);
+    if (!existingProductPresentation) {
+      throw new NotFoundException(`Product Presentation with id #${id} not found`);
     }
 
-    const currentPrice = existingPresentation.prices[0]?.price;
+    const currentPrice = existingProductPresentation.prices[0]?.price;
 
     // Si el precio cambió, registramos uno nuevo
     if (price !== undefined && price !== currentPrice) {
       await this.priceService.create({
-        presentationId: id,
+        productPresentationId: id,
         price,
         changedReason,
       });
     }
 
     // Actualiza la presentación (sin tocar precios)
-    return this.prisma.presentation.update({
+    return this.prisma.productPresentation.update({
       where: { id },
       data: {
         ...restPresentation,
       },
-      select: PresentationEntity,
+      select: ProductPresentationEntity,
     });
   }
 
 
   async remove(id: string) {
     await this.findOne(id);
-    return await this.prisma.presentation.update({
+    return await this.prisma.productPresentation.update({
       where: { id },
       data: { active: false },
-      select: PresentationEntity,
+      select: ProductPresentationEntity,
     });
   }
 }

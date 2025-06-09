@@ -14,16 +14,16 @@ export class KardexService {
     const totalProducts = await this.prisma.product.count();
     const lastPage = Math.ceil(totalProducts / limit);
 
-    const presentations = await this.prisma.presentation.findMany({
+    const productPresentations = await this.prisma.productPresentation.findMany({
       skip: (page - 1) * limit,
       take: limit,
     });
 
     const data = await Promise.all(
-      presentations.map(async (presentation) => {
+      productPresentations.map(async (productPresentation) => {
         const kardexList = await this.prisma.kardex.findMany({
           select: KardexEntity,
-          where: { presentationId: presentation.id },
+          where: { productPresentationId: productPresentation.id },
         });
 
         const kardexWithDetails = await Promise.all(
@@ -34,7 +34,7 @@ export class KardexService {
 
         return {
           stock: kardexList.length > 0 ? kardexList[kardexList.length - 1].stock : 0,
-          presentation,
+          presentation: productPresentation,
           kardex: kardexWithDetails.filter(Boolean),
         };
       }),

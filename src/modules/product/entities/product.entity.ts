@@ -1,5 +1,5 @@
 import { CategoryEntity } from "@/modules/category/entities/category.entity";
-import { PresentationEntity } from "@/modules/presentation/entities/presentation.entity";
+import { ProductPresentationEntity } from "@/modules/productPresentation/entities/product-presentation.entity";
 
 export const ProductEntity = {
   id: true,
@@ -11,7 +11,7 @@ export const ProductEntity = {
   category: {
     select: CategoryEntity
   },
-  presentations: {
-    select: PresentationEntity
+  productPresentations: {
+    select: ProductPresentationEntity
   }
 };

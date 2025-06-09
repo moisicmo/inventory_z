@@ -13,30 +13,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model User {
-  id                    String              @id @default(uuid()) @db.Uuid
-  numberDocument        String              @db.VarChar @unique
-  typeDocument          TypeDocument        @default(DNI)
-  name                  String              @db.VarChar
-  lastName              String              @db.VarChar
-  email                 String?             @db.VarChar @unique
-  active                Boolean             @default(true)
-  codeActivation        String?             @db.VarChar
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  numberDocument        String              @map("number_document")           @db.VarChar @unique
+  typeDocument          TypeDocument        @map("type_document")             @default(DNI)
+  name                  String                                                @db.VarChar
+  lastName              String              @map("last_name")                 @db.VarChar
+  email                 String?                                               @db.VarChar @unique
+  active                Boolean                                               @default(true)
+  codeActivation        String?             @map("code_activation")           @db.VarChar
+  createdAt             DateTime            @map("created_at")                @default(now())
+  updatedAt             DateTime            @map("updated_at")                @updatedAt
   customer              Customer?
   staff                 Staff?
   sessions              Session[]
-  forgotPassword        forgotPassword[]
-  auditLog              AuditLog[]
+  forgotPasswords       forgotPassword[]
+  auditLogs             AuditLog[]
   @@map("users")  
 }
 model Staff {
-  userId                String              @db.Uuid @unique
-  roleId                String              @db.Uuid
-  password              String              @db.VarChar
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  userId                String              @map("user_id")                   @db.Uuid @unique
+  roleId                String              @map("role_id")                   @db.Uuid
+  password              String                                                @db.VarChar
+  active                Boolean                                               @default(true)
+  createdAt             DateTime            @map("created_at")                @default(now())
+  updatedAt             DateTime            @map("updated_at")                @updatedAt
   user                  User                @relation(fields: [userId], references: [id])
   role                  Role                @relation(fields: [roleId], references: [id])
   branches              Branch[]
@@ -45,99 +45,99 @@ model Staff {
   @@id([userId])
 }
 model Role {
-  id                    String              @id @default(uuid()) @db.Uuid
-  name                  String              @db.VarChar
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String                                                @db.VarChar
+  active                Boolean                                               @default(true)
+  createdAt             DateTime            @map("created_at")                @default(now())
+  updatedAt             DateTime            @map("updated_at")                @updatedAt
   permissions           Permission[]
   staffs                Staff[]
   @@map("roles")
 }
 model Permission {
-  id                    String              @id @default(uuid()) @db.Uuid
-  roleId                String              @db.Uuid
+  id                    String                                                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  roleId                String              @map("role_id")                   @db.Uuid
   action                TypeAction
   subject               TypeSubject
-  inverted              Boolean             @default(false)
-  conditions            Json?               @db.JsonB
-  reason                String?             @db.Text
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  inverted              Boolean                                               @default(false)
+  conditions            Json?                                                 @db.JsonB
+  reason                String?                                               @db.Text
+  active                Boolean                                               @default(true)
+  createdAt             DateTime            @map("created_at")                @default(now())
+  updatedAt             DateTime            @map("updated_at")                @updatedAt
   role                  Role                @relation(fields: [roleId], references: [id])
   @@map("permissions")
 }
 model CashClosure {
-  id                    String              @id @default(uuid()) @db.Uuid
-  userId                String              @db.Uuid
-  endTime               DateTime
-  totalAmount           Float               @default(0.0)
-  createdAt             DateTime            @default(now())
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                String              @map("user_id")                     @db.Uuid
+  endTime               DateTime            @map("end_time") 
+  totalAmount           Float               @map("total_amount")                @default(0.0)
+  createdAt             DateTime            @map("created_at")                  @default(now())
   staff                 Staff               @relation(fields: [userId], references: [userId])
   orers                 Order[]
-  @@map("cashClosures")
+  @@map("cash_closures")
 }
 model forgotPassword {
-  id                    String              @id @default(uuid()) @db.Uuid
-  userId                String              @db.Uuid
-  code                  String              @db.VarChar
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                String              @map("user_id")                     @db.Uuid
+  code                  String                                                  @db.VarChar
+  createdAt             DateTime            @map("created_at")                  @default(now())
+  updatedAt             DateTime            @map("updated_at")                  @updatedAt
   user                  User                @relation(fields: [userId], references: [id])
   @@map("forgot_passwords")
 }
 model Session {
-  id                    String              @id @default(uuid()) @db.Uuid
-  userId                String              @db.Uuid
-  token                 String              @db.VarChar @unique
-  ipAddress             String              @db.VarChar
-  userAgent             String              @db.VarChar
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                String              @map("user_id")                     @db.Uuid
+  token                 String                                                  @db.VarChar @unique
+  ipAddress             String              @map("ip_address")                  @db.VarChar
+  userAgent             String              @map("user_agent")                  @db.VarChar
+  createdAt             DateTime            @map("created_at")                  @default(now())
+  updatedAt             DateTime            @map("updated_at")                  @updatedAt
   user                  User                @relation(fields: [userId], references: [id])
   @@map("sessions")
 }
 model Customer {
-  userId                String              @db.Uuid @unique
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  userId                String              @map("user_id")                     @db.Uuid @unique
+  active                Boolean                                                 @default(true)
+  createdAt             DateTime            @map("created_at")                  @default(now())
+  updatedAt             DateTime            @map("updated_at")                  @updatedAt
   user                  User                @relation(fields: [userId], references: [id])
   orers                 Order[]
   @@map("customers")
 }
 model Category {
-  id                    String              @id @default(uuid()) @db.Uuid
-  name                  String              @db.VarChar
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String                                                  @db.VarChar
+  active                Boolean                                                 @default(true)
+  createdAt             DateTime            @map("created_at")                  @default(now())
+  updatedAt             DateTime            @map("updated_at")                  @updatedAt
   products              Product[]
   @@map("categories")
 }
 model Product {
-  id                    String              @id @default(uuid()) @db.Uuid
-  categoryId            String              @db.Uuid
-  code                  String?             @db.VarChar
-  name                  String              @db.VarChar
-  image                 String?             @db.VarChar
-  barCode               String?             @db.VarChar
-  visible               Boolean             @default(true)
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  categoryId            String              @map("category_id")                 @db.Uuid
+  code                  String?                                                 @db.VarChar
+  name                  String                                                  @db.VarChar
+  image                 String?                                                 @db.VarChar
+  barCode               String?             @map("bar_code")                    @db.VarChar
+  visible               Boolean                                                 @default(true)
+  active                Boolean                                                 @default(true)
+  createdAt             DateTime            @map("created_at")                  @default(now())
+  updatedAt             DateTime            @map("updated_at")                  @updatedAt
   category              Category            @relation(fields: [categoryId], references: [id])
-  presentations         Presentation[]
+  productPresentations  ProductPresentation[]
   unitConversions       UnitConversion[]
   @@map("products")
 }
-model Presentation {
-  id                    String              @id @default(uuid()) @db.Uuid
-  productId             String              @db.Uuid 
-  branchId              String              @db.Uuid
-  typeUnit              TypeUnit
-  active                Boolean             @default(true)
+model ProductPresentation {
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId             String              @map("product_id")                  @db.Uuid 
+  branchId              String              @map("branch_id")                   @db.Uuid
+  typeUnit              TypeUnit            @map("type_unit") 
+  active                Boolean                                                 @default(true)
   product               Product             @relation(fields: [productId], references: [id])
   branch                Branch              @relation(fields: [branchId], references: [id])
   prices                Price[]
@@ -145,109 +145,111 @@ model Presentation {
   outputs               Output[]
   kardexs               Kardex[]
   @@unique([productId, branchId, typeUnit])
+  @@map("product_presentations")
 }
 model Price {
-  id                    String              @id @default(uuid()) @db.Uuid
-  presentationId        String              @db.Uuid
-  price                 Float               @default(0.0)  
-  discount              Float               @default(0.0)
-  typeDiscount          TypeDiscount        @default(MONTO)
-  changedReason         String              @default("creado")
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  presentation          Presentation        @relation(fields: [presentationId], references: [id])
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productPresentationId String                @map("product_presentation_id")   @db.Uuid
+  price                 Float                                                   @default(0.0)  
+  discount              Float                                                   @default(0.0)
+  typeDiscount          TypeDiscount          @map("type_discount")             @default(MONTO)
+  changedReason         String                @map("changed_reason")            @default("creado")
+  active                Boolean                                                 @default(true)
+  createdAt             DateTime              @map("created_at")                @default(now())
+  productPresentation   ProductPresentation   @relation(fields: [productPresentationId], references: [id])
   @@map("prices")
 }
 model UnitConversion {
-  id                    String              @id @default(uuid()) @db.Uuid
-  productId             String              @db.Uuid
-  fromUnit              TypeUnit
-  toUnit                TypeUnit
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId             String                @map("product_id")                @db.Uuid
+  fromUnit              TypeUnit              @map("from_unit") 
+  toUnit                TypeUnit              @map("to_unit") 
   factor                Int
-  product               Product             @relation(fields: [productId], references: [id])
+  product               Product               @relation(fields: [productId], references: [id])
   @@unique([productId, fromUnit, toUnit])
+  @@map("unit_conversions")
 }
 model Branch {
-  id                    String              @id @default(uuid()) @db.Uuid
-  name                  String              @db.VarChar
-  address               String?             @db.VarChar
-  phone                 String?             @db.VarChar
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String                                                  @db.VarChar
+  address               String?                                                 @db.VarChar
+  phone                 String?                                                 @db.VarChar
+  active                Boolean                                                 @default(true)
+  createdAt             DateTime              @map("created_at")                @default(now())
+  updatedAt             DateTime              @map("updated_at")                @updatedAt
   staffs                Staff[]
   karedxs               Kardex[]
   inputs                Input[]
   outputs               Output[]
   orders                Order[]
-  presentations         Presentation[]
+  productPresentations  ProductPresentation[]
   @@map("branches")
 }
 model Input {
-  id                    String              @id @default(uuid()) @db.Uuid
-  branchId              String              @db.Uuid
-  presentationId        String              @db.Uuid
-  quantity              Int                 @db.Integer
-  price                 Float               @default(0.0)
-  dueDate               DateTime?           @db.Date
-  detail                String              @db.VarChar
-  createdAt             DateTime            @default(now())
-  branch                Branch              @relation(fields: [branchId], references: [id])
-  presentation          Presentation        @relation(fields: [presentationId], references: [id])
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  branchId              String                @map("branch_id")                 @db.Uuid
+  productPresentationId String                @map("product_presentation_id")   @db.Uuid
+  quantity              Int                                                     @db.Integer
+  price                 Float                                                   @default(0.0)
+  dueDate               DateTime?             @map("due_date")                  @db.Date
+  detail                String                                                  @db.VarChar
+  createdAt             DateTime              @map("created_at")                @default(now())
+  branch                Branch                @relation(fields: [branchId], references: [id])
+  productPresentation   ProductPresentation   @relation(fields: [productPresentationId], references: [id])
   @@map("inputs")
 }
 model Output {
-  id                    String              @id @default(uuid()) @db.Uuid
-  branchId              String              @db.Uuid
-  orderId               String              @db.Uuid
-  presentationId        String              @db.Uuid
-  quantity              Int                 @db.Integer
-  price                 Float               @default(0.0)
-  detail                String              @db.VarChar
-  createdAt             DateTime            @default(now())
-  branch                Branch              @relation(fields: [branchId], references: [id])
-  order                 Order               @relation(fields: [orderId], references: [id])
-  presentation          Presentation        @relation(fields: [presentationId], references: [id])
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  branchId              String                @map("branch_id")                 @db.Uuid
+  orderId               String                @map("order_id")                  @db.Uuid
+  productPresentationId String                @map("product_presentation_id")   @db.Uuid
+  quantity              Int                                                     @db.Integer
+  price                 Float                                                   @default(0.0)
+  detail                String                                                  @db.VarChar
+  createdAt             DateTime              @map("created_at")                @default(now())
+  branch                Branch                @relation(fields: [branchId], references: [id])
+  order                 Order                 @relation(fields: [orderId], references: [id])
+  productPresentation   ProductPresentation   @relation(fields: [productPresentationId], references: [id])
   @@map("outputs")
 }
 model Kardex {
-  branchId              String              @db.Uuid
-  presentationId        String              @db.Uuid
-  referenceId           String              @db.Uuid
-  typeReference         TypeReference
-  stock                 Int                 @db.Integer
-  presentation          Presentation        @relation(fields: [presentationId], references: [id])
-  branch                Branch              @relation(fields: [branchId], references: [id])
-  createdAt             DateTime            @default(now())
+  branchId              String                @map("branch_id")                 @db.Uuid
+  productPresentationId String                @map("product_presentation_id")   @db.Uuid
+  referenceId           String                @map("reference_id")              @db.Uuid
+  typeReference         TypeReference         @map("type_reference")
+  stock                 Int                                                     @db.Integer
+  createdAt             DateTime              @map("created_at")                @default(now())
+  productPresentation   ProductPresentation   @relation(fields: [productPresentationId], references: [id])
+  branch                Branch                @relation(fields: [branchId], references: [id])
   @@unique([referenceId,typeReference])
   @@map("kardexs")
 }
 model Order {
-  id                    String              @id @default(uuid()) @db.Uuid
-  customerId            String              @db.Uuid
-  branchId              String              @db.Uuid
-  closureId             String?             @db.Uuid 
-  amount                Float               @default(0.0)
-  active                Boolean             @db.Boolean @default(true)
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  customerId            String                @map("customer_id")               @db.Uuid
+  branchId              String                @map("branch_id")                 @db.Uuid
+  closureId             String?               @map("closure_id")                @db.Uuid 
+  amount                Float                                                   @default(0.0)
+  active                Boolean                                                 @db.Boolean @default(true)
+  createdAt             DateTime              @map("created_at")                @default(now())
+  updatedAt             DateTime              @map("updated_at")                @updatedAt
+  customer              Customer              @relation(fields: [customerId], references: [userId])
+  branch                Branch                @relation(fields: [branchId], references: [id])
+  closure               CashClosure?          @relation(fields: [closureId], references: [id])
   outputs               Output[]
-  customer              Customer            @relation(fields: [customerId], references: [userId])
-  branch                Branch              @relation(fields: [branchId], references: [id])
-  closure               CashClosure?        @relation(fields: [closureId], references: [id])
   @@map("orders")
 }
 model AuditLog {
-  id                    String              @id @default(uuid()) @db.Uuid
-  userId                String              @db.Uuid
-  action                String              // 'CREATE', 'UPDATE', 'DELETE'
-  entity                String              // Nombre de la tabla: 'Price', 'Product', etc.
-  entityId              String              @db.Uuid
-  dataBefore            Json?               // Estado anterior (si aplica)
-  dataAfter             Json?               // Estado nuevo (si aplica)
-  timestamp             DateTime            @default(now())
-  description           String?             // Mensaje opcional ("Cambio de precio por inflación")
-  user                  User                @relation(fields: [userId], references: [id])
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId                String                @map("user_id")                   @db.Uuid
+  action                String                                                  // 'CREATE', 'UPDATE', 'DELETE'
+  entity                String                                                  // Nombre de la tabla: 'Price', 'Product', etc.
+  entityId              String                @map("entity_id")                 @db.Uuid
+  dataBefore            Json?                 @map("data_before")               // Estado anterior (si aplica)
+  dataAfter             Json?                 @map("data_after")                // Estado nuevo (si aplica)
+  timestamp             DateTime                                                @default(now())
+  description           String?                                                 // Mensaje opcional ("Cambio de precio por inflación")
+  user                  User                  @relation(fields: [userId], references: [id])
   @@map("audit_logs")
 }
 

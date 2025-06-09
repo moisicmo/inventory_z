@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { TypeUnit } from "@prisma/client";
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class CreatePresentationDto {
+export class CreateProductPresentationDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({

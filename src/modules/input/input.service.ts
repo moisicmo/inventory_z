@@ -17,7 +17,7 @@ export class InputService {
     const inputs = await this.prisma.input.createManyAndReturn({
       select: InputEntity,
       data: presentations.map((e) => ({
-        presentationId: e.presentationId,
+        productPresentationId: e.productPresentationId,
         quantity: e.quantity,
         price: e.price,
         dueDate: e.dueDate,

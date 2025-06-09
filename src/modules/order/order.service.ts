@@ -1,26 +1,72 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { PrismaService } from '@/prisma/prisma.service';
+import { KardexService } from '../kardex/kardex.service';
+import { TypeReference } from '@prisma/client';
+import { PaginationDto } from '@/common';
 
 @Injectable()
 export class OrderService {
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+
+  constructor(
+    private prisma: PrismaService,
+    private kardexService: KardexService,
+  ) { }
+
+  async create(createOrderDto: CreateOrderDto) {
+    const { customerId, branchId, amount, outputs: dataOutputs } = createOrderDto;
+    const order = await this.prisma.order.create({
+      data: {
+        customerId,
+        branchId,
+        amount,
+      }
+    });
+    const outputs = await this.prisma.output.createManyAndReturn({
+      // select: InputEntity,
+      data: dataOutputs.map((e) => ({
+        branchId,
+        orderId: order.id,
+        productPresentationId: e.productPresentationId,
+        quantity: e.quantity,
+        price: e.price,
+        detail: 'venta'
+      })),
+    });
+    const kardexLists = await Promise.all(
+      outputs.map((output) => this.kardexService.findByReference(output.id, TypeReference.outputs)),
+    );
+    return kardexLists;
   }
 
-  findAll() {
-    return `This action returns all order`;
+  async findAll(paginationDto: PaginationDto) {
+    const { page = 1, limit = 10 } = paginationDto;
+    const totalPages = await this.prisma.order.count({
+      where: { active: true },
+    });
+    const lastPage = Math.ceil(totalPages / limit);
+
+    return {
+      data: await this.prisma.order.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+        where: { active: true },
+        // select: PermissionEntity,
+      }),
+      meta: { total: totalPages, page, lastPage },
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
-  }
+  async findOne(id: string) {
+    const permission = await this.prisma.order.findUnique({
+      where: { id },
+      // select: PermissionEntity,
+    });
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
+    if (!permission) {
+      throw new NotFoundException(`Order with id #${id} not found`);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+    return permission;
   }
 }

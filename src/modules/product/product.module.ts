@@ -4,11 +4,11 @@ import { ProductController } from './product.controller';
 import { PrismaModule } from '@/prisma/prisma.module';
 import { CloudinaryModule } from '@/common/cloudinary/cloudinary.module';
 import { CaslModule } from '@/casl/casl.module';
-import { PresentationService } from '@/modules/presentation/presentation.service';
+import { ProductPresentationService } from '@/modules/productPresentation/productPresentation.service';
 import { PriceService } from '@/modules/price/price.service';
 @Module({
   controllers: [ProductController],
-  providers: [ProductService, PresentationService, PriceService],
+  providers: [ProductService, ProductPresentationService, PriceService],
   imports: [PrismaModule, CloudinaryModule, CaslModule],
 })
 export class ProductModule { }

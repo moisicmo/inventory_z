@@ -16,7 +16,7 @@ import { PermissionModule } from './modules/permission/permission.module';
 import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
 import { CloudinaryService } from './common/cloudinary/clodinary.service';
 import { KardexModule } from './modules/kardex/kardex.module';
-import { PresentationModule } from './modules/presentation/presentation.module';
+import { ProductPresentationModule } from './modules/productPresentation/productPresentation.module';
 import { PriceModule } from './modules/price/price.module';
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { PriceModule } from './modules/price/price.module';
     StaffModule,
     CategoryModule,
     ProductModule,
-    PresentationModule,
+    ProductPresentationModule,
     InputModule,
     CustomerModule,
     OrderModule,

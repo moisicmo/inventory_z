@@ -5,7 +5,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
 import { CloudinaryService } from '@/common/cloudinary/clodinary.service';
 import { ProductEntity } from './entities/product.entity';
-import { PresentationService } from '@/modules/presentation/presentation.service';
+import { ProductPresentationService } from '@/modules/productPresentation/productPresentation.service';
 import { PriceService } from '@/modules/price/price.service';
 @Injectable()
 export class ProductService {
@@ -13,7 +13,7 @@ export class ProductService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly cloudinaryService: CloudinaryService,
-    private readonly presentationService: PresentationService,
+    private readonly productPresentationService: ProductPresentationService,
     private readonly priceService: PriceService,
   ) { }
 
@@ -43,7 +43,7 @@ export class ProductService {
         categoryId,
         name,
         image: imageUrl,
-        presentations: {
+        productPresentations: {
           create: {
             branchId,
             typeUnit,
@@ -108,12 +108,12 @@ export class ProductService {
       imageUrl = uploadResult.secure_url;
     }
 
-    const resolvedBranchId = branchId ?? existingProduct.presentations[0].branch.id;
-    const resolvedTypeUnit = typeUnit ?? existingProduct.presentations[0].typeUnit;
-    let resolvedPrice = price ?? existingProduct.presentations[0].prices[0].price;
+    const resolvedBranchId = branchId ?? existingProduct.productPresentations[0].branch.id;
+    const resolvedTypeUnit = typeUnit ?? existingProduct.productPresentations[0].typeUnit;
+    let resolvedPrice = price ?? existingProduct.productPresentations[0].prices[0].price;
 
     // Buscar presentación existente
-    const existingPresentation = await this.presentationService.findFirst(resolvedBranchId, resolvedTypeUnit, id);
+    const existingProductPresentation = await this.productPresentationService.findFirst(resolvedBranchId, resolvedTypeUnit, id);
 
     const updateData: any = {
       categoryId,
@@ -121,7 +121,7 @@ export class ProductService {
       ...(imageUrl ? { image: imageUrl } : {}),
     };
 
-    if (!existingPresentation) {
+    if (!existingProductPresentation) {
       // Si no existe presentación, se crea junto con el precio
       updateData.presentations = {
         create: {
@@ -144,7 +144,7 @@ export class ProductService {
       if (!existingPrice) {
         // Creamos nuevo precio si no existe uno igual activo
         await this.priceService.create({
-          presentationId: existingPresentation.id,
+          productPresentationId: existingProductPresentation.id,
           price: resolvedPrice,
           changedReason,
         });

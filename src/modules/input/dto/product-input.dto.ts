@@ -5,7 +5,7 @@ import { Type } from 'class-transformer';
 export class PresentationInputDto {
   @IsString()
   @ApiProperty({ example: 'abc', description: 'Identificador del producto' })
-  presentationId: string;
+  productPresentationId: string;
 
   @IsNumber()
   @ApiProperty({ example: 100, description: 'Cantidad de producto' })
