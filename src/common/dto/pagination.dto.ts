@@ -13,4 +13,9 @@ export class PaginationDto {
   @Type(() => Number)
   limit?: number = 1000000000;
 
+
+  @IsOptional()
+  @Type(() => String)
+  keys?: string = ''
+
 }

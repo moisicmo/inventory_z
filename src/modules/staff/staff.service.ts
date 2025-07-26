@@ -3,7 +3,8 @@ import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { PaginationDto, UserEntity } from '@/common'; @Injectable()
+import { PaginationDto, UserEntity } from '@/common'; import { StaffEntity } from './entities/staff.entity';
+@Injectable()
 export class StaffService {
 
   constructor(private readonly prisma: PrismaService) { }
@@ -44,48 +45,39 @@ export class StaffService {
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
-    const totalPages = await this.prisma.user.count({
+    const totalPages = await this.prisma.staff.count({
       where: {
         active: true,
-        staff: {
-          isNot: null,
-        },
       },
     });
     const lastPage = Math.ceil(totalPages / limit);
 
     return {
-      data: await this.prisma.user.findMany({
+      data: await this.prisma.staff.findMany({
         skip: (page - 1) * limit,
         take: limit,
         where: {
           active: true,
-          staff: {
-            isNot: null,
-          },
         },
-        select: UserEntity,
+        select: StaffEntity,
       }),
       meta: { total: totalPages, page, lastPage },
     };
   }
 
   async findOne(id: string) {
-    const user = await this.prisma.user.findUnique({
+    const staff = await this.prisma.staff.findUnique({
       where: {
-        id,
-        staff: {
-          isNot: null,
-        },
+        userId: id,
       },
-      select: UserEntity,
+      select: StaffEntity,
     });
 
-    if (!user) {
+    if (!staff) {
       throw new NotFoundException(`Staff with id #${id} not found`);
     }
 
-    return user;
+    return staff;
   }
 
   async update(id: string, updateStaffDto: UpdateStaffDto) {

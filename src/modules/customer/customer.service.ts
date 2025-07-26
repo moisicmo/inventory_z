@@ -3,6 +3,7 @@ import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto, UserEntity } from '@/common';
+import { CustomerEntity } from './entities/customer.entity';
 
 @Injectable()
 export class CustomerService {
@@ -36,48 +37,39 @@ export class CustomerService {
 
   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
-    const totalPages = await this.prisma.user.count({
+    const totalPages = await this.prisma.customer.count({
       where: {
         active: true,
-        customer: {
-          isNot: null,
-        },
       },
     });
     const lastPage = Math.ceil(totalPages / limit);
 
     return {
-      data: await this.prisma.user.findMany({
+      data: await this.prisma.customer.findMany({
         skip: (page - 1) * limit,
         take: limit,
         where: {
           active: true,
-          customer: {
-            isNot: null,
-          },
         },
-        select: UserEntity,
+        select: CustomerEntity,
       }),
       meta: { total: totalPages, page, lastPage },
     };
   }
 
   async findOne(id: string) {
-    const user = await this.prisma.user.findUnique({
+    const customer = await this.prisma.customer.findUnique({
       where: {
-        id,
-        customer: {
-          isNot: null,
-        },
+        userId: id,
       },
-      select: UserEntity,
+      select: CustomerEntity,
     });
 
-    if (!user) {
+    if (!customer) {
       throw new NotFoundException(`Customer with id #${id} not found`);
     }
 
-    return user;
+    return customer;
   }
 
   async update(id: string, updateCustomerDto: UpdateCustomerDto) {

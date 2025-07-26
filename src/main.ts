@@ -2,12 +2,22 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
 import { envs } from './config';
+import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
 
 async function bootstrap() {
   const logger = new Logger('Main-Gateway');
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+
+  app.setGlobalPrefix('api');
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -17,7 +27,7 @@ async function bootstrap() {
   );
   const config = new DocumentBuilder()
     .setTitle('APIS DOCUMENTATION')
-    .setDescription("Documentation API's LUMINIA")
+    .setDescription("Documentation API's market")
     .setVersion('1.0')
     .addBearerAuth(
       {
@@ -30,11 +40,16 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   document.security = [{ Authorization: [] }];
-  SwaggerModule.setup('api', app, document, {
+  const theme = new SwaggerTheme();
+  const options: SwaggerCustomOptions = {
+    customCss: theme.getBuffer(SwaggerThemeNameEnum.ONE_DARK),
     swaggerOptions: {
       persistAuthorization: true,
+      docExpansion: 'none',
     },
-  });
+  };
+    SwaggerModule.setup('api/docs', app, document, options);
+
   
   await app.listen(envs.port);
   logger.log(`Gateway running on port ${envs.port}`);

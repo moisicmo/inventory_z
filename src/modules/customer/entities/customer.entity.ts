@@ -1,4 +1,9 @@
+import { UserEntity } from "@/common";
+
 export const CustomerEntity = {
-  userId: false,
+  userId: true,
   active: true,
+  user: {
+    select: UserEntity,
+  }
 };
