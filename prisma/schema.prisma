@@ -136,6 +136,7 @@ model ProductPresentation {
   id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   productId             String              @map("product_id")                  @db.Uuid 
   branchId              String              @map("branch_id")                   @db.Uuid
+  name                  String              @map("name")                        @db.VarChar
   typeUnit              TypeUnit            @map("type_unit") 
   active                Boolean                                                 @default(true)
   product               Product             @relation(fields: [productId], references: [id])

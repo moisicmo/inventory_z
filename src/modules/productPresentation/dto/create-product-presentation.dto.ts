@@ -19,6 +19,10 @@ export class CreateProductPresentationDto {
   })
   branchId: string;
 
+  @IsString()
+  @ApiProperty({ example: 'Product Presentation 1' })
+  name: string;
+
   @IsNotEmpty()
   @IsEnum(TypeUnit)
   @ApiProperty({

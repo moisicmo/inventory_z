@@ -14,6 +14,10 @@ export class CreateProductDto {
   name: string;
 
   @IsString()
+  @ApiProperty({ example: 'Product Presentation 1' })
+  namePresentation: string;
+
+  @IsString()
   @ApiProperty({ example: 'abc', description: 'ID de la sucursal' })
   branchId: string;
 

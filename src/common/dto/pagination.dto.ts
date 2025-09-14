@@ -3,6 +3,10 @@ import { IsOptional, IsPositive } from 'class-validator';
 
 export class PaginationDto {
 
+  @IsOptional()
+  @Type(() => String)
+  branchId?: string = '';
+
   @IsPositive()
   @IsOptional()
   @Type(() => Number)
@@ -13,9 +17,8 @@ export class PaginationDto {
   @Type(() => Number)
   limit?: number = 1000000000;
 
-
   @IsOptional()
   @Type(() => String)
-  keys?: string = ''
+  keys?: string = '';
 
 }

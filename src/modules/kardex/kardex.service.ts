@@ -3,20 +3,38 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { TypeReference } from '@prisma/client';
 import { KardexEntity } from './entities/kardex.entity';
+import { ProductPresentationEntity } from '../productPresentation/entities/product-presentation.entity';
 @Injectable()
 export class KardexService {
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(paginationDto: PaginationDto) {
-    const { page = 1, limit = 10 } = paginationDto;
+    const { branchId, page = 1, limit = 10, keys } = paginationDto;
 
-    const totalProducts = await this.prisma.product.count();
+    // Condición dinámica de filtro
+    const where: any = {};
+    if (branchId) {
+      where.branchId = branchId;
+    }
+
+    // 🔎 Opcional: si quieres búsqueda por nombre o código
+    if (keys && keys.trim() !== '') {
+      where.OR = [
+        { name: { contains: keys, mode: 'insensitive' } },
+        { product: { name: { contains: keys, mode: 'insensitive' } } },
+      ];
+    }
+
+    // Total filtrado (respetando branchId y/o keys)
+    const totalProducts = await this.prisma.productPresentation.count({ where });
     const lastPage = Math.ceil(totalProducts / limit);
 
     const productPresentations = await this.prisma.productPresentation.findMany({
       skip: (page - 1) * limit,
       take: limit,
+      where,
+      select: ProductPresentationEntity
     });
 
     const data = await Promise.all(
@@ -24,12 +42,13 @@ export class KardexService {
         const kardexList = await this.prisma.kardex.findMany({
           select: KardexEntity,
           where: { productPresentationId: productPresentation.id },
+          orderBy: { createdAt: 'asc' }, // aseguras orden cronológico
         });
 
         const kardexWithDetails = await Promise.all(
           kardexList.map((kardex) =>
-            this.findByReference(kardex.referenceId, kardex.typeReference)
-          )
+            this.findByReference(kardex.referenceId, kardex.typeReference),
+          ),
         );
 
         return {
@@ -45,7 +64,6 @@ export class KardexService {
       meta: { total: totalProducts, page, lastPage },
     };
   }
-
 
 
   async findByReference(referenceId: string, typeReference: TypeReference) {

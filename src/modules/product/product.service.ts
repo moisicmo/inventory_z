@@ -30,7 +30,7 @@ export class ProductService {
   }
 
   async create(createProductDto: CreateProductDto, image: Express.Multer.File) {
-    const { categoryId, name, branchId, typeUnit, price } = createProductDto;
+    const { categoryId, name, namePresentation, branchId, typeUnit, price } = createProductDto;
     let imageUrl: string | null = null;
     if (image) {
       const uploadResults = await this.cloudinaryService.uploadFile(image, 'productos');
@@ -46,6 +46,7 @@ export class ProductService {
         productPresentations: {
           create: {
             branchId,
+            name: namePresentation,
             typeUnit,
             prices: {
               create: {
