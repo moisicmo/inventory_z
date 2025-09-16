@@ -21,7 +21,7 @@ export class StaffService {
     if (userExists) {
       throw new Error('El usuario ya existe');
     }
-
+    console.log('El usuario no existe, se procederá a crear', email);
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(email, salt);
 
