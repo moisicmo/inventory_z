@@ -42,7 +42,7 @@ export class KardexService {
         const kardexList = await this.prisma.kardex.findMany({
           select: KardexEntity,
           where: { productPresentationId: productPresentation.id },
-          orderBy: { createdAt: 'asc' }, // aseguras orden cronológico
+          orderBy: { createdAt: 'desc' }, // aseguras orden cronológico
         });
 
         const kardexWithDetails = await Promise.all(
@@ -52,7 +52,7 @@ export class KardexService {
         );
 
         return {
-          stock: kardexList.length > 0 ? kardexList[kardexList.length - 1].stock : 0,
+          stock: kardexList.length > 0 ? kardexList[0].stock : 0,
           presentation: productPresentation,
           kardex: kardexWithDetails.filter(Boolean),
         };

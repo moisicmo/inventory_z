@@ -145,6 +145,7 @@ model ProductPresentation {
   inputs                Input[]
   outputs               Output[]
   kardexs               Kardex[]
+  transfers             Transfer[]
   @@unique([productId, branchId, typeUnit])
   @@map("product_presentations")
 }
@@ -184,11 +185,15 @@ model Branch {
   outputs               Output[]
   orders                Order[]
   productPresentations  ProductPresentation[]
+  fromTransfers         Transfer[]            @relation("TransferFromBranch")
+  toTransfers           Transfer[]            @relation("TransferToBranch")
+
   @@map("branches")
 }
 model Input {
   id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   branchId              String                @map("branch_id")                 @db.Uuid
+  transferId            String?               @map("transfer_id")               @db.Uuid
   productPresentationId String                @map("product_presentation_id")   @db.Uuid
   quantity              Int                                                     @db.Integer
   price                 Float                                                   @default(0.0)
@@ -196,20 +201,23 @@ model Input {
   detail                String                                                  @db.VarChar
   createdAt             DateTime              @map("created_at")                @default(now())
   branch                Branch                @relation(fields: [branchId], references: [id])
+  transfer              Transfer?             @relation(fields: [transferId], references: [id])
   productPresentation   ProductPresentation   @relation(fields: [productPresentationId], references: [id])
   @@map("inputs")
 }
 model Output {
   id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   branchId              String                @map("branch_id")                 @db.Uuid
-  orderId               String                @map("order_id")                  @db.Uuid
+  orderId               String?               @map("order_id")                  @db.Uuid
+  transferId            String?               @map("transfer_id")               @db.Uuid
   productPresentationId String                @map("product_presentation_id")   @db.Uuid
   quantity              Int                                                     @db.Integer
   price                 Float                                                   @default(0.0)
   detail                String                                                  @db.VarChar
   createdAt             DateTime              @map("created_at")                @default(now())
   branch                Branch                @relation(fields: [branchId], references: [id])
-  order                 Order                 @relation(fields: [orderId], references: [id])
+  order                 Order?                @relation(fields: [orderId], references: [id])
+  transfer              Transfer?             @relation(fields: [transferId], references: [id])
   productPresentation   ProductPresentation   @relation(fields: [productPresentationId], references: [id])
   @@map("outputs")
 }
@@ -224,6 +232,22 @@ model Kardex {
   branch                Branch                @relation(fields: [branchId], references: [id])
   @@unique([referenceId,typeReference])
   @@map("kardexs")
+}
+model Transfer {
+  id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fromBranchId          String                @map("from_branch_id")            @db.Uuid
+  toBranchId            String                @map("to_branch_id")              @db.Uuid
+  productPresentationId String                @map("product_presentation_id")   @db.Uuid
+  quantity              Int                                                     @db.Integer
+  price                 Float                                                   @default(0.0)
+  detail                String?                                                 @db.VarChar
+  createdAt             DateTime              @map("created_at")                @default(now())
+  fromBranch            Branch                @relation("TransferFromBranch", fields: [fromBranchId], references: [id])
+  toBranch              Branch                @relation("TransferToBranch", fields: [toBranchId], references: [id])
+  productPresentation   ProductPresentation   @relation(fields: [productPresentationId], references: [id])
+  outputs               Output[]
+  inputs                Input[]
+  @@map("transfers")
 }
 model Order {
   id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -300,4 +324,5 @@ enum TypeSubject {
   presentation
   price
   output
+  transfer
 }
