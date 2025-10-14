@@ -8,6 +8,7 @@ import { BranchEntity } from '@/modules/branch/entities/branch.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtPayload } from './entities/jwt-payload.interface';
 import { CreateRefreshDto } from './dto/create-refresh.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,7 @@ export class AuthService {
         },
         select: {
           password: true,
+          requiresPasswordChange: true,
           user: {
             select: {
               id: true,
@@ -59,7 +61,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid credentials');
       }
 
-      const { password: _, user, role, branches } = staff;
+      const { password: _, user, role, branches, requiresPasswordChange } = staff;
 
       const tokenPayload = {
         id: user.id,
@@ -86,6 +88,7 @@ export class AuthService {
         refreshToken,
         role,
         branches,
+        requiresPasswordChange,
       };
 
     } catch (error) {
@@ -108,6 +111,21 @@ export class AuthService {
       console.error('refreshToken error:', error);
       throw new UnauthorizedException('Refresh token inválido o expirado');
     }
+  }
+
+  async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
+    const { newPassword } = changePasswordDto;
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await this.prisma.staff.update({
+      where: { userId },
+      data: {
+        password: hashedPassword,
+        requiresPasswordChange: false,
+      },
+    });
+
+    return { message: 'Contraseña actualizada exitosamente' };
   }
 
 
