@@ -19,6 +19,12 @@ import { KardexModule } from './modules/kardex/kardex.module';
 import { ProductPresentationModule } from './modules/productPresentation/productPresentation.module';
 import { PriceModule } from './modules/price/price.module';
 import { TransferModule } from './modules/transfer/transfer.module';
+
+import { GoogledriveModule } from './common/googledrive/googledrive.module';
+import { GmailModule } from './common/gmail/gmail.module';
+import { PdfModule } from './common/pdf/pdf.module';
+import { XlsxModule } from './common/xlsx/xlsx.module';
+
 @Module({
   imports: [
     PrismaModule,
@@ -34,6 +40,10 @@ import { TransferModule } from './modules/transfer/transfer.module';
     CustomerModule,
     OrderModule,
     CloudinaryModule,
+    PdfModule,
+    XlsxModule,
+    GoogledriveModule,
+    GmailModule,
     KardexModule,
     PriceModule,
     TransferModule,
@@ -48,4 +58,4 @@ import { TransferModule } from './modules/transfer/transfer.module';
   ],
   exports: [PrismaService],
 })
-export class AppModule {}
+export class AppModule { }

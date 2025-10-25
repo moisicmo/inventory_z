@@ -14,7 +14,7 @@ CREATE TYPE "TypeReference" AS ENUM ('inputs', 'outputs');
 CREATE TYPE "TypeAction" AS ENUM ('manage', 'create', 'read', 'update', 'delete');
 
 -- CreateEnum
-CREATE TYPE "TypeSubject" AS ENUM ('all', 'branch', 'category', 'customer', 'input', 'kardex', 'order', 'permission', 'product', 'role', 'staff', 'user', 'presentation', 'price', 'output');
+CREATE TYPE "TypeSubject" AS ENUM ('all', 'branch', 'category', 'customer', 'input', 'kardex', 'order', 'permission', 'product', 'role', 'staff', 'user', 'presentation', 'price', 'output', 'transfer');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -195,6 +195,7 @@ CREATE TABLE "branches" (
 CREATE TABLE "inputs" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "branch_id" UUID NOT NULL,
+    "transfer_id" UUID,
     "product_presentation_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
@@ -209,7 +210,8 @@ CREATE TABLE "inputs" (
 CREATE TABLE "outputs" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "branch_id" UUID NOT NULL,
-    "order_id" UUID NOT NULL,
+    "order_id" UUID,
+    "transfer_id" UUID,
     "product_presentation_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
@@ -230,11 +232,27 @@ CREATE TABLE "kardexs" (
 );
 
 -- CreateTable
+CREATE TABLE "transfers" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "from_branch_id" UUID NOT NULL,
+    "to_branch_id" UUID NOT NULL,
+    "product_presentation_id" UUID NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "detail" VARCHAR,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "transfers_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "orders" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "staff_id" UUID NOT NULL,
     "customer_id" UUID NOT NULL,
     "branch_id" UUID NOT NULL,
     "closure_id" UUID,
+    "url" VARCHAR,
     "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -333,13 +351,19 @@ ALTER TABLE "unit_conversions" ADD CONSTRAINT "unit_conversions_product_id_fkey"
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "inputs" ADD CONSTRAINT "inputs_transfer_id_fkey" FOREIGN KEY ("transfer_id") REFERENCES "transfers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "outputs" ADD CONSTRAINT "outputs_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "orders"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "outputs" ADD CONSTRAINT "outputs_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "orders"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "outputs" ADD CONSTRAINT "outputs_transfer_id_fkey" FOREIGN KEY ("transfer_id") REFERENCES "transfers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -349,6 +373,18 @@ ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_product_presentation_id_fkey" FORE
 
 -- AddForeignKey
 ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfers" ADD CONSTRAINT "transfers_from_branch_id_fkey" FOREIGN KEY ("from_branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfers" ADD CONSTRAINT "transfers_to_branch_id_fkey" FOREIGN KEY ("to_branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfers" ADD CONSTRAINT "transfers_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "orders" ADD CONSTRAINT "orders_staff_id_fkey" FOREIGN KEY ("staff_id") REFERENCES "staffs"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "orders" ADD CONSTRAINT "orders_customer_id_fkey" FOREIGN KEY ("customer_id") REFERENCES "customers"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;

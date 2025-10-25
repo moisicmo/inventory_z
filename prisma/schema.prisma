@@ -41,6 +41,7 @@ model Staff {
   role                  Role                @relation(fields: [roleId], references: [id])
   branches              Branch[]
   cashClosures          CashClosure[]
+  orers                 Order[]
   @@map("staffs")
   @@id([userId])
 }
@@ -251,13 +252,16 @@ model Transfer {
 }
 model Order {
   id                    String                                                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  staffId               String                @map("staff_id")                  @db.Uuid
   customerId            String                @map("customer_id")               @db.Uuid
   branchId              String                @map("branch_id")                 @db.Uuid
-  closureId             String?               @map("closure_id")                @db.Uuid 
+  closureId             String?               @map("closure_id")                @db.Uuid
+  url                   String?                                                 @db.VarChar
   amount                Float                                                   @default(0.0)
   active                Boolean                                                 @db.Boolean @default(true)
   createdAt             DateTime              @map("created_at")                @default(now())
   updatedAt             DateTime              @map("updated_at")                @updatedAt
+  staff                 Staff                 @relation(fields: [staffId], references: [userId])
   customer              Customer              @relation(fields: [customerId], references: [userId])
   branch                Branch                @relation(fields: [branchId], references: [id])
   closure               CashClosure?          @relation(fields: [closureId], references: [id])
