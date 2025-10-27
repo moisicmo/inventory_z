@@ -146,6 +146,7 @@ CREATE TABLE "product_presentations" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "product_id" UUID NOT NULL,
     "branch_id" UUID NOT NULL,
+    "name" VARCHAR NOT NULL,
     "type_unit" "TypeUnit" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
 

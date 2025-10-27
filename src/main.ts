@@ -1,10 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
-
-import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { envs } from './config';
-import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
 
 async function bootstrap() {
   const logger = new Logger('Main-Gateway');
@@ -16,8 +14,8 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.setGlobalPrefix('api');
 
+  app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -25,9 +23,11 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  // Configuración de Swagger (opcional)
   const config = new DocumentBuilder()
     .setTitle('APIS DOCUMENTATION')
-    .setDescription("Documentation API's market")
+    .setDescription("Documentation API's IMPORTADORA JHOMIR")
     .setVersion('1.0')
     .addBearerAuth(
       {
@@ -40,17 +40,12 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   document.security = [{ Authorization: [] }];
-  const theme = new SwaggerTheme();
-  const options: SwaggerCustomOptions = {
-    customCss: theme.getBuffer(SwaggerThemeNameEnum.ONE_DARK),
+  SwaggerModule.setup('api/docs', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
-      docExpansion: 'none',
     },
-  };
-    SwaggerModule.setup('api/docs', app, document, options);
+  });
 
-  
   await app.listen(envs.port);
   logger.log(`Gateway running on port ${envs.port}`);
 }

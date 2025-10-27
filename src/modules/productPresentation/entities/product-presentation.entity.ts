@@ -4,6 +4,7 @@ import { PriceEntity } from "@/modules/price/entities/price.entity";
 
 export const ProductPresentationEntity = {
   id: true,
+  name: true,
   typeUnit: true,
   product: {
     select: {
