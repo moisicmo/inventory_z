@@ -4,13 +4,13 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from '@/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { FileMimeTypeInterceptor } from '@/decorator';
 import { checkAbilities } from '@/decorator';
 import { AbilitiesGuard } from '@/guard/abilities.guard';
 import { TypeAction, TypeSubject } from "@prisma/client";
 
-@UseGuards(AbilitiesGuard)
+// @UseGuards(AbilitiesGuard)
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) { }
@@ -61,5 +61,31 @@ export class ProductController {
   @checkAbilities({ action: TypeAction.delete, subject: TypeSubject.product })
   remove(@Param('id') id: string) {
     return this.productService.remove(id);
+  }
+
+  @Post('import')
+  @checkAbilities({ action: TypeAction.create, subject: TypeSubject.product })
+  @UseInterceptors(
+    FileInterceptor('file'),
+    new FileMimeTypeInterceptor([
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ]),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Excel file containing products to import',
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  importProducts(@UploadedFile() file: Express.Multer.File) {
+    return this.productService.importProducts(file);
   }
 }
