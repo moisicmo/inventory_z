@@ -192,6 +192,8 @@ export class ProductService {
     for (const row of data as any[]) {
       const categoryName = String(row['categoryName']).trim();
       const branchName = String(row['branchName']).trim();
+      const brandName = String(row['brandName']).trim();
+      const providerName = String(row['providerName']).trim();
 
       let category = await this.prisma.category.findFirst({
         where: { name: { equals: categoryName, mode: 'insensitive' } },
@@ -219,17 +221,47 @@ export class ProductService {
         });
       }
 
+      let brand = await this.prisma.brand.findFirst({
+        where: { name: { equals: brandName, mode: 'insensitive' } },
+      });
+
+      if (!brand) {
+        brand = await this.prisma.brand.create({
+          data: {
+            name: branchName,
+            description: '',
+            createdBy: email,
+          },
+        });
+      }
+
+      let provider = await this.prisma.provider.findFirst({
+        where: { name: { equals: brandName, mode: 'insensitive' } },
+      });
+
+      if (!provider) {
+        provider = await this.prisma.provider.create({
+          data: {
+            nit: '',
+            name: branchName,
+            phone: [],
+            createdBy: email,
+          },
+        });
+      }
+
       const createProductDto: CreateProductDto = {
         name: String(row['name']),
         categoryId: category.id,
-        brandId: '',
-        providerId: '',
+        brandId: brand.id,
+        providerId: provider.id,
         branchId: branch.id,
         code: '',
         namePresentation: String(row['namePresentation']),
         typeUnit: row['typeUnit'],
         price: Number(row['price']),
       };
+      console.log(createProductDto)
 
       await this.create(email, createProductDto, undefined);
     }
