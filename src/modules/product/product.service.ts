@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import * as xlsx from 'xlsx';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
 import { CloudinaryService } from '@/common/cloudinary/clodinary.service';
@@ -29,7 +30,7 @@ export class ProductService {
     }
   }
 
-  async create(createProductDto: CreateProductDto, image: Express.Multer.File) {
+  async create(createProductDto: CreateProductDto, image?: Express.Multer.File) {
     const { categoryId, name, namePresentation, branchId, typeUnit, price } = createProductDto;
     let imageUrl: string | null = null;
     if (image) {
@@ -168,5 +169,54 @@ export class ProductService {
       },
       select: ProductEntity
     });
+  }
+
+  async importProducts(file: Express.Multer.File) {
+    if (!file) {
+      throw new NotFoundException('No file uploaded');
+    }
+
+    const workbook = xlsx.read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data = xlsx.utils.sheet_to_json(sheet);
+
+    for (const row of data as any[]) {
+      const categoryName = String(row['categoryName']).trim();
+      const branchName = String(row['branchName']).trim();
+
+      let category = await this.prisma.category.findFirst({
+        where: { name: { equals: categoryName, mode: 'insensitive' } },
+      });
+
+      if (!category) {
+        category = await this.prisma.category.create({
+          data: { name: categoryName },
+        });
+      }
+
+      let branch = await this.prisma.branch.findFirst({
+        where: { name: { equals: branchName, mode: 'insensitive' } },
+      });
+
+      if (!branch) {
+        branch = await this.prisma.branch.create({
+          data: { name: branchName },
+        });
+      }
+
+      const createProductDto: CreateProductDto = {
+        name: String(row['name']),
+        categoryId: category.id,
+        branchId: branch.id,
+        namePresentation: String(row['namePresentation']),
+        typeUnit: row['typeUnit'],
+        price: Number(row['price']),
+      };
+
+      await this.create(createProductDto, undefined);
+    }
+
+    return { message: 'Products imported successfully' };
   }
 }
