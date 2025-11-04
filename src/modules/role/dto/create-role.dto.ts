@@ -4,6 +4,14 @@ import { Type } from "class-transformer";
 import { IsArray, IsString, ValidateNested } from "class-validator";
 
 export class CreateRoleDto {
+
+  @IsString()
+  @ApiProperty({
+    example: 'branch123',
+    description: 'Identificador de la sucursal',
+  })
+  branchId: string;
+  
   @IsString()
   @ApiProperty({
     example: 'admin',

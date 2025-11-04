@@ -3,19 +3,19 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PaginationDto } from '@/common';
-import { checkAbilities } from '@/decorator';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { checkAbilities, CurrentUser } from '@/decorator';
+import { TypeAction } from "@prisma/client";
+import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeSubject } from '@/common/subjects';
 
-@UseGuards(AbilitiesGuard)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.category })
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
+  create(@CurrentUser() user: JwtPayload, @Body() createCategoryDto: CreateCategoryDto) {
+    return this.categoryService.create(user.email,createCategoryDto);
   }
 
   @Get()

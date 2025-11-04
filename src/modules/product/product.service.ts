@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import * as xlsx from 'xlsx';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
 import { CloudinaryService } from '@/common/cloudinary/clodinary.service';
 import { ProductEntity } from './entities/product.entity';
 import { ProductPresentationService } from '@/modules/productPresentation/productPresentation.service';
 import { PriceService } from '@/modules/price/price.service';
+import * as xlsx from 'xlsx';
+import { TypeUnit } from '@prisma/client';
 @Injectable()
 export class ProductService {
 
@@ -30,8 +31,8 @@ export class ProductService {
     }
   }
 
-  async create(createProductDto: CreateProductDto, image?: Express.Multer.File) {
-    const { categoryId, name, namePresentation, branchId, typeUnit, price } = createProductDto;
+  async create(email: string, createProductDto: CreateProductDto, image?: Express.Multer.File) {
+    const { categoryId, brandId, providerId, name, namePresentation, code, branchId, typeUnit, price } = createProductDto;
     let imageUrl: string | null = null;
     if (image) {
       const uploadResults = await this.cloudinaryService.uploadFile(image, 'productos');
@@ -42,16 +43,22 @@ export class ProductService {
       data: {
         code: `P${Date.now()}`,
         categoryId,
+        brandId,
+        providerId,
         name,
         image: imageUrl,
+        createdBy: email,
         productPresentations: {
           create: {
+            code,
             branchId,
             name: namePresentation,
             typeUnit,
+            createdBy: email,
             prices: {
               create: {
                 price,
+                createdBy: email,
               }
             },
           },
@@ -92,7 +99,7 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto, image?: Express.Multer.File) {
+  async update(email: string, id: string, updateProductDto: UpdateProductDto, image?: Express.Multer.File) {
     const { categoryId, name, branchId, typeUnit, price, changedReason } = updateProductDto;
 
     const existingProduct = await this.findOne(id);
@@ -145,7 +152,8 @@ export class ProductService {
 
       if (!existingPrice) {
         // Creamos nuevo precio si no existe uno igual activo
-        await this.priceService.create({
+        await this.priceService.create(
+          email, {
           productPresentationId: existingProductPresentation.id,
           price: resolvedPrice,
           changedReason,
@@ -171,7 +179,7 @@ export class ProductService {
     });
   }
 
-  async importProducts(file: Express.Multer.File) {
+  async importProducts(email: string, file: Express.Multer.File) {
     if (!file) {
       throw new NotFoundException('No file uploaded');
     }
@@ -191,7 +199,10 @@ export class ProductService {
 
       if (!category) {
         category = await this.prisma.category.create({
-          data: { name: categoryName },
+          data: {
+            name: categoryName,
+            createdBy: email,
+          },
         });
       }
 
@@ -201,20 +212,26 @@ export class ProductService {
 
       if (!branch) {
         branch = await this.prisma.branch.create({
-          data: { name: branchName },
+          data: {
+            name: branchName,
+            createdBy: email,
+          },
         });
       }
 
       const createProductDto: CreateProductDto = {
         name: String(row['name']),
         categoryId: category.id,
+        brandId: '',
+        providerId: '',
         branchId: branch.id,
+        code: '',
         namePresentation: String(row['namePresentation']),
         typeUnit: row['typeUnit'],
         price: Number(row['price']),
       };
 
-      await this.create(createProductDto, undefined);
+      await this.create(email, createProductDto, undefined);
     }
 
     return { message: 'Products imported successfully' };

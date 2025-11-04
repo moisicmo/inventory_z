@@ -9,9 +9,12 @@ export class PriceService {
   constructor(private readonly prisma: PrismaService) { }
 
 
-  async create(createPriceDto: CreatePriceDto) {
+  async create(email: string, createPriceDto: CreatePriceDto) {
     return await this.prisma.price.create({
-      data: createPriceDto,
+      data: {
+        ...createPriceDto,
+        createdBy: email,
+      },
       select: PriceEntity
     });
   }

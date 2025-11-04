@@ -1,5 +1,6 @@
+import { TypeSubject } from "@/common/subjects";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { TypeAction } from "@prisma/client";
 import { IsBoolean, IsEnum, IsObject, IsOptional, IsString } from "class-validator";
 
 export class CreatePermissionDto {

@@ -3,19 +3,19 @@ import { BranchService } from './branch.service';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
 import { PaginationDto } from '@/common';
-import { checkAbilities } from '@/decorator';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { checkAbilities, CurrentUser } from '@/decorator';
+import { TypeAction } from "@prisma/client";
+import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeSubject } from '@/common/subjects';
 
-@UseGuards(AbilitiesGuard)
 @Controller('branch')
 export class BranchController {
   constructor(private readonly branchService: BranchService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.branch })
-  create(@Body() createBranchDto: CreateBranchDto) {
-    return this.branchService.create(createBranchDto);
+  create(@CurrentUser() user: JwtPayload, @Body() createBranchDto: CreateBranchDto) {
+    return this.branchService.create(user.email, createBranchDto);
   }
 
   @Get()

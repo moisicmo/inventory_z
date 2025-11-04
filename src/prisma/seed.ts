@@ -1,47 +1,73 @@
-import { PrismaClient, TypeAction, TypeSubject } from '@prisma/client';
+import { PrismaClient, TypeAction } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { createPriceActiveTrigger } from './triggers/price.trigger';
 import { createKardexInputTrigger } from './triggers/input.trigger';
 import { createKardexOutputTrigger } from './triggers/output.trigger';
+import { TypeSubject } from '@/common/subjects';
 
 async function main() {
   const prisma = new PrismaClient();
-
+  const email = 'moisic.mo@gmail.com';
   try {
+    // creamos la sucursal
+    const branch = await prisma.branch.create({
+      data: {
+        name: 'Casa Matríz',
+        createdBy: email,
+        address: {
+          create: {
+            city: 'La Paz',
+            zone: 'Uyustus',
+            detail: 'Av siempreviva',
+            createdBy: email,
+          }
+        },
+      }
+    });
+    // creamos algunos permisos
+    const permissions = await prisma.permission.createManyAndReturn({
+      data: [
+        { action: TypeAction.read, subject: TypeSubject[TypeSubject.all], createdBy: email },
+        { action: TypeAction.create, subject: TypeSubject[TypeSubject.all], createdBy: email },
+        { action: TypeAction.update, subject: TypeSubject[TypeSubject.all], createdBy: email },
+        { action: TypeAction.delete, subject: TypeSubject[TypeSubject.all], createdBy: email },
+        { action: TypeAction.manage, subject: TypeSubject[TypeSubject.all], createdBy: email },
+      ]
+    });
+    // creamos el rol
+    const role = await prisma.role.create({
+      data: {
+        branchId: branch.id,
+        name: 'admin',
+        createdBy: email,
+        permissions: {
+          connect: permissions.map((p) => ({ id: p.id }))
+        }
+      }
+    });
+    // creamos al usuario y staff
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync('Muyseguro123*', salt);
     const user = await prisma.user.create({
       data: {
         numberDocument: '123456789',
-        typeDocument: 'DNI',
+        typeDocument: 'dni',
         name: 'moises',
         lastName: 'ochoa',
-        email: 'moisic.mo@gmail.com',
+        email: email,
+        createdBy: email,
       },
     });
-    const role = await prisma.role.create({
-      data: { name: 'admin' }
-    });
-    await prisma.permission.createManyAndReturn({
-      data: [
-        { roleId: role.id, action: TypeAction.read, subject: TypeSubject.all },
-        { roleId: role.id, action: TypeAction.create, subject: TypeSubject.all },
-        { roleId: role.id, action: TypeAction.update, subject: TypeSubject.all },
-        { roleId: role.id, action: TypeAction.delete, subject: TypeSubject.all },
-        { roleId: role.id, action: TypeAction.manage, subject: TypeSubject.all },
-      ]
-    });
-
     await prisma.staff.create({
       data: {
         userId: user.id,
         roleId: role.id,
         password: hashedPassword,
+        createdBy: email,
         branches: {
-          create: {
-            name: 'Casa Matríz',
-            address: 'Avenida X',
-          }
+          connect: [
+            { id: branch.id }
+          ]
         }
       }
     });

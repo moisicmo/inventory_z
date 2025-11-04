@@ -3,19 +3,19 @@ import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { PaginationDto } from '@/common';
-import { checkAbilities } from '@/decorator';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { checkAbilities, CurrentUser } from '@/decorator';
+import { TypeAction } from "@prisma/client";
+import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeSubject } from '@/common/subjects';
 
-@UseGuards(AbilitiesGuard)
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.role })
-  create(@Body() createRoleDto: CreateRoleDto) {
-    return this.roleService.create(createRoleDto);
+  create(@CurrentUser() user: JwtPayload, @Body() createRoleDto: CreateRoleDto) {
+    return this.roleService.create(user.email,createRoleDto);
   }
 
   @Get()

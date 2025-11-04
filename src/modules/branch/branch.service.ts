@@ -1,4 +1,4 @@
-import {  Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
 import { BranchEntity } from './entities/branch.entity';
@@ -8,12 +8,26 @@ import { PaginationDto } from '@/common';
 @Injectable()
 export class BranchService {
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
-  async create(createBranchDto: CreateBranchDto) {
+  async create(email: string, createBranchDto: CreateBranchDto) {
+    const { city, zone, detail, ...branchDto } = createBranchDto;
+    const address = await this.prisma.address.create({
+      data: {
+        city,
+        zone,
+        detail,
+        createdBy: email,
+      }
+    });
     return await this.prisma.branch.create({
-      data: createBranchDto,
+      data: {
+        ...branchDto,
+        addressId: address.id,
+        createdBy: email,
+      },
       select: BranchEntity,
+
     });
   }
 

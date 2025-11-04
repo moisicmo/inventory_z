@@ -9,7 +9,7 @@ export class StaffService {
 
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createStaffDto: CreateStaffDto) {
+  async create(createdBy: string, createStaffDto: CreateStaffDto) {
     const { numberDocument, typeDocument, roleId, name, lastName, email } =
       createStaffDto;
 
@@ -32,10 +32,12 @@ export class StaffService {
         name,
         lastName,
         email,
+        createdBy: createdBy,
         staff: {
           create: {
             password: hashedPassword,
             roleId: roleId,
+            createdBy: createdBy,
           },
         },
       },

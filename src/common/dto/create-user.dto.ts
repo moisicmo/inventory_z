@@ -13,7 +13,7 @@ export class CreateUserDto {
 
   @IsEnum(TypeDocument)
   @ApiProperty({
-    example: TypeDocument.DNI,
+    example: TypeDocument.dni,
     description: 'Tipo de documento del usuario',
     enum: TypeDocument,
   })

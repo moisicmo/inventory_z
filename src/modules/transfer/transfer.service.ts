@@ -13,7 +13,7 @@ export class TransferService {
     private kardexService: KardexService,
   ) { }
 
-  async create(createTransferDto: CreateTransferDto) {
+  async create(email: string,createTransferDto: CreateTransferDto) {
     const { fromBranchId, toBranchId, detail, outputs } = createTransferDto;
 
     const results: any[] = [];
@@ -50,6 +50,7 @@ export class TransferService {
             name: fromPres.name,
             typeUnit: fromPres.typeUnit,
             active: true,
+            createdBy: email,
           },
           include: { branch: true },
         });
@@ -68,6 +69,7 @@ export class TransferService {
               discount: lastPrice.discount,
               typeDiscount: lastPrice.typeDiscount,
               changedReason: 'Creado por transferencia automática',
+              createdBy: email,
             },
           });
         }
@@ -82,6 +84,7 @@ export class TransferService {
           quantity,
           price,
           detail,
+          createdBy: email,
         },
       });
 
@@ -94,6 +97,7 @@ export class TransferService {
           quantity,
           price,
           detail: `Traspaso hacia la sucursal ${toPres.branch.name}`,
+          createdBy: email,
         },
       });
 
@@ -106,6 +110,7 @@ export class TransferService {
           quantity,
           price,
           detail: `Traspaso desde la sucursal ${fromPres.branch.name}`,
+          createdBy: email,
         },
       });
 

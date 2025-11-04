@@ -10,8 +10,8 @@ export class CustomerService {
 
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createCustomerDto: CreateCustomerDto) {
-    const { numberDocument, typeDocument, name, lastName } = createCustomerDto;
+  async create(createdBy: string, createCustomerDto: CreateCustomerDto) {
+    const { numberDocument, typeDocument, name, lastName, email } = createCustomerDto;
     const userExists = await this.prisma.user.findUnique({
       where: {
         numberDocument,
@@ -27,8 +27,12 @@ export class CustomerService {
         typeDocument,
         name,
         lastName,
+        email,
+        createdBy: createdBy,
         customer: {
-          create: {},
+          create: {
+            createdBy: email,
+          },
         },
       },
       select: UserEntity,

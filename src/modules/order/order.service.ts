@@ -18,13 +18,15 @@ export class OrderService {
     private readonly googledriveService: GoogledriveService,
   ) { }
 
-  async create(userId: string,createOrderDto: CreateOrderDto) {
+  async create(email: string,userId: string,createOrderDto: CreateOrderDto) {
     const { customerId, branchId, amount, outputs: dataOutputs } = createOrderDto;
 
     const order = await this.prisma.order.create({
       data: { 
         staffId: userId,
-        customerId, branchId, amount },
+        customerId, branchId, amount,
+        createdBy: email,
+       },
     });
 
     await this.prisma.output.createMany({
@@ -35,6 +37,7 @@ export class OrderService {
         quantity: e.quantity,
         price: e.price,
         detail: 'venta',
+        createdBy: email,
       })),
     });
 

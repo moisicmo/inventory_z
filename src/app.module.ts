@@ -5,6 +5,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { CategoryModule } from './modules/category/category.module';
+import { BrandModule } from './modules/brand/brand.module';
+import { ProviderModule } from './modules/provider/provider.module';
 import { ProductModule } from './modules/product/product.module';
 import { BranchModule } from './modules/branch/branch.module';
 import { CustomerModule } from './modules/customer/customer.module';
@@ -34,6 +36,8 @@ import { XlsxModule } from './common/xlsx/xlsx.module';
     RoleModule,
     StaffModule,
     CategoryModule,
+    BrandModule,
+    ProviderModule,
     ProductModule,
     ProductPresentationModule,
     InputModule,

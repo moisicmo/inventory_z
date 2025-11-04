@@ -1,11 +1,10 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { PaginationDto } from '@/common';
 import { checkAbilities } from '@/decorator';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { TypeAction } from "@prisma/client";
+import { TypeSubject } from '@/common/subjects';
 
-@UseGuards(AbilitiesGuard)
 @Controller('permission')
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) { }

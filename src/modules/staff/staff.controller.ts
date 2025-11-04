@@ -4,19 +4,20 @@ import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import { PaginationDto } from '@/common';
 
-import { checkAbilities } from '@/decorator';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { checkAbilities, CurrentUser } from '@/decorator';
+import { TypeAction } from "@prisma/client";
+import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeSubject } from '@/common/subjects';
 
-@UseGuards(AbilitiesGuard)
+
 @Controller('staff')
 export class StaffController {
   constructor(private readonly staffService: StaffService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.staff })
-  create(@Body() createStaffDto: CreateStaffDto) {
-    return this.staffService.create(createStaffDto);
+  create(@CurrentUser() user: JwtPayload, @Body() createStaffDto: CreateStaffDto) {
+    return this.staffService.create(user.email, createStaffDto);
   }
 
   @Get()

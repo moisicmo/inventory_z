@@ -10,12 +10,24 @@ export class CreateProductDto {
   categoryId: string;
 
   @IsString()
+  @ApiProperty({ example: 'abc', description: 'ID de la marca' })
+  brandId: string;
+
+  @IsString()
+  @ApiProperty({ example: 'abc', description: 'ID del proveedor' })
+  providerId: string;
+
+  @IsString()
   @ApiProperty({ example: 'Product 1' })
   name: string;
 
   @IsString()
   @ApiProperty({ example: 'Product Presentation 1' })
   namePresentation: string;
+
+  @IsString()
+  @ApiProperty({ example: 'Product 1' })
+  code: string;
 
   @IsString()
   @ApiProperty({ example: 'abc', description: 'ID de la sucursal' })
@@ -35,5 +47,5 @@ export class CreateProductDto {
   image?: any;
 
 
-  
+
 }

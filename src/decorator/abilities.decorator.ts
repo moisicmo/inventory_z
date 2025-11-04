@@ -1,5 +1,6 @@
+import { TypeSubject } from '@/common/subjects';
 import { SetMetadata } from '@nestjs/common';
-import { TypeSubject, TypeAction } from '@prisma/client';
+import { TypeAction } from '@prisma/client';
 
 export const CHECK_ABILITY = 'check_ability';
 

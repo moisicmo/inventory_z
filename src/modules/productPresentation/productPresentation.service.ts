@@ -15,14 +15,16 @@ export class ProductPresentationService {
     private readonly priceService: PriceService,
   ) { }
 
-  async create(createPresentationDto: CreateProductPresentationDto) {
+  async create(email: string, createPresentationDto: CreateProductPresentationDto) {
     const { price, ...restPresentation } = createPresentationDto;
     return await this.prisma.productPresentation.create({
       data: {
         ...restPresentation,
+        createdBy: email,
         prices: {
           create: {
             price,
+            createdBy: email,
           },
         },
       },
@@ -83,7 +85,7 @@ export class ProductPresentationService {
     return productPresentation;
   }
 
-  async update(id: string, updatePresentationDto: UpdateProductPresentationDto) {
+  async update(email: string, id: string, updatePresentationDto: UpdateProductPresentationDto) {
     const { price, changedReason, ...restPresentation } = updatePresentationDto;
 
     const existingProductPresentation = await this.prisma.productPresentation.findUnique({
@@ -105,7 +107,7 @@ export class ProductPresentationService {
 
     // Si el precio cambió, registramos uno nuevo
     if (price !== undefined && price !== currentPrice) {
-      await this.priceService.create({
+      await this.priceService.create(email, {
         productPresentationId: id,
         price,
         changedReason,

@@ -1,20 +1,20 @@
 import { Controller, Get, Post, Body, UseGuards, Query } from '@nestjs/common';
 import { TransferService } from './transfer.service';
 import { CreateTransferDto } from './dto/create-transfer.dto';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { checkAbilities } from '@/decorator';
-import { TypeAction, TypeSubject } from '@prisma/client';
+import { checkAbilities, CurrentUser } from '@/decorator';
+import { TypeAction } from '@prisma/client';
 import { PaginationDto } from '@/common';
+import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeSubject } from '@/common/subjects';
 
-@UseGuards(AbilitiesGuard)
 @Controller('transfer')
 export class TransferController {
   constructor(private readonly transferService: TransferService) {}
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.transfer })
-  create(@Body() createTransferDto: CreateTransferDto) {
-    return this.transferService.create(createTransferDto);
+  create(@CurrentUser() user: JwtPayload,@Body() createTransferDto: CreateTransferDto) {
+    return this.transferService.create(user.email,createTransferDto);
   }
 
   @Get()

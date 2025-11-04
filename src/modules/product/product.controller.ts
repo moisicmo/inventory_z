@@ -5,10 +5,11 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from '@/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
-import { FileMimeTypeInterceptor } from '@/decorator';
+import { CurrentUser, FileMimeTypeInterceptor } from '@/decorator';
 import { checkAbilities } from '@/decorator';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { TypeAction } from "@prisma/client";
+import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeSubject } from '@/common/subjects';
 
 // @UseGuards(AbilitiesGuard)
 @Controller('product')
@@ -23,10 +24,11 @@ export class ProductController {
   )
   @ApiConsumes('multipart/form-data')
   create(
+    @CurrentUser() user: JwtPayload,
     @Body() createProductDto: CreateProductDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
-    return this.productService.create(createProductDto, image);
+    return this.productService.create(user.email, createProductDto, image);
   }
 
   @Get()
@@ -49,11 +51,12 @@ export class ProductController {
   )
   @ApiConsumes('multipart/form-data')
   update(
+    @CurrentUser() user: JwtPayload,
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
-    return this.productService.update(id, updateProductDto, image);
+    return this.productService.update(user.email, id, updateProductDto, image);
   }
 
 
@@ -85,7 +88,8 @@ export class ProductController {
       },
     },
   })
-  importProducts(@UploadedFile() file: Express.Multer.File) {
-    return this.productService.importProducts(file);
+  importProducts(
+    @CurrentUser() user: JwtPayload, @UploadedFile() file: Express.Multer.File) {
+    return this.productService.importProducts(user.email, file);
   }
 }

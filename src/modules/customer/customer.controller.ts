@@ -3,19 +3,19 @@ import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PaginationDto } from '@/common';
-import { checkAbilities } from '@/decorator';
-import { AbilitiesGuard } from '@/guard/abilities.guard';
-import { TypeAction, TypeSubject } from "@prisma/client";
+import { checkAbilities, CurrentUser } from '@/decorator';
+import { TypeAction } from "@prisma/client";
+import { TypeSubject } from '@/common/subjects';
+import { JwtPayload } from '../auth/entities/jwt-payload.interface';
 
-@UseGuards(AbilitiesGuard)
 @Controller('customer')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.customer })
-  create(@Body() createCustomerDto: CreateCustomerDto) {
-    return this.customerService.create(createCustomerDto);
+  create(@CurrentUser() user: JwtPayload, @Body() createCustomerDto: CreateCustomerDto) {
+    return this.customerService.create(user.email, createCustomerDto);
   }
 
   @Get()

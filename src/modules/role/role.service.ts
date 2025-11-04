@@ -13,12 +13,16 @@ export class RoleService {
     private permissionService: PermissionService,
   ) { }
 
-  async create(createRoleDto: CreateRoleDto) {
+  async create(email:string,createRoleDto: CreateRoleDto) {
     try {
-      const { name, permissions } = createRoleDto;
+      const { branchId, name, permissions } = createRoleDto;
 
       const role = await this.prisma.role.create({
-        data: { name },
+        data: { 
+          branchId:branchId,
+          name,
+          createdBy: email,
+         },
       });
 
       for (const permission of permissions) {
@@ -79,40 +83,40 @@ export class RoleService {
     }
     const updatedPermissions: { id: string }[] = [];
 
-    for (const perm of permissions) {
-      let permissionToAssign: { id: string };
+    // for (const perm of permissions) {
+    //   let permissionToAssign: { id: string };
 
-      if (perm.conditions && perm.id) {
-        const basePerm = await this.permissionService.findOne(perm.id);
-        if (!basePerm) {
-          throw new NotFoundException(`Permission with id #${perm.id} not found`);
-        }
+    //   if (perm.conditions && perm.id) {
+    //     const basePerm = await this.permissionService.findOne(perm.id);
+    //     if (!basePerm) {
+    //       throw new NotFoundException(`Permission with id #${perm.id} not found`);
+    //     }
 
-        const newPerm = await this.permissionService.create(id, {
-          ...basePerm,
-          conditions: perm.conditions,
-        });
+    //     const newPerm = await this.permissionService.create(id, {
+    //       ...basePerm,
+    //       conditions: perm.conditions,
+    //     });
 
-        permissionToAssign = { id: newPerm.id };
-      } else if (perm.id) {
-        permissionToAssign = { id: perm.id };
-      } else {
-        throw new BadRequestException('Permission must have an ID to be assigned or updated');
-      }
+    //     permissionToAssign = { id: newPerm.id };
+    //   } else if (perm.id) {
+    //     permissionToAssign = { id: perm.id };
+    //   } else {
+    //     throw new BadRequestException('Permission must have an ID to be assigned or updated');
+    //   }
 
-      updatedPermissions.push(permissionToAssign);
-    }
+    //   updatedPermissions.push(permissionToAssign);
+    // }
 
-    return this.prisma.role.update({
-      where: { id },
-      data: {
-        name,
-        permissions: {
-          set: updatedPermissions,
-        },
-      },
-      select: RoleEntity,
-    });
+    // return this.prisma.role.update({
+    //   where: { id },
+    //   data: {
+    //     name,
+    //     permissions: {
+    //       set: updatedPermissions,
+    //     },
+    //   },
+    //   select: RoleEntity,
+    // });
   }
 
 

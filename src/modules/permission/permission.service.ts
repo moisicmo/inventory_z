@@ -8,11 +8,13 @@ export class PermissionService {
 
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(roleId: string, createPermissionDto: CreatePermissionDto) {
+  async create(email: string, createPermissionDto: CreatePermissionDto) {
+    const { subject, ...createDto } = createPermissionDto;
     return await this.prisma.permission.create({
       data: {
-        ...createPermissionDto,
-        roleId,
+        ...createDto,
+        subject: subject.toString(),
+        createdBy: email,
       },
       select: PermissionEntity
     });
