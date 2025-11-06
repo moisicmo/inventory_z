@@ -64,15 +64,39 @@ export class BranchService {
     return branch;
   }
 
-  async update(id: string, updateBranchDto: UpdateBranchDto) {
-    await this.findOne(id);
-
-    return this.prisma.branch.update({
+  async update(id: string, updateBranchDto: UpdateBranchDto
+  ) {
+    // 1️⃣ Verifica que exista la sucursal
+    const branch = await this.prisma.branch.findUnique({
       where: { id },
-      data: updateBranchDto,
+      select: { addressId: true },
+    });
+
+    if (!branch) throw new NotFoundException('Sucursal no encontrada');
+
+    // 2️⃣ Separa los campos de dirección del resto
+    const { city, zone, detail, ...branchData } = updateBranchDto;
+
+    // 3️⃣ Si hay cambios de dirección, actualiza la tabla address
+    if (city || zone || detail) {
+      await this.prisma.address.update({
+        where: { id: branch.addressId! },
+        data: { city, zone, detail },
+      });
+    }
+
+    // 4️⃣ Actualiza la sucursal
+    const updatedBranch = await this.prisma.branch.update({
+      where: { id },
+      data: {
+        ...branchData,
+      },
       select: BranchEntity,
     });
+
+    return updatedBranch;
   }
+
 
   async remove(id: string) {
     await this.findOne(id);

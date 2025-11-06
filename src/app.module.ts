@@ -26,6 +26,7 @@ import { GoogledriveModule } from './common/googledrive/googledrive.module';
 import { GmailModule } from './common/gmail/gmail.module';
 import { PdfModule } from './common/pdf/pdf.module';
 import { XlsxModule } from './common/xlsx/xlsx.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { XlsxModule } from './common/xlsx/xlsx.module';
     KardexModule,
     PriceModule,
     TransferModule,
+    DashboardModule,
   ],
   providers: [
     PrismaService,
