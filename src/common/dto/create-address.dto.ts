@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsUUID } from "class-validator";
+import { IsString } from "class-validator";
 
 export class CreateAddressDto {
 
-  @IsUUID()
+  @IsString()
   @ApiProperty({
     example: 'Ciudad123 ',
     description: 'Identificación de la ciudad',

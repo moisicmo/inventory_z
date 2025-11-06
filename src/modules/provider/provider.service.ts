@@ -8,12 +8,22 @@ import { ProviderEntity } from './entities/provider.entity';
 @Injectable()
 export class ProviderService {
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
-  async create(email: string,createProviderDto: CreateProviderDto) {
+  async create(email: string, createProviderDto: CreateProviderDto) {
+    const { city, zone, detail, ...providerDto } = createProviderDto;
+    const address = await this.prisma.address.create({
+      data: {
+        city,
+        zone,
+        detail,
+        createdBy: email,
+      }
+    });
     return await this.prisma.provider.create({
       data: {
-        ...createProviderDto,
+        ...providerDto,
+        addressId: address.id,
         createdBy: email,
       },
       select: ProviderEntity
@@ -54,14 +64,35 @@ export class ProviderService {
   }
 
   async update(id: string, updateProviderDto: UpdateProviderDto) {
-    await this.findOne(id);
-
-    return this.prisma.provider.update({
+    // 1️⃣ Verifica que el proveedor exista
+    const provider = await this.prisma.provider.findUnique({
       where: { id },
-      data: updateProviderDto,
+      select: { addressId: true },
+    });
+
+    if (!provider) throw new NotFoundException('Proveedor no encontrado');
+
+    // 2️⃣ Divide los campos de dirección
+    const { city, zone, detail, ...providerData } = updateProviderDto;
+
+    // 3️⃣ Actualiza dirección si hay campos de address
+    if (city || zone || detail) {
+      await this.prisma.address.update({
+        where: { id: provider.addressId! },
+        data: { city, zone, detail },
+      });
+    }
+
+    // 4️⃣ Actualiza el proveedor
+    const updatedProvider = await this.prisma.provider.update({
+      where: { id },
+      data: providerData,
       select: ProviderEntity,
     });
+
+    return updatedProvider;
   }
+
 
   async remove(id: string) {
     await this.findOne(id);

@@ -215,7 +215,7 @@ export class ProductService {
       if (!branch) {
         branch = await this.prisma.branch.create({
           data: {
-            name: branchName,
+            name: brandName,
             createdBy: email,
           },
         });
@@ -228,7 +228,7 @@ export class ProductService {
       if (!brand) {
         brand = await this.prisma.brand.create({
           data: {
-            name: branchName,
+            name: brandName,
             description: '',
             createdBy: email,
           },
@@ -236,14 +236,14 @@ export class ProductService {
       }
 
       let provider = await this.prisma.provider.findFirst({
-        where: { name: { equals: brandName, mode: 'insensitive' } },
+        where: { name: { equals: providerName, mode: 'insensitive' } },
       });
 
       if (!provider) {
         provider = await this.prisma.provider.create({
           data: {
             nit: '',
-            name: branchName,
+            name: providerName,
             phone: [],
             createdBy: email,
           },

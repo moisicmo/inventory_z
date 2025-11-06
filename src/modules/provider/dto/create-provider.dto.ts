@@ -1,7 +1,8 @@
+import { CreateAddressDto } from "@/common/dto/create-address.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { ArrayNotEmpty, IsArray, IsString } from "class-validator";
 
-export class CreateProviderDto {
+export class CreateProviderDto extends CreateAddressDto {
 
   @IsString()
   @ApiProperty({
