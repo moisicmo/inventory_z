@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { ProviderService } from './providerservice';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
@@ -7,6 +8,7 @@ import { checkAbilities, CurrentUser } from '@/decorator';
 import { TypeAction } from "@prisma/client";
 import { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
+import { ProviderResponseDto } from './dto/provider-response.dto';
 
 @Controller('provider')
 export class ProviderController {
@@ -22,6 +24,15 @@ export class ProviderController {
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.provider })
   findAll(@Query() paginationDto: PaginationDto) {
     return this.providerService.findAll(paginationDto);
+  }
+
+  @Get('search')
+  @ApiOperation({ summary: 'busqueda de proveedores por nombre (autocomplete)' })
+  @ApiQuery({ name: 'name', required: true, type: String, description: 'Nombre del proveedor a buscar' })
+  @ApiResponse({ status: 200, description: 'lista de proveedores.', type: [ProviderResponseDto] })
+  @checkAbilities({ action: TypeAction.read, subject: TypeSubject.provider })
+  searchByName(@Query('name') name: string) {
+    return this.providerService.searchByName(name);
   }
 
   @Get(':id')
