@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class PresentationInputDto {
+export class ProductInputDto {
   @IsString()
   @ApiProperty({ example: 'abc', description: 'Identificador del producto' })
-  productPresentationId: string;
+  productId: string;
 
   @IsNumber()
   @ApiProperty({ example: 100, description: 'Cantidad de producto' })

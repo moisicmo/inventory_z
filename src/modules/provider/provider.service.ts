@@ -3,7 +3,8 @@ import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
-import { ProviderEntity } from './entities/provider.entity';
+import { ProviderSelect, ProviderType } from './entities/provider.entity';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 
 @Injectable()
 export class ProviderService {
@@ -26,11 +27,11 @@ export class ProviderService {
         addressId: address.id,
         createdBy: email,
       },
-      select: ProviderEntity
+      select: ProviderSelect
     });
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<ProviderType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.provider.count({
       where: { active: true },
@@ -41,7 +42,7 @@ export class ProviderService {
       skip: (page - 1) * limit,
       take: limit,
       where: { active: true },
-      select: ProviderEntity,
+      select: ProviderSelect,
     });
 
     return {
@@ -53,7 +54,7 @@ export class ProviderService {
   async findOne(id: string) {
     const provider = await this.prisma.provider.findUnique({
       where: { id },
-      select: ProviderEntity,
+      select: ProviderSelect,
     });
 
     if (!provider) {
@@ -87,7 +88,7 @@ export class ProviderService {
     const updatedProvider = await this.prisma.provider.update({
       where: { id },
       data: providerData,
-      select: ProviderEntity,
+      select: ProviderSelect,
     });
 
     return updatedProvider;
@@ -99,7 +100,7 @@ export class ProviderService {
     return await this.prisma.provider.update({
       where: { id },
       data: { active: false },
-      select: ProviderEntity,
+      select: ProviderSelect,
     });
   }
 }

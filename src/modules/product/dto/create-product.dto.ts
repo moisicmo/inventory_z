@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { TypeUnit } from "@prisma/client";
-import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
-import { Type } from 'class-transformer';
+import { IsArray, IsOptional, IsString, ValidateNested } from "class-validator";
+import { Transform, Type } from 'class-transformer';
+import { BasePriceDto } from "@/modules/price/dto/create-price.dto";
 
 export class CreateProductDto {
 
@@ -19,33 +19,41 @@ export class CreateProductDto {
 
   @IsString()
   @ApiProperty({ example: 'Product 1' })
-  name: string;
-
-  @IsString()
-  @ApiProperty({ example: 'Product Presentation 1' })
-  namePresentation: string;
-
-  @IsString()
-  @ApiProperty({ example: 'Product 1' })
   code: string;
 
   @IsString()
-  @ApiProperty({ example: 'abc', description: 'ID de la sucursal' })
-  branchId: string;
+  @ApiProperty({ example: 'Product 1' })
+  name: string;
 
-  @IsEnum(TypeUnit)
-  @ApiProperty({ example: TypeUnit.UNIDAD, enum: TypeUnit })
-  typeUnit: TypeUnit;
+  @IsOptional()
+  @ApiPropertyOptional({ example: 'description product 1' })
+  description?: string;
 
-  @Type(() => Number)
-  @IsNumber()
-  @ApiProperty({ example: 10.5 })
-  price: number;
+  @IsOptional()
+  @ApiPropertyOptional({ example: 'description product 1' })
+  barCode?: string;
 
   @IsOptional()
   @ApiPropertyOptional({ type: 'string', format: 'binary', required: false })
   image?: any;
 
-
+  @ApiProperty({
+    description: 'Precios por sucursal del producto',
+    type: [BasePriceDto],
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BasePriceDto)
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  })
+  prices: BasePriceDto[];
 
 }

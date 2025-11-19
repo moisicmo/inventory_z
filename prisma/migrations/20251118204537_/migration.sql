@@ -192,6 +192,7 @@ CREATE TABLE "products" (
     "provider_id" UUID NOT NULL,
     "code" VARCHAR,
     "name" VARCHAR NOT NULL,
+    "description" VARCHAR,
     "image" VARCHAR,
     "bar_code" VARCHAR,
     "visible" BOOLEAN NOT NULL DEFAULT true,
@@ -204,29 +205,12 @@ CREATE TABLE "products" (
 );
 
 -- CreateTable
-CREATE TABLE "product_presentations" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "code" VARCHAR,
-    "product_id" UUID NOT NULL,
-    "branch_id" UUID NOT NULL,
-    "name" VARCHAR NOT NULL,
-    "type_unit" "TypeUnit" NOT NULL,
-    "active" BOOLEAN NOT NULL DEFAULT true,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "created_by" TEXT NOT NULL,
-
-    CONSTRAINT "product_presentations_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "prices" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "product_presentation_id" UUID NOT NULL,
+    "product_id" UUID NOT NULL,
+    "branch_id" UUID NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
-    "discount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
-    "type_discount" "TypeDiscount" NOT NULL DEFAULT 'monto',
-    "changed_reason" TEXT NOT NULL DEFAULT 'creado',
+    "type_unit" "TypeUnit" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -269,7 +253,7 @@ CREATE TABLE "inputs" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "branch_id" UUID NOT NULL,
     "transfer_id" UUID,
-    "product_presentation_id" UUID NOT NULL,
+    "product_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "due_date" DATE,
@@ -287,7 +271,7 @@ CREATE TABLE "outputs" (
     "branch_id" UUID NOT NULL,
     "order_id" UUID,
     "transfer_id" UUID,
-    "product_presentation_id" UUID NOT NULL,
+    "product_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "detail" VARCHAR NOT NULL,
@@ -301,7 +285,7 @@ CREATE TABLE "outputs" (
 -- CreateTable
 CREATE TABLE "kardexs" (
     "branch_id" UUID NOT NULL,
-    "product_presentation_id" UUID NOT NULL,
+    "product_id" UUID NOT NULL,
     "reference_id" UUID NOT NULL,
     "type_reference" "TypeReference" NOT NULL,
     "stock" INTEGER NOT NULL,
@@ -315,7 +299,7 @@ CREATE TABLE "transfers" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "from_branch_id" UUID NOT NULL,
     "to_branch_id" UUID NOT NULL,
-    "product_presentation_id" UUID NOT NULL,
+    "product_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "detail" VARCHAR,
@@ -389,7 +373,7 @@ CREATE UNIQUE INDEX "customers_user_id_key" ON "customers"("user_id");
 CREATE UNIQUE INDEX "staffs_user_id_key" ON "staffs"("user_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "product_presentations_product_id_branch_id_type_unit_key" ON "product_presentations"("product_id", "branch_id", "type_unit");
+CREATE UNIQUE INDEX "prices_product_id_branch_id_type_unit_key" ON "prices"("product_id", "branch_id", "type_unit");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "unit_conversions_product_id_from_unit_to_unit_key" ON "unit_conversions"("product_id", "from_unit", "to_unit");
@@ -440,13 +424,10 @@ ALTER TABLE "products" ADD CONSTRAINT "products_brand_id_fkey" FOREIGN KEY ("bra
 ALTER TABLE "products" ADD CONSTRAINT "products_provider_id_fkey" FOREIGN KEY ("provider_id") REFERENCES "providers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "product_presentations" ADD CONSTRAINT "product_presentations_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "prices" ADD CONSTRAINT "prices_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "product_presentations" ADD CONSTRAINT "product_presentations_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "prices" ADD CONSTRAINT "prices_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "prices" ADD CONSTRAINT "prices_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "unit_conversions" ADD CONSTRAINT "unit_conversions_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -461,7 +442,7 @@ ALTER TABLE "inputs" ADD CONSTRAINT "inputs_branch_id_fkey" FOREIGN KEY ("branch
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_transfer_id_fkey" FOREIGN KEY ("transfer_id") REFERENCES "transfers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "inputs" ADD CONSTRAINT "inputs_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "inputs" ADD CONSTRAINT "inputs_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -473,10 +454,10 @@ ALTER TABLE "outputs" ADD CONSTRAINT "outputs_order_id_fkey" FOREIGN KEY ("order
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_transfer_id_fkey" FOREIGN KEY ("transfer_id") REFERENCES "transfers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "outputs" ADD CONSTRAINT "outputs_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "outputs" ADD CONSTRAINT "outputs_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -488,7 +469,7 @@ ALTER TABLE "transfers" ADD CONSTRAINT "transfers_from_branch_id_fkey" FOREIGN K
 ALTER TABLE "transfers" ADD CONSTRAINT "transfers_to_branch_id_fkey" FOREIGN KEY ("to_branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "transfers" ADD CONSTRAINT "transfers_product_presentation_id_fkey" FOREIGN KEY ("product_presentation_id") REFERENCES "product_presentations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "transfers" ADD CONSTRAINT "transfers_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "orders" ADD CONSTRAINT "orders_staff_id_fkey" FOREIGN KEY ("staff_id") REFERENCES "staffs"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;

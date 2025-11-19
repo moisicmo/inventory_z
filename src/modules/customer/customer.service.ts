@@ -2,8 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { PaginationDto, UserEntity } from '@/common';
-import { CustomerEntity } from './entities/customer.entity';
+import { PaginationDto, UserSelect } from '@/common';
+import { CustomerSelect, CustomerType } from './entities/customer.entity';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 
 @Injectable()
 export class CustomerService {
@@ -16,7 +17,7 @@ export class CustomerService {
       where: {
         numberDocument,
       },
-      select: UserEntity,
+      select: UserSelect,
     });
     if (userExists) {
       throw new Error('El cliente ya existe');
@@ -35,11 +36,11 @@ export class CustomerService {
           },
         },
       },
-      select: UserEntity,
+      select: UserSelect,
     });
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<CustomerType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.customer.count({
       where: {
@@ -55,7 +56,7 @@ export class CustomerService {
         where: {
           active: true,
         },
-        select: CustomerEntity,
+        select: CustomerSelect,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -66,7 +67,7 @@ export class CustomerService {
       where: {
         userId: id,
       },
-      select: CustomerEntity,
+      select: CustomerSelect,
     });
 
     if (!customer) {
@@ -99,7 +100,7 @@ export class CustomerService {
           },
         },
       },
-      select: UserEntity,
+      select: UserSelect,
     });
   }
 
@@ -122,7 +123,7 @@ export class CustomerService {
           },
         },
       },
-      select: UserEntity,
+      select: UserSelect,
     });
   }
 }

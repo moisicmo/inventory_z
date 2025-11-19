@@ -3,8 +3,9 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
-import { RoleEntity } from './entities/role.entity';
+import { RoleSelect, RoleType } from './entities/role.entity';
 import { PermissionService } from '@/modules/permission/permission.service';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 @Injectable()
 export class RoleService {
 
@@ -39,7 +40,7 @@ export class RoleService {
 
 
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<RoleType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.role.count({
       where: { active: true },
@@ -51,7 +52,7 @@ export class RoleService {
         skip: (page - 1) * limit,
         take: limit,
         where: { active: true },
-        select: RoleEntity,
+        select: RoleSelect,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -78,7 +79,7 @@ export class RoleService {
       return this.prisma.role.update({
         where: { id },
         data: { name },
-        select: RoleEntity,
+        select: RoleSelect,
       });
     }
     const updatedPermissions: { id: string }[] = [];
@@ -129,7 +130,7 @@ export class RoleService {
       data: {
         active: false,
       },
-      select: RoleEntity,
+      select: RoleSelect,
     });
   }
 }

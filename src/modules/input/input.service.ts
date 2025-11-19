@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateInputDto } from './dto/create-input.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { TypeReference } from '@prisma/client';
-import { InputEntity } from './entities/input.entity';
+import { InputSelect } from './entities/input.entity';
 import { KardexService } from '@/modules/kardex/kardex.service';
 @Injectable()
 export class InputService {
@@ -13,12 +13,12 @@ export class InputService {
   ) { }
 
   async create(email: string,createInputDto: CreateInputDto) {
-    const { branchId, detail, presentations } = createInputDto;
+    const { branchId, detail, products: presentations } = createInputDto; 
     const inputs = await this.prisma.input.createManyAndReturn({
-      select: InputEntity,
+      select: InputSelect,
       data: presentations.map((e) => ({
         branchId,
-        productPresentationId: e.productPresentationId,
+        productId: e.productId,
         quantity: e.quantity,
         price: e.price,
         dueDate: e.dueDate,

@@ -18,7 +18,6 @@ import { PermissionModule } from './modules/permission/permission.module';
 import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
 import { CloudinaryService } from './common/cloudinary/clodinary.service';
 import { KardexModule } from './modules/kardex/kardex.module';
-import { ProductPresentationModule } from './modules/productPresentation/productPresentation.module';
 import { PriceModule } from './modules/price/price.module';
 import { TransferModule } from './modules/transfer/transfer.module';
 
@@ -40,7 +39,6 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     BrandModule,
     ProviderModule,
     ProductModule,
-    ProductPresentationModule,
     InputModule,
     CustomerModule,
     OrderModule,

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsString, IsUUID, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { PresentationInputDto } from './product-input.dto';
+import { ProductInputDto } from './product-input.dto';
 
 export class CreateInputDto {
   @IsUUID()
@@ -17,10 +17,10 @@ export class CreateInputDto {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => PresentationInputDto)
+  @Type(() => ProductInputDto)
   @ApiProperty({
-    type: [PresentationInputDto],
+    type: [ProductInputDto],
     description: 'Lista de presentaciones a ingresar',
   })
-  presentations: PresentationInputDto[];
+  products: ProductInputDto[];
 }

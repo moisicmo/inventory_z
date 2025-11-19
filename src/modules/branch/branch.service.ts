@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
-import { BranchEntity } from './entities/branch.entity';
+import { BranchSelect, BranchType } from './entities/branch.entity';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 
 @Injectable()
 export class BranchService {
@@ -26,12 +27,12 @@ export class BranchService {
         addressId: address.id,
         createdBy: email,
       },
-      select: BranchEntity,
+      select: BranchSelect,
 
     });
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<BranchType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.branch.count({
       where: { active: true },
@@ -42,7 +43,7 @@ export class BranchService {
       skip: (page - 1) * limit,
       take: limit,
       where: { active: true },
-      select: BranchEntity,
+      select: BranchSelect,
     });
 
     return {
@@ -54,7 +55,7 @@ export class BranchService {
   async findOne(id: string) {
     const branch = await this.prisma.branch.findUnique({
       where: { id },
-      select: BranchEntity,
+      select: BranchSelect,
     });
 
     if (!branch) {
@@ -91,7 +92,7 @@ export class BranchService {
       data: {
         ...branchData,
       },
-      select: BranchEntity,
+      select: BranchSelect,
     });
 
     return updatedBranch;
@@ -104,7 +105,7 @@ export class BranchService {
     return this.prisma.branch.update({
       where: { id },
       data: { active: false },
-      select: BranchEntity,
+      select: BranchSelect,
     });
   }
 }

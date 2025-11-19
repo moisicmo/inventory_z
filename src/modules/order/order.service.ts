@@ -4,9 +4,10 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { KardexService } from '../kardex/kardex.service';
 import { TypeReference } from '@prisma/client';
 import { PaginationDto } from '@/common';
-import { OrderEntity, OutputEntity, OrderType } from './entities/kardex.entity';
+import { OrderSelect, OutputSelect, OrderType } from './entities/order.entity';
 import { PdfService } from '@/common/pdf/pdf.service';
 import { GoogledriveService } from '@/common/googledrive/googledrive.service';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 
 @Injectable()
 export class OrderService {
@@ -33,7 +34,7 @@ export class OrderService {
       data: dataOutputs.map((e) => ({
         branchId,
         orderId: order.id,
-        productPresentationId: e.productPresentationId,
+        productId: e.productId,
         quantity: e.quantity,
         price: e.price,
         detail: 'venta',
@@ -43,7 +44,7 @@ export class OrderService {
 
     const outputs = await this.prisma.output.findMany({
       where: { orderId: order.id },
-      select: OutputEntity,
+      select: OutputSelect,
     });
 
     const kardexLists = await Promise.all(
@@ -73,7 +74,7 @@ export class OrderService {
   }
 
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<OrderType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.order.count({
       where: { active: true },
@@ -85,7 +86,7 @@ export class OrderService {
         skip: (page - 1) * limit,
         take: limit,
         where: { active: true },
-        // select: PermissionEntity,
+        select: OrderSelect,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -94,7 +95,7 @@ export class OrderService {
   async findOne(id: string): Promise<OrderType> {
     const order = await this.prisma.order.findUnique({
       where: { id },
-      select: OrderEntity,
+      select: OrderSelect,
     });
 
     if (!order) {

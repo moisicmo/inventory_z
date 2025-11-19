@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePriceDto } from './dto/create-price.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { PriceEntity } from './entities/price.entity';
+import { PriceSelect } from './entities/price.entity';
 
 @Injectable()
 export class PriceService {
@@ -15,7 +15,7 @@ export class PriceService {
         ...createPriceDto,
         createdBy: email,
       },
-      select: PriceEntity
+      select: PriceSelect
     });
   }
 
@@ -23,14 +23,14 @@ export class PriceService {
     return `This action returns all price`;
   }
 
-  findFirst(productPresentationId: string, price: number) {
+  findFirst(productId: string, price: number) {
     return this.prisma.price.findFirst({
       where: {
-        productPresentationId,
+        productId,
         price,
         active: true,
       },
-      select: PriceEntity,
+      select: PriceSelect,
     });
   }
 

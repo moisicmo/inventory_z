@@ -3,7 +3,8 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
-import { CategoryEntity } from './entities/category.entity';
+import { CategorySelect, CategoryType } from './entities/category.entity';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 
 @Injectable()
 export class CategoryService {
@@ -16,11 +17,11 @@ export class CategoryService {
         ...createCategoryDto,
         createdBy: email,
       },
-      select: CategoryEntity
+      select: CategorySelect
     });
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<CategoryType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.category.count({
       where: { active: true },
@@ -31,7 +32,7 @@ export class CategoryService {
       skip: (page - 1) * limit,
       take: limit,
       where: { active: true },
-      select: CategoryEntity,
+      select: CategorySelect,
     });
 
     return {
@@ -43,7 +44,7 @@ export class CategoryService {
   async findOne(id: string) {
     const category = await this.prisma.category.findUnique({
       where: { id },
-      select: CategoryEntity,
+      select: CategorySelect,
     });
 
     if (!category) {
@@ -59,7 +60,7 @@ export class CategoryService {
     return this.prisma.category.update({
       where: { id },
       data: updateCategoryDto,
-      select: CategoryEntity,
+      select: CategorySelect,
     });
   }
 
@@ -68,7 +69,7 @@ export class CategoryService {
     return await this.prisma.category.update({
       where: { id },
       data: { active: false },
-      select: CategoryEntity,
+      select: CategorySelect,
     });
   }
 }

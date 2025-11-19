@@ -18,9 +18,9 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
+    transform: true,
+    whitelist: true, // ← Esto está causando el problema
+    forbidNonWhitelisted: true, // ← Y esto también
     }),
   );
 

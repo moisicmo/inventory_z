@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFile, UseGuards, ValidationPipe } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -10,26 +10,27 @@ import { checkAbilities } from '@/decorator';
 import { TypeAction } from "@prisma/client";
 import { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
+import { ParseFormDataFirstPipe } from './dto/parse-form-data-first.pipe';
 
-// @UseGuards(AbilitiesGuard)
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) { }
 
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.product })
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(
     FileInterceptor('image'),
     new FileMimeTypeInterceptor(['image/jpeg', 'image/png']),
   )
-  @ApiConsumes('multipart/form-data')
   create(
     @CurrentUser() user: JwtPayload,
-    @Body() createProductDto: CreateProductDto,
+    @Body(ParseFormDataFirstPipe, ValidationPipe) createProductDto: CreateProductDto, // ← Múltiples pipes
     @UploadedFile() image: Express.Multer.File,
   ) {
     return this.productService.create(user.email, createProductDto, image);
   }
+
 
   @Get()
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.product })

@@ -4,6 +4,8 @@ import { PaginationDto } from '@/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { KardexService } from '../kardex/kardex.service';
 import { TypeReference } from '@prisma/client';
+import { TransferSelect, TransferType } from './entities/transfer.entity';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 
 @Injectable()
 export class TransferService {
@@ -13,108 +15,95 @@ export class TransferService {
     private kardexService: KardexService,
   ) { }
 
-  async create(email: string,createTransferDto: CreateTransferDto) {
+  async create(email: string, createTransferDto: CreateTransferDto) {
     const { fromBranchId, toBranchId, detail, outputs } = createTransferDto;
 
     const results: any[] = [];
 
     for (const output of outputs) {
-      const { productPresentationId, quantity, price } = output;
-
-      // 1️⃣ Buscar la presentación de origen
-      const fromPres = await this.prisma.productPresentation.findUnique({
-        where: { id: productPresentationId },
-        include: { product: true, branch: true },
+      // Buscar el producto
+      const product = await this.prisma.product.findUnique({
+        where: {
+          id: output.productId,
+          prices: {
+            some: {
+              branchId: fromBranchId,
+            }
+          }
+        },
+        select: {
+          id: true,
+          prices: {
+            select: {
+              price: true,
+              branch: true,
+              typeUnit: true,
+            }
+          },
+        }
       });
 
-      if (!fromPres) {
-        throw new Error(`No se encontró la presentación con id ${productPresentationId}`);
+      if (!product) {
+        throw new Error(`No se encontró el producto con id ${output.productId}`);
       }
-
-      // 2️⃣ Buscar o crear la presentación en la sucursal destino
-      let toPres = await this.prisma.productPresentation.findFirst({
+      // Buscar o crear el precio en la sucursal destino
+      let price = await this.prisma.price.findFirst({
         where: {
-          productId: fromPres.productId,
+          productId: product.id,
           branchId: toBranchId,
-          typeUnit: fromPres.typeUnit,
         },
         include: { branch: true },
       });
-      console.log(toPres)
-
-      if (!toPres) {
-        toPres = await this.prisma.productPresentation.create({
+      if (price != null) {
+        price = await this.prisma.price.create({
           data: {
-            productId: fromPres.productId,
+            productId: product.id,
             branchId: toBranchId,
-            name: fromPres.name,
-            typeUnit: fromPres.typeUnit,
-            active: true,
+            typeUnit: price.typeUnit,
             createdBy: email,
           },
           include: { branch: true },
         });
-
-        // Si quieres clonar también el precio base del origen
-        const lastPrice = await this.prisma.price.findFirst({
-          where: { productPresentationId: fromPres.id, active: true },
-          orderBy: { createdAt: 'desc' },
-        });
-
-        if (lastPrice) {
-          await this.prisma.price.create({
-            data: {
-              productPresentationId: toPres.id,
-              price: lastPrice.price,
-              discount: lastPrice.discount,
-              typeDiscount: lastPrice.typeDiscount,
-              changedReason: 'Creado por transferencia automática',
-              createdBy: email,
-            },
-          });
-        }
       }
-
-      // 3️⃣ Crear Transfer
+      // registro de transferencia
       const transfer = await this.prisma.transfer.create({
         data: {
           fromBranchId,
           toBranchId,
-          productPresentationId: fromPres.id, // sigue referenciando la de origen
-          quantity,
-          price,
+          productId: product.id,
+          quantity: output.quantity,
+          price: output.price,
           detail,
           createdBy: email,
         },
       });
-
-      // 4️⃣ Crear Output (sucursal origen)
+      // crear registro de salida
       const outputCreated = await this.prisma.output.create({
         data: {
           branchId: fromBranchId,
           transferId: transfer.id,
-          productPresentationId: fromPres.id,
-          quantity,
-          price,
-          detail: `Traspaso hacia la sucursal ${toPres.branch.name}`,
+          productId: product.id,
+          quantity: output.quantity,
+          price: output.price,
+          detail: `Traspaso hacia la sucursal ${price?.branch.name}`,
           createdBy: email,
         },
       });
 
-      // 5️⃣ Crear Input (sucursal destino)
+      // crear Input (sucursal destino)
       const inputCreated = await this.prisma.input.create({
         data: {
           branchId: toBranchId,
           transferId: transfer.id,
-          productPresentationId: toPres.id, // ✅ usar la de destino
-          quantity,
-          price,
-          detail: `Traspaso desde la sucursal ${fromPres.branch.name}`,
+          productId: product.id,
+          quantity: output.quantity,
+          price: output.price,
+          detail: `Traspaso desde la sucursal ${product.prices[0].branch.name}`,
           createdBy: email,
         },
       });
 
-      // 6️⃣ Obtener el estado actualizado del Kardex
+      // Obtener el estado actualizado del Kardex
       const [outputKardex, inputKardex] = await Promise.all([
         this.kardexService.findByReference(outputCreated.id, TypeReference.outputs),
         this.kardexService.findByReference(inputCreated.id, TypeReference.inputs),
@@ -131,7 +120,7 @@ export class TransferService {
   }
 
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<TransferType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.staff.count({
       where: {
@@ -144,7 +133,7 @@ export class TransferService {
       data: await this.prisma.transfer.findMany({
         skip: (page - 1) * limit,
         take: limit,
-        // select: StaffEntity,
+        select: TransferSelect,
       }),
       meta: { total: totalPages, page, lastPage },
     };

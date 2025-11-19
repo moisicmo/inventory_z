@@ -3,7 +3,8 @@ import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
-import { BrandEntity } from './entities/brand.entity';
+import { BrandSelect, BrandType } from './entities/brand.entity';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 
 @Injectable()
 export class BrandService {
@@ -16,11 +17,11 @@ export class BrandService {
         ...createBrandDto,
         createdBy: email,
       },
-      select: BrandEntity
+      select: BrandSelect
     });
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<BrandType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.brand.count({
       where: { active: true },
@@ -31,7 +32,7 @@ export class BrandService {
       skip: (page - 1) * limit,
       take: limit,
       where: { active: true },
-      select: BrandEntity,
+      select: BrandSelect,
     });
 
     return {
@@ -43,7 +44,7 @@ export class BrandService {
   async findOne(id: string) {
     const brand = await this.prisma.brand.findUnique({
       where: { id },
-      select: BrandEntity,
+      select: BrandSelect,
     });
 
     if (!brand) {
@@ -59,7 +60,7 @@ export class BrandService {
     return this.prisma.brand.update({
       where: { id },
       data: updateBrandDto,
-      select: BrandEntity,
+      select: BrandSelect,
     });
   }
 
@@ -68,7 +69,7 @@ export class BrandService {
     return await this.prisma.brand.update({
       where: { id },
       data: { active: false },
-      select: BrandEntity,
+      select: BrandSelect,
     });
   }
 }

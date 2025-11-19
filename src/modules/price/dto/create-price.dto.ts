@@ -1,29 +1,30 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { TypeUnit } from "@prisma/client";
+import { Type } from "class-transformer";
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class CreatePriceDto {
+
+export class BasePriceDto {
+  @IsString()
+  @ApiProperty({ example: 'abc', description: 'ID de la sucursal' })
+  branchId: string;
+
+  @Type(() => Number)
+  @IsNumber()
+  @ApiProperty({ example: 10.5 })
+  price: number;
+
+  @IsEnum(TypeUnit)
+  @ApiProperty({ example: TypeUnit.UNIDAD, enum: TypeUnit })
+  typeUnit: TypeUnit;
+}
+
+export class CreatePriceDto extends BasePriceDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
     example: 'presentation-123',
     description: 'Identificador de la presentación',
   })
-  productPresentationId: string;
-
-  @IsNotEmpty()
-  @IsNumber()
-  @ApiProperty({
-    example: 10.2,
-    description: 'Precio de la presentación',
-  })
-  price: number;
-
-  @IsOptional()
-  @IsString()
-  @ApiProperty({
-    example: 'reason-123',
-    description: 'motivo de cambio',
-    required: false,
-  })
-  changedReason?: string;
+  productId: string;
 }

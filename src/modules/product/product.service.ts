@@ -4,18 +4,17 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto } from '@/common';
 import { CloudinaryService } from '@/common/cloudinary/clodinary.service';
-import { ProductEntity } from './entities/product.entity';
-import { ProductPresentationService } from '@/modules/productPresentation/productPresentation.service';
+import { ProductSelect, ProductType } from './entities/product.entity';
 import { PriceService } from '@/modules/price/price.service';
 import * as xlsx from 'xlsx';
 import { TypeUnit } from '@prisma/client';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 @Injectable()
 export class ProductService {
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly cloudinaryService: CloudinaryService,
-    private readonly productPresentationService: ProductPresentationService,
     private readonly priceService: PriceService,
   ) { }
 
@@ -32,7 +31,7 @@ export class ProductService {
   }
 
   async create(email: string, createProductDto: CreateProductDto, image?: Express.Multer.File) {
-    const { categoryId, brandId, providerId, name, namePresentation, code, branchId, typeUnit, price } = createProductDto;
+    const { categoryId, brandId, providerId, code, name, description, barCode, prices } = createProductDto;
     let imageUrl: string | null = null;
     if (image) {
       const uploadResults = await this.cloudinaryService.uploadFile(image, 'productos');
@@ -41,34 +40,32 @@ export class ProductService {
 
     return await this.prisma.product.create({
       data: {
-        code: `P${Date.now()}`,
         categoryId,
         brandId,
         providerId,
+        code,
         name,
+        description,
+        barCode,
         image: imageUrl,
         createdBy: email,
-        productPresentations: {
-          create: {
-            code,
-            branchId,
-            name: namePresentation,
-            typeUnit,
-            createdBy: email,
-            prices: {
-              create: {
-                price,
-                createdBy: email,
-              }
-            },
+        prices: {
+          createMany: {
+            data: prices.map((p) => ({
+              branchId: p.branchId,
+              price: p.price,
+              typeUnit: p.typeUnit,
+              createdBy: email,
+            })),
           },
         },
       },
-      select: ProductEntity,
+      select: ProductSelect,
     });
+
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<ProductType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.product.count({
       where: { active: true },
@@ -80,7 +77,7 @@ export class ProductService {
         skip: (page - 1) * limit,
         take: limit,
         where: { active: true },
-        select: ProductEntity,
+        select: ProductSelect,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -89,7 +86,7 @@ export class ProductService {
   async findOne(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
-      select: ProductEntity,
+      select: ProductSelect,
     });
 
     if (!product) {
@@ -100,7 +97,7 @@ export class ProductService {
   }
 
   async update(email: string, id: string, updateProductDto: UpdateProductDto, image?: Express.Multer.File) {
-    const { categoryId, name, branchId, typeUnit, price, changedReason } = updateProductDto;
+    const { categoryId, brandId, providerId, code, name, description, barCode, prices } = updateProductDto;
 
     const existingProduct = await this.findOne(id);
 
@@ -117,54 +114,54 @@ export class ProductService {
       imageUrl = uploadResult.secure_url;
     }
 
-    const resolvedBranchId = branchId ?? existingProduct.productPresentations[0].branch.id;
-    const resolvedTypeUnit = typeUnit ?? existingProduct.productPresentations[0].typeUnit;
-    let resolvedPrice = price ?? existingProduct.productPresentations[0].prices[0].price;
-
     // Buscar presentación existente
-    const existingProductPresentation = await this.productPresentationService.findFirst(resolvedBranchId, resolvedTypeUnit, id);
-
+    // const existingProductPresentation = await this.productPresentationService.findFirst(resolvedBranchId, resolvedTypeUnit, id);
     const updateData: any = {
       categoryId,
+      brandId,
+      providerId,
+      code,
       name,
+      description,
+      barCode,
       ...(imageUrl ? { image: imageUrl } : {}),
     };
 
-    if (!existingProductPresentation) {
-      // Si no existe presentación, se crea junto con el precio
-      updateData.presentations = {
-        create: {
-          branchId: resolvedBranchId,
-          typeUnit,
-          prices: {
-            create: {
-              price,
-              changedReason,
-            },
-          },
-        },
-      };
-    } else {
-      // Si ya existe la presentación, verificamos si ya tiene ese precio activo
-      const existingPrice = await this.priceService.findFirst(id, resolvedPrice);
+    // if (!existingProductPresentation) {
+    //   // Si no existe presentación, se crea junto con el precio
+    //   updateData.presentations = {
+    //     create: {
+    //       branchId: resolvedBranchId,
+    //       typeUnit,
+    //       prices: {
+    //         create: {
+    //           price,
+    //           changedReason,
+    //         },
+    //       },
+    //     },
+    //   };
+    // } else {
+    //   // Si ya existe la presentación, verificamos si ya tiene ese precio activo
+    //   const existingPrice = await this.priceService.findFirst(id, resolvedPrice);
 
-      resolvedPrice = price ?? existingPrice?.price[0].price;
+    //   resolvedPrice = price ?? existingPrice?.price[0].price;
 
-      if (!existingPrice) {
-        // Creamos nuevo precio si no existe uno igual activo
-        await this.priceService.create(
-          email, {
-          productPresentationId: existingProductPresentation.id,
-          price: resolvedPrice,
-          changedReason,
-        });
-      }
-    }
+    //   if (!existingPrice) {
+    //     // Creamos nuevo precio si no existe uno igual activo
+    //     await this.priceService.create(
+    //       email, {
+    //       productPresentationId: existingProductPresentation.id,
+    //       price: resolvedPrice,
+    //       changedReason,
+    //     });
+    //   }
+    // }
 
     return this.prisma.product.update({
       where: { id },
       data: updateData,
-      select: ProductEntity
+      select: ProductSelect,
     });
   }
 
@@ -175,7 +172,7 @@ export class ProductService {
       data: {
         active: false,
       },
-      select: ProductEntity
+      select: ProductSelect,
     });
   }
 
@@ -251,15 +248,16 @@ export class ProductService {
       }
 
       const createProductDto: CreateProductDto = {
-        name: String(row['name']),
         categoryId: category.id,
         brandId: brand.id,
         providerId: provider.id,
-        branchId: branch.id,
         code: '',
-        namePresentation: String(row['namePresentation']),
-        typeUnit: row['typeUnit'],
-        price: Number(row['price']),
+        name: String(row['name']),
+        prices: [],
+        // branchId: branch.id,
+        // namePresentation: String(row['namePresentation']),
+        // typeUnit: row['typeUnit'],
+        // price: Number(row['price']),
       };
       console.log(createProductDto)
 

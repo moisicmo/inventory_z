@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 // import { InvoiceType } from '@/modules/invoice/entities/invoice.entity';
 // import { numberToString } from '@/common';
 import { PdfUtils } from '../pdf-utils';
-import { OrderType } from '@/modules/order/entities/kardex.entity';
+import { OrderType } from '@/modules/order/entities/order.entity';
 
 const fontPath = path.join(process.cwd(), 'dist/assets');
 
@@ -69,7 +69,7 @@ export function buildInvoiceRollTemplate(order: OrderType): Promise<Buffer> {
     { text: 'DETALLE', style: 'header' },
     utils.createTable(
       // [...order.outputs.map((output) => [`${output.debt?.type} | ${output.debt?.inscription?.student?.code} | ${output.debt?.inscription?.student?.user.name}`, `${output.amount.toFixed(2)}`, false])],
-      [...order.outputs.map((output) => [`${output.productPresentation.name}`, `${output.price.toFixed(2)}`, false])],
+      [...order.outputs.map((output) => [`${output.product.name}`, `${output.price.toFixed(2)}`, false])],
       'left',
       'right',
       'auto'

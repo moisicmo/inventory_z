@@ -28,7 +28,7 @@ export class CreateTransferDto {
   @ApiProperty({
     example: [
       {
-        productPresentationId: 'presentation123',
+        productId: 'preduct123',
         quantity: 1,
         price: 1.00
       }

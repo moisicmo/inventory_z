@@ -3,7 +3,8 @@ import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { PaginationDto, UserEntity } from '@/common'; import { StaffEntity } from './entities/staff.entity';
+import { PaginationDto, UserSelect } from '@/common'; import { StaffSelect, StaffType } from './entities/staff.entity';
+import { PaginationResult } from '@/common/entities/pagination.entity';
 @Injectable()
 export class StaffService {
 
@@ -15,7 +16,7 @@ export class StaffService {
 
     const userExists = await this.prisma.user.findUnique({
       where: { numberDocument },
-      select: UserEntity,
+      select: UserSelect,
     });
 
     if (userExists) {
@@ -41,11 +42,11 @@ export class StaffService {
           },
         },
       },
-      select: UserEntity,
+      select: UserSelect,
     });
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<StaffType>> {
     const { page = 1, limit = 10 } = paginationDto;
     const totalPages = await this.prisma.staff.count({
       where: {
@@ -61,7 +62,7 @@ export class StaffService {
         where: {
           active: true,
         },
-        select: StaffEntity,
+        select: StaffSelect,
       }),
       meta: { total: totalPages, page, lastPage },
     };
@@ -72,7 +73,7 @@ export class StaffService {
       where: {
         userId: id,
       },
-      select: StaffEntity,
+      select: StaffSelect,
     });
 
     if (!staff) {
@@ -108,7 +109,7 @@ export class StaffService {
           },
         },
       },
-      select: UserEntity,
+      select: UserSelect,
     });
   }
 
@@ -131,7 +132,7 @@ export class StaffService {
           },
         },
       },
-      select: UserEntity,
+      select: UserSelect,
     });
   }
 }

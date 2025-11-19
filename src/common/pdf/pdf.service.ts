@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as fs from 'fs';
 import * as path from 'path';
-import { OrderType } from '@/modules/order/entities/kardex.entity';
+import { OrderType } from '@/modules/order/entities/order.entity';
 import { buildInvoiceRollTemplate } from './template/generate-invoice-roll.template';
 
 const fontPath = path.join(process.cwd(), 'dist/assets/fonts');

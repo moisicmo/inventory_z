@@ -1,16 +1,15 @@
-import { UserEntity } from "@/common";
-import { BranchEntity } from "@/modules/branch/entities/branch.entity";
-import { RoleEntity } from "@/modules/role/entities/role.entity";
+import { UserSelect } from "@/common";
+import { BranchSelect } from "@/modules/branch/entities/branch.entity";
+import { RoleSelect } from "@/modules/role/entities/role.entity";
+import { Prisma } from "@prisma/client";
 
-export const StaffEntity = {
+export type StaffType = Prisma.StaffGetPayload<{
+  select: typeof StaffSelect;
+}>;
+
+export const StaffSelect = {
   userId: true,
-  role: {
-    select: RoleEntity,
-  },
-  branches: {
-    select: BranchEntity
-  },
-  user: {
-    select: UserEntity,
-  }
+  role: { select: RoleSelect },
+  branches: { select: BranchSelect },
+  user: { select: UserSelect }
 };

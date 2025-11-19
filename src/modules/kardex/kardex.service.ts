@@ -2,8 +2,8 @@ import { PaginationDto } from '@/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { TypeReference } from '@prisma/client';
-import { KardexEntity } from './entities/kardex.entity';
-import { ProductPresentationEntity } from '../productPresentation/entities/product-presentation.entity';
+import { KardexSelect } from './entities/kardex.entity';
+import { ProductSelect } from '../product/entities/product.entity';
 @Injectable()
 export class KardexService {
 
@@ -27,21 +27,21 @@ export class KardexService {
     }
 
     // Total filtrado (respetando branchId y/o keys)
-    const totalProducts = await this.prisma.productPresentation.count({ where });
+    const totalProducts = await this.prisma.product.count({ where });
     const lastPage = Math.ceil(totalProducts / limit);
 
-    const productPresentations = await this.prisma.productPresentation.findMany({
+    const products = await this.prisma.product.findMany({
       skip: (page - 1) * limit,
       take: limit,
       where,
-      select: ProductPresentationEntity
+      select: ProductSelect,
     });
 
     const data = await Promise.all(
-      productPresentations.map(async (productPresentation) => {
+      products.map(async (product) => {
         const kardexList = await this.prisma.kardex.findMany({
-          select: KardexEntity,
-          where: { productPresentationId: productPresentation.id },
+          select: KardexSelect,
+          where: { productId: product.id },
           orderBy: { createdAt: 'desc' }, // aseguras orden cronológico
         });
 
@@ -53,7 +53,7 @@ export class KardexService {
 
         return {
           stock: kardexList.length > 0 ? kardexList[0].stock : 0,
-          presentation: productPresentation,
+          presentation: product,
           kardex: kardexWithDetails.filter(Boolean),
         };
       }),
@@ -68,7 +68,7 @@ export class KardexService {
 
   async findByReference(referenceId: string, typeReference: TypeReference) {
     const kardex = await this.prisma.kardex.findFirst({
-      select: KardexEntity,
+      select: KardexSelect,
       where: {
         typeReference,
         referenceId,

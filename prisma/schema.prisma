@@ -197,64 +197,47 @@ model Category {
 }
 
 model Product {
-  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  categoryId           String                @map("category_id") @db.Uuid
-  brandId              String                @map("brand_id") @db.Uuid
-  providerId           String                @map("provider_id") @db.Uuid
-  code                 String?               @db.VarChar
-  name                 String                @db.VarChar
-  image                String?               @db.VarChar
-  barCode              String?               @map("bar_code") @db.VarChar
-  visible              Boolean               @default(true)
-  active               Boolean               @default(true)
-  createdAt            DateTime              @default(now()) @map("created_at")
-  updatedAt            DateTime              @updatedAt @map("updated_at")
-  createdBy            String                @map("created_by")
-  category             Category              @relation(fields: [categoryId], references: [id])
-  brand                Brand                 @relation(fields: [brandId], references: [id])
-  provider             Provider              @relation(fields: [providerId], references: [id])
-  productPresentations ProductPresentation[]
-  unitConversions      UnitConversion[]
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  categoryId      String           @map("category_id") @db.Uuid
+  brandId         String           @map("brand_id") @db.Uuid
+  providerId      String           @map("provider_id") @db.Uuid
+  code            String?          @db.VarChar
+  name            String           @db.VarChar
+  description     String?           @db.VarChar
+  image           String?          @db.VarChar
+  barCode         String?          @map("bar_code") @db.VarChar
+  visible         Boolean          @default(true)
+  active          Boolean          @default(true)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  createdBy       String           @map("created_by")
+  category        Category         @relation(fields: [categoryId], references: [id])
+  brand           Brand            @relation(fields: [brandId], references: [id])
+  provider        Provider         @relation(fields: [providerId], references: [id])
+  unitConversions UnitConversion[]
+  prices          Price[]
+  inputs          Input[]
+  outputs         Output[]
+  kardexs         Kardex[]
+  transfers       Transfer[]
 
   @@map("products")
 }
 
-model ProductPresentation {
-  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code      String?    @db.VarChar
-  productId String     @map("product_id") @db.Uuid
-  branchId  String     @map("branch_id") @db.Uuid
-  name      String     @map("name") @db.VarChar
-  typeUnit  TypeUnit   @map("type_unit")
-  active    Boolean    @default(true)
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
-  createdBy String     @map("created_by")
-  product   Product    @relation(fields: [productId], references: [id])
-  branch    Branch     @relation(fields: [branchId], references: [id])
-  prices    Price[]
-  inputs    Input[]
-  outputs   Output[]
-  kardexs   Kardex[]
-  transfers Transfer[]
+model Price {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String   @map("product_id") @db.Uuid
+  branchId  String   @map("branch_id") @db.Uuid
+  price     Float    @default(0.0)
+  typeUnit  TypeUnit @map("type_unit")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdBy String   @map("created_by")
+  product   Product  @relation(fields: [productId], references: [id])
+  branch    Branch   @relation(fields: [branchId], references: [id])
 
   @@unique([productId, branchId, typeUnit])
-  @@map("product_presentations")
-}
-
-model Price {
-  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  productPresentationId String              @map("product_presentation_id") @db.Uuid
-  price                 Float               @default(0.0)
-  discount              Float               @default(0.0)
-  typeDiscount          TypeDiscount        @default(monto) @map("type_discount")
-  changedReason         String              @default("creado") @map("changed_reason")
-  active                Boolean             @default(true)
-  createdAt             DateTime            @default(now()) @map("created_at")
-  updatedAt             DateTime            @updatedAt @map("updated_at")
-  createdBy             String              @map("created_by")
-  productPresentation   ProductPresentation @relation(fields: [productPresentationId], references: [id])
-
   @@map("prices")
 }
 
@@ -274,100 +257,100 @@ model UnitConversion {
 }
 
 model Branch {
-  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  addressId            String?               @map("address_id") @db.Uuid
-  name                 String                @db.VarChar
-  bankAccount          String?
-  phone                String[]
-  active               Boolean               @default(true)
-  createdAt            DateTime              @default(now()) @map("created_at")
-  updatedAt            DateTime              @updatedAt @map("updated_at")
-  createdBy            String                @map("created_by")
-  staffs               Staff[]
-  karedxs              Kardex[]
-  inputs               Input[]
-  outputs              Output[]
-  orders               Order[]
-  roles                Role[]
-  productPresentations ProductPresentation[]
-  fromTransfers        Transfer[]            @relation("TransferFromBranch")
-  toTransfers          Transfer[]            @relation("TransferToBranch")
-  address              Address?              @relation(fields: [addressId], references: [id])
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  addressId     String?    @map("address_id") @db.Uuid
+  name          String     @db.VarChar
+  bankAccount   String?
+  phone         String[]
+  active        Boolean    @default(true)
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+  createdBy     String     @map("created_by")
+  staffs        Staff[]
+  karedxs       Kardex[]
+  inputs        Input[]
+  outputs       Output[]
+  orders        Order[]
+  roles         Role[]
+  prices        Price[]
+  fromTransfers Transfer[] @relation("TransferFromBranch")
+  toTransfers   Transfer[] @relation("TransferToBranch")
+  address       Address?   @relation(fields: [addressId], references: [id])
 
   @@map("branches")
 }
 
 model Input {
-  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  branchId              String              @map("branch_id") @db.Uuid
-  transferId            String?             @map("transfer_id") @db.Uuid
-  productPresentationId String              @map("product_presentation_id") @db.Uuid
-  quantity              Int                 @db.Integer
-  price                 Float               @default(0.0)
-  dueDate               DateTime?           @map("due_date") @db.Date
-  detail                String              @db.VarChar
-  createdAt             DateTime            @default(now()) @map("created_at")
-  updatedAt             DateTime            @updatedAt @map("updated_at")
-  createdBy             String              @map("created_by")
-  branch                Branch              @relation(fields: [branchId], references: [id])
-  transfer              Transfer?           @relation(fields: [transferId], references: [id])
-  productPresentation   ProductPresentation @relation(fields: [productPresentationId], references: [id])
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  branchId   String    @map("branch_id") @db.Uuid
+  transferId String?   @map("transfer_id") @db.Uuid
+  productId  String    @map("product_id") @db.Uuid
+  quantity   Int       @db.Integer
+  price      Float     @default(0.0)
+  dueDate    DateTime? @map("due_date") @db.Date
+  detail     String    @db.VarChar
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  createdBy  String    @map("created_by")
+  branch     Branch    @relation(fields: [branchId], references: [id])
+  transfer   Transfer? @relation(fields: [transferId], references: [id])
+  product    Product   @relation(fields: [productId], references: [id])
 
   @@map("inputs")
 }
 
 model Output {
-  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  branchId              String              @map("branch_id") @db.Uuid
-  orderId               String?             @map("order_id") @db.Uuid
-  transferId            String?             @map("transfer_id") @db.Uuid
-  productPresentationId String              @map("product_presentation_id") @db.Uuid
-  quantity              Int                 @db.Integer
-  price                 Float               @default(0.0)
-  detail                String              @db.VarChar
-  createdAt             DateTime            @default(now()) @map("created_at")
-  updatedAt             DateTime            @updatedAt @map("updated_at")
-  createdBy             String              @map("created_by")
-  branch                Branch              @relation(fields: [branchId], references: [id])
-  order                 Order?              @relation(fields: [orderId], references: [id])
-  transfer              Transfer?           @relation(fields: [transferId], references: [id])
-  productPresentation   ProductPresentation @relation(fields: [productPresentationId], references: [id])
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  branchId   String    @map("branch_id") @db.Uuid
+  orderId    String?   @map("order_id") @db.Uuid
+  transferId String?   @map("transfer_id") @db.Uuid
+  productId  String    @map("product_id") @db.Uuid
+  quantity   Int       @db.Integer
+  price      Float     @default(0.0)
+  detail     String    @db.VarChar
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  createdBy  String    @map("created_by")
+  branch     Branch    @relation(fields: [branchId], references: [id])
+  order      Order?    @relation(fields: [orderId], references: [id])
+  transfer   Transfer? @relation(fields: [transferId], references: [id])
+  product    Product   @relation(fields: [productId], references: [id])
 
   @@map("outputs")
 }
 
 model Kardex {
-  branchId              String              @map("branch_id") @db.Uuid
-  productPresentationId String              @map("product_presentation_id") @db.Uuid
-  referenceId           String              @map("reference_id") @db.Uuid
-  typeReference         TypeReference       @map("type_reference")
-  stock                 Int                 @db.Integer
-  createdAt             DateTime            @default(now()) @map("created_at")
-  updatedAt             DateTime            @updatedAt @map("updated_at")
-  createdBy             String              @map("created_by")
-  productPresentation   ProductPresentation @relation(fields: [productPresentationId], references: [id])
-  branch                Branch              @relation(fields: [branchId], references: [id])
+  branchId      String        @map("branch_id") @db.Uuid
+  productId     String        @map("product_id") @db.Uuid
+  referenceId   String        @map("reference_id") @db.Uuid
+  typeReference TypeReference @map("type_reference")
+  stock         Int           @db.Integer
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  createdBy     String        @map("created_by")
+  product       Product       @relation(fields: [productId], references: [id])
+  branch        Branch        @relation(fields: [branchId], references: [id])
 
   @@unique([referenceId, typeReference])
   @@map("kardexs")
 }
 
 model Transfer {
-  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  fromBranchId          String              @map("from_branch_id") @db.Uuid
-  toBranchId            String              @map("to_branch_id") @db.Uuid
-  productPresentationId String              @map("product_presentation_id") @db.Uuid
-  quantity              Int                 @db.Integer
-  price                 Float               @default(0.0)
-  detail                String?             @db.VarChar
-  createdAt             DateTime            @default(now()) @map("created_at")
-  updatedAt             DateTime            @updatedAt @map("updated_at")
-  createdBy             String              @map("created_by")
-  fromBranch            Branch              @relation("TransferFromBranch", fields: [fromBranchId], references: [id])
-  toBranch              Branch              @relation("TransferToBranch", fields: [toBranchId], references: [id])
-  productPresentation   ProductPresentation @relation(fields: [productPresentationId], references: [id])
-  outputs               Output[]
-  inputs                Input[]
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fromBranchId String   @map("from_branch_id") @db.Uuid
+  toBranchId   String   @map("to_branch_id") @db.Uuid
+  productId    String   @map("product_id") @db.Uuid
+  quantity     Int      @db.Integer
+  price        Float    @default(0.0)
+  detail       String?  @db.VarChar
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  createdBy    String   @map("created_by")
+  fromBranch   Branch   @relation("TransferFromBranch", fields: [fromBranchId], references: [id])
+  toBranch     Branch   @relation("TransferToBranch", fields: [toBranchId], references: [id])
+  product      Product  @relation(fields: [productId], references: [id])
+  outputs      Output[]
+  inputs       Input[]
 
   @@map("transfers")
 }

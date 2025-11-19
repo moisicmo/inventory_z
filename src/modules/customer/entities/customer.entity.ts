@@ -1,9 +1,12 @@
-import { UserEntity } from "@/common";
+import { UserSelect } from "@/common";
+import { Prisma } from "@prisma/client";
 
-export const CustomerEntity = {
+export type CustomerType = Prisma.CustomerGetPayload<{
+  select: typeof CustomerSelect;
+}>;
+
+export const CustomerSelect = {
   userId: true,
   active: true,
-  user: {
-    select: UserEntity,
-  }
+  user: { select: UserSelect }
 };
