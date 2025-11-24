@@ -290,7 +290,6 @@ CREATE TABLE "kardexs" (
     "type_reference" "TypeReference" NOT NULL,
     "stock" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL
 );
 

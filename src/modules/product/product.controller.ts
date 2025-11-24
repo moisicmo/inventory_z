@@ -10,7 +10,6 @@ import { checkAbilities } from '@/decorator';
 import { TypeAction } from "@prisma/client";
 import { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
-import { ParseFormDataFirstPipe } from './dto/parse-form-data-first.pipe';
 
 @Controller('product')
 export class ProductController {
@@ -25,7 +24,7 @@ export class ProductController {
   )
   create(
     @CurrentUser() user: JwtPayload,
-    @Body(ParseFormDataFirstPipe, ValidationPipe) createProductDto: CreateProductDto, // ← Múltiples pipes
+    @Body() createProductDto: CreateProductDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
     return this.productService.create(user.email, createProductDto, image);

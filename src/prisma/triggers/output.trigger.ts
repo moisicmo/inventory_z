@@ -12,7 +12,7 @@ export async function createKardexOutputTrigger(prisma: PrismaClient) {
       SELECT COALESCE((
         SELECT "stock"
         FROM "kardexs"
-        WHERE "product_presentation_id" = NEW."product_presentation_id"
+        WHERE "product_id" = NEW."product_id"
           AND "branch_id" = NEW."branch_id"
         ORDER BY "created_at" DESC
         LIMIT 1
@@ -20,14 +20,15 @@ export async function createKardexOutputTrigger(prisma: PrismaClient) {
 
       -- Insertar nuevo registro en kardex restando la cantidad
       INSERT INTO "kardexs" (
-        "branch_id", "product_presentation_id", "reference_id", "type_reference", "stock"
+        "branch_id", "product_id", "reference_id", "type_reference", "stock", "created_by"
       )
       VALUES (
         NEW."branch_id",
-        NEW."product_presentation_id",
+        NEW."product_id",
         NEW."id",
         'outputs',
-        last_stock - NEW."quantity"
+        last_stock - NEW."quantity",
+        'system'
       );
 
       RETURN NEW;

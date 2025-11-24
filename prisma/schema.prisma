@@ -326,7 +326,6 @@ model Kardex {
   typeReference TypeReference @map("type_reference")
   stock         Int           @db.Integer
   createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
   createdBy     String        @map("created_by")
   product       Product       @relation(fields: [productId], references: [id])
   branch        Branch        @relation(fields: [branchId], references: [id])

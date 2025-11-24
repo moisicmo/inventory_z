@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsArray, IsOptional, IsString, ValidateNested } from "class-validator";
-import { Transform, Type } from 'class-transformer';
+import { plainToInstance, Transform, Type } from 'class-transformer';
 import { BasePriceDto } from "@/modules/price/dto/create-price.dto";
 
 export class CreateProductDto {
@@ -41,19 +41,21 @@ export class CreateProductDto {
     description: 'Precios por sucursal del producto',
     type: [BasePriceDto],
   })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => BasePriceDto)
+
   @Transform(({ value }) => {
     if (typeof value === 'string') {
       try {
-        return JSON.parse(value);
+        const arr = JSON.parse(value);
+        return arr.map(item => plainToInstance(BasePriceDto, item));
       } catch {
         return value;
       }
     }
     return value;
   })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BasePriceDto)
   prices: BasePriceDto[];
 
 }

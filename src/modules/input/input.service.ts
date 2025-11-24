@@ -13,10 +13,10 @@ export class InputService {
   ) { }
 
   async create(email: string,createInputDto: CreateInputDto) {
-    const { branchId, detail, products: presentations } = createInputDto; 
+    const { branchId, detail, products } = createInputDto; 
     const inputs = await this.prisma.input.createManyAndReturn({
       select: InputSelect,
-      data: presentations.map((e) => ({
+      data: products.map((e) => ({
         branchId,
         productId: e.productId,
         quantity: e.quantity,

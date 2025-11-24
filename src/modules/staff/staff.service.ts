@@ -85,14 +85,23 @@ export class StaffService {
 
   async update(id: string, updateStaffDto: UpdateStaffDto) {
     await this.findOne(id);
-    const { numberDocument, typeDocument, roleId, name, lastName, email } = updateStaffDto;
+
+    const {
+      numberDocument,
+      typeDocument,
+      roleId,
+      name,
+      lastName,
+      email,
+      // branchIds,
+    } = updateStaffDto;
+
+    const branchIds = updateStaffDto.branchIds ?? [];
 
     return this.prisma.user.update({
       where: {
         id,
-        staff: {
-          isNot: null,
-        },
+        staff: { isNot: null },
       },
       data: {
         numberDocument,
@@ -104,14 +113,18 @@ export class StaffService {
           update: {
             where: { userId: id },
             data: {
-              roleId
-            },
-          },
-        },
+              roleId,
+              branches: {
+                set: branchIds.map(id => ({ id }))
+              }
+            }
+          }
+        }
       },
-      select: UserSelect,
+      select: UserSelect
     });
   }
+
 
   async remove(id: string) {
     await this.findOne(id);

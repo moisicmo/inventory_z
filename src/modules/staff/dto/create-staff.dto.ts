@@ -1,6 +1,6 @@
 import { CreateUserDto } from "@/common/dto/create-user.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsUUID, ValidateNested } from "class-validator";
+import { IsArray, IsUUID } from "class-validator";
 
 export class CreateStaffDto extends CreateUserDto {
   @IsUUID()

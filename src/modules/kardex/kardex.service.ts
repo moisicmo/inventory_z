@@ -15,7 +15,7 @@ export class KardexService {
     // Condición dinámica de filtro
     const where: any = {};
     if (branchId) {
-      where.branchId = branchId;
+      // where.branchId = branchId;
     }
 
     // 🔎 Opcional: si quieres búsqueda por nombre o código
@@ -53,7 +53,7 @@ export class KardexService {
 
         return {
           stock: kardexList.length > 0 ? kardexList[0].stock : 0,
-          presentation: product,
+          product,
           kardex: kardexWithDetails.filter(Boolean),
         };
       }),
