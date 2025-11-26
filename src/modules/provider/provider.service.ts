@@ -103,4 +103,21 @@ export class ProviderService {
       select: ProviderSelect,
     });
   }
+
+  async searchByName(name: string) {
+    if (!name) {
+      return [];
+    }
+    return this.prisma.provider.findMany({
+      where: {
+        name: {
+          startsWith: name,
+          mode: 'insensitive',
+        },
+        active: true,
+      },
+      take: 10,
+      select: ProviderEntity,
+    });
+  }
 }

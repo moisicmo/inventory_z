@@ -72,4 +72,21 @@ export class BrandService {
       select: BrandSelect,
     });
   }
+
+  async searchByName(name: string) {
+    if (!name) {
+      return [];
+    }
+    return this.prisma.brand.findMany({
+      where: {
+        name: {
+          startsWith: name,
+          mode: 'insensitive',
+        },
+        active: true,
+      },
+      take: 10,
+      select: BrandEntity,
+    });
+  }
 }
