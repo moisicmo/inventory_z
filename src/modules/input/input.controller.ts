@@ -3,9 +3,9 @@ import { InputService } from './input.service';
 import { CreateInputDto } from './dto/create-input.dto';
 
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from "@prisma/client";
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
+import { TypeAction } from '@/generated/prisma/enums';
 
 @Controller('input')
 export class InputController {

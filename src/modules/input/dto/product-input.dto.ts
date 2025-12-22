@@ -7,6 +7,10 @@ export class ProductInputDto {
   @ApiProperty({ example: 'abc', description: 'Identificador del producto' })
   productId: string;
 
+  @IsString()
+  @ApiProperty({ example: 'abc', description: 'Identificador del proveedor' })
+  providerId: string;
+
   @IsNumber()
   @ApiProperty({ example: 100, description: 'Cantidad de producto' })
   quantity: number;

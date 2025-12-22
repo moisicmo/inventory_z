@@ -3,7 +3,7 @@ import { CreateTransferDto } from './dto/create-transfer.dto';
 import { PaginationDto } from '@/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { KardexService } from '../kardex/kardex.service';
-import { TypeReference } from '@prisma/client';
+import { TypeReference } from '@/generated/prisma/enums';
 import { TransferSelect, TransferType } from './entities/transfer.entity';
 import { PaginationResult } from '@/common/entities/pagination.entity';
 
@@ -96,6 +96,7 @@ export class TransferService {
           branchId: toBranchId,
           transferId: transfer.id,
           productId: product.id,
+          providerId: '',
           quantity: output.quantity,
           price: output.price,
           detail: `Traspaso desde la sucursal ${product.prices[0].branch.name}`,

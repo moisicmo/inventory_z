@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PaginationDto } from '@/common';
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from "@prisma/client";
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
+import { TypeAction } from '@/generated/prisma/enums';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 
 @Controller('category')
 export class CategoryController {

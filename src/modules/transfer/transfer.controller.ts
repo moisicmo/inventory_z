@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, UseGuards, Query } from '@nestjs/common';
 import { TransferService } from './transfer.service';
 import { CreateTransferDto } from './dto/create-transfer.dto';
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from '@prisma/client';
+import { TypeAction } from '@/generated/prisma/enums';
 import { PaginationDto } from '@/common';
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
 
 @Controller('transfer')

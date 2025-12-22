@@ -4,9 +4,9 @@ import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { PaginationDto } from '@/common';
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from "@prisma/client";
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
+import { TypeAction } from '@/generated/prisma/enums';
 
 @Controller('brand')
 export class BrandController {

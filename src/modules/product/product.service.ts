@@ -7,7 +7,6 @@ import { CloudinaryService } from '@/common/cloudinary/clodinary.service';
 import { ProductSelect, ProductType } from './entities/product.entity';
 import { PriceService } from '@/modules/price/price.service';
 import * as xlsx from 'xlsx';
-import { TypeUnit } from '@prisma/client';
 import { PaginationResult } from '@/common/entities/pagination.entity';
 @Injectable()
 export class ProductService {
@@ -31,7 +30,7 @@ export class ProductService {
   }
 
   async create(email: string, createProductDto: CreateProductDto, image?: Express.Multer.File) {
-    const { categoryId, brandId, providerId, code, name, description, barCode, prices } = createProductDto;
+    const { categoryId, brandId, code, name, description, barCode, prices } = createProductDto;
     let imageUrl: string | null = null;
     if (image) {
       const uploadResults = await this.cloudinaryService.uploadFile(image, 'productos');
@@ -42,7 +41,6 @@ export class ProductService {
       data: {
         categoryId,
         brandId,
-        providerId,
         code,
         name,
         description,
@@ -54,6 +52,7 @@ export class ProductService {
             data: prices.map((p) => ({
               branchId: p.branchId,
               price: p.price,
+              promoPrice: p.promoPrice,
               typeUnit: p.typeUnit,
               createdBy: email,
             })),
@@ -96,8 +95,14 @@ export class ProductService {
     return product;
   }
 
-  async update(email: string, id: string, updateProductDto: UpdateProductDto, image?: Express.Multer.File) {
-    const { categoryId, brandId, providerId, code, name, description, barCode, prices } = updateProductDto;
+  async update(
+    email: string,
+    id: string,
+    updateProductDto: UpdateProductDto,
+    image?: Express.Multer.File,
+  ) {
+    const { categoryId, brandId, code, name, description, barCode, prices } =
+      updateProductDto;
 
     const existingProduct = await this.findOne(id);
 
@@ -114,56 +119,45 @@ export class ProductService {
       imageUrl = uploadResult.secure_url;
     }
 
-    // Buscar presentación existente
-    // const existingProductPresentation = await this.productPresentationService.findFirst(resolvedBranchId, resolvedTypeUnit, id);
-    const updateData: any = {
-      categoryId,
-      brandId,
-      providerId,
-      code,
-      name,
-      description,
-      barCode,
-      ...(imageUrl ? { image: imageUrl } : {}),
-    };
+    return this.prisma.$transaction(async (tx) => {
+      // 1️⃣ Actualizar producto
+      const product = await tx.product.update({
+        where: { id },
+        data: {
+          categoryId,
+          brandId,
+          code,
+          name,
+          description,
+          barCode,
+          ...(imageUrl ? { image: imageUrl } : {}),
+        },
+        select: ProductSelect,
+      });
 
-    // if (!existingProductPresentation) {
-    //   // Si no existe presentación, se crea junto con el precio
-    //   updateData.presentations = {
-    //     create: {
-    //       branchId: resolvedBranchId,
-    //       typeUnit,
-    //       prices: {
-    //         create: {
-    //           price,
-    //           changedReason,
-    //         },
-    //       },
-    //     },
-    //   };
-    // } else {
-    //   // Si ya existe la presentación, verificamos si ya tiene ese precio activo
-    //   const existingPrice = await this.priceService.findFirst(id, resolvedPrice);
+      // 2️⃣ Eliminar precios anteriores
+      await tx.price.deleteMany({
+        where: { productId: id },
+      });
 
-    //   resolvedPrice = price ?? existingPrice?.price[0].price;
+      // 3️⃣ Crear precios nuevos
+      if (prices?.length) {
+        await tx.price.createMany({
+          data: prices.map((p) => ({
+            productId: id,
+            branchId: p.branchId,
+            typeUnit: p.typeUnit,
+            price: p.price,
+            promoPrice: p.promoPrice,
+            createdBy: email,
+          })),
+        });
+      }
 
-    //   if (!existingPrice) {
-    //     // Creamos nuevo precio si no existe uno igual activo
-    //     await this.priceService.create(
-    //       email, {
-    //       productPresentationId: existingProductPresentation.id,
-    //       price: resolvedPrice,
-    //       changedReason,
-    //     });
-    //   }
-    // }
-
-    return this.prisma.product.update({
-      where: { id },
-      data: updateData,
-      select: ProductSelect,
+      return product;
     });
   }
+
 
   async remove(id: string) {
     await this.findOne(id);
@@ -212,7 +206,8 @@ export class ProductService {
       if (!branch) {
         branch = await this.prisma.branch.create({
           data: {
-            name: brandName,
+            type: 'sucursal',
+            name: branchName,
             createdBy: email,
           },
         });
@@ -250,14 +245,9 @@ export class ProductService {
       const createProductDto: CreateProductDto = {
         categoryId: category.id,
         brandId: brand.id,
-        providerId: provider.id,
         code: '',
         name: String(row['name']),
         prices: [],
-        // branchId: branch.id,
-        // namePresentation: String(row['namePresentation']),
-        // typeUnit: row['typeUnit'],
-        // price: Number(row['price']),
       };
       console.log(createProductDto)
 

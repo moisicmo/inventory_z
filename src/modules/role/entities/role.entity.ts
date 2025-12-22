@@ -1,5 +1,5 @@
+import { Prisma } from '@/generated/prisma/client';
 import { PermissionSelect } from '@/modules/permission/entities/permission.entity';
-import { Prisma } from '@prisma/client';
 
 export type RoleType = Prisma.RoleGetPayload<{
   select: typeof RoleSelect;

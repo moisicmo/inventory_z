@@ -1,5 +1,5 @@
 import { UserSelect } from "@/common";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 
 export type CustomerType = Prisma.CustomerGetPayload<{
   select: typeof CustomerSelect;

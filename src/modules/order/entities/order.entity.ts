@@ -2,7 +2,7 @@ import { BranchSelect } from "@/modules/branch/entities/branch.entity";
 import { CustomerSelect } from "@/modules/customer/entities/customer.entity";
 import { ProductSelect } from "@/modules/product/entities/product.entity";
 import { StaffSelect } from "@/modules/staff/entities/staff.entity";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 
 export type OrderType = Prisma.OrderGetPayload<{
   select: typeof OrderSelect;

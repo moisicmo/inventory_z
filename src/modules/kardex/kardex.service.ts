@@ -1,7 +1,7 @@
 import { PaginationDto } from '@/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { TypeReference } from '@prisma/client';
+import { TypeReference } from '@/generated/prisma/enums';
 import { KardexSelect } from './entities/kardex.entity';
 import { ProductSelect } from '../product/entities/product.entity';
 @Injectable()

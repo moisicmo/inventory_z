@@ -1,9 +1,8 @@
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { KardexService } from './kardex.service';
 import { PaginationDto } from '@/common';
-import { TypeReference } from '@prisma/client';
+import { TypeAction, TypeReference } from '@/generated/prisma/enums';
 import { checkAbilities } from '@/decorator';
-import { TypeAction } from "@prisma/client";
 import { TypeSubject } from '@/common/subjects';
 
 @Controller('kardex')

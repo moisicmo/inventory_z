@@ -1,7 +1,6 @@
 import * as ExcelJS from 'exceljs';
 import { Buffer } from 'buffer';
-import { Order } from '@prisma/client';
-// import { DebtType } from '@/modules/debt/entities/debt.entity';
+import { Order } from '@/generated/prisma/client';
 
 export async function buildDebtTemplate(orders: Order[]): Promise<Buffer> {
   const workbook = new ExcelJS.Workbook();

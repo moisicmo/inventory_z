@@ -4,9 +4,9 @@ import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
 import { PaginationDto } from '@/common';
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from "@prisma/client";
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
+import { TypeAction } from '@/generated/prisma/enums';
 
 @Controller('branch')
 export class BranchController {

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInputDto } from './dto/create-input.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { TypeReference } from '@prisma/client';
 import { InputSelect } from './entities/input.entity';
 import { KardexService } from '@/modules/kardex/kardex.service';
+import { TypeReference } from '@/generated/prisma/enums';
 @Injectable()
 export class InputService {
 
@@ -19,6 +19,7 @@ export class InputService {
       data: products.map((e) => ({
         branchId,
         productId: e.productId,
+        providerId: e.providerId,
         quantity: e.quantity,
         price: e.price,
         dueDate: e.dueDate,

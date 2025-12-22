@@ -4,9 +4,9 @@ import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PaginationDto } from '@/common';
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from "@prisma/client";
 import { TypeSubject } from '@/common/subjects';
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeAction } from '@/generated/prisma/enums';
 
 @Controller('customer')
 export class CustomerController {

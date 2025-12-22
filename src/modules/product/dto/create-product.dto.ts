@@ -14,10 +14,6 @@ export class CreateProductDto {
   brandId: string;
 
   @IsString()
-  @ApiProperty({ example: 'abc', description: 'ID del proveedor' })
-  providerId: string;
-
-  @IsString()
   @ApiProperty({ example: 'Product 1' })
   code: string;
 

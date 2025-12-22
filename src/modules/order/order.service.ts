@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { KardexService } from '../kardex/kardex.service';
-import { TypeReference } from '@prisma/client';
+import { TypeReference } from '@/generated/prisma/enums';
 import { PaginationDto } from '@/common';
 import { OrderSelect, OutputSelect, OrderType } from './entities/order.entity';
 import { PdfService } from '@/common/pdf/pdf.service';

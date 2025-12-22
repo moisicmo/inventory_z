@@ -16,9 +16,6 @@ CREATE TYPE "TypeReference" AS ENUM ('inputs', 'outputs');
 -- CreateEnum
 CREATE TYPE "TypeAction" AS ENUM ('manage', 'create', 'read', 'update', 'delete');
 
--- CreateEnum
-CREATE TYPE "ConditionOperator" AS ENUM ('equals', 'not_equals', 'in', 'not_in', 'greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal', 'contains', 'starts_with', 'ends_with', 'exists', 'between');
-
 -- CreateTable
 CREATE TABLE "addresses" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -119,29 +116,12 @@ CREATE TABLE "permissions" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "action" "TypeAction" NOT NULL,
     "subject" TEXT NOT NULL,
-    "inverted" BOOLEAN NOT NULL DEFAULT false,
-    "reason" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_by" TEXT NOT NULL,
 
     CONSTRAINT "permissions_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "conditions" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "permission_id" UUID NOT NULL,
-    "field" TEXT NOT NULL,
-    "operator" "ConditionOperator" NOT NULL,
-    "value" TEXT NOT NULL,
-    "active" BOOLEAN NOT NULL DEFAULT true,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "created_by" TEXT NOT NULL,
-
-    CONSTRAINT "conditions_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -189,7 +169,6 @@ CREATE TABLE "products" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "category_id" UUID NOT NULL,
     "brand_id" UUID NOT NULL,
-    "provider_id" UUID NOT NULL,
     "code" VARCHAR,
     "name" VARCHAR NOT NULL,
     "description" VARCHAR,
@@ -210,6 +189,7 @@ CREATE TABLE "prices" (
     "product_id" UUID NOT NULL,
     "branch_id" UUID NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "promo_price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "type_unit" "TypeUnit" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -237,6 +217,7 @@ CREATE TABLE "unit_conversions" (
 CREATE TABLE "branches" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "address_id" UUID,
+    "type" VARCHAR NOT NULL,
     "name" VARCHAR NOT NULL,
     "bankAccount" TEXT,
     "phone" TEXT[],
@@ -254,6 +235,7 @@ CREATE TABLE "inputs" (
     "branch_id" UUID NOT NULL,
     "transfer_id" UUID,
     "product_id" UUID NOT NULL,
+    "provider_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "due_date" DATE,
@@ -372,6 +354,9 @@ CREATE UNIQUE INDEX "customers_user_id_key" ON "customers"("user_id");
 CREATE UNIQUE INDEX "staffs_user_id_key" ON "staffs"("user_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "permissions_action_subject_key" ON "permissions"("action", "subject");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "prices_product_id_branch_id_type_unit_key" ON "prices"("product_id", "branch_id", "type_unit");
 
 -- CreateIndex
@@ -408,9 +393,6 @@ ALTER TABLE "staffs" ADD CONSTRAINT "staffs_role_id_fkey" FOREIGN KEY ("role_id"
 ALTER TABLE "roles" ADD CONSTRAINT "roles_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "conditions" ADD CONSTRAINT "conditions_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "permissions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "providers" ADD CONSTRAINT "providers_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -418,9 +400,6 @@ ALTER TABLE "products" ADD CONSTRAINT "products_category_id_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "products" ADD CONSTRAINT "products_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "brands"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "products" ADD CONSTRAINT "products_provider_id_fkey" FOREIGN KEY ("provider_id") REFERENCES "providers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "prices" ADD CONSTRAINT "prices_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -442,6 +421,9 @@ ALTER TABLE "inputs" ADD CONSTRAINT "inputs_transfer_id_fkey" FOREIGN KEY ("tran
 
 -- AddForeignKey
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "inputs" ADD CONSTRAINT "inputs_provider_id_fkey" FOREIGN KEY ("provider_id") REFERENCES "providers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

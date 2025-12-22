@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 
 export type BrandType = Prisma.BrandGetPayload<{
   select: typeof BrandSelect;

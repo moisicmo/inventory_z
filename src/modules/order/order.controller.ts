@@ -2,10 +2,10 @@ import { Controller, Get, Post, Body, Param, Query, UseGuards } from '@nestjs/co
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { PaginationDto } from '@/common';
-import { TypeAction } from '@prisma/client';
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
+import { TypeAction } from '@/generated/prisma/enums';
 
 @Controller('order')
 export class OrderController {

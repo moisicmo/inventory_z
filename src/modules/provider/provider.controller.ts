@@ -4,8 +4,8 @@ import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { PaginationDto } from '@/common';
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from "@prisma/client";
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeAction } from '@/generated/prisma/enums';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
 
 @Controller('provider')

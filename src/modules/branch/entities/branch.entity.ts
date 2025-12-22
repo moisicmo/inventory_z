@@ -1,5 +1,5 @@
 import { AddressSelect } from "@/common/entities/address.select";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 
 export type BranchType = Prisma.BranchGetPayload<{
   select: typeof BranchSelect;
@@ -7,6 +7,7 @@ export type BranchType = Prisma.BranchGetPayload<{
 
 export const BranchSelect = {
   id: true,
+  type: true,
   name: true,
   bankAccount: true,
   phone: true,

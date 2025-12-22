@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 
 export type CategoryType = Prisma.CategoryGetPayload<{
   select: typeof CategorySelect;

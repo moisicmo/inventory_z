@@ -7,8 +7,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { CurrentUser, FileMimeTypeInterceptor } from '@/decorator';
 import { checkAbilities } from '@/decorator';
-import { TypeAction } from "@prisma/client";
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeAction, TypeReference } from '@/generated/prisma/enums';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
 
 @Controller('product')

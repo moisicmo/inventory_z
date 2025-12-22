@@ -5,8 +5,8 @@ import { UpdateStaffDto } from './dto/update-staff.dto';
 import { PaginationDto } from '@/common';
 
 import { checkAbilities, CurrentUser } from '@/decorator';
-import { TypeAction } from "@prisma/client";
-import { JwtPayload } from '../auth/entities/jwt-payload.interface';
+import { TypeAction, TypeReference } from '@/generated/prisma/enums';
+import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
 
 

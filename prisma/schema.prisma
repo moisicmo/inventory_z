@@ -5,12 +5,13 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Address {
@@ -128,45 +129,28 @@ model Permission {
   id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   action     TypeAction
   subject    String
-  inverted   Boolean     @default(false)
-  reason     String?     @db.Text
   active     Boolean     @default(true)
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @default(now()) @updatedAt @map("updated_at")
   createdBy  String      @map("created_by")
   roles      Role[]
-  conditions Condition[]
 
+  @@unique([action, subject])
   @@map("permissions")
 }
 
-model Condition {
-  id           String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  permissionId String            @map("permission_id") @db.Uuid
-  field        String
-  operator     ConditionOperator
-  value        String
-  active       Boolean           @default(true)
-  createdAt    DateTime          @default(now()) @map("created_at")
-  updatedAt    DateTime          @default(now()) @updatedAt @map("updated_at")
-  createdBy    String            @map("created_by")
-  permission   Permission        @relation(fields: [permissionId], references: [id])
-
-  @@map("conditions")
-}
-
 model Provider {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  addressId String?   @map("address_id") @db.Uuid
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  addressId String?  @map("address_id") @db.Uuid
   nit       String
   phone     String[]
-  name      String    @db.VarChar
-  active    Boolean   @default(true)
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  createdBy String    @map("created_by")
-  address   Address?  @relation(fields: [addressId], references: [id])
-  products  Product[]
+  name      String   @db.VarChar
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdBy String   @map("created_by")
+  address   Address? @relation(fields: [addressId], references: [id])
+  inputs    Input[]
 
   @@map("providers")
 }
@@ -200,10 +184,9 @@ model Product {
   id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   categoryId      String           @map("category_id") @db.Uuid
   brandId         String           @map("brand_id") @db.Uuid
-  providerId      String           @map("provider_id") @db.Uuid
   code            String?          @db.VarChar
   name            String           @db.VarChar
-  description     String?           @db.VarChar
+  description     String?          @db.VarChar
   image           String?          @db.VarChar
   barCode         String?          @map("bar_code") @db.VarChar
   visible         Boolean          @default(true)
@@ -213,7 +196,6 @@ model Product {
   createdBy       String           @map("created_by")
   category        Category         @relation(fields: [categoryId], references: [id])
   brand           Brand            @relation(fields: [brandId], references: [id])
-  provider        Provider         @relation(fields: [providerId], references: [id])
   unitConversions UnitConversion[]
   prices          Price[]
   inputs          Input[]
@@ -225,17 +207,18 @@ model Product {
 }
 
 model Price {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  productId String   @map("product_id") @db.Uuid
-  branchId  String   @map("branch_id") @db.Uuid
-  price     Float    @default(0.0)
-  typeUnit  TypeUnit @map("type_unit")
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  createdBy String   @map("created_by")
-  product   Product  @relation(fields: [productId], references: [id])
-  branch    Branch   @relation(fields: [branchId], references: [id])
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId  String   @map("product_id") @db.Uuid
+  branchId   String   @map("branch_id") @db.Uuid
+  price      Float    @default(0.0)
+  promoPrice Float    @default(0.0) @map("promo_price")
+  typeUnit   TypeUnit @map("type_unit")
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  createdBy  String   @map("created_by")
+  product    Product  @relation(fields: [productId], references: [id])
+  branch     Branch   @relation(fields: [branchId], references: [id])
 
   @@unique([productId, branchId, typeUnit])
   @@map("prices")
@@ -259,6 +242,7 @@ model UnitConversion {
 model Branch {
   id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   addressId     String?    @map("address_id") @db.Uuid
+  type          String     @db.VarChar
   name          String     @db.VarChar
   bankAccount   String?
   phone         String[]
@@ -285,6 +269,7 @@ model Input {
   branchId   String    @map("branch_id") @db.Uuid
   transferId String?   @map("transfer_id") @db.Uuid
   productId  String    @map("product_id") @db.Uuid
+  providerId String    @map("provider_id") @db.Uuid
   quantity   Int       @db.Integer
   price      Float     @default(0.0)
   dueDate    DateTime? @map("due_date") @db.Date
@@ -295,6 +280,7 @@ model Input {
   branch     Branch    @relation(fields: [branchId], references: [id])
   transfer   Transfer? @relation(fields: [transferId], references: [id])
   product    Product   @relation(fields: [productId], references: [id])
+  provider   Provider  @relation(fields: [providerId], references: [id])
 
   @@map("inputs")
 }
@@ -422,20 +408,4 @@ enum TypeAction {
   read
   update
   delete
-}
-
-enum ConditionOperator {
-  equals // es igual
-  not_equals // no es igual
-  in // está dentro de una lista de valores
-  not_in // no está dentro de una lista de valores
-  greater_than // es mayor que
-  greater_than_or_equal // es mayor o igual que
-  less_than // es menor que
-  less_than_or_equal // es menor o igual que
-  contains // contiene un valor (usado en cadenas de texto o arrays)
-  starts_with // empieza con un valor (solo para strings)
-  ends_with // termina con un valor (solo para strings)
-  exists // verifica si el campo existe o no (útil para valores opcionales)
-  between
 }

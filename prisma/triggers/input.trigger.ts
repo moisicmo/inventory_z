@@ -1,14 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 
-export async function createKardexOutputTrigger(prisma: PrismaClient) {
-  // Crear la función
+export async function createKardexInputTrigger() {
   await prisma.$executeRawUnsafe(`
-    CREATE OR REPLACE FUNCTION register_kardex_on_output()
+    CREATE OR REPLACE FUNCTION register_kardex_on_input()
     RETURNS TRIGGER AS $$
     DECLARE
       last_stock INT := 0;
     BEGIN
-      -- Obtener el último stock de la presentación
+      -- Obtener el último stock del mismo product_id y branch_id
       SELECT COALESCE((
         SELECT "stock"
         FROM "kardexs"
@@ -18,7 +17,7 @@ export async function createKardexOutputTrigger(prisma: PrismaClient) {
         LIMIT 1
       ), 0) INTO last_stock;
 
-      -- Insertar nuevo registro en kardex restando la cantidad
+      -- Insertar nuevo registro en kardex
       INSERT INTO "kardexs" (
         "branch_id", "product_id", "reference_id", "type_reference", "stock", "created_by"
       )
@@ -26,8 +25,8 @@ export async function createKardexOutputTrigger(prisma: PrismaClient) {
         NEW."branch_id",
         NEW."product_id",
         NEW."id",
-        'outputs',
-        last_stock - NEW."quantity",
+        'inputs',
+        last_stock + NEW."quantity",
         'system'
       );
 
@@ -36,16 +35,16 @@ export async function createKardexOutputTrigger(prisma: PrismaClient) {
     $$ LANGUAGE plpgsql;
   `);
 
-  // Eliminar trigger si existe
+  // Eliminar trigger si ya existe
   await prisma.$executeRawUnsafe(`
-    DROP TRIGGER IF EXISTS trigger_kardex_output ON "outputs";
+    DROP TRIGGER IF EXISTS trigger_kardex_input ON "inputs";
   `);
 
   // Crear el trigger
   await prisma.$executeRawUnsafe(`
-    CREATE TRIGGER trigger_kardex_output
-    AFTER INSERT ON "outputs"
+    CREATE TRIGGER trigger_kardex_input
+    AFTER INSERT ON "inputs"
     FOR EACH ROW
-    EXECUTE FUNCTION register_kardex_on_output();
+    EXECUTE FUNCTION register_kardex_on_input();
   `);
 }

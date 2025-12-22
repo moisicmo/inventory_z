@@ -1,6 +1,6 @@
 import { BranchSelect } from "@/modules/branch/entities/branch.entity";
 import { ProductSelect } from "@/modules/product/entities/product.entity";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 
 export type TransferType = Prisma.TransferGetPayload<{
   select: typeof TransferSelect;

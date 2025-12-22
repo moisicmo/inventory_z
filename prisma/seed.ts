@@ -1,16 +1,17 @@
-import { PrismaClient, TypeAction } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { createKardexInputTrigger } from './triggers/input.trigger';
 import { createKardexOutputTrigger } from './triggers/output.trigger';
-import { TypeSubject } from '../common/subjects';
+import { TypeSubject } from '../src/common/subjects';
+import { TypeAction } from '@/generated/prisma/enums';
+import { prisma } from '@/lib/prisma';
 
 async function main() {
-  const prisma = new PrismaClient();
   const email = 'moisic.mo@gmail.com';
   try {
     // creamos la sucursal
     const branch = await prisma.branch.create({
       data: {
+        type: 'sucursal',
         name: 'Casa Matríz',
         createdBy: email,
         address: {
@@ -71,8 +72,8 @@ async function main() {
       }
     });
     console.log('✅ Datos de semilla insertados correctamente.');
-    await createKardexInputTrigger(prisma);
-    await createKardexOutputTrigger(prisma);
+    await createKardexInputTrigger();
+    await createKardexOutputTrigger();
 
   } catch (error) {
     console.error('❌ Error al insertar datos de semilla:', error);

@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { PaginationDto } from '@/common';
 import { checkAbilities } from '@/decorator';
-import { TypeAction } from "@prisma/client";
+import { TypeAction, TypeReference } from '@/generated/prisma/enums';
 import { TypeSubject } from '@/common/subjects';
 
 @Controller('permission')

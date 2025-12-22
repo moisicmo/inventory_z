@@ -6,6 +6,13 @@ export class CreateBranchDto extends CreateAddressDto {
 
   @IsString()
   @ApiProperty({
+    example: 'sucursal principal',
+    description: 'tipo de sucursal',
+  })
+  type: string;
+
+  @IsString()
+  @ApiProperty({
     example: 'Bloque A',
     description: 'Nombre de la sucursal',
   })
