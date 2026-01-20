@@ -1,10 +1,9 @@
 import { TypeSubject } from "@/common/subjects";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { TypeAction, TypeReference } from '@/generated/prisma/enums';
-import { IsBoolean, IsEnum, IsObject, IsOptional, IsString } from "class-validator";
+import { TypeAction } from '@/generated/prisma/enums';
+import { IsBoolean, IsEnum, IsOptional, IsString } from "class-validator";
 
 export class CreatePermissionDto {
-
 
   @IsEnum(TypeAction)
   @ApiProperty({
@@ -21,30 +20,6 @@ export class CreatePermissionDto {
     example: TypeSubject.product,
   })
   subject: TypeSubject;
-
-  @IsOptional()
-  @IsBoolean()
-  @ApiPropertyOptional({
-    description: 'Indica si es un permiso invertido (prohibido)',
-    default: false,
-  })
-  inverted?: boolean;
-
-  @IsOptional()
-  @IsObject()
-  @ApiPropertyOptional({
-    description: 'Condiciones opcionales como sucursalId, empresaId, etc.',
-    example: { sucursalId: '123' },
-  })
-  conditions?: Record<string, any>;
-
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional({
-    description: 'Razón por la cual se asigna este permiso',
-    example: 'Acceso restringido por rol de supervisor',
-  })
-  reason?: string | null;
 
   @IsOptional()
   @IsBoolean()

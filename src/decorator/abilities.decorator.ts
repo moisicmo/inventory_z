@@ -7,7 +7,6 @@ export const CHECK_ABILITY = 'check_ability';
 export interface RequiredRule {
   action: TypeAction;
   subject: TypeSubject;
-  conditions?: any;
 }
 
 export const checkAbilities = (...requirements: RequiredRule[]) =>
