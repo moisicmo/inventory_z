@@ -17,7 +17,7 @@ export class StaffController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.staff })
   create(@CurrentUser() user: JwtPayload, @Body() createStaffDto: CreateStaffDto) {
-    return this.staffService.create(user.email, createStaffDto);
+    return this.staffService.create(user.id, createStaffDto);
   }
 
   @Get()

@@ -15,7 +15,7 @@ export class ProviderController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.provider })
   create(@CurrentUser() user: JwtPayload, @Body() createProviderDto: CreateProviderDto) {
-    return this.providerService.create(user.email,createProviderDto);
+    return this.providerService.create(user.id,createProviderDto);
   }
 
   @Get()

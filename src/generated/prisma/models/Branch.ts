@@ -34,6 +34,7 @@ export type BranchMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type BranchMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type BranchMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type BranchCountAggregateOutputType = {
@@ -59,6 +61,7 @@ export type BranchCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
@@ -73,6 +76,7 @@ export type BranchMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type BranchMaxAggregateInputType = {
@@ -85,6 +89,7 @@ export type BranchMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type BranchCountAggregateInputType = {
@@ -98,6 +103,7 @@ export type BranchCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -184,6 +190,7 @@ export type BranchGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: BranchCountAggregateOutputType | null
   _min: BranchMinAggregateOutputType | null
   _max: BranchMaxAggregateOutputType | null
@@ -218,6 +225,7 @@ export type BranchWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   createdBy?: Prisma.StringFilter<"Branch"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Branch"> | string | null
   staffs?: Prisma.StaffListRelationFilter
   karedxs?: Prisma.KardexListRelationFilter
   inputs?: Prisma.InputListRelationFilter
@@ -241,6 +249,7 @@ export type BranchOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   staffs?: Prisma.StaffOrderByRelationAggregateInput
   karedxs?: Prisma.KardexOrderByRelationAggregateInput
   inputs?: Prisma.InputOrderByRelationAggregateInput
@@ -255,18 +264,19 @@ export type BranchOrderByWithRelationInput = {
 
 export type BranchWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  name?: string
   AND?: Prisma.BranchWhereInput | Prisma.BranchWhereInput[]
   OR?: Prisma.BranchWhereInput[]
   NOT?: Prisma.BranchWhereInput | Prisma.BranchWhereInput[]
   addressId?: Prisma.UuidNullableFilter<"Branch"> | string | null
   type?: Prisma.StringFilter<"Branch"> | string
-  name?: Prisma.StringFilter<"Branch"> | string
   bankAccount?: Prisma.StringNullableFilter<"Branch"> | string | null
   phone?: Prisma.StringNullableListFilter<"Branch">
   active?: Prisma.BoolFilter<"Branch"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   createdBy?: Prisma.StringFilter<"Branch"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Branch"> | string | null
   staffs?: Prisma.StaffListRelationFilter
   karedxs?: Prisma.KardexListRelationFilter
   inputs?: Prisma.InputListRelationFilter
@@ -277,7 +287,7 @@ export type BranchWhereUniqueInput = Prisma.AtLeast<{
   fromTransfers?: Prisma.TransferListRelationFilter
   toTransfers?: Prisma.TransferListRelationFilter
   address?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
-}, "id">
+}, "id" | "name">
 
 export type BranchOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -290,6 +300,7 @@ export type BranchOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.BranchCountOrderByAggregateInput
   _max?: Prisma.BranchMaxOrderByAggregateInput
   _min?: Prisma.BranchMinOrderByAggregateInput
@@ -309,6 +320,7 @@ export type BranchScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Branch"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Branch"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Branch"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"Branch"> | string | null
 }
 
 export type BranchCreateInput = {
@@ -321,6 +333,7 @@ export type BranchCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -344,6 +357,7 @@ export type BranchUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -365,6 +379,7 @@ export type BranchUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -388,6 +403,7 @@ export type BranchUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -410,6 +426,7 @@ export type BranchCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type BranchUpdateManyMutationInput = {
@@ -422,6 +439,7 @@ export type BranchUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BranchUncheckedUpdateManyInput = {
@@ -435,6 +453,7 @@ export type BranchUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BranchListRelationFilter = {
@@ -463,6 +482,7 @@ export type BranchCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type BranchMaxOrderByAggregateInput = {
@@ -475,6 +495,7 @@ export type BranchMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type BranchMinOrderByAggregateInput = {
@@ -487,6 +508,7 @@ export type BranchMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type BranchCreateNestedManyWithoutAddressInput = {
@@ -700,6 +722,7 @@ export type BranchCreateWithoutAddressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -721,6 +744,7 @@ export type BranchUncheckedCreateWithoutAddressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -772,6 +796,7 @@ export type BranchScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   createdBy?: Prisma.StringFilter<"Branch"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Branch"> | string | null
 }
 
 export type BranchCreateWithoutStaffsInput = {
@@ -784,6 +809,7 @@ export type BranchCreateWithoutStaffsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
   outputs?: Prisma.OutputCreateNestedManyWithoutBranchInput
@@ -806,6 +832,7 @@ export type BranchUncheckedCreateWithoutStaffsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutBranchInput
@@ -847,6 +874,7 @@ export type BranchCreateWithoutRolesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -869,6 +897,7 @@ export type BranchUncheckedCreateWithoutRolesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -905,6 +934,7 @@ export type BranchUpdateWithoutRolesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -927,6 +957,7 @@ export type BranchUncheckedUpdateWithoutRolesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -947,6 +978,7 @@ export type BranchCreateWithoutPricesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -969,6 +1001,7 @@ export type BranchUncheckedCreateWithoutPricesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -1005,6 +1038,7 @@ export type BranchUpdateWithoutPricesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -1027,6 +1061,7 @@ export type BranchUncheckedUpdateWithoutPricesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1047,6 +1082,7 @@ export type BranchCreateWithoutInputsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   outputs?: Prisma.OutputCreateNestedManyWithoutBranchInput
@@ -1069,6 +1105,7 @@ export type BranchUncheckedCreateWithoutInputsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutBranchInput
@@ -1105,6 +1142,7 @@ export type BranchUpdateWithoutInputsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutBranchNestedInput
@@ -1127,6 +1165,7 @@ export type BranchUncheckedUpdateWithoutInputsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1147,6 +1186,7 @@ export type BranchCreateWithoutOutputsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -1169,6 +1209,7 @@ export type BranchUncheckedCreateWithoutOutputsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -1205,6 +1246,7 @@ export type BranchUpdateWithoutOutputsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -1227,6 +1269,7 @@ export type BranchUncheckedUpdateWithoutOutputsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1247,6 +1290,7 @@ export type BranchCreateWithoutKaredxsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
   outputs?: Prisma.OutputCreateNestedManyWithoutBranchInput
@@ -1269,6 +1313,7 @@ export type BranchUncheckedCreateWithoutKaredxsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutBranchInput
@@ -1305,6 +1350,7 @@ export type BranchUpdateWithoutKaredxsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutBranchNestedInput
@@ -1327,6 +1373,7 @@ export type BranchUncheckedUpdateWithoutKaredxsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1347,6 +1394,7 @@ export type BranchCreateWithoutFromTransfersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -1369,6 +1417,7 @@ export type BranchUncheckedCreateWithoutFromTransfersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -1394,6 +1443,7 @@ export type BranchCreateWithoutToTransfersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -1416,6 +1466,7 @@ export type BranchUncheckedCreateWithoutToTransfersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -1452,6 +1503,7 @@ export type BranchUpdateWithoutFromTransfersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -1474,6 +1526,7 @@ export type BranchUncheckedUpdateWithoutFromTransfersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1505,6 +1558,7 @@ export type BranchUpdateWithoutToTransfersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -1527,6 +1581,7 @@ export type BranchUncheckedUpdateWithoutToTransfersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1547,6 +1602,7 @@ export type BranchCreateWithoutOrdersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
@@ -1569,6 +1625,7 @@ export type BranchUncheckedCreateWithoutOrdersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
   karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
@@ -1605,6 +1662,7 @@ export type BranchUpdateWithoutOrdersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -1627,6 +1685,7 @@ export type BranchUncheckedUpdateWithoutOrdersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1647,6 +1706,7 @@ export type BranchCreateManyAddressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type BranchUpdateWithoutAddressInput = {
@@ -1659,6 +1719,7 @@ export type BranchUpdateWithoutAddressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
@@ -1680,6 +1741,7 @@ export type BranchUncheckedUpdateWithoutAddressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1701,6 +1763,7 @@ export type BranchUncheckedUpdateManyWithoutAddressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BranchUpdateWithoutStaffsInput = {
@@ -1713,6 +1776,7 @@ export type BranchUpdateWithoutStaffsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutBranchNestedInput
@@ -1735,6 +1799,7 @@ export type BranchUncheckedUpdateWithoutStaffsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutBranchNestedInput
@@ -1756,6 +1821,7 @@ export type BranchUncheckedUpdateManyWithoutStaffsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1872,6 +1938,7 @@ export type BranchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   staffs?: boolean | Prisma.Branch$staffsArgs<ExtArgs>
   karedxs?: boolean | Prisma.Branch$karedxsArgs<ExtArgs>
   inputs?: boolean | Prisma.Branch$inputsArgs<ExtArgs>
@@ -1896,6 +1963,7 @@ export type BranchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   address?: boolean | Prisma.Branch$addressArgs<ExtArgs>
 }, ExtArgs["result"]["branch"]>
 
@@ -1910,6 +1978,7 @@ export type BranchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   address?: boolean | Prisma.Branch$addressArgs<ExtArgs>
 }, ExtArgs["result"]["branch"]>
 
@@ -1924,9 +1993,10 @@ export type BranchSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type BranchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "addressId" | "type" | "name" | "bankAccount" | "phone" | "active" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["branch"]>
+export type BranchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "addressId" | "type" | "name" | "bankAccount" | "phone" | "active" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["branch"]>
 export type BranchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staffs?: boolean | Prisma.Branch$staffsArgs<ExtArgs>
   karedxs?: boolean | Prisma.Branch$karedxsArgs<ExtArgs>
@@ -1972,6 +2042,7 @@ export type $BranchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["branch"]>
   composites: {}
 }
@@ -2415,6 +2486,7 @@ export interface BranchFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Branch", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Branch", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Branch", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"Branch", 'String'>
 }
     
 

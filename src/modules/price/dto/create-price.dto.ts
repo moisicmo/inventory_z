@@ -14,11 +14,6 @@ export class BasePriceDto {
   @ApiProperty({ example: 10.5 })
   price: number;
 
-  @Type(() => Number)
-  @IsNumber()
-  @ApiProperty({ example: 10.5 })
-  promoPrice: number;
-
   @IsEnum(TypeUnit)
   @ApiProperty({ example: TypeUnit.UNIDAD, enum: TypeUnit })
   typeUnit: TypeUnit;

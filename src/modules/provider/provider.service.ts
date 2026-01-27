@@ -11,21 +11,21 @@ export class ProviderService {
 
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(email: string, createProviderDto: CreateProviderDto) {
+  async create(userId: string, createProviderDto: CreateProviderDto) {
     const { city, zone, detail, ...providerDto } = createProviderDto;
     const address = await this.prisma.address.create({
       data: {
         city,
         zone,
         detail,
-        createdBy: email,
+        createdBy: userId,
       }
     });
     return await this.prisma.provider.create({
       data: {
         ...providerDto,
         addressId: address.id,
-        createdBy: email,
+        createdBy: userId,
       },
       select: ProviderSelect
     });

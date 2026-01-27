@@ -8,7 +8,6 @@ export type PriceType = Prisma.PriceGetPayload<{
 export const PriceSelect = {
   id: true,
   price: true,
-  promoPrice: true,
   typeUnit: true,
   branch: { select: BranchSelect}
 };

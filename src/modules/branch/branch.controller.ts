@@ -15,7 +15,7 @@ export class BranchController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.branch })
   create(@CurrentUser() user: JwtPayload, @Body() createBranchDto: CreateBranchDto) {
-    return this.branchService.create(user.email, createBranchDto);
+    return this.branchService.create(user.id, createBranchDto);
   }
 
   @Get()

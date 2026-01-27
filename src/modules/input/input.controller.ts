@@ -14,6 +14,6 @@ export class InputController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.input })
   create(@CurrentUser() user: JwtPayload,@Body() createInputDto: CreateInputDto) {
-    return this.inputService.create(user.email,createInputDto);
+    return this.inputService.create(user.id,createInputDto);
   }
 }

@@ -14,7 +14,7 @@ export class RoleService {
     private permissionService: PermissionService,
   ) { }
 
-  async create(email:string,createRoleDto: CreateRoleDto) {
+  async create(userId:string,createRoleDto: CreateRoleDto) {
     try {
       const { branchId, name, permissions } = createRoleDto;
 
@@ -22,7 +22,7 @@ export class RoleService {
         data: { 
           branchId:branchId,
           name,
-          createdBy: email,
+          createdBy: userId,
          },
       });
 

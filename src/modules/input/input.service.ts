@@ -12,7 +12,7 @@ export class InputService {
     private kardexService: KardexService,
   ) { }
 
-  async create(email: string,createInputDto: CreateInputDto) {
+  async create(userId: string,createInputDto: CreateInputDto) {
     const { branchId, detail, products } = createInputDto; 
     const inputs = await this.prisma.input.createManyAndReturn({
       select: InputSelect,
@@ -24,7 +24,7 @@ export class InputService {
         price: e.price,
         dueDate: e.dueDate,
         detail,
-        createdBy: email,
+        createdBy: userId,
       })),
     });
     const kardexLists = await Promise.all(

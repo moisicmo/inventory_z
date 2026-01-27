@@ -10,5 +10,6 @@ export const ProviderSelect = {
   name: true,
   nit: true,
   phone: true,
+  contact: true,
   address: { select: AddressSelect },
 };

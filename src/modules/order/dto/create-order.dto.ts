@@ -1,17 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNumber, IsString } from "class-validator";
+import { IsArray, IsNumber, IsString, IsUUID } from "class-validator";
 import { CreateOutputDto } from "./create-output.dto";
 
 export class CreateOrderDto {
 
-  @IsString()
+  @IsUUID()
   @ApiProperty({
     example: 'customer123',
     description: 'Identificador del cliente',
   })
   customerId: string;
 
-  @IsString()
+  @IsUUID()
   @ApiProperty({
     example: 'branch123',
     description: 'Identificador de la sucursal',

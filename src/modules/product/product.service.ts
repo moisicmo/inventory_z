@@ -8,6 +8,7 @@ import { ProductSelect, ProductType } from './entities/product.entity';
 import { PriceService } from '@/modules/price/price.service';
 import * as xlsx from 'xlsx';
 import { PaginationResult } from '@/common/entities/pagination.entity';
+import { TypeUnit } from '@/generated/prisma/enums';
 @Injectable()
 export class ProductService {
 
@@ -28,9 +29,9 @@ export class ProductService {
       return null;
     }
   }
+  async create(userId: string, createProductDto: CreateProductDto, image?: Express.Multer.File) {
+    const { categoryId, brandId, code, name, description, barCode, promoPrice, unitConversion, prices } = createProductDto;
 
-  async create(email: string, createProductDto: CreateProductDto, image?: Express.Multer.File) {
-    const { categoryId, brandId, code, name, description, barCode, prices } = createProductDto;
     let imageUrl: string | null = null;
     if (image) {
       const uploadResults = await this.cloudinaryService.uploadFile(image, 'productos');
@@ -45,24 +46,30 @@ export class ProductService {
         name,
         description,
         barCode,
+        promoPrice,
         image: imageUrl,
-        createdBy: email,
-        prices: {
-          createMany: {
-            data: prices.map((p) => ({
-              branchId: p.branchId,
-              price: p.price,
-              promoPrice: p.promoPrice,
-              typeUnit: p.typeUnit,
-              createdBy: email,
-            })),
+        createdBy: userId,
+        unitConversion: {
+          create: {
+            fromUnit: unitConversion.fromUnit,
+            toUnit: unitConversion.toUnit,
+            factor: unitConversion.factor,
+            createdBy: userId,
           },
+        },
+        prices: {
+          create: prices.map((p) => ({
+            branchId: p.branchId,
+            price: Number(p.price),
+            typeUnit: p.typeUnit,
+            createdBy: userId,
+          })),
         },
       },
       select: ProductSelect,
     });
-
   }
+
 
   async findAll(paginationDto: PaginationDto): Promise<PaginationResult<ProductType>> {
     const { page = 1, limit = 10 } = paginationDto;
@@ -95,68 +102,96 @@ export class ProductService {
     return product;
   }
 
-  async update(
-    email: string,
-    id: string,
-    updateProductDto: UpdateProductDto,
-    image?: Express.Multer.File,
-  ) {
-    const { categoryId, brandId, code, name, description, barCode, prices } =
-      updateProductDto;
+ async update(
+  userId: string,
+  id: string,
+  updateProductDto: UpdateProductDto,
+  image?: Express.Multer.File,
+) {
+  const {
+    categoryId,
+    brandId,
+    code,
+    name,
+    description,
+    barCode,
+    promoPrice,
+    unitConversion,
+    prices,
+  } = updateProductDto;
 
-    const existingProduct = await this.findOne(id);
+  const existingProduct = await this.findOne(id);
 
-    let imageUrl: string | undefined;
+  let imageUrl: string | undefined;
 
-    if (image) {
-      if (existingProduct.image) {
-        const publicId = this.extractPublicIdFromUrl(existingProduct.image);
-        if (publicId) {
-          await this.cloudinaryService.deleteFile(publicId);
-        }
+  if (image) {
+    if (existingProduct.image) {
+      const publicId = this.extractPublicIdFromUrl(existingProduct.image);
+      if (publicId) {
+        await this.cloudinaryService.deleteFile(publicId);
       }
-      const uploadResult = await this.cloudinaryService.uploadFile(image, 'productos');
-      imageUrl = uploadResult.secure_url;
+    }
+    const uploadResult = await this.cloudinaryService.uploadFile(image, 'productos');
+    imageUrl = uploadResult.secure_url;
+  }
+
+  return this.prisma.$transaction(async (tx) => {
+    // 1️⃣ Update Product
+    const product = await tx.product.update({
+      where: { id },
+      data: {
+        categoryId,
+        brandId,
+        code,
+        name,
+        description,
+        barCode,
+        promoPrice,
+        updatedBy: userId,
+        ...(imageUrl ? { image: imageUrl } : {}),
+        unitConversion: unitConversion
+          ? {
+              upsert: {
+                update: {
+                  fromUnit: unitConversion.fromUnit,
+                  toUnit: unitConversion.toUnit,
+                  factor: unitConversion.factor,
+                  updatedBy: userId,
+                },
+                create: {
+                  fromUnit: unitConversion.fromUnit,
+                  toUnit: unitConversion.toUnit,
+                  factor: unitConversion.factor,
+                  createdBy: userId,
+                },
+              },
+            }
+          : undefined,
+      },
+      select: ProductSelect,
+    });
+
+    // 2️⃣ Delete previous prices
+    await tx.price.deleteMany({
+      where: { productId: id },
+    });
+
+    // 3️⃣ Create new prices
+    if (prices?.length) {
+      await tx.price.createMany({
+        data: prices.map((p) => ({
+          productId: id,
+          branchId: p.branchId,
+          typeUnit: p.typeUnit,
+          price: Number(p.price),
+          createdBy: userId,
+        })),
+      });
     }
 
-    return this.prisma.$transaction(async (tx) => {
-      // 1️⃣ Actualizar producto
-      const product = await tx.product.update({
-        where: { id },
-        data: {
-          categoryId,
-          brandId,
-          code,
-          name,
-          description,
-          barCode,
-          ...(imageUrl ? { image: imageUrl } : {}),
-        },
-        select: ProductSelect,
-      });
-
-      // 2️⃣ Eliminar precios anteriores
-      await tx.price.deleteMany({
-        where: { productId: id },
-      });
-
-      // 3️⃣ Crear precios nuevos
-      if (prices?.length) {
-        await tx.price.createMany({
-          data: prices.map((p) => ({
-            productId: id,
-            branchId: p.branchId,
-            typeUnit: p.typeUnit,
-            price: p.price,
-            promoPrice: p.promoPrice,
-            createdBy: email,
-          })),
-        });
-      }
-
-      return product;
-    });
-  }
+    return product;
+  });
+}
 
 
   async remove(id: string) {
@@ -170,7 +205,7 @@ export class ProductService {
     });
   }
 
-  async importProducts(email: string, file: Express.Multer.File) {
+  async importProducts(userId: string, file: Express.Multer.File) {
     if (!file) {
       throw new NotFoundException('No file uploaded');
     }
@@ -194,7 +229,7 @@ export class ProductService {
         category = await this.prisma.category.create({
           data: {
             name: categoryName,
-            createdBy: email,
+            createdBy: userId,
           },
         });
       }
@@ -208,7 +243,7 @@ export class ProductService {
           data: {
             type: 'sucursal',
             name: branchName,
-            createdBy: email,
+            createdBy: userId,
           },
         });
       }
@@ -222,7 +257,7 @@ export class ProductService {
           data: {
             name: brandName,
             description: '',
-            createdBy: email,
+            createdBy: userId,
           },
         });
       }
@@ -236,8 +271,9 @@ export class ProductService {
           data: {
             nit: '',
             name: providerName,
+            contact: '',
             phone: [],
-            createdBy: email,
+            createdBy: userId,
           },
         });
       }
@@ -248,10 +284,16 @@ export class ProductService {
         code: '',
         name: String(row['name']),
         prices: [],
+        unitConversion: {
+          fromUnit: TypeUnit.UNIDAD,
+          toUnit: TypeUnit.UNIDAD,
+          factor: 1,
+        },
+        promoPrice: 0,
       };
       console.log(createProductDto)
 
-      await this.create(email, createProductDto, undefined);
+      await this.create(userId, createProductDto, undefined);
     }
 
     return { message: 'Products imported successfully' };

@@ -62,18 +62,31 @@ export class PdfUtils {
     return '_'.repeat(lineLength);
   }
 
-  createTable = (content: any[], alignmentRight = 'right', alignmentLeft = 'left', widthColumnLeft = '*') => {
-    return {
-      table: {
-        widths: ['*', widthColumnLeft],
-        body: content.map(([leftText, rightText, titleBold]) => [
-          { text: leftText, alignment: alignmentRight, style: { bold: titleBold } }, // Alineado a la derecha
-          { text: rightText, alignment: alignmentLeft }, // Alineación flexible
-        ]),
-      },
-      layout: 'noBorders',
-    };
+createTable = (
+  content: [string, string, boolean][],
+  alignmentRight: 'left' | 'right' | 'center' = 'right',
+  alignmentLeft: 'left' | 'right' | 'center' = 'left',
+  widthColumnLeft: string = '*',
+): Content => {
+  return {
+    table: {
+      widths: ['*', widthColumnLeft],
+      body: content.map(([leftText, rightText, titleBold]) => [
+        {
+          text: leftText,
+          alignment: alignmentRight,
+          bold: titleBold,
+        } as TableCell,
+        {
+          text: rightText,
+          alignment: alignmentLeft,
+        } as TableCell,
+      ]),
+    },
+    layout: 'noBorders',
   };
+};
+
 
   createLine = (): Content => ({
     canvas: [
@@ -108,7 +121,7 @@ export class PdfUtils {
             ...body.map((row) =>
               row.map((content) => ({ text: content, alignment: 'center' }))
             ),
-          ],
+          ] as any[][],
         },
         layout: {
           hLineWidth: () => 0,
@@ -120,7 +133,7 @@ export class PdfUtils {
           paddingTop: () => 0,
           paddingBottom: () => 0,
         },
-      },
+      }
     ];
   };
 

@@ -14,7 +14,7 @@ export class TransferController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.transfer })
   create(@CurrentUser() user: JwtPayload,@Body() createTransferDto: CreateTransferDto) {
-    return this.transferService.create(user.email,createTransferDto);
+    return this.transferService.create(user.id,createTransferDto);
   }
 
   @Get()

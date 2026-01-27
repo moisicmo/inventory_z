@@ -9,11 +9,11 @@ export class PriceService {
   constructor(private readonly prisma: PrismaService) { }
 
 
-  async create(email: string, createPriceDto: CreatePriceDto) {
+  async create(userId: string, createPriceDto: CreatePriceDto) {
     return await this.prisma.price.create({
       data: {
         ...createPriceDto,
-        createdBy: email,
+        createdBy: userId,
       },
       select: PriceSelect
     });

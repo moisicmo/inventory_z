@@ -8,7 +8,7 @@ CREATE TYPE "MethodPay" AS ENUM ('cash', 'qr', 'deposit');
 CREATE TYPE "TypeDiscount" AS ENUM ('monto', 'porcentaje');
 
 -- CreateEnum
-CREATE TYPE "TypeUnit" AS ENUM ('UNIDAD', 'CAJA', 'DOCENA');
+CREATE TYPE "TypeUnit" AS ENUM ('UNIDAD', 'CAJA');
 
 -- CreateEnum
 CREATE TYPE "TypeReference" AS ENUM ('inputs', 'outputs');
@@ -28,6 +28,7 @@ CREATE TABLE "addresses" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "addresses_pkey" PRIMARY KEY ("id")
 );
@@ -40,12 +41,13 @@ CREATE TABLE "users" (
     "type_document" "TypeDocument" NOT NULL DEFAULT 'dni',
     "name" VARCHAR NOT NULL,
     "last_name" VARCHAR NOT NULL,
-    "email" VARCHAR NOT NULL,
+    "email" VARCHAR,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "code_activation" VARCHAR,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -59,6 +61,8 @@ CREATE TABLE "sessions" (
     "user_agent" VARCHAR NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
 );
@@ -71,6 +75,7 @@ CREATE TABLE "forgot_passwords" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "forgot_passwords_pkey" PRIMARY KEY ("id")
 );
@@ -81,7 +86,8 @@ CREATE TABLE "customers" (
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "created_by" TEXT NOT NULL
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT
 );
 
 -- CreateTable
@@ -91,9 +97,11 @@ CREATE TABLE "staffs" (
     "password" VARCHAR NOT NULL,
     "requiresPasswordChange" BOOLEAN NOT NULL DEFAULT true,
     "active" BOOLEAN NOT NULL DEFAULT true,
+    "super_staff" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "staffs_pkey" PRIMARY KEY ("user_id")
 );
@@ -107,6 +115,7 @@ CREATE TABLE "roles" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "roles_pkey" PRIMARY KEY ("id")
 );
@@ -120,6 +129,7 @@ CREATE TABLE "permissions" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "permissions_pkey" PRIMARY KEY ("id")
 );
@@ -131,10 +141,12 @@ CREATE TABLE "providers" (
     "nit" TEXT NOT NULL,
     "phone" TEXT[],
     "name" VARCHAR NOT NULL,
+    "contact" VARCHAR NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "providers_pkey" PRIMARY KEY ("id")
 );
@@ -148,6 +160,7 @@ CREATE TABLE "brands" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "brands_pkey" PRIMARY KEY ("id")
 );
@@ -160,6 +173,7 @@ CREATE TABLE "categories" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
 );
@@ -179,6 +193,8 @@ CREATE TABLE "products" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
+    "promo_price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
 
     CONSTRAINT "products_pkey" PRIMARY KEY ("id")
 );
@@ -188,13 +204,13 @@ CREATE TABLE "prices" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "product_id" UUID NOT NULL,
     "branch_id" UUID NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
-    "promo_price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "type_unit" "TypeUnit" NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "prices_pkey" PRIMARY KEY ("id")
 );
@@ -203,12 +219,13 @@ CREATE TABLE "prices" (
 CREATE TABLE "unit_conversions" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "product_id" UUID NOT NULL,
-    "from_unit" "TypeUnit" NOT NULL,
-    "to_unit" "TypeUnit" NOT NULL,
-    "factor" INTEGER NOT NULL,
+    "from_unit" "TypeUnit" NOT NULL DEFAULT 'UNIDAD',
+    "to_unit" "TypeUnit" NOT NULL DEFAULT 'UNIDAD',
+    "factor" INTEGER NOT NULL DEFAULT 1,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "unit_conversions_pkey" PRIMARY KEY ("id")
 );
@@ -225,6 +242,7 @@ CREATE TABLE "branches" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "branches_pkey" PRIMARY KEY ("id")
 );
@@ -243,6 +261,7 @@ CREATE TABLE "inputs" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "inputs_pkey" PRIMARY KEY ("id")
 );
@@ -260,6 +279,7 @@ CREATE TABLE "outputs" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "outputs_pkey" PRIMARY KEY ("id")
 );
@@ -272,7 +292,8 @@ CREATE TABLE "kardexs" (
     "type_reference" "TypeReference" NOT NULL,
     "stock" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "created_by" TEXT NOT NULL
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT
 );
 
 -- CreateTable
@@ -287,6 +308,7 @@ CREATE TABLE "transfers" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "transfers_pkey" PRIMARY KEY ("id")
 );
@@ -303,23 +325,9 @@ CREATE TABLE "orders" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
 
     CONSTRAINT "orders_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "audit_logs" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "user_id" UUID NOT NULL,
-    "action" TEXT NOT NULL,
-    "entity" TEXT NOT NULL,
-    "entity_id" UUID NOT NULL,
-    "data_before" JSONB,
-    "data_after" JSONB,
-    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "description" TEXT,
-
-    CONSTRAINT "audit_logs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -342,9 +350,6 @@ CREATE TABLE "_BranchToStaff" (
 CREATE UNIQUE INDEX "users_number_document_key" ON "users"("number_document");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
-
--- CreateIndex
 CREATE UNIQUE INDEX "sessions_token_key" ON "sessions"("token");
 
 -- CreateIndex
@@ -354,13 +359,31 @@ CREATE UNIQUE INDEX "customers_user_id_key" ON "customers"("user_id");
 CREATE UNIQUE INDEX "staffs_user_id_key" ON "staffs"("user_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "roles_branch_id_name_key" ON "roles"("branch_id", "name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "permissions_action_subject_key" ON "permissions"("action", "subject");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "providers_name_key" ON "providers"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "brands_name_key" ON "brands"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "products_code_key" ON "products"("code");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "prices_product_id_branch_id_type_unit_key" ON "prices"("product_id", "branch_id", "type_unit");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "unit_conversions_product_id_from_unit_to_unit_key" ON "unit_conversions"("product_id", "from_unit", "to_unit");
+CREATE UNIQUE INDEX "unit_conversions_product_id_key" ON "unit_conversions"("product_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "branches_name_key" ON "branches"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "kardexs_reference_id_type_reference_key" ON "kardexs"("reference_id", "type_reference");
@@ -460,9 +483,6 @@ ALTER TABLE "orders" ADD CONSTRAINT "orders_customer_id_fkey" FOREIGN KEY ("cust
 
 -- AddForeignKey
 ALTER TABLE "orders" ADD CONSTRAINT "orders_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PermissionToRole" ADD CONSTRAINT "_PermissionToRole_A_fkey" FOREIGN KEY ("A") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;

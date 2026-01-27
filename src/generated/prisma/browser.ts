@@ -117,8 +117,3 @@ export type Transfer = Prisma.TransferModel
  * 
  */
 export type Order = Prisma.OrderModel
-/**
- * Model AuditLog
- * 
- */
-export type AuditLog = Prisma.AuditLogModel

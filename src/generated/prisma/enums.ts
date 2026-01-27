@@ -36,8 +36,7 @@ export type TypeDiscount = (typeof TypeDiscount)[keyof typeof TypeDiscount]
 
 export const TypeUnit = {
   UNIDAD: 'UNIDAD',
-  CAJA: 'CAJA',
-  DOCENA: 'DOCENA'
+  CAJA: 'CAJA'
 } as const
 
 export type TypeUnit = (typeof TypeUnit)[keyof typeof TypeUnit]

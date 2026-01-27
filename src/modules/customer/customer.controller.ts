@@ -15,7 +15,7 @@ export class CustomerController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.customer })
   create(@CurrentUser() user: JwtPayload, @Body() createCustomerDto: CreateCustomerDto) {
-    return this.customerService.create(user.email, createCustomerDto);
+    return this.customerService.create(user.id, createCustomerDto);
   }
 
   @Get()

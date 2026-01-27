@@ -1,47 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as fs from 'fs';
 import * as path from 'path';
-import { OrderType } from '@/modules/order/entities/order.entity';
+
+import PdfPrinter from 'pdfmake'; // ✅ solución limpia y estable
 import { buildInvoiceRollTemplate } from './template/generate-invoice-roll.template';
+import { OrderType } from '@/modules/order/entities/order.entity';
 
 const fontPath = path.join(process.cwd(), 'dist/assets/fonts');
 
-
 @Injectable()
 export class PdfService {
+  private printer: any;
 
   constructor() {
-    (pdfMake as any).vfs = {};
-    const poppinsPaths = {
-      'Poppins-Regular.ttf': path.join(fontPath, 'Poppins-Regular.ttf'),
-      'Poppins-Medium.ttf': path.join(fontPath, 'Poppins-Medium.ttf'),
-      'Poppins-Italic.ttf': path.join(fontPath, 'Poppins-Italic.ttf'),
-      'Poppins-MediumItalic.ttf': path.join(fontPath, 'Poppins-MediumItalic.ttf'),
-      'Poppins-Bold.ttf': path.join(fontPath, 'Poppins-Bold.ttf'),
-    };
-
-    for (const [key, filePath] of Object.entries(poppinsPaths)) {
-      if (fs.existsSync(filePath)) {
-        (pdfMake as any).vfs[key] = fs.readFileSync(filePath).toString('base64');
-      }
-    }
-
-    (pdfMake as any).fonts = {
+    const fonts = {
       Poppins: {
-        normal: 'Poppins-Regular.ttf',
-        bold: 'Poppins-Bold.ttf',
-        italics: 'Poppins-Italic.ttf',
-        bolditalics: 'Poppins-MediumItalic.ttf',
+        normal: path.join(fontPath, 'Poppins-Regular.ttf'),
+        bold: path.join(fontPath, 'Poppins-Bold.ttf'),
+        italics: path.join(fontPath, 'Poppins-Italic.ttf'),
+        bolditalics: path.join(fontPath, 'Poppins-MediumItalic.ttf'),
       },
     };
-  }
 
+    this.printer = new PdfPrinter(fonts); // ✅ ahora sí
+  }
 
   async generateInvoiceRoll(output: OrderType): Promise<Buffer> {
-    const documentDefinition = await buildInvoiceRollTemplate(output);
-    return documentDefinition;
+    const docDefinition = buildInvoiceRollTemplate(output);
+
+    return new Promise((resolve, reject) => {
+      const pdfDoc = this.printer.createPdfKitDocument(docDefinition);
+      const chunks: Buffer[] = [];
+
+      pdfDoc.on('data', (chunk) => chunks.push(chunk));
+      pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
+      pdfDoc.on('error', reject);
+
+      pdfDoc.end();
+    });
   }
-
-
 }

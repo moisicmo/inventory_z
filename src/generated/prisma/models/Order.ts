@@ -45,6 +45,7 @@ export type OrderMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type OrderMaxAggregateOutputType = {
@@ -58,6 +59,7 @@ export type OrderMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type OrderCountAggregateOutputType = {
@@ -71,6 +73,7 @@ export type OrderCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
@@ -94,6 +97,7 @@ export type OrderMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type OrderMaxAggregateInputType = {
@@ -107,6 +111,7 @@ export type OrderMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type OrderCountAggregateInputType = {
@@ -120,6 +125,7 @@ export type OrderCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -220,6 +226,7 @@ export type OrderGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: OrderCountAggregateOutputType | null
   _avg: OrderAvgAggregateOutputType | null
   _sum: OrderSumAggregateOutputType | null
@@ -256,6 +263,7 @@ export type OrderWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   createdBy?: Prisma.StringFilter<"Order"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Order"> | string | null
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
@@ -273,6 +281,7 @@ export type OrderOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   staff?: Prisma.StaffOrderByWithRelationInput
   customer?: Prisma.CustomerOrderByWithRelationInput
   branch?: Prisma.BranchOrderByWithRelationInput
@@ -293,6 +302,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   createdBy?: Prisma.StringFilter<"Order"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Order"> | string | null
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
@@ -310,6 +320,7 @@ export type OrderOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
   _avg?: Prisma.OrderAvgOrderByAggregateInput
   _max?: Prisma.OrderMaxOrderByAggregateInput
@@ -331,6 +342,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Order"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
 }
 
 export type OrderCreateInput = {
@@ -341,6 +353,7 @@ export type OrderCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
@@ -358,6 +371,7 @@ export type OrderUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -369,6 +383,7 @@ export type OrderUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
@@ -386,6 +401,7 @@ export type OrderUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -400,6 +416,7 @@ export type OrderCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type OrderUpdateManyMutationInput = {
@@ -410,6 +427,7 @@ export type OrderUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderUncheckedUpdateManyInput = {
@@ -423,6 +441,7 @@ export type OrderUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderListRelationFilter = {
@@ -451,6 +470,7 @@ export type OrderCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type OrderAvgOrderByAggregateInput = {
@@ -468,6 +488,7 @@ export type OrderMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type OrderMinOrderByAggregateInput = {
@@ -481,6 +502,7 @@ export type OrderMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type OrderSumOrderByAggregateInput = {
@@ -637,6 +659,7 @@ export type OrderCreateWithoutCustomerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
   outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
@@ -652,6 +675,7 @@ export type OrderUncheckedCreateWithoutCustomerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -695,6 +719,7 @@ export type OrderScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   createdBy?: Prisma.StringFilter<"Order"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Order"> | string | null
 }
 
 export type OrderCreateWithoutStaffInput = {
@@ -705,6 +730,7 @@ export type OrderCreateWithoutStaffInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
   outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
@@ -720,6 +746,7 @@ export type OrderUncheckedCreateWithoutStaffInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -757,6 +784,7 @@ export type OrderCreateWithoutBranchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
@@ -772,6 +800,7 @@ export type OrderUncheckedCreateWithoutBranchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -809,6 +838,7 @@ export type OrderCreateWithoutOutputsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
@@ -825,6 +855,7 @@ export type OrderUncheckedCreateWithoutOutputsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type OrderCreateOrConnectWithoutOutputsInput = {
@@ -851,6 +882,7 @@ export type OrderUpdateWithoutOutputsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
@@ -867,6 +899,7 @@ export type OrderUncheckedUpdateWithoutOutputsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderCreateManyCustomerInput = {
@@ -879,6 +912,7 @@ export type OrderCreateManyCustomerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type OrderUpdateWithoutCustomerInput = {
@@ -889,6 +923,7 @@ export type OrderUpdateWithoutCustomerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
@@ -904,6 +939,7 @@ export type OrderUncheckedUpdateWithoutCustomerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -917,6 +953,7 @@ export type OrderUncheckedUpdateManyWithoutCustomerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderCreateManyStaffInput = {
@@ -929,6 +966,7 @@ export type OrderCreateManyStaffInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type OrderUpdateWithoutStaffInput = {
@@ -939,6 +977,7 @@ export type OrderUpdateWithoutStaffInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
@@ -954,6 +993,7 @@ export type OrderUncheckedUpdateWithoutStaffInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -967,6 +1007,7 @@ export type OrderUncheckedUpdateManyWithoutStaffInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderCreateManyBranchInput = {
@@ -979,6 +1020,7 @@ export type OrderCreateManyBranchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type OrderUpdateWithoutBranchInput = {
@@ -989,6 +1031,7 @@ export type OrderUpdateWithoutBranchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
@@ -1004,6 +1047,7 @@ export type OrderUncheckedUpdateWithoutBranchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -1017,6 +1061,7 @@ export type OrderUncheckedUpdateManyWithoutBranchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1061,6 +1106,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
@@ -1079,6 +1125,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
@@ -1095,6 +1142,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
@@ -1111,9 +1159,10 @@ export type OrderSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "customerId" | "branchId" | "url" | "amount" | "active" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "customerId" | "branchId" | "url" | "amount" | "active" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1151,6 +1200,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["order"]>
   composites: {}
 }
@@ -1588,6 +1638,7 @@ export interface OrderFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Order", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"Order", 'String'>
 }
     
 

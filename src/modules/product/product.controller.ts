@@ -27,7 +27,7 @@ export class ProductController {
     @Body() createProductDto: CreateProductDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
-    return this.productService.create(user.email, createProductDto, image);
+    return this.productService.create(user.id, createProductDto, image);
   }
 
 
@@ -56,7 +56,7 @@ export class ProductController {
     @Body() updateProductDto: UpdateProductDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
-    return this.productService.update(user.email, id, updateProductDto, image);
+    return this.productService.update(user.id, id, updateProductDto, image);
   }
 
 
@@ -90,6 +90,6 @@ export class ProductController {
   })
   importProducts(
     @CurrentUser() user: JwtPayload, @UploadedFile() file: Express.Multer.File) {
-    return this.productService.importProducts(user.email, file);
+    return this.productService.importProducts(user.id, file);
   }
 }

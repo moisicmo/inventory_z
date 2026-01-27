@@ -18,6 +18,13 @@ export class CreateProviderDto extends CreateAddressDto {
   })
   name: string;
 
+  @IsString()
+  @ApiProperty({
+    example: 'Contacto 1',
+    description: 'Nombre de contacto del proveedor',
+  })
+  contact: string;
+
 
   @IsArray()
   @ArrayNotEmpty()

@@ -31,6 +31,7 @@ export type ForgotPasswordMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type ForgotPasswordMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type ForgotPasswordMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type ForgotPasswordCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type ForgotPasswordCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type ForgotPasswordMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type ForgotPasswordMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type ForgotPasswordMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type ForgotPasswordCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type ForgotPasswordCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type ForgotPasswordGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: ForgotPasswordCountAggregateOutputType | null
   _min: ForgotPasswordMinAggregateOutputType | null
   _max: ForgotPasswordMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type forgotPasswordWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"forgotPassword"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"forgotPassword"> | Date | string
   createdBy?: Prisma.StringFilter<"forgotPassword"> | string
+  updatedBy?: Prisma.StringNullableFilter<"forgotPassword"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -200,6 +208,7 @@ export type forgotPasswordOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -213,6 +222,7 @@ export type forgotPasswordWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"forgotPassword"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"forgotPassword"> | Date | string
   createdBy?: Prisma.StringFilter<"forgotPassword"> | string
+  updatedBy?: Prisma.StringNullableFilter<"forgotPassword"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -223,6 +233,7 @@ export type forgotPasswordOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.forgotPasswordCountOrderByAggregateInput
   _max?: Prisma.forgotPasswordMaxOrderByAggregateInput
   _min?: Prisma.forgotPasswordMinOrderByAggregateInput
@@ -238,6 +249,7 @@ export type forgotPasswordScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"forgotPassword"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"forgotPassword"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"forgotPassword"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"forgotPassword"> | string | null
 }
 
 export type forgotPasswordCreateInput = {
@@ -246,6 +258,7 @@ export type forgotPasswordCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   user: Prisma.UserCreateNestedOneWithoutForgotPasswordsInput
 }
 
@@ -256,6 +269,7 @@ export type forgotPasswordUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type forgotPasswordUpdateInput = {
@@ -264,6 +278,7 @@ export type forgotPasswordUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutForgotPasswordsNestedInput
 }
 
@@ -274,6 +289,7 @@ export type forgotPasswordUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type forgotPasswordCreateManyInput = {
@@ -283,6 +299,7 @@ export type forgotPasswordCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type forgotPasswordUpdateManyMutationInput = {
@@ -291,6 +308,7 @@ export type forgotPasswordUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type forgotPasswordUncheckedUpdateManyInput = {
@@ -300,6 +318,7 @@ export type forgotPasswordUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ForgotPasswordListRelationFilter = {
@@ -319,6 +338,7 @@ export type forgotPasswordCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type forgotPasswordMaxOrderByAggregateInput = {
@@ -328,6 +348,7 @@ export type forgotPasswordMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type forgotPasswordMinOrderByAggregateInput = {
@@ -337,6 +358,7 @@ export type forgotPasswordMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type forgotPasswordCreateNestedManyWithoutUserInput = {
@@ -387,6 +409,7 @@ export type forgotPasswordCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type forgotPasswordUncheckedCreateWithoutUserInput = {
@@ -395,6 +418,7 @@ export type forgotPasswordUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type forgotPasswordCreateOrConnectWithoutUserInput = {
@@ -433,6 +457,7 @@ export type forgotPasswordScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"forgotPassword"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"forgotPassword"> | Date | string
   createdBy?: Prisma.StringFilter<"forgotPassword"> | string
+  updatedBy?: Prisma.StringNullableFilter<"forgotPassword"> | string | null
 }
 
 export type forgotPasswordCreateManyUserInput = {
@@ -441,6 +466,7 @@ export type forgotPasswordCreateManyUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type forgotPasswordUpdateWithoutUserInput = {
@@ -449,6 +475,7 @@ export type forgotPasswordUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type forgotPasswordUncheckedUpdateWithoutUserInput = {
@@ -457,6 +484,7 @@ export type forgotPasswordUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type forgotPasswordUncheckedUpdateManyWithoutUserInput = {
@@ -465,6 +493,7 @@ export type forgotPasswordUncheckedUpdateManyWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -476,6 +505,7 @@ export type forgotPasswordSelect<ExtArgs extends runtime.Types.Extensions.Intern
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["forgotPassword"]>
 
@@ -486,6 +516,7 @@ export type forgotPasswordSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["forgotPassword"]>
 
@@ -496,6 +527,7 @@ export type forgotPasswordSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["forgotPassword"]>
 
@@ -506,9 +538,10 @@ export type forgotPasswordSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type forgotPasswordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "code" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["forgotPassword"]>
+export type forgotPasswordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "code" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["forgotPassword"]>
 export type forgotPasswordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -531,6 +564,7 @@ export type $forgotPasswordPayload<ExtArgs extends runtime.Types.Extensions.Inte
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["forgotPassword"]>
   composites: {}
 }
@@ -961,6 +995,7 @@ export interface forgotPasswordFieldRefs {
   readonly createdAt: Prisma.FieldRef<"forgotPassword", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"forgotPassword", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"forgotPassword", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"forgotPassword", 'String'>
 }
     
 

@@ -43,6 +43,7 @@ export type UnitConversionMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type UnitConversionMaxAggregateOutputType = {
@@ -54,6 +55,7 @@ export type UnitConversionMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type UnitConversionCountAggregateOutputType = {
@@ -65,6 +67,7 @@ export type UnitConversionCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
@@ -86,6 +89,7 @@ export type UnitConversionMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type UnitConversionMaxAggregateInputType = {
@@ -97,6 +101,7 @@ export type UnitConversionMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type UnitConversionCountAggregateInputType = {
@@ -108,6 +113,7 @@ export type UnitConversionCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -206,6 +212,7 @@ export type UnitConversionGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: UnitConversionCountAggregateOutputType | null
   _avg: UnitConversionAvgAggregateOutputType | null
   _sum: UnitConversionSumAggregateOutputType | null
@@ -240,6 +247,7 @@ export type UnitConversionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"UnitConversion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UnitConversion"> | Date | string
   createdBy?: Prisma.StringFilter<"UnitConversion"> | string
+  updatedBy?: Prisma.StringNullableFilter<"UnitConversion"> | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
 
@@ -252,24 +260,25 @@ export type UnitConversionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
 }
 
 export type UnitConversionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  productId_fromUnit_toUnit?: Prisma.UnitConversionProductIdFromUnitToUnitCompoundUniqueInput
+  productId?: string
   AND?: Prisma.UnitConversionWhereInput | Prisma.UnitConversionWhereInput[]
   OR?: Prisma.UnitConversionWhereInput[]
   NOT?: Prisma.UnitConversionWhereInput | Prisma.UnitConversionWhereInput[]
-  productId?: Prisma.UuidFilter<"UnitConversion"> | string
   fromUnit?: Prisma.EnumTypeUnitFilter<"UnitConversion"> | $Enums.TypeUnit
   toUnit?: Prisma.EnumTypeUnitFilter<"UnitConversion"> | $Enums.TypeUnit
   factor?: Prisma.IntFilter<"UnitConversion"> | number
   createdAt?: Prisma.DateTimeFilter<"UnitConversion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UnitConversion"> | Date | string
   createdBy?: Prisma.StringFilter<"UnitConversion"> | string
+  updatedBy?: Prisma.StringNullableFilter<"UnitConversion"> | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
-}, "id" | "productId_fromUnit_toUnit">
+}, "id" | "productId">
 
 export type UnitConversionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -280,6 +289,7 @@ export type UnitConversionOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UnitConversionCountOrderByAggregateInput
   _avg?: Prisma.UnitConversionAvgOrderByAggregateInput
   _max?: Prisma.UnitConversionMaxOrderByAggregateInput
@@ -299,28 +309,31 @@ export type UnitConversionScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UnitConversion"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UnitConversion"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"UnitConversion"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"UnitConversion"> | string | null
 }
 
 export type UnitConversionCreateInput = {
   id?: string
-  fromUnit: $Enums.TypeUnit
-  toUnit: $Enums.TypeUnit
-  factor: number
+  fromUnit?: $Enums.TypeUnit
+  toUnit?: $Enums.TypeUnit
+  factor?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
-  product: Prisma.ProductCreateNestedOneWithoutUnitConversionsInput
+  updatedBy?: string | null
+  product: Prisma.ProductCreateNestedOneWithoutUnitConversionInput
 }
 
 export type UnitConversionUncheckedCreateInput = {
   id?: string
   productId: string
-  fromUnit: $Enums.TypeUnit
-  toUnit: $Enums.TypeUnit
-  factor: number
+  fromUnit?: $Enums.TypeUnit
+  toUnit?: $Enums.TypeUnit
+  factor?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type UnitConversionUpdateInput = {
@@ -331,7 +344,8 @@ export type UnitConversionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
-  product?: Prisma.ProductUpdateOneRequiredWithoutUnitConversionsNestedInput
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product?: Prisma.ProductUpdateOneRequiredWithoutUnitConversionNestedInput
 }
 
 export type UnitConversionUncheckedUpdateInput = {
@@ -343,17 +357,19 @@ export type UnitConversionUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitConversionCreateManyInput = {
   id?: string
   productId: string
-  fromUnit: $Enums.TypeUnit
-  toUnit: $Enums.TypeUnit
-  factor: number
+  fromUnit?: $Enums.TypeUnit
+  toUnit?: $Enums.TypeUnit
+  factor?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type UnitConversionUpdateManyMutationInput = {
@@ -364,6 +380,7 @@ export type UnitConversionUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitConversionUncheckedUpdateManyInput = {
@@ -375,22 +392,12 @@ export type UnitConversionUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type UnitConversionListRelationFilter = {
-  every?: Prisma.UnitConversionWhereInput
-  some?: Prisma.UnitConversionWhereInput
-  none?: Prisma.UnitConversionWhereInput
-}
-
-export type UnitConversionOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type UnitConversionProductIdFromUnitToUnitCompoundUniqueInput = {
-  productId: string
-  fromUnit: $Enums.TypeUnit
-  toUnit: $Enums.TypeUnit
+export type UnitConversionNullableScalarRelationFilter = {
+  is?: Prisma.UnitConversionWhereInput | null
+  isNot?: Prisma.UnitConversionWhereInput | null
 }
 
 export type UnitConversionCountOrderByAggregateInput = {
@@ -402,6 +409,7 @@ export type UnitConversionCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type UnitConversionAvgOrderByAggregateInput = {
@@ -417,6 +425,7 @@ export type UnitConversionMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type UnitConversionMinOrderByAggregateInput = {
@@ -428,52 +437,43 @@ export type UnitConversionMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type UnitConversionSumOrderByAggregateInput = {
   factor?: Prisma.SortOrder
 }
 
-export type UnitConversionCreateNestedManyWithoutProductInput = {
-  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput> | Prisma.UnitConversionCreateWithoutProductInput[] | Prisma.UnitConversionUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput | Prisma.UnitConversionCreateOrConnectWithoutProductInput[]
-  createMany?: Prisma.UnitConversionCreateManyProductInputEnvelope
-  connect?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
+export type UnitConversionCreateNestedOneWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput
+  connect?: Prisma.UnitConversionWhereUniqueInput
 }
 
-export type UnitConversionUncheckedCreateNestedManyWithoutProductInput = {
-  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput> | Prisma.UnitConversionCreateWithoutProductInput[] | Prisma.UnitConversionUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput | Prisma.UnitConversionCreateOrConnectWithoutProductInput[]
-  createMany?: Prisma.UnitConversionCreateManyProductInputEnvelope
-  connect?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
+export type UnitConversionUncheckedCreateNestedOneWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput
+  connect?: Prisma.UnitConversionWhereUniqueInput
 }
 
-export type UnitConversionUpdateManyWithoutProductNestedInput = {
-  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput> | Prisma.UnitConversionCreateWithoutProductInput[] | Prisma.UnitConversionUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput | Prisma.UnitConversionCreateOrConnectWithoutProductInput[]
-  upsert?: Prisma.UnitConversionUpsertWithWhereUniqueWithoutProductInput | Prisma.UnitConversionUpsertWithWhereUniqueWithoutProductInput[]
-  createMany?: Prisma.UnitConversionCreateManyProductInputEnvelope
-  set?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  disconnect?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  delete?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  connect?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  update?: Prisma.UnitConversionUpdateWithWhereUniqueWithoutProductInput | Prisma.UnitConversionUpdateWithWhereUniqueWithoutProductInput[]
-  updateMany?: Prisma.UnitConversionUpdateManyWithWhereWithoutProductInput | Prisma.UnitConversionUpdateManyWithWhereWithoutProductInput[]
-  deleteMany?: Prisma.UnitConversionScalarWhereInput | Prisma.UnitConversionScalarWhereInput[]
+export type UnitConversionUpdateOneWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput
+  upsert?: Prisma.UnitConversionUpsertWithoutProductInput
+  disconnect?: Prisma.UnitConversionWhereInput | boolean
+  delete?: Prisma.UnitConversionWhereInput | boolean
+  connect?: Prisma.UnitConversionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitConversionUpdateToOneWithWhereWithoutProductInput, Prisma.UnitConversionUpdateWithoutProductInput>, Prisma.UnitConversionUncheckedUpdateWithoutProductInput>
 }
 
-export type UnitConversionUncheckedUpdateManyWithoutProductNestedInput = {
-  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput> | Prisma.UnitConversionCreateWithoutProductInput[] | Prisma.UnitConversionUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput | Prisma.UnitConversionCreateOrConnectWithoutProductInput[]
-  upsert?: Prisma.UnitConversionUpsertWithWhereUniqueWithoutProductInput | Prisma.UnitConversionUpsertWithWhereUniqueWithoutProductInput[]
-  createMany?: Prisma.UnitConversionCreateManyProductInputEnvelope
-  set?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  disconnect?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  delete?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  connect?: Prisma.UnitConversionWhereUniqueInput | Prisma.UnitConversionWhereUniqueInput[]
-  update?: Prisma.UnitConversionUpdateWithWhereUniqueWithoutProductInput | Prisma.UnitConversionUpdateWithWhereUniqueWithoutProductInput[]
-  updateMany?: Prisma.UnitConversionUpdateManyWithWhereWithoutProductInput | Prisma.UnitConversionUpdateManyWithWhereWithoutProductInput[]
-  deleteMany?: Prisma.UnitConversionScalarWhereInput | Prisma.UnitConversionScalarWhereInput[]
+export type UnitConversionUncheckedUpdateOneWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.UnitConversionCreateOrConnectWithoutProductInput
+  upsert?: Prisma.UnitConversionUpsertWithoutProductInput
+  disconnect?: Prisma.UnitConversionWhereInput | boolean
+  delete?: Prisma.UnitConversionWhereInput | boolean
+  connect?: Prisma.UnitConversionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitConversionUpdateToOneWithWhereWithoutProductInput, Prisma.UnitConversionUpdateWithoutProductInput>, Prisma.UnitConversionUncheckedUpdateWithoutProductInput>
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -486,22 +486,24 @@ export type IntFieldUpdateOperationsInput = {
 
 export type UnitConversionCreateWithoutProductInput = {
   id?: string
-  fromUnit: $Enums.TypeUnit
-  toUnit: $Enums.TypeUnit
-  factor: number
+  fromUnit?: $Enums.TypeUnit
+  toUnit?: $Enums.TypeUnit
+  factor?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type UnitConversionUncheckedCreateWithoutProductInput = {
   id?: string
-  fromUnit: $Enums.TypeUnit
-  toUnit: $Enums.TypeUnit
-  factor: number
+  fromUnit?: $Enums.TypeUnit
+  toUnit?: $Enums.TypeUnit
+  factor?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type UnitConversionCreateOrConnectWithoutProductInput = {
@@ -509,49 +511,15 @@ export type UnitConversionCreateOrConnectWithoutProductInput = {
   create: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput>
 }
 
-export type UnitConversionCreateManyProductInputEnvelope = {
-  data: Prisma.UnitConversionCreateManyProductInput | Prisma.UnitConversionCreateManyProductInput[]
-  skipDuplicates?: boolean
-}
-
-export type UnitConversionUpsertWithWhereUniqueWithoutProductInput = {
-  where: Prisma.UnitConversionWhereUniqueInput
+export type UnitConversionUpsertWithoutProductInput = {
   update: Prisma.XOR<Prisma.UnitConversionUpdateWithoutProductInput, Prisma.UnitConversionUncheckedUpdateWithoutProductInput>
   create: Prisma.XOR<Prisma.UnitConversionCreateWithoutProductInput, Prisma.UnitConversionUncheckedCreateWithoutProductInput>
+  where?: Prisma.UnitConversionWhereInput
 }
 
-export type UnitConversionUpdateWithWhereUniqueWithoutProductInput = {
-  where: Prisma.UnitConversionWhereUniqueInput
+export type UnitConversionUpdateToOneWithWhereWithoutProductInput = {
+  where?: Prisma.UnitConversionWhereInput
   data: Prisma.XOR<Prisma.UnitConversionUpdateWithoutProductInput, Prisma.UnitConversionUncheckedUpdateWithoutProductInput>
-}
-
-export type UnitConversionUpdateManyWithWhereWithoutProductInput = {
-  where: Prisma.UnitConversionScalarWhereInput
-  data: Prisma.XOR<Prisma.UnitConversionUpdateManyMutationInput, Prisma.UnitConversionUncheckedUpdateManyWithoutProductInput>
-}
-
-export type UnitConversionScalarWhereInput = {
-  AND?: Prisma.UnitConversionScalarWhereInput | Prisma.UnitConversionScalarWhereInput[]
-  OR?: Prisma.UnitConversionScalarWhereInput[]
-  NOT?: Prisma.UnitConversionScalarWhereInput | Prisma.UnitConversionScalarWhereInput[]
-  id?: Prisma.UuidFilter<"UnitConversion"> | string
-  productId?: Prisma.UuidFilter<"UnitConversion"> | string
-  fromUnit?: Prisma.EnumTypeUnitFilter<"UnitConversion"> | $Enums.TypeUnit
-  toUnit?: Prisma.EnumTypeUnitFilter<"UnitConversion"> | $Enums.TypeUnit
-  factor?: Prisma.IntFilter<"UnitConversion"> | number
-  createdAt?: Prisma.DateTimeFilter<"UnitConversion"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UnitConversion"> | Date | string
-  createdBy?: Prisma.StringFilter<"UnitConversion"> | string
-}
-
-export type UnitConversionCreateManyProductInput = {
-  id?: string
-  fromUnit: $Enums.TypeUnit
-  toUnit: $Enums.TypeUnit
-  factor: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  createdBy: string
 }
 
 export type UnitConversionUpdateWithoutProductInput = {
@@ -562,6 +530,7 @@ export type UnitConversionUpdateWithoutProductInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitConversionUncheckedUpdateWithoutProductInput = {
@@ -572,16 +541,7 @@ export type UnitConversionUncheckedUpdateWithoutProductInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type UnitConversionUncheckedUpdateManyWithoutProductInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fromUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
-  toUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
-  factor?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -595,6 +555,7 @@ export type UnitConversionSelect<ExtArgs extends runtime.Types.Extensions.Intern
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unitConversion"]>
 
@@ -607,6 +568,7 @@ export type UnitConversionSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unitConversion"]>
 
@@ -619,6 +581,7 @@ export type UnitConversionSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unitConversion"]>
 
@@ -631,9 +594,10 @@ export type UnitConversionSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type UnitConversionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "fromUnit" | "toUnit" | "factor" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["unitConversion"]>
+export type UnitConversionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "fromUnit" | "toUnit" | "factor" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["unitConversion"]>
 export type UnitConversionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
@@ -658,6 +622,7 @@ export type $UnitConversionPayload<ExtArgs extends runtime.Types.Extensions.Inte
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["unitConversion"]>
   composites: {}
 }
@@ -1090,6 +1055,7 @@ export interface UnitConversionFieldRefs {
   readonly createdAt: Prisma.FieldRef<"UnitConversion", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UnitConversion", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"UnitConversion", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"UnitConversion", 'String'>
 }
     
 

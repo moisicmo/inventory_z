@@ -49,6 +49,7 @@ export type InputMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type InputMaxAggregateOutputType = {
@@ -64,6 +65,7 @@ export type InputMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type InputCountAggregateOutputType = {
@@ -79,6 +81,7 @@ export type InputCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
@@ -106,6 +109,7 @@ export type InputMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type InputMaxAggregateInputType = {
@@ -121,6 +125,7 @@ export type InputMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type InputCountAggregateInputType = {
@@ -136,6 +141,7 @@ export type InputCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -238,6 +244,7 @@ export type InputGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: InputCountAggregateOutputType | null
   _avg: InputAvgAggregateOutputType | null
   _sum: InputSumAggregateOutputType | null
@@ -276,6 +283,7 @@ export type InputWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Input"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Input"> | Date | string
   createdBy?: Prisma.StringFilter<"Input"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Input"> | string | null
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   transfer?: Prisma.XOR<Prisma.TransferNullableScalarRelationFilter, Prisma.TransferWhereInput> | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
@@ -295,6 +303,7 @@ export type InputOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   branch?: Prisma.BranchOrderByWithRelationInput
   transfer?: Prisma.TransferOrderByWithRelationInput
   product?: Prisma.ProductOrderByWithRelationInput
@@ -317,6 +326,7 @@ export type InputWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Input"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Input"> | Date | string
   createdBy?: Prisma.StringFilter<"Input"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Input"> | string | null
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   transfer?: Prisma.XOR<Prisma.TransferNullableScalarRelationFilter, Prisma.TransferWhereInput> | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
@@ -336,6 +346,7 @@ export type InputOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.InputCountOrderByAggregateInput
   _avg?: Prisma.InputAvgOrderByAggregateInput
   _max?: Prisma.InputMaxOrderByAggregateInput
@@ -359,6 +370,7 @@ export type InputScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Input"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Input"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Input"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"Input"> | string | null
 }
 
 export type InputCreateInput = {
@@ -370,6 +382,7 @@ export type InputCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutInputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutInputsInput
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
@@ -389,6 +402,7 @@ export type InputUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputUpdateInput = {
@@ -400,6 +414,7 @@ export type InputUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutInputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutInputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
@@ -419,6 +434,7 @@ export type InputUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputCreateManyInput = {
@@ -434,6 +450,7 @@ export type InputCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputUpdateManyMutationInput = {
@@ -445,6 +462,7 @@ export type InputUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputUncheckedUpdateManyInput = {
@@ -460,6 +478,7 @@ export type InputUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputListRelationFilter = {
@@ -485,6 +504,7 @@ export type InputCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type InputAvgOrderByAggregateInput = {
@@ -505,6 +525,7 @@ export type InputMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type InputMinOrderByAggregateInput = {
@@ -520,6 +541,7 @@ export type InputMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type InputSumOrderByAggregateInput = {
@@ -708,6 +730,7 @@ export type InputCreateWithoutProviderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutInputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutInputsInput
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
@@ -725,6 +748,7 @@ export type InputUncheckedCreateWithoutProviderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputCreateOrConnectWithoutProviderInput = {
@@ -769,6 +793,7 @@ export type InputScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Input"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Input"> | Date | string
   createdBy?: Prisma.StringFilter<"Input"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Input"> | string | null
 }
 
 export type InputCreateWithoutProductInput = {
@@ -780,6 +805,7 @@ export type InputCreateWithoutProductInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutInputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutInputsInput
   provider: Prisma.ProviderCreateNestedOneWithoutInputsInput
@@ -797,6 +823,7 @@ export type InputUncheckedCreateWithoutProductInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputCreateOrConnectWithoutProductInput = {
@@ -834,6 +861,7 @@ export type InputCreateWithoutBranchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   transfer?: Prisma.TransferCreateNestedOneWithoutInputsInput
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
   provider: Prisma.ProviderCreateNestedOneWithoutInputsInput
@@ -851,6 +879,7 @@ export type InputUncheckedCreateWithoutBranchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputCreateOrConnectWithoutBranchInput = {
@@ -888,6 +917,7 @@ export type InputCreateWithoutTransferInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutInputsInput
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
   provider: Prisma.ProviderCreateNestedOneWithoutInputsInput
@@ -905,6 +935,7 @@ export type InputUncheckedCreateWithoutTransferInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputCreateOrConnectWithoutTransferInput = {
@@ -945,6 +976,7 @@ export type InputCreateManyProviderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputUpdateWithoutProviderInput = {
@@ -956,6 +988,7 @@ export type InputUpdateWithoutProviderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutInputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutInputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
@@ -973,6 +1006,7 @@ export type InputUncheckedUpdateWithoutProviderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputUncheckedUpdateManyWithoutProviderInput = {
@@ -987,6 +1021,7 @@ export type InputUncheckedUpdateManyWithoutProviderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputCreateManyProductInput = {
@@ -1001,6 +1036,7 @@ export type InputCreateManyProductInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputUpdateWithoutProductInput = {
@@ -1012,6 +1048,7 @@ export type InputUpdateWithoutProductInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutInputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutInputsNestedInput
   provider?: Prisma.ProviderUpdateOneRequiredWithoutInputsNestedInput
@@ -1029,6 +1066,7 @@ export type InputUncheckedUpdateWithoutProductInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputUncheckedUpdateManyWithoutProductInput = {
@@ -1043,6 +1081,7 @@ export type InputUncheckedUpdateManyWithoutProductInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputCreateManyBranchInput = {
@@ -1057,6 +1096,7 @@ export type InputCreateManyBranchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputUpdateWithoutBranchInput = {
@@ -1068,6 +1108,7 @@ export type InputUpdateWithoutBranchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer?: Prisma.TransferUpdateOneWithoutInputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
   provider?: Prisma.ProviderUpdateOneRequiredWithoutInputsNestedInput
@@ -1085,6 +1126,7 @@ export type InputUncheckedUpdateWithoutBranchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputUncheckedUpdateManyWithoutBranchInput = {
@@ -1099,6 +1141,7 @@ export type InputUncheckedUpdateManyWithoutBranchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputCreateManyTransferInput = {
@@ -1113,6 +1156,7 @@ export type InputCreateManyTransferInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type InputUpdateWithoutTransferInput = {
@@ -1124,6 +1168,7 @@ export type InputUpdateWithoutTransferInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutInputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
   provider?: Prisma.ProviderUpdateOneRequiredWithoutInputsNestedInput
@@ -1141,6 +1186,7 @@ export type InputUncheckedUpdateWithoutTransferInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type InputUncheckedUpdateManyWithoutTransferInput = {
@@ -1155,6 +1201,7 @@ export type InputUncheckedUpdateManyWithoutTransferInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1172,6 +1219,7 @@ export type InputSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -1191,6 +1239,7 @@ export type InputSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -1210,6 +1259,7 @@ export type InputSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -1229,9 +1279,10 @@ export type InputSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type InputOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branchId" | "transferId" | "productId" | "providerId" | "quantity" | "price" | "dueDate" | "detail" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["input"]>
+export type InputOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branchId" | "transferId" | "productId" | "providerId" | "quantity" | "price" | "dueDate" | "detail" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["input"]>
 export type InputInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
@@ -1272,6 +1323,7 @@ export type $InputPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["input"]>
   composites: {}
 }
@@ -1711,6 +1763,7 @@ export interface InputFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Input", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Input", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Input", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"Input", 'String'>
 }
     
 

@@ -15,7 +15,7 @@ export class RoleController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.role })
   create(@CurrentUser() user: JwtPayload, @Body() createRoleDto: CreateRoleDto) {
-    return this.roleService.create(user.email,createRoleDto);
+    return this.roleService.create(user.id,createRoleDto);
   }
 
   @Get()

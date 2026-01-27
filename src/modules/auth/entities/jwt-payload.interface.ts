@@ -3,5 +3,5 @@ export interface JwtPayload {
   id: string;
   name: string;
   lastName: string;
-  email: string;
+  email?: string|null;
 }

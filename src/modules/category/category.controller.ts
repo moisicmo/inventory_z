@@ -15,7 +15,7 @@ export class CategoryController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.category })
   create(@CurrentUser() user: JwtPayload, @Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(user.email,createCategoryDto);
+    return this.categoryService.create(user.id,createCategoryDto);
   }
 
   @Get()

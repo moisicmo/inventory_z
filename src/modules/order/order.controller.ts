@@ -14,7 +14,7 @@ export class OrderController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.order })
   create(@CurrentUser() user: JwtPayload,@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(user.id,user.email,createOrderDto);
+    return this.orderService.create(user.id,createOrderDto);
   }
 
   @Get()

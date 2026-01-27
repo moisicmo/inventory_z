@@ -11,11 +11,11 @@ export class CategoryService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(email: string,createCategoryDto: CreateCategoryDto) {
+  async create(userId: string,createCategoryDto: CreateCategoryDto) {
     return await this.prisma.category.create({
       data: {
         ...createCategoryDto,
-        createdBy: email,
+        createdBy: userId,
       },
       select: CategorySelect
     });

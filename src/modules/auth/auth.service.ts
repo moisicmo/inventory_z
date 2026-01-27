@@ -65,7 +65,7 @@ export class AuthService {
         id: user.id,
         name: user.name,
         lastName: user.lastName,
-        email: user.email,
+        email: `${user.email?? user.id}`,
       };
 
       const token = this.signJWT(tokenPayload);
@@ -77,6 +77,7 @@ export class AuthService {
           token,
           userAgent,
           ipAddress,
+          createdBy: user.id,
         },
       });
 

@@ -28,102 +28,98 @@ export type AggregatePrice = {
 
 export type PriceAvgAggregateOutputType = {
   price: number | null
-  promoPrice: number | null
 }
 
 export type PriceSumAggregateOutputType = {
   price: number | null
-  promoPrice: number | null
 }
 
 export type PriceMinAggregateOutputType = {
   id: string | null
   productId: string | null
   branchId: string | null
-  price: number | null
-  promoPrice: number | null
   typeUnit: $Enums.TypeUnit | null
+  price: number | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type PriceMaxAggregateOutputType = {
   id: string | null
   productId: string | null
   branchId: string | null
-  price: number | null
-  promoPrice: number | null
   typeUnit: $Enums.TypeUnit | null
+  price: number | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type PriceCountAggregateOutputType = {
   id: number
   productId: number
   branchId: number
-  price: number
-  promoPrice: number
   typeUnit: number
+  price: number
   active: number
   createdAt: number
   updatedAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
 
 export type PriceAvgAggregateInputType = {
   price?: true
-  promoPrice?: true
 }
 
 export type PriceSumAggregateInputType = {
   price?: true
-  promoPrice?: true
 }
 
 export type PriceMinAggregateInputType = {
   id?: true
   productId?: true
   branchId?: true
-  price?: true
-  promoPrice?: true
   typeUnit?: true
+  price?: true
   active?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type PriceMaxAggregateInputType = {
   id?: true
   productId?: true
   branchId?: true
-  price?: true
-  promoPrice?: true
   typeUnit?: true
+  price?: true
   active?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type PriceCountAggregateInputType = {
   id?: true
   productId?: true
   branchId?: true
-  price?: true
-  promoPrice?: true
   typeUnit?: true
+  price?: true
   active?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -217,13 +213,13 @@ export type PriceGroupByOutputType = {
   id: string
   productId: string
   branchId: string
-  price: number
-  promoPrice: number
   typeUnit: $Enums.TypeUnit
+  price: number
   active: boolean
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: PriceCountAggregateOutputType | null
   _avg: PriceAvgAggregateOutputType | null
   _sum: PriceSumAggregateOutputType | null
@@ -253,13 +249,13 @@ export type PriceWhereInput = {
   id?: Prisma.UuidFilter<"Price"> | string
   productId?: Prisma.UuidFilter<"Price"> | string
   branchId?: Prisma.UuidFilter<"Price"> | string
-  price?: Prisma.FloatFilter<"Price"> | number
-  promoPrice?: Prisma.FloatFilter<"Price"> | number
   typeUnit?: Prisma.EnumTypeUnitFilter<"Price"> | $Enums.TypeUnit
+  price?: Prisma.FloatFilter<"Price"> | number
   active?: Prisma.BoolFilter<"Price"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Price"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Price"> | Date | string
   createdBy?: Prisma.StringFilter<"Price"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Price"> | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
 }
@@ -268,13 +264,13 @@ export type PriceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  promoPrice?: Prisma.SortOrder
   typeUnit?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
   branch?: Prisma.BranchOrderByWithRelationInput
 }
@@ -287,13 +283,13 @@ export type PriceWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PriceWhereInput | Prisma.PriceWhereInput[]
   productId?: Prisma.UuidFilter<"Price"> | string
   branchId?: Prisma.UuidFilter<"Price"> | string
-  price?: Prisma.FloatFilter<"Price"> | number
-  promoPrice?: Prisma.FloatFilter<"Price"> | number
   typeUnit?: Prisma.EnumTypeUnitFilter<"Price"> | $Enums.TypeUnit
+  price?: Prisma.FloatFilter<"Price"> | number
   active?: Prisma.BoolFilter<"Price"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Price"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Price"> | Date | string
   createdBy?: Prisma.StringFilter<"Price"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Price"> | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
 }, "id" | "productId_branchId_typeUnit">
@@ -302,13 +298,13 @@ export type PriceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  promoPrice?: Prisma.SortOrder
   typeUnit?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PriceCountOrderByAggregateInput
   _avg?: Prisma.PriceAvgOrderByAggregateInput
   _max?: Prisma.PriceMaxOrderByAggregateInput
@@ -323,24 +319,24 @@ export type PriceScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Price"> | string
   productId?: Prisma.UuidWithAggregatesFilter<"Price"> | string
   branchId?: Prisma.UuidWithAggregatesFilter<"Price"> | string
-  price?: Prisma.FloatWithAggregatesFilter<"Price"> | number
-  promoPrice?: Prisma.FloatWithAggregatesFilter<"Price"> | number
   typeUnit?: Prisma.EnumTypeUnitWithAggregatesFilter<"Price"> | $Enums.TypeUnit
+  price?: Prisma.FloatWithAggregatesFilter<"Price"> | number
   active?: Prisma.BoolWithAggregatesFilter<"Price"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Price"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Price"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Price"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"Price"> | string | null
 }
 
 export type PriceCreateInput = {
   id?: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   product: Prisma.ProductCreateNestedOneWithoutPricesInput
   branch: Prisma.BranchCreateNestedOneWithoutPricesInput
 }
@@ -349,24 +345,24 @@ export type PriceUncheckedCreateInput = {
   id?: string
   productId: string
   branchId: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type PriceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutPricesNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutPricesNestedInput
 }
@@ -375,50 +371,50 @@ export type PriceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PriceCreateManyInput = {
   id?: string
   productId: string
   branchId: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type PriceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PriceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PriceListRelationFilter = {
@@ -441,49 +437,47 @@ export type PriceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  promoPrice?: Prisma.SortOrder
   typeUnit?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type PriceAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
-  promoPrice?: Prisma.SortOrder
 }
 
 export type PriceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  promoPrice?: Prisma.SortOrder
   typeUnit?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type PriceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  promoPrice?: Prisma.SortOrder
   typeUnit?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type PriceSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
-  promoPrice?: Prisma.SortOrder
 }
 
 export type PriceCreateNestedManyWithoutProductInput = {
@@ -526,14 +520,6 @@ export type PriceUncheckedUpdateManyWithoutProductNestedInput = {
   update?: Prisma.PriceUpdateWithWhereUniqueWithoutProductInput | Prisma.PriceUpdateWithWhereUniqueWithoutProductInput[]
   updateMany?: Prisma.PriceUpdateManyWithWhereWithoutProductInput | Prisma.PriceUpdateManyWithWhereWithoutProductInput[]
   deleteMany?: Prisma.PriceScalarWhereInput | Prisma.PriceScalarWhereInput[]
-}
-
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type EnumTypeUnitFieldUpdateOperationsInput = {
@@ -584,26 +570,26 @@ export type PriceUncheckedUpdateManyWithoutBranchNestedInput = {
 
 export type PriceCreateWithoutProductInput = {
   id?: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutPricesInput
 }
 
 export type PriceUncheckedCreateWithoutProductInput = {
   id?: string
   branchId: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type PriceCreateOrConnectWithoutProductInput = {
@@ -639,37 +625,37 @@ export type PriceScalarWhereInput = {
   id?: Prisma.UuidFilter<"Price"> | string
   productId?: Prisma.UuidFilter<"Price"> | string
   branchId?: Prisma.UuidFilter<"Price"> | string
-  price?: Prisma.FloatFilter<"Price"> | number
-  promoPrice?: Prisma.FloatFilter<"Price"> | number
   typeUnit?: Prisma.EnumTypeUnitFilter<"Price"> | $Enums.TypeUnit
+  price?: Prisma.FloatFilter<"Price"> | number
   active?: Prisma.BoolFilter<"Price"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Price"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Price"> | Date | string
   createdBy?: Prisma.StringFilter<"Price"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Price"> | string | null
 }
 
 export type PriceCreateWithoutBranchInput = {
   id?: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   product: Prisma.ProductCreateNestedOneWithoutPricesInput
 }
 
 export type PriceUncheckedCreateWithoutBranchInput = {
   id?: string
   productId: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type PriceCreateOrConnectWithoutBranchInput = {
@@ -701,97 +687,97 @@ export type PriceUpdateManyWithWhereWithoutBranchInput = {
 export type PriceCreateManyProductInput = {
   id?: string
   branchId: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type PriceUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutPricesNestedInput
 }
 
 export type PriceUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PriceUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PriceCreateManyBranchInput = {
   id?: string
   productId: string
-  price?: number
-  promoPrice?: number
   typeUnit: $Enums.TypeUnit
+  price?: number
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type PriceUpdateWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutPricesNestedInput
 }
 
 export type PriceUncheckedUpdateWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PriceUncheckedUpdateManyWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  promoPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -800,13 +786,13 @@ export type PriceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   productId?: boolean
   branchId?: boolean
-  price?: boolean
-  promoPrice?: boolean
   typeUnit?: boolean
+  price?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["price"]>
@@ -815,13 +801,13 @@ export type PriceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   productId?: boolean
   branchId?: boolean
-  price?: boolean
-  promoPrice?: boolean
   typeUnit?: boolean
+  price?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["price"]>
@@ -830,13 +816,13 @@ export type PriceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   productId?: boolean
   branchId?: boolean
-  price?: boolean
-  promoPrice?: boolean
   typeUnit?: boolean
+  price?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["price"]>
@@ -845,16 +831,16 @@ export type PriceSelectScalar = {
   id?: boolean
   productId?: boolean
   branchId?: boolean
-  price?: boolean
-  promoPrice?: boolean
   typeUnit?: boolean
+  price?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type PriceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "branchId" | "price" | "promoPrice" | "typeUnit" | "active" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["price"]>
+export type PriceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "branchId" | "typeUnit" | "price" | "active" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["price"]>
 export type PriceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
@@ -878,13 +864,13 @@ export type $PricePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: string
     productId: string
     branchId: string
-    price: number
-    promoPrice: number
     typeUnit: $Enums.TypeUnit
+    price: number
     active: boolean
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["price"]>
   composites: {}
 }
@@ -1313,13 +1299,13 @@ export interface PriceFieldRefs {
   readonly id: Prisma.FieldRef<"Price", 'String'>
   readonly productId: Prisma.FieldRef<"Price", 'String'>
   readonly branchId: Prisma.FieldRef<"Price", 'String'>
-  readonly price: Prisma.FieldRef<"Price", 'Float'>
-  readonly promoPrice: Prisma.FieldRef<"Price", 'Float'>
   readonly typeUnit: Prisma.FieldRef<"Price", 'TypeUnit'>
+  readonly price: Prisma.FieldRef<"Price", 'Float'>
   readonly active: Prisma.FieldRef<"Price", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Price", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Price", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Price", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"Price", 'String'>
 }
     
 

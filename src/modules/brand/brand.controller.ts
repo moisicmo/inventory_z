@@ -15,7 +15,7 @@ export class BrandController {
   @Post()
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.brand })
   create(@CurrentUser() user: JwtPayload, @Body() createBrandDto: CreateBrandDto) {
-    return this.brandService.create(user.email,createBrandDto);
+    return this.brandService.create(user.id,createBrandDto);
   }
 
   @Get()

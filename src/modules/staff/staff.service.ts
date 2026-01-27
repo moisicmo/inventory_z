@@ -10,7 +10,7 @@ export class StaffService {
 
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createdBy: string, createStaffDto: CreateStaffDto) {
+  async create(userId: string, createStaffDto: CreateStaffDto) {
     const { numberDocument, typeDocument, roleId, name, lastName, email } =
       createStaffDto;
 
@@ -24,7 +24,7 @@ export class StaffService {
     }
 
     const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = bcrypt.hashSync(email, salt);
+    const hashedPassword = bcrypt.hashSync(numberDocument, salt);
 
     return await this.prisma.user.create({
       data: {
@@ -33,12 +33,12 @@ export class StaffService {
         name,
         lastName,
         email,
-        createdBy: createdBy,
+        createdBy: userId,
         staff: {
           create: {
             password: hashedPassword,
             roleId: roleId,
-            createdBy: createdBy,
+            createdBy: userId,
           },
         },
       },

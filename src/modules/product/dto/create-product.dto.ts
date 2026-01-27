@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsArray, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 import { plainToInstance, Transform, Type } from 'class-transformer';
 import { BasePriceDto } from "@/modules/price/dto/create-price.dto";
+import { UnitConversionDto } from "./unit-conversion.dto";
 
 export class CreateProductDto {
 
@@ -21,6 +22,11 @@ export class CreateProductDto {
   @ApiProperty({ example: 'Product 1' })
   name: string;
 
+  @Type(() => Number)
+  @IsNumber()
+  @ApiProperty({ example: 10.5 })
+  promoPrice: number;
+
   @IsOptional()
   @ApiPropertyOptional({ example: 'description product 1' })
   description?: string;
@@ -32,6 +38,22 @@ export class CreateProductDto {
   @IsOptional()
   @ApiPropertyOptional({ type: 'string', format: 'binary', required: false })
   image?: any;
+
+  @ApiProperty({ description: 'Conversión de unidades', type: UnitConversionDto })
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      try {
+        return plainToInstance(UnitConversionDto, JSON.parse(value));
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  })
+  @IsObject()
+  @ValidateNested()
+  @Type(() => UnitConversionDto)
+  unitConversion: UnitConversionDto;
 
   @ApiProperty({
     description: 'Precios por sucursal del producto',

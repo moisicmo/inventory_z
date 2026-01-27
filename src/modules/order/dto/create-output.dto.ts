@@ -1,8 +1,8 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString, IsUUID } from "class-validator";
 
 export class CreateOutputDto {
 
-  @IsString()
+  @IsUUID()
   productId: string;
 
   @IsNumber()

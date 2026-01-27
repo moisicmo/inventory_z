@@ -70,8 +70,7 @@ export const ModelName = {
   Output: 'Output',
   Kardex: 'Kardex',
   Transfer: 'Transfer',
-  Order: 'Order',
-  AuditLog: 'AuditLog'
+  Order: 'Order'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -100,7 +99,8 @@ export const AddressScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type AddressScalarFieldEnum = (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum]
@@ -118,7 +118,8 @@ export const UserScalarFieldEnum = {
   codeActivation: 'codeActivation',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -131,7 +132,9 @@ export const SessionScalarFieldEnum = {
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -143,7 +146,8 @@ export const ForgotPasswordScalarFieldEnum = {
   code: 'code',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type ForgotPasswordScalarFieldEnum = (typeof ForgotPasswordScalarFieldEnum)[keyof typeof ForgotPasswordScalarFieldEnum]
@@ -154,7 +158,8 @@ export const CustomerScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
@@ -166,9 +171,11 @@ export const StaffScalarFieldEnum = {
   password: 'password',
   requiresPasswordChange: 'requiresPasswordChange',
   active: 'active',
+  superStaff: 'superStaff',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type StaffScalarFieldEnum = (typeof StaffScalarFieldEnum)[keyof typeof StaffScalarFieldEnum]
@@ -181,7 +188,8 @@ export const RoleScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
@@ -194,7 +202,8 @@ export const PermissionScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
@@ -206,10 +215,12 @@ export const ProviderScalarFieldEnum = {
   nit: 'nit',
   phone: 'phone',
   name: 'name',
+  contact: 'contact',
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type ProviderScalarFieldEnum = (typeof ProviderScalarFieldEnum)[keyof typeof ProviderScalarFieldEnum]
@@ -222,7 +233,8 @@ export const BrandScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type BrandScalarFieldEnum = (typeof BrandScalarFieldEnum)[keyof typeof BrandScalarFieldEnum]
@@ -234,7 +246,8 @@ export const CategoryScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -253,7 +266,9 @@ export const ProductScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  promoPrice: 'promoPrice'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -263,13 +278,13 @@ export const PriceScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   branchId: 'branchId',
-  price: 'price',
-  promoPrice: 'promoPrice',
   typeUnit: 'typeUnit',
+  price: 'price',
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type PriceScalarFieldEnum = (typeof PriceScalarFieldEnum)[keyof typeof PriceScalarFieldEnum]
@@ -283,7 +298,8 @@ export const UnitConversionScalarFieldEnum = {
   factor: 'factor',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type UnitConversionScalarFieldEnum = (typeof UnitConversionScalarFieldEnum)[keyof typeof UnitConversionScalarFieldEnum]
@@ -299,7 +315,8 @@ export const BranchScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum]
@@ -317,7 +334,8 @@ export const InputScalarFieldEnum = {
   detail: 'detail',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type InputScalarFieldEnum = (typeof InputScalarFieldEnum)[keyof typeof InputScalarFieldEnum]
@@ -334,7 +352,8 @@ export const OutputScalarFieldEnum = {
   detail: 'detail',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type OutputScalarFieldEnum = (typeof OutputScalarFieldEnum)[keyof typeof OutputScalarFieldEnum]
@@ -347,7 +366,8 @@ export const KardexScalarFieldEnum = {
   typeReference: 'typeReference',
   stock: 'stock',
   createdAt: 'createdAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type KardexScalarFieldEnum = (typeof KardexScalarFieldEnum)[keyof typeof KardexScalarFieldEnum]
@@ -363,7 +383,8 @@ export const TransferScalarFieldEnum = {
   detail: 'detail',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type TransferScalarFieldEnum = (typeof TransferScalarFieldEnum)[keyof typeof TransferScalarFieldEnum]
@@ -379,25 +400,11 @@ export const OrderScalarFieldEnum = {
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
-
-
-export const AuditLogScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  action: 'action',
-  entity: 'entity',
-  entityId: 'entityId',
-  dataBefore: 'dataBefore',
-  dataAfter: 'dataAfter',
-  timestamp: 'timestamp',
-  description: 'description'
-} as const
-
-export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -406,14 +413,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const NullableJsonNullValueInput = {
-  DbNull: 'DbNull',
-  JsonNull: 'JsonNull'
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -430,13 +429,4 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const JsonNullValueFilter = {
-  DbNull: 'DbNull',
-  JsonNull: 'JsonNull',
-  AnyNull: 'AnyNull'
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

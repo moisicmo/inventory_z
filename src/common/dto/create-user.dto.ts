@@ -1,6 +1,6 @@
 import { TypeDocument } from "@/generated/prisma/enums";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsEnum, IsString } from "class-validator";
+import { IsEmail, IsEnum, IsOptional, IsString } from "class-validator";
 
 export class CreateUserDto {
 
@@ -33,6 +33,7 @@ export class CreateUserDto {
   })
   lastName: string;
 
+  @IsOptional()
   @IsString()
   @IsEmail()
   @ApiProperty({

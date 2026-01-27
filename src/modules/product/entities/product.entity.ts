@@ -1,7 +1,6 @@
 import { BrandSelect } from "@/modules/brand/entities/brand.entity";
 import { CategorySelect } from "@/modules/category/entities/category.entity";
 import { PriceSelect } from "@/modules/price/entities/price.entity";
-import { ProviderSelect } from "@/modules/provider/entities/provider.entity";
 import { Prisma } from "@/generated/prisma/client";
 
 export type ProductType = Prisma.ProductGetPayload<{
@@ -16,6 +15,14 @@ export const ProductSelect = {
   image: true,
   barCode: true,
   visible: true,
+  promoPrice: true,
+  unitConversion: {
+    select: {
+      fromUnit: true,
+      toUnit: true,
+      factor: true,
+    }
+  },
   category: { select: CategorySelect},
   brand: { select: BrandSelect},
   prices:{ select: PriceSelect}

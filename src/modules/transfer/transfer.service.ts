@@ -15,7 +15,7 @@ export class TransferService {
     private kardexService: KardexService,
   ) { }
 
-  async create(email: string, createTransferDto: CreateTransferDto) {
+  async create(userId: string, createTransferDto: CreateTransferDto) {
     const { fromBranchId, toBranchId, detail, outputs } = createTransferDto;
 
     const results: any[] = [];
@@ -60,7 +60,7 @@ export class TransferService {
             productId: product.id,
             branchId: toBranchId,
             typeUnit: price.typeUnit,
-            createdBy: email,
+            createdBy: userId,
           },
           include: { branch: true },
         });
@@ -74,7 +74,7 @@ export class TransferService {
           quantity: output.quantity,
           price: output.price,
           detail,
-          createdBy: email,
+          createdBy: userId,
         },
       });
       // crear registro de salida
@@ -86,7 +86,7 @@ export class TransferService {
           quantity: output.quantity,
           price: output.price,
           detail: `Traspaso hacia la sucursal ${price?.branch.name}`,
-          createdBy: email,
+          createdBy: userId,
         },
       });
 
@@ -100,7 +100,7 @@ export class TransferService {
           quantity: output.quantity,
           price: output.price,
           detail: `Traspaso desde la sucursal ${product.prices[0].branch.name}`,
-          createdBy: email,
+          createdBy: userId,
         },
       });
 

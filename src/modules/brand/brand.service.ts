@@ -11,11 +11,11 @@ export class BrandService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(email: string,createBrandDto: CreateBrandDto) {
+  async create(userId: string,createBrandDto: CreateBrandDto) {
     return await this.prisma.brand.create({
       data: {
         ...createBrandDto,
-        createdBy: email,
+        createdBy: userId,
       },
       select: BrandSelect
     });

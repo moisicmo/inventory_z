@@ -29,10 +29,12 @@ export type ProviderMinAggregateOutputType = {
   addressId: string | null
   nit: string | null
   name: string | null
+  contact: string | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type ProviderMaxAggregateOutputType = {
@@ -40,10 +42,12 @@ export type ProviderMaxAggregateOutputType = {
   addressId: string | null
   nit: string | null
   name: string | null
+  contact: string | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type ProviderCountAggregateOutputType = {
@@ -52,10 +56,12 @@ export type ProviderCountAggregateOutputType = {
   nit: number
   phone: number
   name: number
+  contact: number
   active: number
   createdAt: number
   updatedAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
@@ -65,10 +71,12 @@ export type ProviderMinAggregateInputType = {
   addressId?: true
   nit?: true
   name?: true
+  contact?: true
   active?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type ProviderMaxAggregateInputType = {
@@ -76,10 +84,12 @@ export type ProviderMaxAggregateInputType = {
   addressId?: true
   nit?: true
   name?: true
+  contact?: true
   active?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type ProviderCountAggregateInputType = {
@@ -88,10 +98,12 @@ export type ProviderCountAggregateInputType = {
   nit?: true
   phone?: true
   name?: true
+  contact?: true
   active?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -173,10 +185,12 @@ export type ProviderGroupByOutputType = {
   nit: string
   phone: string[]
   name: string
+  contact: string
   active: boolean
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: ProviderCountAggregateOutputType | null
   _min: ProviderMinAggregateOutputType | null
   _max: ProviderMaxAggregateOutputType | null
@@ -206,10 +220,12 @@ export type ProviderWhereInput = {
   nit?: Prisma.StringFilter<"Provider"> | string
   phone?: Prisma.StringNullableListFilter<"Provider">
   name?: Prisma.StringFilter<"Provider"> | string
+  contact?: Prisma.StringFilter<"Provider"> | string
   active?: Prisma.BoolFilter<"Provider"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Provider"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Provider"> | Date | string
   createdBy?: Prisma.StringFilter<"Provider"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Provider"> | string | null
   address?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
   inputs?: Prisma.InputListRelationFilter
 }
@@ -220,30 +236,34 @@ export type ProviderOrderByWithRelationInput = {
   nit?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  contact?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.AddressOrderByWithRelationInput
   inputs?: Prisma.InputOrderByRelationAggregateInput
 }
 
 export type ProviderWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  name?: string
   AND?: Prisma.ProviderWhereInput | Prisma.ProviderWhereInput[]
   OR?: Prisma.ProviderWhereInput[]
   NOT?: Prisma.ProviderWhereInput | Prisma.ProviderWhereInput[]
   addressId?: Prisma.UuidNullableFilter<"Provider"> | string | null
   nit?: Prisma.StringFilter<"Provider"> | string
   phone?: Prisma.StringNullableListFilter<"Provider">
-  name?: Prisma.StringFilter<"Provider"> | string
+  contact?: Prisma.StringFilter<"Provider"> | string
   active?: Prisma.BoolFilter<"Provider"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Provider"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Provider"> | Date | string
   createdBy?: Prisma.StringFilter<"Provider"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Provider"> | string | null
   address?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
   inputs?: Prisma.InputListRelationFilter
-}, "id">
+}, "id" | "name">
 
 export type ProviderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -251,10 +271,12 @@ export type ProviderOrderByWithAggregationInput = {
   nit?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  contact?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProviderCountOrderByAggregateInput
   _max?: Prisma.ProviderMaxOrderByAggregateInput
   _min?: Prisma.ProviderMinOrderByAggregateInput
@@ -269,10 +291,12 @@ export type ProviderScalarWhereWithAggregatesInput = {
   nit?: Prisma.StringWithAggregatesFilter<"Provider"> | string
   phone?: Prisma.StringNullableListFilter<"Provider">
   name?: Prisma.StringWithAggregatesFilter<"Provider"> | string
+  contact?: Prisma.StringWithAggregatesFilter<"Provider"> | string
   active?: Prisma.BoolWithAggregatesFilter<"Provider"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Provider"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Provider"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Provider"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"Provider"> | string | null
 }
 
 export type ProviderCreateInput = {
@@ -280,10 +304,12 @@ export type ProviderCreateInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   address?: Prisma.AddressCreateNestedOneWithoutProvidersInput
   inputs?: Prisma.InputCreateNestedManyWithoutProviderInput
 }
@@ -294,10 +320,12 @@ export type ProviderUncheckedCreateInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutProviderInput
 }
 
@@ -306,10 +334,12 @@ export type ProviderUpdateInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.AddressUpdateOneWithoutProvidersNestedInput
   inputs?: Prisma.InputUpdateManyWithoutProviderNestedInput
 }
@@ -320,10 +350,12 @@ export type ProviderUncheckedUpdateInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputs?: Prisma.InputUncheckedUpdateManyWithoutProviderNestedInput
 }
 
@@ -333,10 +365,12 @@ export type ProviderCreateManyInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type ProviderUpdateManyMutationInput = {
@@ -344,10 +378,12 @@ export type ProviderUpdateManyMutationInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProviderUncheckedUpdateManyInput = {
@@ -356,10 +392,12 @@ export type ProviderUncheckedUpdateManyInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProviderListRelationFilter = {
@@ -386,10 +424,12 @@ export type ProviderCountOrderByAggregateInput = {
   nit?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  contact?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type ProviderMaxOrderByAggregateInput = {
@@ -397,10 +437,12 @@ export type ProviderMaxOrderByAggregateInput = {
   addressId?: Prisma.SortOrder
   nit?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  contact?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type ProviderMinOrderByAggregateInput = {
@@ -408,10 +450,12 @@ export type ProviderMinOrderByAggregateInput = {
   addressId?: Prisma.SortOrder
   nit?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  contact?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type ProviderScalarRelationFilter = {
@@ -489,10 +533,12 @@ export type ProviderCreateWithoutAddressInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   inputs?: Prisma.InputCreateNestedManyWithoutProviderInput
 }
 
@@ -501,10 +547,12 @@ export type ProviderUncheckedCreateWithoutAddressInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutProviderInput
 }
 
@@ -543,10 +591,12 @@ export type ProviderScalarWhereInput = {
   nit?: Prisma.StringFilter<"Provider"> | string
   phone?: Prisma.StringNullableListFilter<"Provider">
   name?: Prisma.StringFilter<"Provider"> | string
+  contact?: Prisma.StringFilter<"Provider"> | string
   active?: Prisma.BoolFilter<"Provider"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Provider"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Provider"> | Date | string
   createdBy?: Prisma.StringFilter<"Provider"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Provider"> | string | null
 }
 
 export type ProviderCreateWithoutInputsInput = {
@@ -554,10 +604,12 @@ export type ProviderCreateWithoutInputsInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   address?: Prisma.AddressCreateNestedOneWithoutProvidersInput
 }
 
@@ -567,10 +619,12 @@ export type ProviderUncheckedCreateWithoutInputsInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type ProviderCreateOrConnectWithoutInputsInput = {
@@ -594,10 +648,12 @@ export type ProviderUpdateWithoutInputsInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.AddressUpdateOneWithoutProvidersNestedInput
 }
 
@@ -607,10 +663,12 @@ export type ProviderUncheckedUpdateWithoutInputsInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProviderCreateManyAddressInput = {
@@ -618,10 +676,12 @@ export type ProviderCreateManyAddressInput = {
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
   name: string
+  contact: string
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type ProviderUpdateWithoutAddressInput = {
@@ -629,10 +689,12 @@ export type ProviderUpdateWithoutAddressInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputs?: Prisma.InputUpdateManyWithoutProviderNestedInput
 }
 
@@ -641,10 +703,12 @@ export type ProviderUncheckedUpdateWithoutAddressInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputs?: Prisma.InputUncheckedUpdateManyWithoutProviderNestedInput
 }
 
@@ -653,10 +717,12 @@ export type ProviderUncheckedUpdateManyWithoutAddressInput = {
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -696,10 +762,12 @@ export type ProviderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   nit?: boolean
   phone?: boolean
   name?: boolean
+  contact?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   address?: boolean | Prisma.Provider$addressArgs<ExtArgs>
   inputs?: boolean | Prisma.Provider$inputsArgs<ExtArgs>
   _count?: boolean | Prisma.ProviderCountOutputTypeDefaultArgs<ExtArgs>
@@ -711,10 +779,12 @@ export type ProviderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   nit?: boolean
   phone?: boolean
   name?: boolean
+  contact?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   address?: boolean | Prisma.Provider$addressArgs<ExtArgs>
 }, ExtArgs["result"]["provider"]>
 
@@ -724,10 +794,12 @@ export type ProviderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   nit?: boolean
   phone?: boolean
   name?: boolean
+  contact?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   address?: boolean | Prisma.Provider$addressArgs<ExtArgs>
 }, ExtArgs["result"]["provider"]>
 
@@ -737,13 +809,15 @@ export type ProviderSelectScalar = {
   nit?: boolean
   phone?: boolean
   name?: boolean
+  contact?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type ProviderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "addressId" | "nit" | "phone" | "name" | "active" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["provider"]>
+export type ProviderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "addressId" | "nit" | "phone" | "name" | "contact" | "active" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["provider"]>
 export type ProviderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   address?: boolean | Prisma.Provider$addressArgs<ExtArgs>
   inputs?: boolean | Prisma.Provider$inputsArgs<ExtArgs>
@@ -768,10 +842,12 @@ export type $ProviderPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     nit: string
     phone: string[]
     name: string
+    contact: string
     active: boolean
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["provider"]>
   composites: {}
 }
@@ -1202,10 +1278,12 @@ export interface ProviderFieldRefs {
   readonly nit: Prisma.FieldRef<"Provider", 'String'>
   readonly phone: Prisma.FieldRef<"Provider", 'String[]'>
   readonly name: Prisma.FieldRef<"Provider", 'String'>
+  readonly contact: Prisma.FieldRef<"Provider", 'String'>
   readonly active: Prisma.FieldRef<"Provider", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Provider", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Provider", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Provider", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"Provider", 'String'>
 }
     
 

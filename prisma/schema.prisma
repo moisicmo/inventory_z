@@ -25,6 +25,7 @@ model Address {
   createdAt DateTime   @default(now()) @map("created_at")
   updatedAt DateTime   @default(now()) @updatedAt @map("updated_at")
   createdBy String     @map("created_by")
+  updatedBy String?    @map("updated_by")
   branches  Branch[]
   users     User[]
   providers Provider[]
@@ -39,17 +40,17 @@ model User {
   typeDocument    TypeDocument     @default(dni) @map("type_document")
   name            String           @db.VarChar
   lastName        String           @map("last_name") @db.VarChar
-  email           String           @unique @db.VarChar
+  email           String?          @db.VarChar
   active          Boolean          @default(true)
   codeActivation  String?          @map("code_activation") @db.VarChar
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
   createdBy       String           @map("created_by")
+  updatedBy       String?          @map("updated_by")
   customer        Customer?
   staff           Staff?
   sessions        Session[]
   forgotPasswords forgotPassword[]
-  auditLogs       AuditLog[]
   address         Address?         @relation(fields: [addressId], references: [id])
 
   @@map("users")
@@ -63,6 +64,8 @@ model Session {
   userAgent String   @map("user_agent") @db.VarChar
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  createdBy String   @map("created_by")
+  updatedBy String?  @map("updated_by")
   user      User     @relation(fields: [userId], references: [id])
 
   @@map("sessions")
@@ -75,6 +78,7 @@ model forgotPassword {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   createdBy String   @map("created_by")
+  updatedBy String?  @map("updated_by")
   user      User     @relation(fields: [userId], references: [id])
 
   @@map("forgot_passwords")
@@ -86,6 +90,7 @@ model Customer {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   createdBy String   @map("created_by")
+  updatedBy String?  @map("updated_by")
   user      User     @relation(fields: [userId], references: [id])
   orders    Order[]
 
@@ -98,9 +103,11 @@ model Staff {
   password               String   @db.VarChar
   requiresPasswordChange Boolean  @default(true)
   active                 Boolean  @default(true)
+  superStaff             Boolean  @default(false) @map("super_staff")
   createdAt              DateTime @default(now()) @map("created_at")
   updatedAt              DateTime @updatedAt @map("updated_at")
   createdBy              String   @map("created_by")
+  updatedBy              String?  @map("updated_by")
   user                   User     @relation(fields: [userId], references: [id])
   role                   Role     @relation(fields: [roleId], references: [id])
   branches               Branch[]
@@ -118,22 +125,25 @@ model Role {
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt @map("updated_at")
   createdBy   String       @map("created_by")
+  updatedBy   String?      @map("updated_by")
   branch      Branch       @relation(fields: [branchId], references: [id])
   permissions Permission[]
   staffs      Staff[]
 
+  @@unique([branchId, name])
   @@map("roles")
 }
 
 model Permission {
-  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  action     TypeAction
-  subject    String
-  active     Boolean     @default(true)
-  createdAt  DateTime    @default(now()) @map("created_at")
-  updatedAt  DateTime    @default(now()) @updatedAt @map("updated_at")
-  createdBy  String      @map("created_by")
-  roles      Role[]
+  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  action    TypeAction
+  subject   String
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at")
+  createdBy String     @map("created_by")
+  updatedBy String?    @map("updated_by")
+  roles     Role[]
 
   @@unique([action, subject])
   @@map("permissions")
@@ -144,11 +154,13 @@ model Provider {
   addressId String?  @map("address_id") @db.Uuid
   nit       String
   phone     String[]
-  name      String   @db.VarChar
+  name      String   @unique @db.VarChar
+  contact   String   @db.VarChar
   active    Boolean  @default(true)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   createdBy String   @map("created_by")
+  updatedBy String?  @map("updated_by")
   address   Address? @relation(fields: [addressId], references: [id])
   inputs    Input[]
 
@@ -157,12 +169,13 @@ model Provider {
 
 model Brand {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String    @db.VarChar
+  name        String    @unique @db.VarChar
   description String    @db.VarChar
   active      Boolean   @default(true)
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   createdBy   String    @map("created_by")
+  updatedBy   String?   @map("updated_by")
   products    Product[]
 
   @@map("brands")
@@ -170,55 +183,58 @@ model Brand {
 
 model Category {
   id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String    @db.VarChar
+  name      String    @unique @db.VarChar
   active    Boolean   @default(true)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   createdBy String    @map("created_by")
+  updatedBy String?   @map("updated_by")
   products  Product[]
 
   @@map("categories")
 }
 
 model Product {
-  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  categoryId      String           @map("category_id") @db.Uuid
-  brandId         String           @map("brand_id") @db.Uuid
-  code            String?          @db.VarChar
-  name            String           @db.VarChar
-  description     String?          @db.VarChar
-  image           String?          @db.VarChar
-  barCode         String?          @map("bar_code") @db.VarChar
-  visible         Boolean          @default(true)
-  active          Boolean          @default(true)
-  createdAt       DateTime         @default(now()) @map("created_at")
-  updatedAt       DateTime         @updatedAt @map("updated_at")
-  createdBy       String           @map("created_by")
-  category        Category         @relation(fields: [categoryId], references: [id])
-  brand           Brand            @relation(fields: [brandId], references: [id])
-  unitConversions UnitConversion[]
-  prices          Price[]
-  inputs          Input[]
-  outputs         Output[]
-  kardexs         Kardex[]
-  transfers       Transfer[]
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  categoryId     String          @map("category_id") @db.Uuid
+  brandId        String          @map("brand_id") @db.Uuid
+  code           String?         @unique @db.VarChar
+  name           String          @db.VarChar
+  description    String?         @db.VarChar
+  image          String?         @db.VarChar
+  barCode        String?         @map("bar_code") @db.VarChar
+  visible        Boolean         @default(true)
+  active         Boolean         @default(true)
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  createdBy      String          @map("created_by")
+  updatedBy      String?         @map("updated_by")
+  category       Category        @relation(fields: [categoryId], references: [id])
+  brand          Brand           @relation(fields: [brandId], references: [id])
+  unitConversion UnitConversion?
+  promoPrice     Float           @default(0.0) @map("promo_price")
+  prices         Price[]
+  inputs         Input[]
+  outputs        Output[]
+  kardexs        Kardex[]
+  transfers      Transfer[]
 
   @@map("products")
 }
 
 model Price {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  productId  String   @map("product_id") @db.Uuid
-  branchId   String   @map("branch_id") @db.Uuid
-  price      Float    @default(0.0)
-  promoPrice Float    @default(0.0) @map("promo_price")
-  typeUnit   TypeUnit @map("type_unit")
-  active     Boolean  @default(true)
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  createdBy  String   @map("created_by")
-  product    Product  @relation(fields: [productId], references: [id])
-  branch     Branch   @relation(fields: [branchId], references: [id])
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String   @map("product_id") @db.Uuid
+  branchId  String   @map("branch_id") @db.Uuid
+  typeUnit  TypeUnit @map("type_unit")
+  price     Float    @default(0.0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  createdBy String   @map("created_by")
+  updatedBy String?  @map("updated_by")
+  product   Product  @relation(fields: [productId], references: [id])
+  branch    Branch   @relation(fields: [branchId], references: [id])
 
   @@unique([productId, branchId, typeUnit])
   @@map("prices")
@@ -226,16 +242,16 @@ model Price {
 
 model UnitConversion {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  productId String   @map("product_id") @db.Uuid
-  fromUnit  TypeUnit @map("from_unit")
-  toUnit    TypeUnit @map("to_unit")
-  factor    Int
+  productId String   @unique @map("product_id") @db.Uuid
+  fromUnit  TypeUnit @map("from_unit") @default(UNIDAD)
+  toUnit    TypeUnit @map("to_unit") @default(UNIDAD)
+  factor    Int      @default(1)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   createdBy String   @map("created_by")
+  updatedBy String?  @map("updated_by")
   product   Product  @relation(fields: [productId], references: [id])
 
-  @@unique([productId, fromUnit, toUnit])
   @@map("unit_conversions")
 }
 
@@ -243,13 +259,14 @@ model Branch {
   id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   addressId     String?    @map("address_id") @db.Uuid
   type          String     @db.VarChar
-  name          String     @db.VarChar
+  name          String     @unique @db.VarChar
   bankAccount   String?
   phone         String[]
   active        Boolean    @default(true)
   createdAt     DateTime   @default(now()) @map("created_at")
   updatedAt     DateTime   @updatedAt @map("updated_at")
   createdBy     String     @map("created_by")
+  updatedBy     String?    @map("updated_by")
   staffs        Staff[]
   karedxs       Kardex[]
   inputs        Input[]
@@ -277,6 +294,7 @@ model Input {
   createdAt  DateTime  @default(now()) @map("created_at")
   updatedAt  DateTime  @updatedAt @map("updated_at")
   createdBy  String    @map("created_by")
+  updatedBy  String?   @map("updated_by")
   branch     Branch    @relation(fields: [branchId], references: [id])
   transfer   Transfer? @relation(fields: [transferId], references: [id])
   product    Product   @relation(fields: [productId], references: [id])
@@ -297,6 +315,7 @@ model Output {
   createdAt  DateTime  @default(now()) @map("created_at")
   updatedAt  DateTime  @updatedAt @map("updated_at")
   createdBy  String    @map("created_by")
+  updatedBy  String?   @map("updated_by")
   branch     Branch    @relation(fields: [branchId], references: [id])
   order      Order?    @relation(fields: [orderId], references: [id])
   transfer   Transfer? @relation(fields: [transferId], references: [id])
@@ -313,6 +332,7 @@ model Kardex {
   stock         Int           @db.Integer
   createdAt     DateTime      @default(now()) @map("created_at")
   createdBy     String        @map("created_by")
+  updatedBy     String?       @map("updated_by")
   product       Product       @relation(fields: [productId], references: [id])
   branch        Branch        @relation(fields: [branchId], references: [id])
 
@@ -331,6 +351,7 @@ model Transfer {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
   createdBy    String   @map("created_by")
+  updatedBy    String?  @map("updated_by")
   fromBranch   Branch   @relation("TransferFromBranch", fields: [fromBranchId], references: [id])
   toBranch     Branch   @relation("TransferToBranch", fields: [toBranchId], references: [id])
   product      Product  @relation(fields: [productId], references: [id])
@@ -351,27 +372,13 @@ model Order {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   createdBy  String   @map("created_by")
+  updatedBy  String?  @map("updated_by")
   staff      Staff    @relation(fields: [staffId], references: [userId])
   customer   Customer @relation(fields: [customerId], references: [userId])
   branch     Branch   @relation(fields: [branchId], references: [id])
   outputs    Output[]
 
   @@map("orders")
-}
-
-model AuditLog {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId      String   @map("user_id") @db.Uuid
-  action      String // 'CREATE', 'UPDATE', 'DELETE'
-  entity      String // Nombre de la tabla: 'Price', 'Product', etc.
-  entityId    String   @map("entity_id") @db.Uuid
-  dataBefore  Json?    @map("data_before") // Estado anterior (si aplica)
-  dataAfter   Json?    @map("data_after") // Estado nuevo (si aplica)
-  timestamp   DateTime @default(now())
-  description String? // Mensaje opcional ("Cambio de precio por inflación")
-  user        User     @relation(fields: [userId], references: [id])
-
-  @@map("audit_logs")
 }
 
 // emuns section
@@ -394,7 +401,6 @@ enum TypeDiscount {
 enum TypeUnit {
   UNIDAD
   CAJA
-  DOCENA
 }
 
 enum TypeReference {

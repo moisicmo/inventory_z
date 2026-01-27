@@ -11,7 +11,7 @@ export class CustomerService {
 
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createdBy: string, createCustomerDto: CreateCustomerDto) {
+  async create(userId: string, createCustomerDto: CreateCustomerDto) {
     const { numberDocument, typeDocument, name, lastName, email } = createCustomerDto;
     const userExists = await this.prisma.user.findUnique({
       where: {
@@ -29,10 +29,10 @@ export class CustomerService {
         name,
         lastName,
         email,
-        createdBy: createdBy,
+        createdBy: userId,
         customer: {
           create: {
-            createdBy: email,
+            createdBy: userId,
           },
         },
       },

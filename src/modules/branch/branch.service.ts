@@ -11,21 +11,21 @@ export class BranchService {
 
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(email: string, createBranchDto: CreateBranchDto) {
+  async create(userId: string, createBranchDto: CreateBranchDto) {
     const { city, zone, detail, ...branchDto } = createBranchDto;
     const address = await this.prisma.address.create({
       data: {
         city,
         zone,
         detail,
-        createdBy: email,
+        createdBy: userId,
       }
     });
     return await this.prisma.branch.create({
       data: {
         ...branchDto,
         addressId: address.id,
-        createdBy: email,
+        createdBy: userId,
       },
       select: BranchSelect,
 

@@ -1,27 +1,25 @@
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as pdfMake from 'pdfmake/build/pdfmake';
-
+import { PdfUtils } from '../pdf-utils';
 import { es } from 'date-fns/locale';
 import { format } from 'date-fns';
-// import { InvoiceType } from '@/modules/invoice/entities/invoice.entity';
-// import { numberToString } from '@/common';
-import { PdfUtils } from '../pdf-utils';
+import { numberToString } from '@/common';
 import { OrderType } from '@/modules/order/entities/order.entity';
 
 const fontPath = path.join(process.cwd(), 'dist/assets');
 
-export function buildInvoiceRollTemplate(order: OrderType): Promise<Buffer> {
-  console.log('buildInvoiceRollTemplate', order);
-  // const utils = new PdfUtils();
+export function buildInvoiceRollTemplate(order: OrderType): TDocumentDefinitions {
   const utils = new PdfUtils();
   const logoPath = path.join(fontPath, 'logo.png');
 
   const logoBase64 = fs.existsSync(logoPath)
     ? fs.readFileSync(logoPath).toString('base64')
     : null;
-
+  const total = order.outputs.reduce(
+    (sum, output) => sum + output.price * output.quantity,
+    0
+  );
   const content: TDocumentDefinitions['content'] = [
     {
       image: `data:image/png;base64,${logoBase64}`,
@@ -32,17 +30,10 @@ export function buildInvoiceRollTemplate(order: OrderType): Promise<Buffer> {
     { text: 'IMPORTADORA JHOMIR', style: 'header' },
     { text: 'CASA MATRIZ', style: 'subheader' },
     { text: 'PUNTO DE VENTA 1', style: 'subheader' },
-    { text: 'BATALLON COLORADOS 13213', style: 'subheader' },
-    { text: 'TELÉFONO:123213123', style: 'subheader' },
-    { text: 'LA PAZ - BOLIVIA', style: 'subheader' },
-    utils.createLine(), //
-    {
-      text: '------------------------------------------------',
-      style: 'content',
-      alignment: 'center',
-    },
-    // 
-    // operador spread
+    // { text: 'BATALLON COLORADOS 13213', style: 'subheader' },
+    // { text: 'TELÉFONO:123213123', style: 'subheader' },
+    // { text: 'LA PAZ - BOLIVIA', style: 'subheader' },
+    utils.createLine(),
     { text: 'RECIBO', style: 'header' },
     utils.createTable(
       [
@@ -61,50 +52,35 @@ export function buildInvoiceRollTemplate(order: OrderType): Promise<Buffer> {
       'left'
     ),
     utils.createLine(),
-    {
-      text: '------------------------------------------------',
-      style: 'content',
-      alignment: 'center',
-    },
     { text: 'DETALLE', style: 'header' },
     utils.createTable(
-      // [...order.outputs.map((output) => [`${output.debt?.type} | ${output.debt?.inscription?.student?.code} | ${output.debt?.inscription?.student?.user.name}`, `${output.amount.toFixed(2)}`, false])],
-      [...order.outputs.map((output) => [`${output.product.name}`, `${output.price.toFixed(2)}`, false])],
+      order.outputs.map(
+        (output): [string, string, boolean] => [
+          output.product.name,
+          output.price.toFixed(2),
+          false,
+        ]
+      ),
       'left',
       'right',
       'auto'
     ),
     utils.createLine(),
+    utils.createTable(
+      [
+        ['SUB TOTAL Bs :', total.toFixed(2), false],
+        ['DESCUENTO Bs :', '0.00', false],
+        ['TOTAL Bs :', total.toFixed(2), false],
+      ],
+      'right',
+      'right',
+      'auto'
+    ),
     {
-      text: '------------------------------------------------',
+      text: `Son: ${numberToString(total)} 00/100 Boliviano(s)`,
       style: 'content',
-      alignment: 'center',
     },
-    // utils.createTable(
-    //   [
-    //     [
-    //       'SUB TOTAL Bs :',
-    //       `${order.payments.reduce((total, payment) => total + payment.amount, 0).toFixed(2)}`,
-    //       false
-    //     ],
-    //     ['DESCUENTO Bs :', '0.00', false],
-    //     [
-    //       'TOTAL Bs :',
-    //       `${order.payments.reduce((total, payment) => total + payment.amount, 0).toFixed(2)}`,
-    //       false
-    //     ]
-    //   ],
-    //   'right',
-    //   'right',
-    //   'auto'
-    // ),
-    // { text: `Son: ${numberToString(order.payments.reduce((total, payment) => total + payment.amount, 0))} 00/100 Boliviano(s)`, style: 'content' },
     // utils.createLine(),
-    // {
-    //   text: '------------------------------------------------',
-    //   style: 'content',
-    //   alignment: 'center',
-    // },
     // {
     //   text: 'Gracias por su pago. Para obtener más información escanea el código QR.',
     //   style: 'content',
@@ -129,8 +105,7 @@ export function buildInvoiceRollTemplate(order: OrderType): Promise<Buffer> {
     //   ]),
     // }),
   ];
-
-  const docDefinition: TDocumentDefinitions = {
+  return {
     pageMargins: [15, 25, 15, 15],
     content,
     defaultStyle: {
@@ -148,15 +123,4 @@ export function buildInvoiceRollTemplate(order: OrderType): Promise<Buffer> {
       content: { alignment: 'justify' },
     },
   };
-
-
-  return new Promise((resolve, reject) => {
-    const pdfDoc = pdfMake.createPdf(docDefinition);
-
-    pdfDoc.getBuffer((buffer) => {
-      resolve(buffer);
-    });
-
-    pdfDoc.getStream().on('error', reject);
-  });
 }

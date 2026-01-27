@@ -42,6 +42,7 @@ export type KardexMinAggregateOutputType = {
   stock: number | null
   createdAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type KardexMaxAggregateOutputType = {
@@ -52,6 +53,7 @@ export type KardexMaxAggregateOutputType = {
   stock: number | null
   createdAt: Date | null
   createdBy: string | null
+  updatedBy: string | null
 }
 
 export type KardexCountAggregateOutputType = {
@@ -62,6 +64,7 @@ export type KardexCountAggregateOutputType = {
   stock: number
   createdAt: number
   createdBy: number
+  updatedBy: number
   _all: number
 }
 
@@ -82,6 +85,7 @@ export type KardexMinAggregateInputType = {
   stock?: true
   createdAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type KardexMaxAggregateInputType = {
@@ -92,6 +96,7 @@ export type KardexMaxAggregateInputType = {
   stock?: true
   createdAt?: true
   createdBy?: true
+  updatedBy?: true
 }
 
 export type KardexCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type KardexCountAggregateInputType = {
   stock?: true
   createdAt?: true
   createdBy?: true
+  updatedBy?: true
   _all?: true
 }
 
@@ -199,6 +205,7 @@ export type KardexGroupByOutputType = {
   stock: number
   createdAt: Date
   createdBy: string
+  updatedBy: string | null
   _count: KardexCountAggregateOutputType | null
   _avg: KardexAvgAggregateOutputType | null
   _sum: KardexSumAggregateOutputType | null
@@ -232,6 +239,7 @@ export type KardexWhereInput = {
   stock?: Prisma.IntFilter<"Kardex"> | number
   createdAt?: Prisma.DateTimeFilter<"Kardex"> | Date | string
   createdBy?: Prisma.StringFilter<"Kardex"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Kardex"> | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
 }
@@ -244,6 +252,7 @@ export type KardexOrderByWithRelationInput = {
   stock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
   branch?: Prisma.BranchOrderByWithRelationInput
 }
@@ -260,6 +269,7 @@ export type KardexWhereUniqueInput = Prisma.AtLeast<{
   stock?: Prisma.IntFilter<"Kardex"> | number
   createdAt?: Prisma.DateTimeFilter<"Kardex"> | Date | string
   createdBy?: Prisma.StringFilter<"Kardex"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Kardex"> | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
 }, "referenceId_typeReference">
@@ -272,6 +282,7 @@ export type KardexOrderByWithAggregationInput = {
   stock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.KardexCountOrderByAggregateInput
   _avg?: Prisma.KardexAvgOrderByAggregateInput
   _max?: Prisma.KardexMaxOrderByAggregateInput
@@ -290,6 +301,7 @@ export type KardexScalarWhereWithAggregatesInput = {
   stock?: Prisma.IntWithAggregatesFilter<"Kardex"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Kardex"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Kardex"> | string
+  updatedBy?: Prisma.StringNullableWithAggregatesFilter<"Kardex"> | string | null
 }
 
 export type KardexCreateInput = {
@@ -298,6 +310,7 @@ export type KardexCreateInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   product: Prisma.ProductCreateNestedOneWithoutKardexsInput
   branch: Prisma.BranchCreateNestedOneWithoutKaredxsInput
 }
@@ -310,6 +323,7 @@ export type KardexUncheckedCreateInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type KardexUpdateInput = {
@@ -318,6 +332,7 @@ export type KardexUpdateInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutKardexsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutKaredxsNestedInput
 }
@@ -330,6 +345,7 @@ export type KardexUncheckedUpdateInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KardexCreateManyInput = {
@@ -340,6 +356,7 @@ export type KardexCreateManyInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type KardexUpdateManyMutationInput = {
@@ -348,6 +365,7 @@ export type KardexUpdateManyMutationInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KardexUncheckedUpdateManyInput = {
@@ -358,6 +376,7 @@ export type KardexUncheckedUpdateManyInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KardexListRelationFilter = {
@@ -383,6 +402,7 @@ export type KardexCountOrderByAggregateInput = {
   stock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type KardexAvgOrderByAggregateInput = {
@@ -397,6 +417,7 @@ export type KardexMaxOrderByAggregateInput = {
   stock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type KardexMinOrderByAggregateInput = {
@@ -407,6 +428,7 @@ export type KardexMinOrderByAggregateInput = {
   stock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  updatedBy?: Prisma.SortOrder
 }
 
 export type KardexSumOrderByAggregateInput = {
@@ -507,6 +529,7 @@ export type KardexCreateWithoutProductInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutKaredxsInput
 }
 
@@ -517,6 +540,7 @@ export type KardexUncheckedCreateWithoutProductInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type KardexCreateOrConnectWithoutProductInput = {
@@ -556,6 +580,7 @@ export type KardexScalarWhereInput = {
   stock?: Prisma.IntFilter<"Kardex"> | number
   createdAt?: Prisma.DateTimeFilter<"Kardex"> | Date | string
   createdBy?: Prisma.StringFilter<"Kardex"> | string
+  updatedBy?: Prisma.StringNullableFilter<"Kardex"> | string | null
 }
 
 export type KardexCreateWithoutBranchInput = {
@@ -564,6 +589,7 @@ export type KardexCreateWithoutBranchInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
   product: Prisma.ProductCreateNestedOneWithoutKardexsInput
 }
 
@@ -574,6 +600,7 @@ export type KardexUncheckedCreateWithoutBranchInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type KardexCreateOrConnectWithoutBranchInput = {
@@ -609,6 +636,7 @@ export type KardexCreateManyProductInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type KardexUpdateWithoutProductInput = {
@@ -617,6 +645,7 @@ export type KardexUpdateWithoutProductInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutKaredxsNestedInput
 }
 
@@ -627,6 +656,7 @@ export type KardexUncheckedUpdateWithoutProductInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KardexUncheckedUpdateManyWithoutProductInput = {
@@ -636,6 +666,7 @@ export type KardexUncheckedUpdateManyWithoutProductInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KardexCreateManyBranchInput = {
@@ -645,6 +676,7 @@ export type KardexCreateManyBranchInput = {
   stock: number
   createdAt?: Date | string
   createdBy: string
+  updatedBy?: string | null
 }
 
 export type KardexUpdateWithoutBranchInput = {
@@ -653,6 +685,7 @@ export type KardexUpdateWithoutBranchInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutKardexsNestedInput
 }
 
@@ -663,6 +696,7 @@ export type KardexUncheckedUpdateWithoutBranchInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KardexUncheckedUpdateManyWithoutBranchInput = {
@@ -672,6 +706,7 @@ export type KardexUncheckedUpdateManyWithoutBranchInput = {
   stock?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -684,6 +719,7 @@ export type KardexSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   stock?: boolean
   createdAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["kardex"]>
@@ -696,6 +732,7 @@ export type KardexSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   stock?: boolean
   createdAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["kardex"]>
@@ -708,6 +745,7 @@ export type KardexSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   stock?: boolean
   createdAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["kardex"]>
@@ -720,9 +758,10 @@ export type KardexSelectScalar = {
   stock?: boolean
   createdAt?: boolean
   createdBy?: boolean
+  updatedBy?: boolean
 }
 
-export type KardexOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"branchId" | "productId" | "referenceId" | "typeReference" | "stock" | "createdAt" | "createdBy", ExtArgs["result"]["kardex"]>
+export type KardexOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"branchId" | "productId" | "referenceId" | "typeReference" | "stock" | "createdAt" | "createdBy" | "updatedBy", ExtArgs["result"]["kardex"]>
 export type KardexInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
@@ -750,6 +789,7 @@ export type $KardexPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     stock: number
     createdAt: Date
     createdBy: string
+    updatedBy: string | null
   }, ExtArgs["result"]["kardex"]>
   composites: {}
 }
@@ -1182,6 +1222,7 @@ export interface KardexFieldRefs {
   readonly stock: Prisma.FieldRef<"Kardex", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Kardex", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Kardex", 'String'>
+  readonly updatedBy: Prisma.FieldRef<"Kardex", 'String'>
 }
     
 
