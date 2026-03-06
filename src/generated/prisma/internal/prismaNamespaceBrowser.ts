@@ -60,6 +60,8 @@ export const ModelName = {
   Role: 'Role',
   Permission: 'Permission',
   Provider: 'Provider',
+  Purchase: 'Purchase',
+  PurchaseInstallment: 'PurchaseInstallment',
   Brand: 'Brand',
   Category: 'Category',
   Product: 'Product',
@@ -68,9 +70,12 @@ export const ModelName = {
   Branch: 'Branch',
   Input: 'Input',
   Output: 'Output',
+  Baja: 'Baja',
   Kardex: 'Kardex',
   Transfer: 'Transfer',
-  Order: 'Order'
+  Order: 'Order',
+  SaleDebt: 'SaleDebt',
+  SalePayment: 'SalePayment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -114,6 +119,10 @@ export const UserScalarFieldEnum = {
   name: 'name',
   lastName: 'lastName',
   email: 'email',
+  emailValidated: 'emailValidated',
+  password: 'password',
+  phone: 'phone',
+  codeValidation: 'codeValidation',
   active: 'active',
   codeActivation: 'codeActivation',
   createdAt: 'createdAt',
@@ -168,8 +177,6 @@ export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typ
 export const StaffScalarFieldEnum = {
   userId: 'userId',
   roleId: 'roleId',
-  password: 'password',
-  requiresPasswordChange: 'requiresPasswordChange',
   active: 'active',
   superStaff: 'superStaff',
   createdAt: 'createdAt',
@@ -226,6 +233,42 @@ export const ProviderScalarFieldEnum = {
 export type ProviderScalarFieldEnum = (typeof ProviderScalarFieldEnum)[keyof typeof ProviderScalarFieldEnum]
 
 
+export const PurchaseScalarFieldEnum = {
+  id: 'id',
+  branchId: 'branchId',
+  providerId: 'providerId',
+  code: 'code',
+  dischargeDate: 'dischargeDate',
+  paymentType: 'paymentType',
+  totalAmount: 'totalAmount',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+} as const
+
+export type PurchaseScalarFieldEnum = (typeof PurchaseScalarFieldEnum)[keyof typeof PurchaseScalarFieldEnum]
+
+
+export const PurchaseInstallmentScalarFieldEnum = {
+  id: 'id',
+  purchaseId: 'purchaseId',
+  installmentNumber: 'installmentNumber',
+  amount: 'amount',
+  dueDate: 'dueDate',
+  paidAt: 'paidAt',
+  status: 'status',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+} as const
+
+export type PurchaseInstallmentScalarFieldEnum = (typeof PurchaseInstallmentScalarFieldEnum)[keyof typeof PurchaseInstallmentScalarFieldEnum]
+
+
 export const BrandScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -261,6 +304,7 @@ export const ProductScalarFieldEnum = {
   name: 'name',
   description: 'description',
   image: 'image',
+  refCost: 'refCost',
   barCode: 'barCode',
   visible: 'visible',
   active: 'active',
@@ -325,11 +369,12 @@ export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof 
 export const InputScalarFieldEnum = {
   id: 'id',
   branchId: 'branchId',
+  purchaseId: 'purchaseId',
   transferId: 'transferId',
   productId: 'productId',
-  providerId: 'providerId',
   quantity: 'quantity',
   price: 'price',
+  typeUnit: 'typeUnit',
   dueDate: 'dueDate',
   detail: 'detail',
   createdAt: 'createdAt',
@@ -346,6 +391,7 @@ export const OutputScalarFieldEnum = {
   branchId: 'branchId',
   orderId: 'orderId',
   transferId: 'transferId',
+  bajaId: 'bajaId',
   productId: 'productId',
   quantity: 'quantity',
   price: 'price',
@@ -357,6 +403,21 @@ export const OutputScalarFieldEnum = {
 } as const
 
 export type OutputScalarFieldEnum = (typeof OutputScalarFieldEnum)[keyof typeof OutputScalarFieldEnum]
+
+
+export const BajaScalarFieldEnum = {
+  id: 'id',
+  branchId: 'branchId',
+  reason: 'reason',
+  description: 'description',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+} as const
+
+export type BajaScalarFieldEnum = (typeof BajaScalarFieldEnum)[keyof typeof BajaScalarFieldEnum]
 
 
 export const KardexScalarFieldEnum = {
@@ -397,7 +458,12 @@ export const OrderScalarFieldEnum = {
   branchId: 'branchId',
   url: 'url',
   amount: 'amount',
+  paymentType: 'paymentType',
+  amountPaid: 'amountPaid',
   active: 'active',
+  stateSold: 'stateSold',
+  delivered: 'delivered',
+  stateAnulled: 'stateAnulled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdBy: 'createdBy',
@@ -407,12 +473,53 @@ export const OrderScalarFieldEnum = {
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
 
 
+export const SaleDebtScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  customerId: 'customerId',
+  branchId: 'branchId',
+  totalAmount: 'totalAmount',
+  paidAmount: 'paidAmount',
+  status: 'status',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+} as const
+
+export type SaleDebtScalarFieldEnum = (typeof SaleDebtScalarFieldEnum)[keyof typeof SaleDebtScalarFieldEnum]
+
+
+export const SalePaymentScalarFieldEnum = {
+  id: 'id',
+  debtId: 'debtId',
+  amount: 'amount',
+  payMethod: 'payMethod',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy'
+} as const
+
+export type SalePaymentScalarFieldEnum = (typeof SalePaymentScalarFieldEnum)[keyof typeof SalePaymentScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull'
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -429,4 +536,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull',
+  AnyNull: 'AnyNull'
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

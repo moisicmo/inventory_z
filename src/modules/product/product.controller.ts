@@ -5,7 +5,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from '@/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
-import { CurrentUser, FileMimeTypeInterceptor } from '@/decorator';
+import { CurrentUser, FileMimeTypeInterceptor, Public } from '@/decorator';
 import { checkAbilities } from '@/decorator';
 import { TypeAction, TypeReference } from '@/generated/prisma/enums';
 import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
@@ -30,6 +30,12 @@ export class ProductController {
     return this.productService.create(user.id, createProductDto, image);
   }
 
+
+  @Get('catalog')
+  @Public()
+  findCatalog(@Query() paginationDto: PaginationDto) {
+    return this.productService.findCatalog(paginationDto);
+  }
 
   @Get()
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.product })

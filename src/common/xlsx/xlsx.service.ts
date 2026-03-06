@@ -1,24 +1,16 @@
 import { Injectable } from '@nestjs/common';
-// import { InscriptionType } from '@/modules/inscription/entities/inscription.entity';
-// import { buildInscriptionTemplate } from './template/generate-inscription.template copy';
-import { buildDebtTemplate } from './template/generate-debt.template';
-// import { DebtType } from '@/modules/debt/entities/debt.entity';
+import { buildInventoryTemplate, type InventoryReportRow } from './template/generate-inventory.template';
+import { buildSaleTemplate, type SaleReportRow } from './template/generate-sale.template';
 
 @Injectable()
 export class XlsxService {
+  constructor() {}
 
-  constructor() { }
+  async generateInventoryReport(rows: InventoryReportRow[]): Promise<Buffer> {
+    return buildInventoryTemplate(rows);
+  }
 
-
-  // async generateInscription(inscriptions: InscriptionType[]): Promise<Buffer> {
-  //   const documentDefinition = await buildInscriptionTemplate(inscriptions);
-  //   return documentDefinition;
-  // }
-
-  // async generateDebt(debts: DebtType[]): Promise<Buffer> {
-  //   const documentDefinition = await buildDebtTemplate(debts);
-  //   return documentDefinition;
-  // }
-
-
+  async generateSaleReport(rows: SaleReportRow[]): Promise<Buffer> {
+    return buildSaleTemplate(rows);
+  }
 }

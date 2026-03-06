@@ -12,37 +12,39 @@ export class KardexService {
   async findAll(paginationDto: PaginationDto) {
     const { branchId, page = 1, limit = 10, keys } = paginationDto;
 
-    // Condición dinámica de filtro
-    const where: any = {};
-    if (branchId) {
-      // where.branchId = branchId;
-    }
-
-    // 🔎 Opcional: si quieres búsqueda por nombre o código
+    // Filtro para productos (nombre, código, categoría, marca)
+    const productWhere: any = { active: true };
     if (keys && keys.trim() !== '') {
-      where.OR = [
+      productWhere.OR = [
         { name: { contains: keys, mode: 'insensitive' } },
-        { product: { name: { contains: keys, mode: 'insensitive' } } },
+        { code: { contains: keys, mode: 'insensitive' } },
+        { category: { name: { contains: keys, mode: 'insensitive' } } },
+        { brand: { name: { contains: keys, mode: 'insensitive' } } },
       ];
     }
 
-    // Total filtrado (respetando branchId y/o keys)
-    const totalProducts = await this.prisma.product.count({ where });
+    const totalProducts = await this.prisma.product.count({ where: productWhere });
     const lastPage = Math.ceil(totalProducts / limit);
 
     const products = await this.prisma.product.findMany({
       skip: (page - 1) * limit,
       take: limit,
-      where,
+      where: productWhere,
       select: ProductSelect,
     });
 
     const data = await Promise.all(
       products.map(async (product) => {
+        // Filtrar kardex por branchId si se proporciona, para stock por sucursal
+        const kardexWhere: any = { productId: product.id };
+        if (branchId) {
+          kardexWhere.branchId = branchId;
+        }
+
         const kardexList = await this.prisma.kardex.findMany({
           select: KardexSelect,
-          where: { productId: product.id },
-          orderBy: { createdAt: 'desc' }, // aseguras orden cronológico
+          where: kardexWhere,
+          orderBy: { createdAt: 'desc' },
         });
 
         const kardexWithDetails = await Promise.all(
@@ -65,6 +67,15 @@ export class KardexService {
     };
   }
 
+
+  async getStock(productId: string, branchId: string): Promise<number> {
+    const latest = await this.prisma.kardex.findFirst({
+      where: { productId, branchId },
+      orderBy: { createdAt: 'desc' },
+      select: { stock: true },
+    });
+    return latest?.stock ?? 0;
+  }
 
   async findByReference(referenceId: string, typeReference: TypeReference) {
     const kardex = await this.prisma.kardex.findFirst({

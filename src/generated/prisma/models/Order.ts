@@ -28,10 +28,12 @@ export type AggregateOrder = {
 
 export type OrderAvgAggregateOutputType = {
   amount: number | null
+  amountPaid: number | null
 }
 
 export type OrderSumAggregateOutputType = {
   amount: number | null
+  amountPaid: number | null
 }
 
 export type OrderMinAggregateOutputType = {
@@ -41,7 +43,12 @@ export type OrderMinAggregateOutputType = {
   branchId: string | null
   url: string | null
   amount: number | null
+  paymentType: $Enums.PaymentType | null
+  amountPaid: number | null
   active: boolean | null
+  stateSold: boolean | null
+  delivered: boolean | null
+  stateAnulled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
@@ -55,7 +62,12 @@ export type OrderMaxAggregateOutputType = {
   branchId: string | null
   url: string | null
   amount: number | null
+  paymentType: $Enums.PaymentType | null
+  amountPaid: number | null
   active: boolean | null
+  stateSold: boolean | null
+  delivered: boolean | null
+  stateAnulled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
@@ -69,7 +81,12 @@ export type OrderCountAggregateOutputType = {
   branchId: number
   url: number
   amount: number
+  paymentType: number
+  amountPaid: number
   active: number
+  stateSold: number
+  delivered: number
+  stateAnulled: number
   createdAt: number
   updatedAt: number
   createdBy: number
@@ -80,10 +97,12 @@ export type OrderCountAggregateOutputType = {
 
 export type OrderAvgAggregateInputType = {
   amount?: true
+  amountPaid?: true
 }
 
 export type OrderSumAggregateInputType = {
   amount?: true
+  amountPaid?: true
 }
 
 export type OrderMinAggregateInputType = {
@@ -93,7 +112,12 @@ export type OrderMinAggregateInputType = {
   branchId?: true
   url?: true
   amount?: true
+  paymentType?: true
+  amountPaid?: true
   active?: true
+  stateSold?: true
+  delivered?: true
+  stateAnulled?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
@@ -107,7 +131,12 @@ export type OrderMaxAggregateInputType = {
   branchId?: true
   url?: true
   amount?: true
+  paymentType?: true
+  amountPaid?: true
   active?: true
+  stateSold?: true
+  delivered?: true
+  stateAnulled?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
@@ -121,7 +150,12 @@ export type OrderCountAggregateInputType = {
   branchId?: true
   url?: true
   amount?: true
+  paymentType?: true
+  amountPaid?: true
   active?: true
+  stateSold?: true
+  delivered?: true
+  stateAnulled?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
@@ -222,7 +256,12 @@ export type OrderGroupByOutputType = {
   branchId: string
   url: string | null
   amount: number
+  paymentType: $Enums.PaymentType
+  amountPaid: number
   active: boolean
+  stateSold: boolean
+  delivered: boolean
+  stateAnulled: boolean
   createdAt: Date
   updatedAt: Date
   createdBy: string
@@ -259,7 +298,12 @@ export type OrderWhereInput = {
   branchId?: Prisma.UuidFilter<"Order"> | string
   url?: Prisma.StringNullableFilter<"Order"> | string | null
   amount?: Prisma.FloatFilter<"Order"> | number
+  paymentType?: Prisma.EnumPaymentTypeFilter<"Order"> | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFilter<"Order"> | number
   active?: Prisma.BoolFilter<"Order"> | boolean
+  stateSold?: Prisma.BoolFilter<"Order"> | boolean
+  delivered?: Prisma.BoolFilter<"Order"> | boolean
+  stateAnulled?: Prisma.BoolFilter<"Order"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   createdBy?: Prisma.StringFilter<"Order"> | string
@@ -268,6 +312,7 @@ export type OrderWhereInput = {
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   outputs?: Prisma.OutputListRelationFilter
+  debt?: Prisma.XOR<Prisma.SaleDebtNullableScalarRelationFilter, Prisma.SaleDebtWhereInput> | null
 }
 
 export type OrderOrderByWithRelationInput = {
@@ -277,7 +322,12 @@ export type OrderOrderByWithRelationInput = {
   branchId?: Prisma.SortOrder
   url?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  stateSold?: Prisma.SortOrder
+  delivered?: Prisma.SortOrder
+  stateAnulled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -286,6 +336,7 @@ export type OrderOrderByWithRelationInput = {
   customer?: Prisma.CustomerOrderByWithRelationInput
   branch?: Prisma.BranchOrderByWithRelationInput
   outputs?: Prisma.OutputOrderByRelationAggregateInput
+  debt?: Prisma.SaleDebtOrderByWithRelationInput
 }
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
@@ -298,7 +349,12 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   branchId?: Prisma.UuidFilter<"Order"> | string
   url?: Prisma.StringNullableFilter<"Order"> | string | null
   amount?: Prisma.FloatFilter<"Order"> | number
+  paymentType?: Prisma.EnumPaymentTypeFilter<"Order"> | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFilter<"Order"> | number
   active?: Prisma.BoolFilter<"Order"> | boolean
+  stateSold?: Prisma.BoolFilter<"Order"> | boolean
+  delivered?: Prisma.BoolFilter<"Order"> | boolean
+  stateAnulled?: Prisma.BoolFilter<"Order"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   createdBy?: Prisma.StringFilter<"Order"> | string
@@ -307,6 +363,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   outputs?: Prisma.OutputListRelationFilter
+  debt?: Prisma.XOR<Prisma.SaleDebtNullableScalarRelationFilter, Prisma.SaleDebtWhereInput> | null
 }, "id">
 
 export type OrderOrderByWithAggregationInput = {
@@ -316,7 +373,12 @@ export type OrderOrderByWithAggregationInput = {
   branchId?: Prisma.SortOrder
   url?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  stateSold?: Prisma.SortOrder
+  delivered?: Prisma.SortOrder
+  stateAnulled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -338,7 +400,12 @@ export type OrderScalarWhereWithAggregatesInput = {
   branchId?: Prisma.UuidWithAggregatesFilter<"Order"> | string
   url?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   amount?: Prisma.FloatWithAggregatesFilter<"Order"> | number
+  paymentType?: Prisma.EnumPaymentTypeWithAggregatesFilter<"Order"> | $Enums.PaymentType
+  amountPaid?: Prisma.FloatWithAggregatesFilter<"Order"> | number
   active?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean
+  stateSold?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean
+  delivered?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean
+  stateAnulled?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Order"> | string
@@ -349,7 +416,12 @@ export type OrderCreateInput = {
   id?: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -358,6 +430,7 @@ export type OrderCreateInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
   outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtCreateNestedOneWithoutOrderInput
 }
 
 export type OrderUncheckedCreateInput = {
@@ -367,19 +440,30 @@ export type OrderUncheckedCreateInput = {
   branchId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtUncheckedCreateNestedOneWithoutOrderInput
 }
 
 export type OrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -388,6 +472,7 @@ export type OrderUpdateInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateInput = {
@@ -397,12 +482,18 @@ export type OrderUncheckedUpdateInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUncheckedUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderCreateManyInput = {
@@ -412,7 +503,12 @@ export type OrderCreateManyInput = {
   branchId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -423,7 +519,12 @@ export type OrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -437,7 +538,12 @@ export type OrderUncheckedUpdateManyInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -466,7 +572,12 @@ export type OrderCountOrderByAggregateInput = {
   branchId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  stateSold?: Prisma.SortOrder
+  delivered?: Prisma.SortOrder
+  stateAnulled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -475,6 +586,7 @@ export type OrderCountOrderByAggregateInput = {
 
 export type OrderAvgOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
 }
 
 export type OrderMaxOrderByAggregateInput = {
@@ -484,7 +596,12 @@ export type OrderMaxOrderByAggregateInput = {
   branchId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  stateSold?: Prisma.SortOrder
+  delivered?: Prisma.SortOrder
+  stateAnulled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -498,7 +615,12 @@ export type OrderMinOrderByAggregateInput = {
   branchId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  paymentType?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  stateSold?: Prisma.SortOrder
+  delivered?: Prisma.SortOrder
+  stateAnulled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -507,6 +629,12 @@ export type OrderMinOrderByAggregateInput = {
 
 export type OrderSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
+}
+
+export type OrderScalarRelationFilter = {
+  is?: Prisma.OrderWhereInput
+  isNot?: Prisma.OrderWhereInput
 }
 
 export type OrderCreateNestedManyWithoutCustomerInput = {
@@ -651,11 +779,30 @@ export type OrderUpdateOneWithoutOutputsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutOutputsInput, Prisma.OrderUpdateWithoutOutputsInput>, Prisma.OrderUncheckedUpdateWithoutOutputsInput>
 }
 
+export type OrderCreateNestedOneWithoutDebtInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutDebtInput, Prisma.OrderUncheckedCreateWithoutDebtInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutDebtInput
+  connect?: Prisma.OrderWhereUniqueInput
+}
+
+export type OrderUpdateOneRequiredWithoutDebtNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutDebtInput, Prisma.OrderUncheckedCreateWithoutDebtInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutDebtInput
+  upsert?: Prisma.OrderUpsertWithoutDebtInput
+  connect?: Prisma.OrderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutDebtInput, Prisma.OrderUpdateWithoutDebtInput>, Prisma.OrderUncheckedUpdateWithoutDebtInput>
+}
+
 export type OrderCreateWithoutCustomerInput = {
   id?: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -663,6 +810,7 @@ export type OrderCreateWithoutCustomerInput = {
   staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
   outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtCreateNestedOneWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutCustomerInput = {
@@ -671,12 +819,18 @@ export type OrderUncheckedCreateWithoutCustomerInput = {
   branchId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtUncheckedCreateNestedOneWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutCustomerInput = {
@@ -715,7 +869,12 @@ export type OrderScalarWhereInput = {
   branchId?: Prisma.UuidFilter<"Order"> | string
   url?: Prisma.StringNullableFilter<"Order"> | string | null
   amount?: Prisma.FloatFilter<"Order"> | number
+  paymentType?: Prisma.EnumPaymentTypeFilter<"Order"> | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFilter<"Order"> | number
   active?: Prisma.BoolFilter<"Order"> | boolean
+  stateSold?: Prisma.BoolFilter<"Order"> | boolean
+  delivered?: Prisma.BoolFilter<"Order"> | boolean
+  stateAnulled?: Prisma.BoolFilter<"Order"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   createdBy?: Prisma.StringFilter<"Order"> | string
@@ -726,7 +885,12 @@ export type OrderCreateWithoutStaffInput = {
   id?: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -734,6 +898,7 @@ export type OrderCreateWithoutStaffInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
   outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtCreateNestedOneWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutStaffInput = {
@@ -742,12 +907,18 @@ export type OrderUncheckedCreateWithoutStaffInput = {
   branchId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtUncheckedCreateNestedOneWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutStaffInput = {
@@ -780,7 +951,12 @@ export type OrderCreateWithoutBranchInput = {
   id?: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -788,6 +964,7 @@ export type OrderCreateWithoutBranchInput = {
   staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtCreateNestedOneWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutBranchInput = {
@@ -796,12 +973,18 @@ export type OrderUncheckedCreateWithoutBranchInput = {
   customerId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
+  debt?: Prisma.SaleDebtUncheckedCreateNestedOneWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutBranchInput = {
@@ -834,7 +1017,12 @@ export type OrderCreateWithoutOutputsInput = {
   id?: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -842,6 +1030,7 @@ export type OrderCreateWithoutOutputsInput = {
   staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
   customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
   branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
+  debt?: Prisma.SaleDebtCreateNestedOneWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutOutputsInput = {
@@ -851,11 +1040,17 @@ export type OrderUncheckedCreateWithoutOutputsInput = {
   branchId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  debt?: Prisma.SaleDebtUncheckedCreateNestedOneWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutOutputsInput = {
@@ -878,7 +1073,12 @@ export type OrderUpdateWithoutOutputsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -886,6 +1086,7 @@ export type OrderUpdateWithoutOutputsInput = {
   staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
+  debt?: Prisma.SaleDebtUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutOutputsInput = {
@@ -895,11 +1096,113 @@ export type OrderUncheckedUpdateWithoutOutputsInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  debt?: Prisma.SaleDebtUncheckedUpdateOneWithoutOrderNestedInput
+}
+
+export type OrderCreateWithoutDebtInput = {
+  id?: string
+  url?: string | null
+  amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
+  active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  staff: Prisma.StaffCreateNestedOneWithoutOrdersInput
+  customer: Prisma.CustomerCreateNestedOneWithoutOrdersInput
+  branch: Prisma.BranchCreateNestedOneWithoutOrdersInput
+  outputs?: Prisma.OutputCreateNestedManyWithoutOrderInput
+}
+
+export type OrderUncheckedCreateWithoutDebtInput = {
+  id?: string
+  staffId: string
+  customerId: string
+  branchId: string
+  url?: string | null
+  amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
+  active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutOrderInput
+}
+
+export type OrderCreateOrConnectWithoutDebtInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutDebtInput, Prisma.OrderUncheckedCreateWithoutDebtInput>
+}
+
+export type OrderUpsertWithoutDebtInput = {
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutDebtInput, Prisma.OrderUncheckedUpdateWithoutDebtInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutDebtInput, Prisma.OrderUncheckedCreateWithoutDebtInput>
+  where?: Prisma.OrderWhereInput
+}
+
+export type OrderUpdateToOneWithWhereWithoutDebtInput = {
+  where?: Prisma.OrderWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutDebtInput, Prisma.OrderUncheckedUpdateWithoutDebtInput>
+}
+
+export type OrderUpdateWithoutDebtInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
+  branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
+  outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateWithoutDebtInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderCreateManyCustomerInput = {
@@ -908,7 +1211,12 @@ export type OrderCreateManyCustomerInput = {
   branchId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -919,7 +1227,12 @@ export type OrderUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -927,6 +1240,7 @@ export type OrderUpdateWithoutCustomerInput = {
   staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutCustomerInput = {
@@ -935,12 +1249,18 @@ export type OrderUncheckedUpdateWithoutCustomerInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUncheckedUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateManyWithoutCustomerInput = {
@@ -949,7 +1269,12 @@ export type OrderUncheckedUpdateManyWithoutCustomerInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -962,7 +1287,12 @@ export type OrderCreateManyStaffInput = {
   branchId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -973,7 +1303,12 @@ export type OrderUpdateWithoutStaffInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -981,6 +1316,7 @@ export type OrderUpdateWithoutStaffInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutOrdersNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutStaffInput = {
@@ -989,12 +1325,18 @@ export type OrderUncheckedUpdateWithoutStaffInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUncheckedUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateManyWithoutStaffInput = {
@@ -1003,7 +1345,12 @@ export type OrderUncheckedUpdateManyWithoutStaffInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1016,7 +1363,12 @@ export type OrderCreateManyBranchInput = {
   customerId: string
   url?: string | null
   amount?: number
+  paymentType?: $Enums.PaymentType
+  amountPaid?: number
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -1027,7 +1379,12 @@ export type OrderUpdateWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1035,6 +1392,7 @@ export type OrderUpdateWithoutBranchInput = {
   staff?: Prisma.StaffUpdateOneRequiredWithoutOrdersNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutOrdersNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutBranchInput = {
@@ -1043,12 +1401,18 @@ export type OrderUncheckedUpdateWithoutBranchInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutOrderNestedInput
+  debt?: Prisma.SaleDebtUncheckedUpdateOneWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateManyWithoutBranchInput = {
@@ -1057,7 +1421,12 @@ export type OrderUncheckedUpdateManyWithoutBranchInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  paymentType?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amountPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateSold?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  delivered?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stateAnulled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1102,7 +1471,12 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   branchId?: boolean
   url?: boolean
   amount?: boolean
+  paymentType?: boolean
+  amountPaid?: boolean
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
@@ -1111,6 +1485,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   outputs?: boolean | Prisma.Order$outputsArgs<ExtArgs>
+  debt?: boolean | Prisma.Order$debtArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -1121,7 +1496,12 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   branchId?: boolean
   url?: boolean
   amount?: boolean
+  paymentType?: boolean
+  amountPaid?: boolean
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
@@ -1138,7 +1518,12 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   branchId?: boolean
   url?: boolean
   amount?: boolean
+  paymentType?: boolean
+  amountPaid?: boolean
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
@@ -1155,19 +1540,25 @@ export type OrderSelectScalar = {
   branchId?: boolean
   url?: boolean
   amount?: boolean
+  paymentType?: boolean
+  amountPaid?: boolean
   active?: boolean
+  stateSold?: boolean
+  delivered?: boolean
+  stateAnulled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
   updatedBy?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "customerId" | "branchId" | "url" | "amount" | "active" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "customerId" | "branchId" | "url" | "amount" | "paymentType" | "amountPaid" | "active" | "stateSold" | "delivered" | "stateAnulled" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   outputs?: boolean | Prisma.Order$outputsArgs<ExtArgs>
+  debt?: boolean | Prisma.Order$debtArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1188,6 +1579,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     customer: Prisma.$CustomerPayload<ExtArgs>
     branch: Prisma.$BranchPayload<ExtArgs>
     outputs: Prisma.$OutputPayload<ExtArgs>[]
+    debt: Prisma.$SaleDebtPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1196,7 +1588,12 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     branchId: string
     url: string | null
     amount: number
+    paymentType: $Enums.PaymentType
+    amountPaid: number
     active: boolean
+    stateSold: boolean
+    delivered: boolean
+    stateAnulled: boolean
     createdAt: Date
     updatedAt: Date
     createdBy: string
@@ -1599,6 +1996,7 @@ export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Ty
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   branch<T extends Prisma.BranchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   outputs<T extends Prisma.Order$outputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$outputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  debt<T extends Prisma.Order$debtArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$debtArgs<ExtArgs>>): Prisma.Prisma__SaleDebtClient<runtime.Types.Result.GetResult<Prisma.$SaleDebtPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1634,7 +2032,12 @@ export interface OrderFieldRefs {
   readonly branchId: Prisma.FieldRef<"Order", 'String'>
   readonly url: Prisma.FieldRef<"Order", 'String'>
   readonly amount: Prisma.FieldRef<"Order", 'Float'>
+  readonly paymentType: Prisma.FieldRef<"Order", 'PaymentType'>
+  readonly amountPaid: Prisma.FieldRef<"Order", 'Float'>
   readonly active: Prisma.FieldRef<"Order", 'Boolean'>
+  readonly stateSold: Prisma.FieldRef<"Order", 'Boolean'>
+  readonly delivered: Prisma.FieldRef<"Order", 'Boolean'>
+  readonly stateAnulled: Prisma.FieldRef<"Order", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Order", 'String'>
@@ -2056,6 +2459,25 @@ export type Order$outputsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.OutputScalarFieldEnum | Prisma.OutputScalarFieldEnum[]
+}
+
+/**
+ * Order.debt
+ */
+export type Order$debtArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SaleDebt
+   */
+  select?: Prisma.SaleDebtSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SaleDebt
+   */
+  omit?: Prisma.SaleDebtOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SaleDebtInclude<ExtArgs> | null
+  where?: Prisma.SaleDebtWhereInput
 }
 
 /**

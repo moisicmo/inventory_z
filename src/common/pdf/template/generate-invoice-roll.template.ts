@@ -24,7 +24,7 @@ export function buildInvoiceRollTemplate(order: OrderType): TDocumentDefinitions
     {
       image: `data:image/png;base64,${logoBase64}`,
       width: 50,
-      margin: [0, 0, 0, 5],
+      margin: [0, 0, 0, 5] as [number, number, number, number],
       alignment: 'center',
     },
     { text: 'IMPORTADORA JHOMIR', style: 'header' },

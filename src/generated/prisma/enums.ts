@@ -59,3 +59,39 @@ export const TypeAction = {
 } as const
 
 export type TypeAction = (typeof TypeAction)[keyof typeof TypeAction]
+
+
+export const PaymentType = {
+  CONTADO: 'CONTADO',
+  CUOTAS: 'CUOTAS'
+} as const
+
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
+
+
+export const InstallmentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE'
+} as const
+
+export type InstallmentStatus = (typeof InstallmentStatus)[keyof typeof InstallmentStatus]
+
+
+export const TypeBaja = {
+  VENCIMIENTO: 'VENCIMIENTO',
+  DANIO: 'DANIO',
+  ROBO: 'ROBO',
+  PERDIDA: 'PERDIDA',
+  OTRO: 'OTRO'
+} as const
+
+export type TypeBaja = (typeof TypeBaja)[keyof typeof TypeBaja]
+
+
+export const DebtStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID'
+} as const
+
+export type DebtStatus = (typeof DebtStatus)[keyof typeof DebtStatus]

@@ -30,7 +30,7 @@ export class ProductService {
     }
   }
   async create(userId: string, createProductDto: CreateProductDto, image?: Express.Multer.File) {
-    const { categoryId, brandId, code, name, description, barCode, promoPrice, unitConversion, prices } = createProductDto;
+    const { categoryId, brandId, code, name, description, barCode, refCost, promoPrice, unitConversion, prices } = createProductDto;
 
     let imageUrl: string | null = null;
     if (image) {
@@ -46,6 +46,7 @@ export class ProductService {
         name,
         description,
         barCode,
+        refCost,
         promoPrice,
         image: imageUrl,
         createdBy: userId,
@@ -89,6 +90,50 @@ export class ProductService {
     };
   }
 
+  async findCatalog(paginationDto: PaginationDto) {
+    const { page = 1, limit = 20, keys, branchId, categoryId, brandId } = paginationDto;
+
+    const where: any = { active: true, visible: true };
+
+    if (keys && keys.trim() !== '') {
+      where.name = { contains: keys, mode: 'insensitive' };
+    }
+    if (categoryId) {
+      where.categoryId = categoryId;
+    }
+    if (brandId) {
+      where.brandId = brandId;
+    }
+    if (branchId) {
+      where.prices = { some: { branchId } };
+    }
+
+    const total = await this.prisma.product.count({ where });
+    const lastPage = Math.ceil(total / limit);
+
+    const products = await this.prisma.product.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      where,
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        image: true,
+        promoPrice: true,
+        category: { select: { id: true, name: true } },
+        brand: { select: { id: true, name: true } },
+        prices: {
+          where: branchId ? { branchId } : {},
+          select: { id: true, price: true, typeUnit: true, branch: { select: { id: true, name: true } } },
+        },
+      },
+      orderBy: { name: 'asc' },
+    });
+
+    return { data: products, meta: { total, page, lastPage } };
+  }
+
   async findOne(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
@@ -116,6 +161,7 @@ export class ProductService {
     description,
     barCode,
     promoPrice,
+    refCost,
     unitConversion,
     prices,
   } = updateProductDto;
@@ -147,6 +193,7 @@ export class ProductService {
         description,
         barCode,
         promoPrice,
+        refCost,
         updatedBy: userId,
         ...(imageUrl ? { image: imageUrl } : {}),
         unitConversion: unitConversion

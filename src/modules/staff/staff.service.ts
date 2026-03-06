@@ -34,9 +34,9 @@ export class StaffService {
         lastName,
         email,
         createdBy: userId,
+        password: hashedPassword,
         staff: {
           create: {
-            password: hashedPassword,
             roleId: roleId,
             createdBy: userId,
           },

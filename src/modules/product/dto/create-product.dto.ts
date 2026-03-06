@@ -27,6 +27,12 @@ export class CreateProductDto {
   @ApiProperty({ example: 10.5 })
   promoPrice: number;
 
+  @Type(() => Number)
+  @IsNumber()
+  @IsOptional()
+  @ApiPropertyOptional({ example: 5.0, description: 'Costo referencial del producto' })
+  refCost?: number;
+
   @IsOptional()
   @ApiPropertyOptional({ example: 'description product 1' })
   description?: string;

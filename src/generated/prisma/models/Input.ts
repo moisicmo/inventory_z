@@ -39,11 +39,12 @@ export type InputSumAggregateOutputType = {
 export type InputMinAggregateOutputType = {
   id: string | null
   branchId: string | null
+  purchaseId: string | null
   transferId: string | null
   productId: string | null
-  providerId: string | null
   quantity: number | null
   price: number | null
+  typeUnit: $Enums.TypeUnit | null
   dueDate: Date | null
   detail: string | null
   createdAt: Date | null
@@ -55,11 +56,12 @@ export type InputMinAggregateOutputType = {
 export type InputMaxAggregateOutputType = {
   id: string | null
   branchId: string | null
+  purchaseId: string | null
   transferId: string | null
   productId: string | null
-  providerId: string | null
   quantity: number | null
   price: number | null
+  typeUnit: $Enums.TypeUnit | null
   dueDate: Date | null
   detail: string | null
   createdAt: Date | null
@@ -71,11 +73,12 @@ export type InputMaxAggregateOutputType = {
 export type InputCountAggregateOutputType = {
   id: number
   branchId: number
+  purchaseId: number
   transferId: number
   productId: number
-  providerId: number
   quantity: number
   price: number
+  typeUnit: number
   dueDate: number
   detail: number
   createdAt: number
@@ -99,11 +102,12 @@ export type InputSumAggregateInputType = {
 export type InputMinAggregateInputType = {
   id?: true
   branchId?: true
+  purchaseId?: true
   transferId?: true
   productId?: true
-  providerId?: true
   quantity?: true
   price?: true
+  typeUnit?: true
   dueDate?: true
   detail?: true
   createdAt?: true
@@ -115,11 +119,12 @@ export type InputMinAggregateInputType = {
 export type InputMaxAggregateInputType = {
   id?: true
   branchId?: true
+  purchaseId?: true
   transferId?: true
   productId?: true
-  providerId?: true
   quantity?: true
   price?: true
+  typeUnit?: true
   dueDate?: true
   detail?: true
   createdAt?: true
@@ -131,11 +136,12 @@ export type InputMaxAggregateInputType = {
 export type InputCountAggregateInputType = {
   id?: true
   branchId?: true
+  purchaseId?: true
   transferId?: true
   productId?: true
-  providerId?: true
   quantity?: true
   price?: true
+  typeUnit?: true
   dueDate?: true
   detail?: true
   createdAt?: true
@@ -234,11 +240,12 @@ export type InputGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type InputGroupByOutputType = {
   id: string
   branchId: string
+  purchaseId: string | null
   transferId: string | null
   productId: string
-  providerId: string
   quantity: number
   price: number
+  typeUnit: $Enums.TypeUnit
   dueDate: Date | null
   detail: string
   createdAt: Date
@@ -273,11 +280,12 @@ export type InputWhereInput = {
   NOT?: Prisma.InputWhereInput | Prisma.InputWhereInput[]
   id?: Prisma.UuidFilter<"Input"> | string
   branchId?: Prisma.UuidFilter<"Input"> | string
+  purchaseId?: Prisma.UuidNullableFilter<"Input"> | string | null
   transferId?: Prisma.UuidNullableFilter<"Input"> | string | null
   productId?: Prisma.UuidFilter<"Input"> | string
-  providerId?: Prisma.UuidFilter<"Input"> | string
   quantity?: Prisma.IntFilter<"Input"> | number
   price?: Prisma.FloatFilter<"Input"> | number
+  typeUnit?: Prisma.EnumTypeUnitFilter<"Input"> | $Enums.TypeUnit
   dueDate?: Prisma.DateTimeNullableFilter<"Input"> | Date | string | null
   detail?: Prisma.StringFilter<"Input"> | string
   createdAt?: Prisma.DateTimeFilter<"Input"> | Date | string
@@ -285,19 +293,20 @@ export type InputWhereInput = {
   createdBy?: Prisma.StringFilter<"Input"> | string
   updatedBy?: Prisma.StringNullableFilter<"Input"> | string | null
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
+  purchase?: Prisma.XOR<Prisma.PurchaseNullableScalarRelationFilter, Prisma.PurchaseWhereInput> | null
   transfer?: Prisma.XOR<Prisma.TransferNullableScalarRelationFilter, Prisma.TransferWhereInput> | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
-  provider?: Prisma.XOR<Prisma.ProviderScalarRelationFilter, Prisma.ProviderWhereInput>
 }
 
 export type InputOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
+  purchaseId?: Prisma.SortOrderInput | Prisma.SortOrder
   transferId?: Prisma.SortOrderInput | Prisma.SortOrder
   productId?: Prisma.SortOrder
-  providerId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  typeUnit?: Prisma.SortOrder
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   detail?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -305,9 +314,9 @@ export type InputOrderByWithRelationInput = {
   createdBy?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   branch?: Prisma.BranchOrderByWithRelationInput
+  purchase?: Prisma.PurchaseOrderByWithRelationInput
   transfer?: Prisma.TransferOrderByWithRelationInput
   product?: Prisma.ProductOrderByWithRelationInput
-  provider?: Prisma.ProviderOrderByWithRelationInput
 }
 
 export type InputWhereUniqueInput = Prisma.AtLeast<{
@@ -316,11 +325,12 @@ export type InputWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.InputWhereInput[]
   NOT?: Prisma.InputWhereInput | Prisma.InputWhereInput[]
   branchId?: Prisma.UuidFilter<"Input"> | string
+  purchaseId?: Prisma.UuidNullableFilter<"Input"> | string | null
   transferId?: Prisma.UuidNullableFilter<"Input"> | string | null
   productId?: Prisma.UuidFilter<"Input"> | string
-  providerId?: Prisma.UuidFilter<"Input"> | string
   quantity?: Prisma.IntFilter<"Input"> | number
   price?: Prisma.FloatFilter<"Input"> | number
+  typeUnit?: Prisma.EnumTypeUnitFilter<"Input"> | $Enums.TypeUnit
   dueDate?: Prisma.DateTimeNullableFilter<"Input"> | Date | string | null
   detail?: Prisma.StringFilter<"Input"> | string
   createdAt?: Prisma.DateTimeFilter<"Input"> | Date | string
@@ -328,19 +338,20 @@ export type InputWhereUniqueInput = Prisma.AtLeast<{
   createdBy?: Prisma.StringFilter<"Input"> | string
   updatedBy?: Prisma.StringNullableFilter<"Input"> | string | null
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
+  purchase?: Prisma.XOR<Prisma.PurchaseNullableScalarRelationFilter, Prisma.PurchaseWhereInput> | null
   transfer?: Prisma.XOR<Prisma.TransferNullableScalarRelationFilter, Prisma.TransferWhereInput> | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
-  provider?: Prisma.XOR<Prisma.ProviderScalarRelationFilter, Prisma.ProviderWhereInput>
 }, "id">
 
 export type InputOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
+  purchaseId?: Prisma.SortOrderInput | Prisma.SortOrder
   transferId?: Prisma.SortOrderInput | Prisma.SortOrder
   productId?: Prisma.SortOrder
-  providerId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  typeUnit?: Prisma.SortOrder
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   detail?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -360,11 +371,12 @@ export type InputScalarWhereWithAggregatesInput = {
   NOT?: Prisma.InputScalarWhereWithAggregatesInput | Prisma.InputScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Input"> | string
   branchId?: Prisma.UuidWithAggregatesFilter<"Input"> | string
+  purchaseId?: Prisma.UuidNullableWithAggregatesFilter<"Input"> | string | null
   transferId?: Prisma.UuidNullableWithAggregatesFilter<"Input"> | string | null
   productId?: Prisma.UuidWithAggregatesFilter<"Input"> | string
-  providerId?: Prisma.UuidWithAggregatesFilter<"Input"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"Input"> | number
   price?: Prisma.FloatWithAggregatesFilter<"Input"> | number
+  typeUnit?: Prisma.EnumTypeUnitWithAggregatesFilter<"Input"> | $Enums.TypeUnit
   dueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Input"> | Date | string | null
   detail?: Prisma.StringWithAggregatesFilter<"Input"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Input"> | Date | string
@@ -377,6 +389,7 @@ export type InputCreateInput = {
   id?: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -384,19 +397,20 @@ export type InputCreateInput = {
   createdBy: string
   updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutInputsInput
+  purchase?: Prisma.PurchaseCreateNestedOneWithoutInputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutInputsInput
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
-  provider: Prisma.ProviderCreateNestedOneWithoutInputsInput
 }
 
 export type InputUncheckedCreateInput = {
   id?: string
   branchId: string
+  purchaseId?: string | null
   transferId?: string | null
   productId: string
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -409,6 +423,7 @@ export type InputUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -416,19 +431,20 @@ export type InputUpdateInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutInputsNestedInput
+  purchase?: Prisma.PurchaseUpdateOneWithoutInputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutInputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
-  provider?: Prisma.ProviderUpdateOneRequiredWithoutInputsNestedInput
 }
 
 export type InputUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -440,11 +456,12 @@ export type InputUncheckedUpdateInput = {
 export type InputCreateManyInput = {
   id?: string
   branchId: string
+  purchaseId?: string | null
   transferId?: string | null
   productId: string
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -457,6 +474,7 @@ export type InputUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -468,11 +486,12 @@ export type InputUpdateManyMutationInput = {
 export type InputUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -494,11 +513,12 @@ export type InputOrderByRelationAggregateInput = {
 export type InputCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
+  purchaseId?: Prisma.SortOrder
   transferId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  providerId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  typeUnit?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -515,11 +535,12 @@ export type InputAvgOrderByAggregateInput = {
 export type InputMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
+  purchaseId?: Prisma.SortOrder
   transferId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  providerId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  typeUnit?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -531,11 +552,12 @@ export type InputMaxOrderByAggregateInput = {
 export type InputMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   branchId?: Prisma.SortOrder
+  purchaseId?: Prisma.SortOrder
   transferId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  providerId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  typeUnit?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -549,45 +571,45 @@ export type InputSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
 }
 
-export type InputCreateNestedManyWithoutProviderInput = {
-  create?: Prisma.XOR<Prisma.InputCreateWithoutProviderInput, Prisma.InputUncheckedCreateWithoutProviderInput> | Prisma.InputCreateWithoutProviderInput[] | Prisma.InputUncheckedCreateWithoutProviderInput[]
-  connectOrCreate?: Prisma.InputCreateOrConnectWithoutProviderInput | Prisma.InputCreateOrConnectWithoutProviderInput[]
-  createMany?: Prisma.InputCreateManyProviderInputEnvelope
+export type InputCreateNestedManyWithoutPurchaseInput = {
+  create?: Prisma.XOR<Prisma.InputCreateWithoutPurchaseInput, Prisma.InputUncheckedCreateWithoutPurchaseInput> | Prisma.InputCreateWithoutPurchaseInput[] | Prisma.InputUncheckedCreateWithoutPurchaseInput[]
+  connectOrCreate?: Prisma.InputCreateOrConnectWithoutPurchaseInput | Prisma.InputCreateOrConnectWithoutPurchaseInput[]
+  createMany?: Prisma.InputCreateManyPurchaseInputEnvelope
   connect?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
 }
 
-export type InputUncheckedCreateNestedManyWithoutProviderInput = {
-  create?: Prisma.XOR<Prisma.InputCreateWithoutProviderInput, Prisma.InputUncheckedCreateWithoutProviderInput> | Prisma.InputCreateWithoutProviderInput[] | Prisma.InputUncheckedCreateWithoutProviderInput[]
-  connectOrCreate?: Prisma.InputCreateOrConnectWithoutProviderInput | Prisma.InputCreateOrConnectWithoutProviderInput[]
-  createMany?: Prisma.InputCreateManyProviderInputEnvelope
+export type InputUncheckedCreateNestedManyWithoutPurchaseInput = {
+  create?: Prisma.XOR<Prisma.InputCreateWithoutPurchaseInput, Prisma.InputUncheckedCreateWithoutPurchaseInput> | Prisma.InputCreateWithoutPurchaseInput[] | Prisma.InputUncheckedCreateWithoutPurchaseInput[]
+  connectOrCreate?: Prisma.InputCreateOrConnectWithoutPurchaseInput | Prisma.InputCreateOrConnectWithoutPurchaseInput[]
+  createMany?: Prisma.InputCreateManyPurchaseInputEnvelope
   connect?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
 }
 
-export type InputUpdateManyWithoutProviderNestedInput = {
-  create?: Prisma.XOR<Prisma.InputCreateWithoutProviderInput, Prisma.InputUncheckedCreateWithoutProviderInput> | Prisma.InputCreateWithoutProviderInput[] | Prisma.InputUncheckedCreateWithoutProviderInput[]
-  connectOrCreate?: Prisma.InputCreateOrConnectWithoutProviderInput | Prisma.InputCreateOrConnectWithoutProviderInput[]
-  upsert?: Prisma.InputUpsertWithWhereUniqueWithoutProviderInput | Prisma.InputUpsertWithWhereUniqueWithoutProviderInput[]
-  createMany?: Prisma.InputCreateManyProviderInputEnvelope
+export type InputUpdateManyWithoutPurchaseNestedInput = {
+  create?: Prisma.XOR<Prisma.InputCreateWithoutPurchaseInput, Prisma.InputUncheckedCreateWithoutPurchaseInput> | Prisma.InputCreateWithoutPurchaseInput[] | Prisma.InputUncheckedCreateWithoutPurchaseInput[]
+  connectOrCreate?: Prisma.InputCreateOrConnectWithoutPurchaseInput | Prisma.InputCreateOrConnectWithoutPurchaseInput[]
+  upsert?: Prisma.InputUpsertWithWhereUniqueWithoutPurchaseInput | Prisma.InputUpsertWithWhereUniqueWithoutPurchaseInput[]
+  createMany?: Prisma.InputCreateManyPurchaseInputEnvelope
   set?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
   disconnect?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
   delete?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
   connect?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
-  update?: Prisma.InputUpdateWithWhereUniqueWithoutProviderInput | Prisma.InputUpdateWithWhereUniqueWithoutProviderInput[]
-  updateMany?: Prisma.InputUpdateManyWithWhereWithoutProviderInput | Prisma.InputUpdateManyWithWhereWithoutProviderInput[]
+  update?: Prisma.InputUpdateWithWhereUniqueWithoutPurchaseInput | Prisma.InputUpdateWithWhereUniqueWithoutPurchaseInput[]
+  updateMany?: Prisma.InputUpdateManyWithWhereWithoutPurchaseInput | Prisma.InputUpdateManyWithWhereWithoutPurchaseInput[]
   deleteMany?: Prisma.InputScalarWhereInput | Prisma.InputScalarWhereInput[]
 }
 
-export type InputUncheckedUpdateManyWithoutProviderNestedInput = {
-  create?: Prisma.XOR<Prisma.InputCreateWithoutProviderInput, Prisma.InputUncheckedCreateWithoutProviderInput> | Prisma.InputCreateWithoutProviderInput[] | Prisma.InputUncheckedCreateWithoutProviderInput[]
-  connectOrCreate?: Prisma.InputCreateOrConnectWithoutProviderInput | Prisma.InputCreateOrConnectWithoutProviderInput[]
-  upsert?: Prisma.InputUpsertWithWhereUniqueWithoutProviderInput | Prisma.InputUpsertWithWhereUniqueWithoutProviderInput[]
-  createMany?: Prisma.InputCreateManyProviderInputEnvelope
+export type InputUncheckedUpdateManyWithoutPurchaseNestedInput = {
+  create?: Prisma.XOR<Prisma.InputCreateWithoutPurchaseInput, Prisma.InputUncheckedCreateWithoutPurchaseInput> | Prisma.InputCreateWithoutPurchaseInput[] | Prisma.InputUncheckedCreateWithoutPurchaseInput[]
+  connectOrCreate?: Prisma.InputCreateOrConnectWithoutPurchaseInput | Prisma.InputCreateOrConnectWithoutPurchaseInput[]
+  upsert?: Prisma.InputUpsertWithWhereUniqueWithoutPurchaseInput | Prisma.InputUpsertWithWhereUniqueWithoutPurchaseInput[]
+  createMany?: Prisma.InputCreateManyPurchaseInputEnvelope
   set?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
   disconnect?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
   delete?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
   connect?: Prisma.InputWhereUniqueInput | Prisma.InputWhereUniqueInput[]
-  update?: Prisma.InputUpdateWithWhereUniqueWithoutProviderInput | Prisma.InputUpdateWithWhereUniqueWithoutProviderInput[]
-  updateMany?: Prisma.InputUpdateManyWithWhereWithoutProviderInput | Prisma.InputUpdateManyWithWhereWithoutProviderInput[]
+  update?: Prisma.InputUpdateWithWhereUniqueWithoutPurchaseInput | Prisma.InputUpdateWithWhereUniqueWithoutPurchaseInput[]
+  updateMany?: Prisma.InputUpdateManyWithWhereWithoutPurchaseInput | Prisma.InputUpdateManyWithWhereWithoutPurchaseInput[]
   deleteMany?: Prisma.InputScalarWhereInput | Prisma.InputScalarWhereInput[]
 }
 
@@ -675,10 +697,6 @@ export type InputUncheckedUpdateManyWithoutBranchNestedInput = {
   deleteMany?: Prisma.InputScalarWhereInput | Prisma.InputScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type InputCreateNestedManyWithoutTransferInput = {
   create?: Prisma.XOR<Prisma.InputCreateWithoutTransferInput, Prisma.InputUncheckedCreateWithoutTransferInput> | Prisma.InputCreateWithoutTransferInput[] | Prisma.InputUncheckedCreateWithoutTransferInput[]
   connectOrCreate?: Prisma.InputCreateOrConnectWithoutTransferInput | Prisma.InputCreateOrConnectWithoutTransferInput[]
@@ -721,10 +739,11 @@ export type InputUncheckedUpdateManyWithoutTransferNestedInput = {
   deleteMany?: Prisma.InputScalarWhereInput | Prisma.InputScalarWhereInput[]
 }
 
-export type InputCreateWithoutProviderInput = {
+export type InputCreateWithoutPurchaseInput = {
   id?: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -736,13 +755,14 @@ export type InputCreateWithoutProviderInput = {
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
 }
 
-export type InputUncheckedCreateWithoutProviderInput = {
+export type InputUncheckedCreateWithoutPurchaseInput = {
   id?: string
   branchId: string
   transferId?: string | null
   productId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -751,30 +771,30 @@ export type InputUncheckedCreateWithoutProviderInput = {
   updatedBy?: string | null
 }
 
-export type InputCreateOrConnectWithoutProviderInput = {
+export type InputCreateOrConnectWithoutPurchaseInput = {
   where: Prisma.InputWhereUniqueInput
-  create: Prisma.XOR<Prisma.InputCreateWithoutProviderInput, Prisma.InputUncheckedCreateWithoutProviderInput>
+  create: Prisma.XOR<Prisma.InputCreateWithoutPurchaseInput, Prisma.InputUncheckedCreateWithoutPurchaseInput>
 }
 
-export type InputCreateManyProviderInputEnvelope = {
-  data: Prisma.InputCreateManyProviderInput | Prisma.InputCreateManyProviderInput[]
+export type InputCreateManyPurchaseInputEnvelope = {
+  data: Prisma.InputCreateManyPurchaseInput | Prisma.InputCreateManyPurchaseInput[]
   skipDuplicates?: boolean
 }
 
-export type InputUpsertWithWhereUniqueWithoutProviderInput = {
+export type InputUpsertWithWhereUniqueWithoutPurchaseInput = {
   where: Prisma.InputWhereUniqueInput
-  update: Prisma.XOR<Prisma.InputUpdateWithoutProviderInput, Prisma.InputUncheckedUpdateWithoutProviderInput>
-  create: Prisma.XOR<Prisma.InputCreateWithoutProviderInput, Prisma.InputUncheckedCreateWithoutProviderInput>
+  update: Prisma.XOR<Prisma.InputUpdateWithoutPurchaseInput, Prisma.InputUncheckedUpdateWithoutPurchaseInput>
+  create: Prisma.XOR<Prisma.InputCreateWithoutPurchaseInput, Prisma.InputUncheckedCreateWithoutPurchaseInput>
 }
 
-export type InputUpdateWithWhereUniqueWithoutProviderInput = {
+export type InputUpdateWithWhereUniqueWithoutPurchaseInput = {
   where: Prisma.InputWhereUniqueInput
-  data: Prisma.XOR<Prisma.InputUpdateWithoutProviderInput, Prisma.InputUncheckedUpdateWithoutProviderInput>
+  data: Prisma.XOR<Prisma.InputUpdateWithoutPurchaseInput, Prisma.InputUncheckedUpdateWithoutPurchaseInput>
 }
 
-export type InputUpdateManyWithWhereWithoutProviderInput = {
+export type InputUpdateManyWithWhereWithoutPurchaseInput = {
   where: Prisma.InputScalarWhereInput
-  data: Prisma.XOR<Prisma.InputUpdateManyMutationInput, Prisma.InputUncheckedUpdateManyWithoutProviderInput>
+  data: Prisma.XOR<Prisma.InputUpdateManyMutationInput, Prisma.InputUncheckedUpdateManyWithoutPurchaseInput>
 }
 
 export type InputScalarWhereInput = {
@@ -783,11 +803,12 @@ export type InputScalarWhereInput = {
   NOT?: Prisma.InputScalarWhereInput | Prisma.InputScalarWhereInput[]
   id?: Prisma.UuidFilter<"Input"> | string
   branchId?: Prisma.UuidFilter<"Input"> | string
+  purchaseId?: Prisma.UuidNullableFilter<"Input"> | string | null
   transferId?: Prisma.UuidNullableFilter<"Input"> | string | null
   productId?: Prisma.UuidFilter<"Input"> | string
-  providerId?: Prisma.UuidFilter<"Input"> | string
   quantity?: Prisma.IntFilter<"Input"> | number
   price?: Prisma.FloatFilter<"Input"> | number
+  typeUnit?: Prisma.EnumTypeUnitFilter<"Input"> | $Enums.TypeUnit
   dueDate?: Prisma.DateTimeNullableFilter<"Input"> | Date | string | null
   detail?: Prisma.StringFilter<"Input"> | string
   createdAt?: Prisma.DateTimeFilter<"Input"> | Date | string
@@ -800,6 +821,7 @@ export type InputCreateWithoutProductInput = {
   id?: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -807,17 +829,18 @@ export type InputCreateWithoutProductInput = {
   createdBy: string
   updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutInputsInput
+  purchase?: Prisma.PurchaseCreateNestedOneWithoutInputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutInputsInput
-  provider: Prisma.ProviderCreateNestedOneWithoutInputsInput
 }
 
 export type InputUncheckedCreateWithoutProductInput = {
   id?: string
   branchId: string
+  purchaseId?: string | null
   transferId?: string | null
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -856,24 +879,26 @@ export type InputCreateWithoutBranchInput = {
   id?: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  purchase?: Prisma.PurchaseCreateNestedOneWithoutInputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutInputsInput
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
-  provider: Prisma.ProviderCreateNestedOneWithoutInputsInput
 }
 
 export type InputUncheckedCreateWithoutBranchInput = {
   id?: string
+  purchaseId?: string | null
   transferId?: string | null
   productId: string
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -912,6 +937,7 @@ export type InputCreateWithoutTransferInput = {
   id?: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -919,17 +945,18 @@ export type InputCreateWithoutTransferInput = {
   createdBy: string
   updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutInputsInput
+  purchase?: Prisma.PurchaseCreateNestedOneWithoutInputsInput
   product: Prisma.ProductCreateNestedOneWithoutInputsInput
-  provider: Prisma.ProviderCreateNestedOneWithoutInputsInput
 }
 
 export type InputUncheckedCreateWithoutTransferInput = {
   id?: string
   branchId: string
+  purchaseId?: string | null
   productId: string
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -964,13 +991,14 @@ export type InputUpdateManyWithWhereWithoutTransferInput = {
   data: Prisma.XOR<Prisma.InputUpdateManyMutationInput, Prisma.InputUncheckedUpdateManyWithoutTransferInput>
 }
 
-export type InputCreateManyProviderInput = {
+export type InputCreateManyPurchaseInput = {
   id?: string
   branchId: string
   transferId?: string | null
   productId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -979,10 +1007,11 @@ export type InputCreateManyProviderInput = {
   updatedBy?: string | null
 }
 
-export type InputUpdateWithoutProviderInput = {
+export type InputUpdateWithoutPurchaseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -994,13 +1023,14 @@ export type InputUpdateWithoutProviderInput = {
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
 }
 
-export type InputUncheckedUpdateWithoutProviderInput = {
+export type InputUncheckedUpdateWithoutPurchaseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1009,13 +1039,14 @@ export type InputUncheckedUpdateWithoutProviderInput = {
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type InputUncheckedUpdateManyWithoutProviderInput = {
+export type InputUncheckedUpdateManyWithoutPurchaseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1027,10 +1058,11 @@ export type InputUncheckedUpdateManyWithoutProviderInput = {
 export type InputCreateManyProductInput = {
   id?: string
   branchId: string
+  purchaseId?: string | null
   transferId?: string | null
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -1043,6 +1075,7 @@ export type InputUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1050,17 +1083,18 @@ export type InputUpdateWithoutProductInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutInputsNestedInput
+  purchase?: Prisma.PurchaseUpdateOneWithoutInputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutInputsNestedInput
-  provider?: Prisma.ProviderUpdateOneRequiredWithoutInputsNestedInput
 }
 
 export type InputUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1072,10 +1106,11 @@ export type InputUncheckedUpdateWithoutProductInput = {
 export type InputUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1086,11 +1121,12 @@ export type InputUncheckedUpdateManyWithoutProductInput = {
 
 export type InputCreateManyBranchInput = {
   id?: string
+  purchaseId?: string | null
   transferId?: string | null
   productId: string
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -1103,24 +1139,26 @@ export type InputUpdateWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase?: Prisma.PurchaseUpdateOneWithoutInputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutInputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
-  provider?: Prisma.ProviderUpdateOneRequiredWithoutInputsNestedInput
 }
 
 export type InputUncheckedUpdateWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1131,11 +1169,12 @@ export type InputUncheckedUpdateWithoutBranchInput = {
 
 export type InputUncheckedUpdateManyWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1147,10 +1186,11 @@ export type InputUncheckedUpdateManyWithoutBranchInput = {
 export type InputCreateManyTransferInput = {
   id?: string
   branchId: string
+  purchaseId?: string | null
   productId: string
-  providerId: string
   quantity: number
   price?: number
+  typeUnit: $Enums.TypeUnit
   dueDate?: Date | string | null
   detail: string
   createdAt?: Date | string
@@ -1163,6 +1203,7 @@ export type InputUpdateWithoutTransferInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1170,17 +1211,18 @@ export type InputUpdateWithoutTransferInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutInputsNestedInput
+  purchase?: Prisma.PurchaseUpdateOneWithoutInputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutInputsNestedInput
-  provider?: Prisma.ProviderUpdateOneRequiredWithoutInputsNestedInput
 }
 
 export type InputUncheckedUpdateWithoutTransferInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1192,10 +1234,11 @@ export type InputUncheckedUpdateWithoutTransferInput = {
 export type InputUncheckedUpdateManyWithoutTransferInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
+  typeUnit?: Prisma.EnumTypeUnitFieldUpdateOperationsInput | $Enums.TypeUnit
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detail?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1209,11 +1252,12 @@ export type InputUncheckedUpdateManyWithoutTransferInput = {
 export type InputSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   branchId?: boolean
+  purchaseId?: boolean
   transferId?: boolean
   productId?: boolean
-  providerId?: boolean
   quantity?: boolean
   price?: boolean
+  typeUnit?: boolean
   dueDate?: boolean
   detail?: boolean
   createdAt?: boolean
@@ -1221,19 +1265,20 @@ export type InputSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdBy?: boolean
   updatedBy?: boolean
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
+  purchase?: boolean | Prisma.Input$purchaseArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["input"]>
 
 export type InputSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   branchId?: boolean
+  purchaseId?: boolean
   transferId?: boolean
   productId?: boolean
-  providerId?: boolean
   quantity?: boolean
   price?: boolean
+  typeUnit?: boolean
   dueDate?: boolean
   detail?: boolean
   createdAt?: boolean
@@ -1241,19 +1286,20 @@ export type InputSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdBy?: boolean
   updatedBy?: boolean
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
+  purchase?: boolean | Prisma.Input$purchaseArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["input"]>
 
 export type InputSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   branchId?: boolean
+  purchaseId?: boolean
   transferId?: boolean
   productId?: boolean
-  providerId?: boolean
   quantity?: boolean
   price?: boolean
+  typeUnit?: boolean
   dueDate?: boolean
   detail?: boolean
   createdAt?: boolean
@@ -1261,19 +1307,20 @@ export type InputSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdBy?: boolean
   updatedBy?: boolean
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
+  purchase?: boolean | Prisma.Input$purchaseArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["input"]>
 
 export type InputSelectScalar = {
   id?: boolean
   branchId?: boolean
+  purchaseId?: boolean
   transferId?: boolean
   productId?: boolean
-  providerId?: boolean
   quantity?: boolean
   price?: boolean
+  typeUnit?: boolean
   dueDate?: boolean
   detail?: boolean
   createdAt?: boolean
@@ -1282,42 +1329,43 @@ export type InputSelectScalar = {
   updatedBy?: boolean
 }
 
-export type InputOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branchId" | "transferId" | "productId" | "providerId" | "quantity" | "price" | "dueDate" | "detail" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["input"]>
+export type InputOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branchId" | "purchaseId" | "transferId" | "productId" | "quantity" | "price" | "typeUnit" | "dueDate" | "detail" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["input"]>
 export type InputInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
+  purchase?: boolean | Prisma.Input$purchaseArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
 }
 export type InputIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
+  purchase?: boolean | Prisma.Input$purchaseArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
 }
 export type InputIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
+  purchase?: boolean | Prisma.Input$purchaseArgs<ExtArgs>
   transfer?: boolean | Prisma.Input$transferArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-  provider?: boolean | Prisma.ProviderDefaultArgs<ExtArgs>
 }
 
 export type $InputPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Input"
   objects: {
     branch: Prisma.$BranchPayload<ExtArgs>
+    purchase: Prisma.$PurchasePayload<ExtArgs> | null
     transfer: Prisma.$TransferPayload<ExtArgs> | null
     product: Prisma.$ProductPayload<ExtArgs>
-    provider: Prisma.$ProviderPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     branchId: string
+    purchaseId: string | null
     transferId: string | null
     productId: string
-    providerId: string
     quantity: number
     price: number
+    typeUnit: $Enums.TypeUnit
     dueDate: Date | null
     detail: string
     createdAt: Date
@@ -1719,9 +1767,9 @@ readonly fields: InputFieldRefs;
 export interface Prisma__InputClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   branch<T extends Prisma.BranchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  purchase<T extends Prisma.Input$purchaseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Input$purchaseArgs<ExtArgs>>): Prisma.Prisma__PurchaseClient<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   transfer<T extends Prisma.Input$transferArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Input$transferArgs<ExtArgs>>): Prisma.Prisma__TransferClient<runtime.Types.Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  provider<T extends Prisma.ProviderDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProviderDefaultArgs<ExtArgs>>): Prisma.Prisma__ProviderClient<runtime.Types.Result.GetResult<Prisma.$ProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1753,11 +1801,12 @@ export interface Prisma__InputClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface InputFieldRefs {
   readonly id: Prisma.FieldRef<"Input", 'String'>
   readonly branchId: Prisma.FieldRef<"Input", 'String'>
+  readonly purchaseId: Prisma.FieldRef<"Input", 'String'>
   readonly transferId: Prisma.FieldRef<"Input", 'String'>
   readonly productId: Prisma.FieldRef<"Input", 'String'>
-  readonly providerId: Prisma.FieldRef<"Input", 'String'>
   readonly quantity: Prisma.FieldRef<"Input", 'Int'>
   readonly price: Prisma.FieldRef<"Input", 'Float'>
+  readonly typeUnit: Prisma.FieldRef<"Input", 'TypeUnit'>
   readonly dueDate: Prisma.FieldRef<"Input", 'DateTime'>
   readonly detail: Prisma.FieldRef<"Input", 'String'>
   readonly createdAt: Prisma.FieldRef<"Input", 'DateTime'>
@@ -2157,6 +2206,25 @@ export type InputDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Inputs to delete.
    */
   limit?: number
+}
+
+/**
+ * Input.purchase
+ */
+export type Input$purchaseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Purchase
+   */
+  select?: Prisma.PurchaseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Purchase
+   */
+  omit?: Prisma.PurchaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PurchaseInclude<ExtArgs> | null
+  where?: Prisma.PurchaseWhereInput
 }
 
 /**

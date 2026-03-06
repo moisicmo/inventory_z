@@ -476,14 +476,6 @@ export type UnitConversionUncheckedUpdateOneWithoutProductNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitConversionUpdateToOneWithWhereWithoutProductInput, Prisma.UnitConversionUpdateWithoutProductInput>, Prisma.UnitConversionUncheckedUpdateWithoutProductInput>
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type UnitConversionCreateWithoutProductInput = {
   id?: string
   fromUnit?: $Enums.TypeUnit

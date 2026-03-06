@@ -16,6 +16,7 @@ export const ProductSelect = {
   barCode: true,
   visible: true,
   promoPrice: true,
+  refCost: true,
   unitConversion: {
     select: {
       fromUnit: true,

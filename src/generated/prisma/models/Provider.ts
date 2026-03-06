@@ -227,7 +227,7 @@ export type ProviderWhereInput = {
   createdBy?: Prisma.StringFilter<"Provider"> | string
   updatedBy?: Prisma.StringNullableFilter<"Provider"> | string | null
   address?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
-  inputs?: Prisma.InputListRelationFilter
+  purchases?: Prisma.PurchaseListRelationFilter
 }
 
 export type ProviderOrderByWithRelationInput = {
@@ -243,7 +243,7 @@ export type ProviderOrderByWithRelationInput = {
   createdBy?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.AddressOrderByWithRelationInput
-  inputs?: Prisma.InputOrderByRelationAggregateInput
+  purchases?: Prisma.PurchaseOrderByRelationAggregateInput
 }
 
 export type ProviderWhereUniqueInput = Prisma.AtLeast<{
@@ -262,7 +262,7 @@ export type ProviderWhereUniqueInput = Prisma.AtLeast<{
   createdBy?: Prisma.StringFilter<"Provider"> | string
   updatedBy?: Prisma.StringNullableFilter<"Provider"> | string | null
   address?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
-  inputs?: Prisma.InputListRelationFilter
+  purchases?: Prisma.PurchaseListRelationFilter
 }, "id" | "name">
 
 export type ProviderOrderByWithAggregationInput = {
@@ -311,7 +311,7 @@ export type ProviderCreateInput = {
   createdBy: string
   updatedBy?: string | null
   address?: Prisma.AddressCreateNestedOneWithoutProvidersInput
-  inputs?: Prisma.InputCreateNestedManyWithoutProviderInput
+  purchases?: Prisma.PurchaseCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderUncheckedCreateInput = {
@@ -326,7 +326,7 @@ export type ProviderUncheckedCreateInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
-  inputs?: Prisma.InputUncheckedCreateNestedManyWithoutProviderInput
+  purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderUpdateInput = {
@@ -341,7 +341,7 @@ export type ProviderUpdateInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.AddressUpdateOneWithoutProvidersNestedInput
-  inputs?: Prisma.InputUpdateManyWithoutProviderNestedInput
+  purchases?: Prisma.PurchaseUpdateManyWithoutProviderNestedInput
 }
 
 export type ProviderUncheckedUpdateInput = {
@@ -356,7 +356,7 @@ export type ProviderUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  inputs?: Prisma.InputUncheckedUpdateManyWithoutProviderNestedInput
+  purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutProviderNestedInput
 }
 
 export type ProviderCreateManyInput = {
@@ -514,18 +514,18 @@ export type ProviderUpdatephoneInput = {
   push?: string | string[]
 }
 
-export type ProviderCreateNestedOneWithoutInputsInput = {
-  create?: Prisma.XOR<Prisma.ProviderCreateWithoutInputsInput, Prisma.ProviderUncheckedCreateWithoutInputsInput>
-  connectOrCreate?: Prisma.ProviderCreateOrConnectWithoutInputsInput
+export type ProviderCreateNestedOneWithoutPurchasesInput = {
+  create?: Prisma.XOR<Prisma.ProviderCreateWithoutPurchasesInput, Prisma.ProviderUncheckedCreateWithoutPurchasesInput>
+  connectOrCreate?: Prisma.ProviderCreateOrConnectWithoutPurchasesInput
   connect?: Prisma.ProviderWhereUniqueInput
 }
 
-export type ProviderUpdateOneRequiredWithoutInputsNestedInput = {
-  create?: Prisma.XOR<Prisma.ProviderCreateWithoutInputsInput, Prisma.ProviderUncheckedCreateWithoutInputsInput>
-  connectOrCreate?: Prisma.ProviderCreateOrConnectWithoutInputsInput
-  upsert?: Prisma.ProviderUpsertWithoutInputsInput
+export type ProviderUpdateOneRequiredWithoutPurchasesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProviderCreateWithoutPurchasesInput, Prisma.ProviderUncheckedCreateWithoutPurchasesInput>
+  connectOrCreate?: Prisma.ProviderCreateOrConnectWithoutPurchasesInput
+  upsert?: Prisma.ProviderUpsertWithoutPurchasesInput
   connect?: Prisma.ProviderWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ProviderUpdateToOneWithWhereWithoutInputsInput, Prisma.ProviderUpdateWithoutInputsInput>, Prisma.ProviderUncheckedUpdateWithoutInputsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProviderUpdateToOneWithWhereWithoutPurchasesInput, Prisma.ProviderUpdateWithoutPurchasesInput>, Prisma.ProviderUncheckedUpdateWithoutPurchasesInput>
 }
 
 export type ProviderCreateWithoutAddressInput = {
@@ -539,7 +539,7 @@ export type ProviderCreateWithoutAddressInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
-  inputs?: Prisma.InputCreateNestedManyWithoutProviderInput
+  purchases?: Prisma.PurchaseCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderUncheckedCreateWithoutAddressInput = {
@@ -553,7 +553,7 @@ export type ProviderUncheckedCreateWithoutAddressInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
-  inputs?: Prisma.InputUncheckedCreateNestedManyWithoutProviderInput
+  purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutProviderInput
 }
 
 export type ProviderCreateOrConnectWithoutAddressInput = {
@@ -599,7 +599,7 @@ export type ProviderScalarWhereInput = {
   updatedBy?: Prisma.StringNullableFilter<"Provider"> | string | null
 }
 
-export type ProviderCreateWithoutInputsInput = {
+export type ProviderCreateWithoutPurchasesInput = {
   id?: string
   nit: string
   phone?: Prisma.ProviderCreatephoneInput | string[]
@@ -613,7 +613,7 @@ export type ProviderCreateWithoutInputsInput = {
   address?: Prisma.AddressCreateNestedOneWithoutProvidersInput
 }
 
-export type ProviderUncheckedCreateWithoutInputsInput = {
+export type ProviderUncheckedCreateWithoutPurchasesInput = {
   id?: string
   addressId?: string | null
   nit: string
@@ -627,23 +627,23 @@ export type ProviderUncheckedCreateWithoutInputsInput = {
   updatedBy?: string | null
 }
 
-export type ProviderCreateOrConnectWithoutInputsInput = {
+export type ProviderCreateOrConnectWithoutPurchasesInput = {
   where: Prisma.ProviderWhereUniqueInput
-  create: Prisma.XOR<Prisma.ProviderCreateWithoutInputsInput, Prisma.ProviderUncheckedCreateWithoutInputsInput>
+  create: Prisma.XOR<Prisma.ProviderCreateWithoutPurchasesInput, Prisma.ProviderUncheckedCreateWithoutPurchasesInput>
 }
 
-export type ProviderUpsertWithoutInputsInput = {
-  update: Prisma.XOR<Prisma.ProviderUpdateWithoutInputsInput, Prisma.ProviderUncheckedUpdateWithoutInputsInput>
-  create: Prisma.XOR<Prisma.ProviderCreateWithoutInputsInput, Prisma.ProviderUncheckedCreateWithoutInputsInput>
+export type ProviderUpsertWithoutPurchasesInput = {
+  update: Prisma.XOR<Prisma.ProviderUpdateWithoutPurchasesInput, Prisma.ProviderUncheckedUpdateWithoutPurchasesInput>
+  create: Prisma.XOR<Prisma.ProviderCreateWithoutPurchasesInput, Prisma.ProviderUncheckedCreateWithoutPurchasesInput>
   where?: Prisma.ProviderWhereInput
 }
 
-export type ProviderUpdateToOneWithWhereWithoutInputsInput = {
+export type ProviderUpdateToOneWithWhereWithoutPurchasesInput = {
   where?: Prisma.ProviderWhereInput
-  data: Prisma.XOR<Prisma.ProviderUpdateWithoutInputsInput, Prisma.ProviderUncheckedUpdateWithoutInputsInput>
+  data: Prisma.XOR<Prisma.ProviderUpdateWithoutPurchasesInput, Prisma.ProviderUncheckedUpdateWithoutPurchasesInput>
 }
 
-export type ProviderUpdateWithoutInputsInput = {
+export type ProviderUpdateWithoutPurchasesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nit?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.ProviderUpdatephoneInput | string[]
@@ -657,7 +657,7 @@ export type ProviderUpdateWithoutInputsInput = {
   address?: Prisma.AddressUpdateOneWithoutProvidersNestedInput
 }
 
-export type ProviderUncheckedUpdateWithoutInputsInput = {
+export type ProviderUncheckedUpdateWithoutPurchasesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nit?: Prisma.StringFieldUpdateOperationsInput | string
@@ -695,7 +695,7 @@ export type ProviderUpdateWithoutAddressInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  inputs?: Prisma.InputUpdateManyWithoutProviderNestedInput
+  purchases?: Prisma.PurchaseUpdateManyWithoutProviderNestedInput
 }
 
 export type ProviderUncheckedUpdateWithoutAddressInput = {
@@ -709,7 +709,7 @@ export type ProviderUncheckedUpdateWithoutAddressInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  inputs?: Prisma.InputUncheckedUpdateManyWithoutProviderNestedInput
+  purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutProviderNestedInput
 }
 
 export type ProviderUncheckedUpdateManyWithoutAddressInput = {
@@ -731,11 +731,11 @@ export type ProviderUncheckedUpdateManyWithoutAddressInput = {
  */
 
 export type ProviderCountOutputType = {
-  inputs: number
+  purchases: number
 }
 
 export type ProviderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  inputs?: boolean | ProviderCountOutputTypeCountInputsArgs
+  purchases?: boolean | ProviderCountOutputTypeCountPurchasesArgs
 }
 
 /**
@@ -751,8 +751,8 @@ export type ProviderCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * ProviderCountOutputType without action
  */
-export type ProviderCountOutputTypeCountInputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InputWhereInput
+export type ProviderCountOutputTypeCountPurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PurchaseWhereInput
 }
 
 
@@ -769,7 +769,7 @@ export type ProviderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdBy?: boolean
   updatedBy?: boolean
   address?: boolean | Prisma.Provider$addressArgs<ExtArgs>
-  inputs?: boolean | Prisma.Provider$inputsArgs<ExtArgs>
+  purchases?: boolean | Prisma.Provider$purchasesArgs<ExtArgs>
   _count?: boolean | Prisma.ProviderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["provider"]>
 
@@ -820,7 +820,7 @@ export type ProviderSelectScalar = {
 export type ProviderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "addressId" | "nit" | "phone" | "name" | "contact" | "active" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["provider"]>
 export type ProviderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   address?: boolean | Prisma.Provider$addressArgs<ExtArgs>
-  inputs?: boolean | Prisma.Provider$inputsArgs<ExtArgs>
+  purchases?: boolean | Prisma.Provider$purchasesArgs<ExtArgs>
   _count?: boolean | Prisma.ProviderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProviderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -834,7 +834,7 @@ export type $ProviderPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Provider"
   objects: {
     address: Prisma.$AddressPayload<ExtArgs> | null
-    inputs: Prisma.$InputPayload<ExtArgs>[]
+    purchases: Prisma.$PurchasePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1243,7 +1243,7 @@ readonly fields: ProviderFieldRefs;
 export interface Prisma__ProviderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   address<T extends Prisma.Provider$addressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Provider$addressArgs<ExtArgs>>): Prisma.Prisma__AddressClient<runtime.Types.Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  inputs<T extends Prisma.Provider$inputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Provider$inputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  purchases<T extends Prisma.Provider$purchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Provider$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1699,27 +1699,27 @@ export type Provider$addressArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Provider.inputs
+ * Provider.purchases
  */
-export type Provider$inputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Provider$purchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Input
+   * Select specific fields to fetch from the Purchase
    */
-  select?: Prisma.InputSelect<ExtArgs> | null
+  select?: Prisma.PurchaseSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Input
+   * Omit specific fields from the Purchase
    */
-  omit?: Prisma.InputOmit<ExtArgs> | null
+  omit?: Prisma.PurchaseOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InputInclude<ExtArgs> | null
-  where?: Prisma.InputWhereInput
-  orderBy?: Prisma.InputOrderByWithRelationInput | Prisma.InputOrderByWithRelationInput[]
-  cursor?: Prisma.InputWhereUniqueInput
+  include?: Prisma.PurchaseInclude<ExtArgs> | null
+  where?: Prisma.PurchaseWhereInput
+  orderBy?: Prisma.PurchaseOrderByWithRelationInput | Prisma.PurchaseOrderByWithRelationInput[]
+  cursor?: Prisma.PurchaseWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.InputScalarFieldEnum | Prisma.InputScalarFieldEnum[]
+  distinct?: Prisma.PurchaseScalarFieldEnum | Prisma.PurchaseScalarFieldEnum[]
 }
 
 /**

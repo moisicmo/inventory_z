@@ -26,6 +26,10 @@ import { GmailModule } from './common/gmail/gmail.module';
 import { PdfModule } from './common/pdf/pdf.module';
 import { XlsxModule } from './common/xlsx/xlsx.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { PurchaseModule } from './modules/purchase/purchase.module';
+import { WriteoffModule } from './modules/writeoff/writeoff.module';
+import { ReportModule } from './modules/report/report.module';
+import { SaleDebtModule } from './modules/sale-debt/sale-debt.module';
 
 @Module({
   imports: [
@@ -51,6 +55,10 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     PriceModule,
     TransferModule,
     DashboardModule,
+    PurchaseModule,
+    WriteoffModule,
+    ReportModule,
+    SaleDebtModule,
   ],
   providers: [
     PrismaService,

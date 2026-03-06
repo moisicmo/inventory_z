@@ -11,6 +11,7 @@ export const TransferSelect = {
   quantity: true,
   price: true,
   detail: true,
+  createdAt: true,
   fromBranch: { select: BranchSelect },
   toBranch: { select: BranchSelect },
   product: { select: ProductSelect },

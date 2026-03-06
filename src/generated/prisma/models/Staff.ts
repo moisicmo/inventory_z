@@ -27,8 +27,6 @@ export type AggregateStaff = {
 export type StaffMinAggregateOutputType = {
   userId: string | null
   roleId: string | null
-  password: string | null
-  requiresPasswordChange: boolean | null
   active: boolean | null
   superStaff: boolean | null
   createdAt: Date | null
@@ -40,8 +38,6 @@ export type StaffMinAggregateOutputType = {
 export type StaffMaxAggregateOutputType = {
   userId: string | null
   roleId: string | null
-  password: string | null
-  requiresPasswordChange: boolean | null
   active: boolean | null
   superStaff: boolean | null
   createdAt: Date | null
@@ -53,8 +49,6 @@ export type StaffMaxAggregateOutputType = {
 export type StaffCountAggregateOutputType = {
   userId: number
   roleId: number
-  password: number
-  requiresPasswordChange: number
   active: number
   superStaff: number
   createdAt: number
@@ -68,8 +62,6 @@ export type StaffCountAggregateOutputType = {
 export type StaffMinAggregateInputType = {
   userId?: true
   roleId?: true
-  password?: true
-  requiresPasswordChange?: true
   active?: true
   superStaff?: true
   createdAt?: true
@@ -81,8 +73,6 @@ export type StaffMinAggregateInputType = {
 export type StaffMaxAggregateInputType = {
   userId?: true
   roleId?: true
-  password?: true
-  requiresPasswordChange?: true
   active?: true
   superStaff?: true
   createdAt?: true
@@ -94,8 +84,6 @@ export type StaffMaxAggregateInputType = {
 export type StaffCountAggregateInputType = {
   userId?: true
   roleId?: true
-  password?: true
-  requiresPasswordChange?: true
   active?: true
   superStaff?: true
   createdAt?: true
@@ -180,8 +168,6 @@ export type StaffGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type StaffGroupByOutputType = {
   userId: string
   roleId: string
-  password: string
-  requiresPasswordChange: boolean
   active: boolean
   superStaff: boolean
   createdAt: Date
@@ -214,8 +200,6 @@ export type StaffWhereInput = {
   NOT?: Prisma.StaffWhereInput | Prisma.StaffWhereInput[]
   userId?: Prisma.UuidFilter<"Staff"> | string
   roleId?: Prisma.UuidFilter<"Staff"> | string
-  password?: Prisma.StringFilter<"Staff"> | string
-  requiresPasswordChange?: Prisma.BoolFilter<"Staff"> | boolean
   active?: Prisma.BoolFilter<"Staff"> | boolean
   superStaff?: Prisma.BoolFilter<"Staff"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Staff"> | Date | string
@@ -231,8 +215,6 @@ export type StaffWhereInput = {
 export type StaffOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   roleId?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  requiresPasswordChange?: Prisma.SortOrder
   active?: Prisma.SortOrder
   superStaff?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -251,8 +233,6 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.StaffWhereInput[]
   NOT?: Prisma.StaffWhereInput | Prisma.StaffWhereInput[]
   roleId?: Prisma.UuidFilter<"Staff"> | string
-  password?: Prisma.StringFilter<"Staff"> | string
-  requiresPasswordChange?: Prisma.BoolFilter<"Staff"> | boolean
   active?: Prisma.BoolFilter<"Staff"> | boolean
   superStaff?: Prisma.BoolFilter<"Staff"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Staff"> | Date | string
@@ -268,8 +248,6 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
 export type StaffOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   roleId?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  requiresPasswordChange?: Prisma.SortOrder
   active?: Prisma.SortOrder
   superStaff?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -287,8 +265,6 @@ export type StaffScalarWhereWithAggregatesInput = {
   NOT?: Prisma.StaffScalarWhereWithAggregatesInput | Prisma.StaffScalarWhereWithAggregatesInput[]
   userId?: Prisma.UuidWithAggregatesFilter<"Staff"> | string
   roleId?: Prisma.UuidWithAggregatesFilter<"Staff"> | string
-  password?: Prisma.StringWithAggregatesFilter<"Staff"> | string
-  requiresPasswordChange?: Prisma.BoolWithAggregatesFilter<"Staff"> | boolean
   active?: Prisma.BoolWithAggregatesFilter<"Staff"> | boolean
   superStaff?: Prisma.BoolWithAggregatesFilter<"Staff"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Staff"> | Date | string
@@ -298,8 +274,6 @@ export type StaffScalarWhereWithAggregatesInput = {
 }
 
 export type StaffCreateInput = {
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -315,8 +289,6 @@ export type StaffCreateInput = {
 export type StaffUncheckedCreateInput = {
   userId: string
   roleId: string
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -328,8 +300,6 @@ export type StaffUncheckedCreateInput = {
 }
 
 export type StaffUpdateInput = {
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -345,8 +315,6 @@ export type StaffUpdateInput = {
 export type StaffUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -360,8 +328,6 @@ export type StaffUncheckedUpdateInput = {
 export type StaffCreateManyInput = {
   userId: string
   roleId: string
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -371,8 +337,6 @@ export type StaffCreateManyInput = {
 }
 
 export type StaffUpdateManyMutationInput = {
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -384,8 +348,6 @@ export type StaffUpdateManyMutationInput = {
 export type StaffUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -402,8 +364,6 @@ export type StaffNullableScalarRelationFilter = {
 export type StaffCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   roleId?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  requiresPasswordChange?: Prisma.SortOrder
   active?: Prisma.SortOrder
   superStaff?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -415,8 +375,6 @@ export type StaffCountOrderByAggregateInput = {
 export type StaffMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   roleId?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  requiresPasswordChange?: Prisma.SortOrder
   active?: Prisma.SortOrder
   superStaff?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -428,8 +386,6 @@ export type StaffMaxOrderByAggregateInput = {
 export type StaffMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   roleId?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  requiresPasswordChange?: Prisma.SortOrder
   active?: Prisma.SortOrder
   superStaff?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -580,8 +536,6 @@ export type StaffUpdateOneRequiredWithoutOrdersNestedInput = {
 }
 
 export type StaffCreateWithoutUserInput = {
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -595,8 +549,6 @@ export type StaffCreateWithoutUserInput = {
 
 export type StaffUncheckedCreateWithoutUserInput = {
   roleId: string
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -624,8 +576,6 @@ export type StaffUpdateToOneWithWhereWithoutUserInput = {
 }
 
 export type StaffUpdateWithoutUserInput = {
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -639,8 +589,6 @@ export type StaffUpdateWithoutUserInput = {
 
 export type StaffUncheckedUpdateWithoutUserInput = {
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -652,8 +600,6 @@ export type StaffUncheckedUpdateWithoutUserInput = {
 }
 
 export type StaffCreateWithoutRoleInput = {
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -667,8 +613,6 @@ export type StaffCreateWithoutRoleInput = {
 
 export type StaffUncheckedCreateWithoutRoleInput = {
   userId: string
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -711,8 +655,6 @@ export type StaffScalarWhereInput = {
   NOT?: Prisma.StaffScalarWhereInput | Prisma.StaffScalarWhereInput[]
   userId?: Prisma.UuidFilter<"Staff"> | string
   roleId?: Prisma.UuidFilter<"Staff"> | string
-  password?: Prisma.StringFilter<"Staff"> | string
-  requiresPasswordChange?: Prisma.BoolFilter<"Staff"> | boolean
   active?: Prisma.BoolFilter<"Staff"> | boolean
   superStaff?: Prisma.BoolFilter<"Staff"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Staff"> | Date | string
@@ -722,8 +664,6 @@ export type StaffScalarWhereInput = {
 }
 
 export type StaffCreateWithoutBranchesInput = {
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -738,8 +678,6 @@ export type StaffCreateWithoutBranchesInput = {
 export type StaffUncheckedCreateWithoutBranchesInput = {
   userId: string
   roleId: string
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -771,8 +709,6 @@ export type StaffUpdateManyWithWhereWithoutBranchesInput = {
 }
 
 export type StaffCreateWithoutOrdersInput = {
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -787,8 +723,6 @@ export type StaffCreateWithoutOrdersInput = {
 export type StaffUncheckedCreateWithoutOrdersInput = {
   userId: string
   roleId: string
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -815,8 +749,6 @@ export type StaffUpdateToOneWithWhereWithoutOrdersInput = {
 }
 
 export type StaffUpdateWithoutOrdersInput = {
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -831,8 +763,6 @@ export type StaffUpdateWithoutOrdersInput = {
 export type StaffUncheckedUpdateWithoutOrdersInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -844,8 +774,6 @@ export type StaffUncheckedUpdateWithoutOrdersInput = {
 
 export type StaffCreateManyRoleInput = {
   userId: string
-  password: string
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: Date | string
@@ -855,8 +783,6 @@ export type StaffCreateManyRoleInput = {
 }
 
 export type StaffUpdateWithoutRoleInput = {
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -870,8 +796,6 @@ export type StaffUpdateWithoutRoleInput = {
 
 export type StaffUncheckedUpdateWithoutRoleInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -884,8 +808,6 @@ export type StaffUncheckedUpdateWithoutRoleInput = {
 
 export type StaffUncheckedUpdateManyWithoutRoleInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -895,8 +817,6 @@ export type StaffUncheckedUpdateManyWithoutRoleInput = {
 }
 
 export type StaffUpdateWithoutBranchesInput = {
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -911,8 +831,6 @@ export type StaffUpdateWithoutBranchesInput = {
 export type StaffUncheckedUpdateWithoutBranchesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -925,8 +843,6 @@ export type StaffUncheckedUpdateWithoutBranchesInput = {
 export type StaffUncheckedUpdateManyWithoutBranchesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   roleId?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  requiresPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   superStaff?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -978,8 +894,6 @@ export type StaffCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Ex
 export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   roleId?: boolean
-  password?: boolean
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: boolean
@@ -996,8 +910,6 @@ export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type StaffSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   roleId?: boolean
-  password?: boolean
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: boolean
@@ -1011,8 +923,6 @@ export type StaffSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type StaffSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   roleId?: boolean
-  password?: boolean
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: boolean
@@ -1026,8 +936,6 @@ export type StaffSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type StaffSelectScalar = {
   userId?: boolean
   roleId?: boolean
-  password?: boolean
-  requiresPasswordChange?: boolean
   active?: boolean
   superStaff?: boolean
   createdAt?: boolean
@@ -1036,7 +944,7 @@ export type StaffSelectScalar = {
   updatedBy?: boolean
 }
 
-export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "roleId" | "password" | "requiresPasswordChange" | "active" | "superStaff" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["staff"]>
+export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "roleId" | "active" | "superStaff" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["staff"]>
 export type StaffInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
@@ -1064,8 +972,6 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
     roleId: string
-    password: string
-    requiresPasswordChange: boolean
     active: boolean
     superStaff: boolean
     createdAt: Date
@@ -1501,8 +1407,6 @@ export interface Prisma__StaffClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface StaffFieldRefs {
   readonly userId: Prisma.FieldRef<"Staff", 'String'>
   readonly roleId: Prisma.FieldRef<"Staff", 'String'>
-  readonly password: Prisma.FieldRef<"Staff", 'String'>
-  readonly requiresPasswordChange: Prisma.FieldRef<"Staff", 'Boolean'>
   readonly active: Prisma.FieldRef<"Staff", 'Boolean'>
   readonly superStaff: Prisma.FieldRef<"Staff", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Staff", 'DateTime'>

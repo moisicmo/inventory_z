@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateTransferDto } from './dto/create-transfer.dto';
 import { PaginationDto } from '@/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { KardexService } from '../kardex/kardex.service';
-import { TypeReference } from '@/generated/prisma/enums';
+import { TypeReference, TypeUnit } from '@/generated/prisma/enums';
 import { TransferSelect, TransferType } from './entities/transfer.entity';
 import { PaginationResult } from '@/common/entities/pagination.entity';
 
@@ -18,54 +18,63 @@ export class TransferService {
   async create(userId: string, createTransferDto: CreateTransferDto) {
     const { fromBranchId, toBranchId, detail, outputs } = createTransferDto;
 
+    // Validar stock antes de procesar
+    for (const output of outputs) {
+      const stock = await this.kardexService.getStock(output.productId, fromBranchId);
+      if (stock < output.quantity) {
+        throw new BadRequestException(
+          `Stock insuficiente para el producto ${output.productId}. Disponible: ${stock}, solicitado: ${output.quantity}`,
+        );
+      }
+    }
+
     const results: any[] = [];
 
     for (const output of outputs) {
-      // Buscar el producto
       const product = await this.prisma.product.findUnique({
-        where: {
-          id: output.productId,
-          prices: {
-            some: {
-              branchId: fromBranchId,
-            }
-          }
-        },
+        where: { id: output.productId },
         select: {
           id: true,
+          name: true,
           prices: {
-            select: {
-              price: true,
-              branch: true,
-              typeUnit: true,
-            }
+            where: { branchId: fromBranchId },
+            select: { price: true, typeUnit: true, branch: { select: { name: true } } },
           },
-        }
+        },
       });
 
       if (!product) {
-        throw new Error(`No se encontró el producto con id ${output.productId}`);
+        throw new BadRequestException(`No se encontró el producto con id ${output.productId}`);
       }
-      // Buscar o crear el precio en la sucursal destino
-      let price = await this.prisma.price.findFirst({
-        where: {
-          productId: product.id,
-          branchId: toBranchId,
-        },
-        include: { branch: true },
+
+      const fromBranch = await this.prisma.branch.findUnique({
+        where: { id: fromBranchId },
+        select: { name: true },
       });
-      if (price != null) {
-        price = await this.prisma.price.create({
+      const toBranch = await this.prisma.branch.findUnique({
+        where: { id: toBranchId },
+        select: { name: true },
+      });
+
+      const typeUnit = product.prices[0]?.typeUnit ?? TypeUnit.UNIDAD;
+
+      // Crear precio en sucursal destino si no existe
+      const existingPrice = await this.prisma.price.findFirst({
+        where: { productId: product.id, branchId: toBranchId },
+      });
+      if (!existingPrice) {
+        await this.prisma.price.create({
           data: {
             productId: product.id,
             branchId: toBranchId,
-            typeUnit: price.typeUnit,
+            typeUnit,
+            price: output.price,
             createdBy: userId,
           },
-          include: { branch: true },
         });
       }
-      // registro de transferencia
+
+      // Registro de transferencia
       const transfer = await this.prisma.transfer.create({
         data: {
           fromBranchId,
@@ -77,7 +86,8 @@ export class TransferService {
           createdBy: userId,
         },
       });
-      // crear registro de salida
+
+      // Salida de la sucursal origen
       const outputCreated = await this.prisma.output.create({
         data: {
           branchId: fromBranchId,
@@ -85,58 +95,65 @@ export class TransferService {
           productId: product.id,
           quantity: output.quantity,
           price: output.price,
-          detail: `Traspaso hacia la sucursal ${price?.branch.name}`,
+          detail: `Traspaso hacia ${toBranch?.name ?? toBranchId}`,
           createdBy: userId,
         },
       });
 
-      // crear Input (sucursal destino)
+      // Entrada en la sucursal destino
       const inputCreated = await this.prisma.input.create({
         data: {
           branchId: toBranchId,
           transferId: transfer.id,
           productId: product.id,
-          providerId: '',
           quantity: output.quantity,
           price: output.price,
-          detail: `Traspaso desde la sucursal ${product.prices[0].branch.name}`,
+          typeUnit,
+          detail: `Traspaso desde ${fromBranch?.name ?? fromBranchId}`,
           createdBy: userId,
         },
       });
 
-      // Obtener el estado actualizado del Kardex
       const [outputKardex, inputKardex] = await Promise.all([
         this.kardexService.findByReference(outputCreated.id, TypeReference.outputs),
         this.kardexService.findByReference(inputCreated.id, TypeReference.inputs),
       ]);
 
-      results.push({
-        transfer,
-        from: outputKardex,
-        to: inputKardex,
-      });
+      results.push({ transfer, from: outputKardex, to: inputKardex });
     }
 
     return results;
   }
 
-
   async findAll(paginationDto: PaginationDto): Promise<PaginationResult<TransferType>> {
-    const { page = 1, limit = 10 } = paginationDto;
-    const totalPages = await this.prisma.staff.count({
-      where: {
-        active: true,
-      },
-    });
-    const lastPage = Math.ceil(totalPages / limit);
+    const { page = 1, limit = 10, branchId, keys } = paginationDto;
+
+    const where: any = {};
+    if (branchId) {
+      where.OR = [{ fromBranchId: branchId }, { toBranchId: branchId }];
+    }
+    if (keys && keys.trim()) {
+      const keyFilter = [
+        { product: { name: { contains: keys, mode: 'insensitive' } } },
+        { detail: { contains: keys, mode: 'insensitive' } },
+        { fromBranch: { name: { contains: keys, mode: 'insensitive' } } },
+        { toBranch: { name: { contains: keys, mode: 'insensitive' } } },
+      ];
+      where.AND = [{ OR: keyFilter }];
+    }
+
+    const total = await this.prisma.transfer.count({ where });
+    const lastPage = Math.ceil(total / limit);
 
     return {
       data: await this.prisma.transfer.findMany({
         skip: (page - 1) * limit,
         take: limit,
+        where,
         select: TransferSelect,
+        orderBy: { createdAt: 'desc' },
       }),
-      meta: { total: totalPages, page, lastPage },
+      meta: { total, page: Number(page), lastPage },
     };
   }
 }

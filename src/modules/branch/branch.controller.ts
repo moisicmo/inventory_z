@@ -3,7 +3,7 @@ import { BranchService } from './branch.service';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
 import { PaginationDto } from '@/common';
-import { checkAbilities, CurrentUser } from '@/decorator';
+import { checkAbilities, CurrentUser, Public } from '@/decorator';
 import type { JwtPayload } from '../auth/entities/jwt-payload.interface';
 import { TypeSubject } from '@/common/subjects';
 import { TypeAction } from '@/generated/prisma/enums';
@@ -16,6 +16,12 @@ export class BranchController {
   @checkAbilities({ action: TypeAction.create, subject: TypeSubject.branch })
   create(@CurrentUser() user: JwtPayload, @Body() createBranchDto: CreateBranchDto) {
     return this.branchService.create(user.id, createBranchDto);
+  }
+
+  @Get('public')
+  @Public()
+  findPublic() {
+    return this.branchService.findAll({ page: 1, limit: 100 });
   }
 
   @Get()

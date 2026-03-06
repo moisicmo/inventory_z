@@ -41,6 +41,7 @@ export type OutputMinAggregateOutputType = {
   branchId: string | null
   orderId: string | null
   transferId: string | null
+  bajaId: string | null
   productId: string | null
   quantity: number | null
   price: number | null
@@ -56,6 +57,7 @@ export type OutputMaxAggregateOutputType = {
   branchId: string | null
   orderId: string | null
   transferId: string | null
+  bajaId: string | null
   productId: string | null
   quantity: number | null
   price: number | null
@@ -71,6 +73,7 @@ export type OutputCountAggregateOutputType = {
   branchId: number
   orderId: number
   transferId: number
+  bajaId: number
   productId: number
   quantity: number
   price: number
@@ -98,6 +101,7 @@ export type OutputMinAggregateInputType = {
   branchId?: true
   orderId?: true
   transferId?: true
+  bajaId?: true
   productId?: true
   quantity?: true
   price?: true
@@ -113,6 +117,7 @@ export type OutputMaxAggregateInputType = {
   branchId?: true
   orderId?: true
   transferId?: true
+  bajaId?: true
   productId?: true
   quantity?: true
   price?: true
@@ -128,6 +133,7 @@ export type OutputCountAggregateInputType = {
   branchId?: true
   orderId?: true
   transferId?: true
+  bajaId?: true
   productId?: true
   quantity?: true
   price?: true
@@ -230,6 +236,7 @@ export type OutputGroupByOutputType = {
   branchId: string
   orderId: string | null
   transferId: string | null
+  bajaId: string | null
   productId: string
   quantity: number
   price: number
@@ -268,6 +275,7 @@ export type OutputWhereInput = {
   branchId?: Prisma.UuidFilter<"Output"> | string
   orderId?: Prisma.UuidNullableFilter<"Output"> | string | null
   transferId?: Prisma.UuidNullableFilter<"Output"> | string | null
+  bajaId?: Prisma.UuidNullableFilter<"Output"> | string | null
   productId?: Prisma.UuidFilter<"Output"> | string
   quantity?: Prisma.IntFilter<"Output"> | number
   price?: Prisma.FloatFilter<"Output"> | number
@@ -279,6 +287,7 @@ export type OutputWhereInput = {
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   order?: Prisma.XOR<Prisma.OrderNullableScalarRelationFilter, Prisma.OrderWhereInput> | null
   transfer?: Prisma.XOR<Prisma.TransferNullableScalarRelationFilter, Prisma.TransferWhereInput> | null
+  baja?: Prisma.XOR<Prisma.BajaNullableScalarRelationFilter, Prisma.BajaWhereInput> | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
 
@@ -287,6 +296,7 @@ export type OutputOrderByWithRelationInput = {
   branchId?: Prisma.SortOrder
   orderId?: Prisma.SortOrderInput | Prisma.SortOrder
   transferId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bajaId?: Prisma.SortOrderInput | Prisma.SortOrder
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -298,6 +308,7 @@ export type OutputOrderByWithRelationInput = {
   branch?: Prisma.BranchOrderByWithRelationInput
   order?: Prisma.OrderOrderByWithRelationInput
   transfer?: Prisma.TransferOrderByWithRelationInput
+  baja?: Prisma.BajaOrderByWithRelationInput
   product?: Prisma.ProductOrderByWithRelationInput
 }
 
@@ -309,6 +320,7 @@ export type OutputWhereUniqueInput = Prisma.AtLeast<{
   branchId?: Prisma.UuidFilter<"Output"> | string
   orderId?: Prisma.UuidNullableFilter<"Output"> | string | null
   transferId?: Prisma.UuidNullableFilter<"Output"> | string | null
+  bajaId?: Prisma.UuidNullableFilter<"Output"> | string | null
   productId?: Prisma.UuidFilter<"Output"> | string
   quantity?: Prisma.IntFilter<"Output"> | number
   price?: Prisma.FloatFilter<"Output"> | number
@@ -320,6 +332,7 @@ export type OutputWhereUniqueInput = Prisma.AtLeast<{
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   order?: Prisma.XOR<Prisma.OrderNullableScalarRelationFilter, Prisma.OrderWhereInput> | null
   transfer?: Prisma.XOR<Prisma.TransferNullableScalarRelationFilter, Prisma.TransferWhereInput> | null
+  baja?: Prisma.XOR<Prisma.BajaNullableScalarRelationFilter, Prisma.BajaWhereInput> | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "id">
 
@@ -328,6 +341,7 @@ export type OutputOrderByWithAggregationInput = {
   branchId?: Prisma.SortOrder
   orderId?: Prisma.SortOrderInput | Prisma.SortOrder
   transferId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bajaId?: Prisma.SortOrderInput | Prisma.SortOrder
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -351,6 +365,7 @@ export type OutputScalarWhereWithAggregatesInput = {
   branchId?: Prisma.UuidWithAggregatesFilter<"Output"> | string
   orderId?: Prisma.UuidNullableWithAggregatesFilter<"Output"> | string | null
   transferId?: Prisma.UuidNullableWithAggregatesFilter<"Output"> | string | null
+  bajaId?: Prisma.UuidNullableWithAggregatesFilter<"Output"> | string | null
   productId?: Prisma.UuidWithAggregatesFilter<"Output"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"Output"> | number
   price?: Prisma.FloatWithAggregatesFilter<"Output"> | number
@@ -373,6 +388,7 @@ export type OutputCreateInput = {
   branch: Prisma.BranchCreateNestedOneWithoutOutputsInput
   order?: Prisma.OrderCreateNestedOneWithoutOutputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutOutputsInput
+  baja?: Prisma.BajaCreateNestedOneWithoutOutputsInput
   product: Prisma.ProductCreateNestedOneWithoutOutputsInput
 }
 
@@ -381,6 +397,7 @@ export type OutputUncheckedCreateInput = {
   branchId: string
   orderId?: string | null
   transferId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -403,6 +420,7 @@ export type OutputUpdateInput = {
   branch?: Prisma.BranchUpdateOneRequiredWithoutOutputsNestedInput
   order?: Prisma.OrderUpdateOneWithoutOutputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutOutputsNestedInput
+  baja?: Prisma.BajaUpdateOneWithoutOutputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOutputsNestedInput
 }
 
@@ -411,6 +429,7 @@ export type OutputUncheckedUpdateInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -426,6 +445,7 @@ export type OutputCreateManyInput = {
   branchId: string
   orderId?: string | null
   transferId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -452,6 +472,7 @@ export type OutputUncheckedUpdateManyInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -477,6 +498,7 @@ export type OutputCountOrderByAggregateInput = {
   branchId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   transferId?: Prisma.SortOrder
+  bajaId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -497,6 +519,7 @@ export type OutputMaxOrderByAggregateInput = {
   branchId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   transferId?: Prisma.SortOrder
+  bajaId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -512,6 +535,7 @@ export type OutputMinOrderByAggregateInput = {
   branchId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   transferId?: Prisma.SortOrder
+  bajaId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -611,6 +635,48 @@ export type OutputUncheckedUpdateManyWithoutBranchNestedInput = {
   deleteMany?: Prisma.OutputScalarWhereInput | Prisma.OutputScalarWhereInput[]
 }
 
+export type OutputCreateNestedManyWithoutBajaInput = {
+  create?: Prisma.XOR<Prisma.OutputCreateWithoutBajaInput, Prisma.OutputUncheckedCreateWithoutBajaInput> | Prisma.OutputCreateWithoutBajaInput[] | Prisma.OutputUncheckedCreateWithoutBajaInput[]
+  connectOrCreate?: Prisma.OutputCreateOrConnectWithoutBajaInput | Prisma.OutputCreateOrConnectWithoutBajaInput[]
+  createMany?: Prisma.OutputCreateManyBajaInputEnvelope
+  connect?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+}
+
+export type OutputUncheckedCreateNestedManyWithoutBajaInput = {
+  create?: Prisma.XOR<Prisma.OutputCreateWithoutBajaInput, Prisma.OutputUncheckedCreateWithoutBajaInput> | Prisma.OutputCreateWithoutBajaInput[] | Prisma.OutputUncheckedCreateWithoutBajaInput[]
+  connectOrCreate?: Prisma.OutputCreateOrConnectWithoutBajaInput | Prisma.OutputCreateOrConnectWithoutBajaInput[]
+  createMany?: Prisma.OutputCreateManyBajaInputEnvelope
+  connect?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+}
+
+export type OutputUpdateManyWithoutBajaNestedInput = {
+  create?: Prisma.XOR<Prisma.OutputCreateWithoutBajaInput, Prisma.OutputUncheckedCreateWithoutBajaInput> | Prisma.OutputCreateWithoutBajaInput[] | Prisma.OutputUncheckedCreateWithoutBajaInput[]
+  connectOrCreate?: Prisma.OutputCreateOrConnectWithoutBajaInput | Prisma.OutputCreateOrConnectWithoutBajaInput[]
+  upsert?: Prisma.OutputUpsertWithWhereUniqueWithoutBajaInput | Prisma.OutputUpsertWithWhereUniqueWithoutBajaInput[]
+  createMany?: Prisma.OutputCreateManyBajaInputEnvelope
+  set?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  disconnect?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  delete?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  connect?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  update?: Prisma.OutputUpdateWithWhereUniqueWithoutBajaInput | Prisma.OutputUpdateWithWhereUniqueWithoutBajaInput[]
+  updateMany?: Prisma.OutputUpdateManyWithWhereWithoutBajaInput | Prisma.OutputUpdateManyWithWhereWithoutBajaInput[]
+  deleteMany?: Prisma.OutputScalarWhereInput | Prisma.OutputScalarWhereInput[]
+}
+
+export type OutputUncheckedUpdateManyWithoutBajaNestedInput = {
+  create?: Prisma.XOR<Prisma.OutputCreateWithoutBajaInput, Prisma.OutputUncheckedCreateWithoutBajaInput> | Prisma.OutputCreateWithoutBajaInput[] | Prisma.OutputUncheckedCreateWithoutBajaInput[]
+  connectOrCreate?: Prisma.OutputCreateOrConnectWithoutBajaInput | Prisma.OutputCreateOrConnectWithoutBajaInput[]
+  upsert?: Prisma.OutputUpsertWithWhereUniqueWithoutBajaInput | Prisma.OutputUpsertWithWhereUniqueWithoutBajaInput[]
+  createMany?: Prisma.OutputCreateManyBajaInputEnvelope
+  set?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  disconnect?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  delete?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  connect?: Prisma.OutputWhereUniqueInput | Prisma.OutputWhereUniqueInput[]
+  update?: Prisma.OutputUpdateWithWhereUniqueWithoutBajaInput | Prisma.OutputUpdateWithWhereUniqueWithoutBajaInput[]
+  updateMany?: Prisma.OutputUpdateManyWithWhereWithoutBajaInput | Prisma.OutputUpdateManyWithWhereWithoutBajaInput[]
+  deleteMany?: Prisma.OutputScalarWhereInput | Prisma.OutputScalarWhereInput[]
+}
+
 export type OutputCreateNestedManyWithoutTransferInput = {
   create?: Prisma.XOR<Prisma.OutputCreateWithoutTransferInput, Prisma.OutputUncheckedCreateWithoutTransferInput> | Prisma.OutputCreateWithoutTransferInput[] | Prisma.OutputUncheckedCreateWithoutTransferInput[]
   connectOrCreate?: Prisma.OutputCreateOrConnectWithoutTransferInput | Prisma.OutputCreateOrConnectWithoutTransferInput[]
@@ -707,6 +773,7 @@ export type OutputCreateWithoutProductInput = {
   branch: Prisma.BranchCreateNestedOneWithoutOutputsInput
   order?: Prisma.OrderCreateNestedOneWithoutOutputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutOutputsInput
+  baja?: Prisma.BajaCreateNestedOneWithoutOutputsInput
 }
 
 export type OutputUncheckedCreateWithoutProductInput = {
@@ -714,6 +781,7 @@ export type OutputUncheckedCreateWithoutProductInput = {
   branchId: string
   orderId?: string | null
   transferId?: string | null
+  bajaId?: string | null
   quantity: number
   price?: number
   detail: string
@@ -757,6 +825,7 @@ export type OutputScalarWhereInput = {
   branchId?: Prisma.UuidFilter<"Output"> | string
   orderId?: Prisma.UuidNullableFilter<"Output"> | string | null
   transferId?: Prisma.UuidNullableFilter<"Output"> | string | null
+  bajaId?: Prisma.UuidNullableFilter<"Output"> | string | null
   productId?: Prisma.UuidFilter<"Output"> | string
   quantity?: Prisma.IntFilter<"Output"> | number
   price?: Prisma.FloatFilter<"Output"> | number
@@ -778,6 +847,7 @@ export type OutputCreateWithoutBranchInput = {
   updatedBy?: string | null
   order?: Prisma.OrderCreateNestedOneWithoutOutputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutOutputsInput
+  baja?: Prisma.BajaCreateNestedOneWithoutOutputsInput
   product: Prisma.ProductCreateNestedOneWithoutOutputsInput
 }
 
@@ -785,6 +855,7 @@ export type OutputUncheckedCreateWithoutBranchInput = {
   id?: string
   orderId?: string | null
   transferId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -821,6 +892,62 @@ export type OutputUpdateManyWithWhereWithoutBranchInput = {
   data: Prisma.XOR<Prisma.OutputUpdateManyMutationInput, Prisma.OutputUncheckedUpdateManyWithoutBranchInput>
 }
 
+export type OutputCreateWithoutBajaInput = {
+  id?: string
+  quantity: number
+  price?: number
+  detail: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  branch: Prisma.BranchCreateNestedOneWithoutOutputsInput
+  order?: Prisma.OrderCreateNestedOneWithoutOutputsInput
+  transfer?: Prisma.TransferCreateNestedOneWithoutOutputsInput
+  product: Prisma.ProductCreateNestedOneWithoutOutputsInput
+}
+
+export type OutputUncheckedCreateWithoutBajaInput = {
+  id?: string
+  branchId: string
+  orderId?: string | null
+  transferId?: string | null
+  productId: string
+  quantity: number
+  price?: number
+  detail: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+}
+
+export type OutputCreateOrConnectWithoutBajaInput = {
+  where: Prisma.OutputWhereUniqueInput
+  create: Prisma.XOR<Prisma.OutputCreateWithoutBajaInput, Prisma.OutputUncheckedCreateWithoutBajaInput>
+}
+
+export type OutputCreateManyBajaInputEnvelope = {
+  data: Prisma.OutputCreateManyBajaInput | Prisma.OutputCreateManyBajaInput[]
+  skipDuplicates?: boolean
+}
+
+export type OutputUpsertWithWhereUniqueWithoutBajaInput = {
+  where: Prisma.OutputWhereUniqueInput
+  update: Prisma.XOR<Prisma.OutputUpdateWithoutBajaInput, Prisma.OutputUncheckedUpdateWithoutBajaInput>
+  create: Prisma.XOR<Prisma.OutputCreateWithoutBajaInput, Prisma.OutputUncheckedCreateWithoutBajaInput>
+}
+
+export type OutputUpdateWithWhereUniqueWithoutBajaInput = {
+  where: Prisma.OutputWhereUniqueInput
+  data: Prisma.XOR<Prisma.OutputUpdateWithoutBajaInput, Prisma.OutputUncheckedUpdateWithoutBajaInput>
+}
+
+export type OutputUpdateManyWithWhereWithoutBajaInput = {
+  where: Prisma.OutputScalarWhereInput
+  data: Prisma.XOR<Prisma.OutputUpdateManyMutationInput, Prisma.OutputUncheckedUpdateManyWithoutBajaInput>
+}
+
 export type OutputCreateWithoutTransferInput = {
   id?: string
   quantity: number
@@ -832,6 +959,7 @@ export type OutputCreateWithoutTransferInput = {
   updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutOutputsInput
   order?: Prisma.OrderCreateNestedOneWithoutOutputsInput
+  baja?: Prisma.BajaCreateNestedOneWithoutOutputsInput
   product: Prisma.ProductCreateNestedOneWithoutOutputsInput
 }
 
@@ -839,6 +967,7 @@ export type OutputUncheckedCreateWithoutTransferInput = {
   id?: string
   branchId: string
   orderId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -886,6 +1015,7 @@ export type OutputCreateWithoutOrderInput = {
   updatedBy?: string | null
   branch: Prisma.BranchCreateNestedOneWithoutOutputsInput
   transfer?: Prisma.TransferCreateNestedOneWithoutOutputsInput
+  baja?: Prisma.BajaCreateNestedOneWithoutOutputsInput
   product: Prisma.ProductCreateNestedOneWithoutOutputsInput
 }
 
@@ -893,6 +1023,7 @@ export type OutputUncheckedCreateWithoutOrderInput = {
   id?: string
   branchId: string
   transferId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -934,6 +1065,7 @@ export type OutputCreateManyProductInput = {
   branchId: string
   orderId?: string | null
   transferId?: string | null
+  bajaId?: string | null
   quantity: number
   price?: number
   detail: string
@@ -955,6 +1087,7 @@ export type OutputUpdateWithoutProductInput = {
   branch?: Prisma.BranchUpdateOneRequiredWithoutOutputsNestedInput
   order?: Prisma.OrderUpdateOneWithoutOutputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutOutputsNestedInput
+  baja?: Prisma.BajaUpdateOneWithoutOutputsNestedInput
 }
 
 export type OutputUncheckedUpdateWithoutProductInput = {
@@ -962,6 +1095,7 @@ export type OutputUncheckedUpdateWithoutProductInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   detail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -976,6 +1110,7 @@ export type OutputUncheckedUpdateManyWithoutProductInput = {
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   detail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -989,6 +1124,7 @@ export type OutputCreateManyBranchInput = {
   id?: string
   orderId?: string | null
   transferId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -1010,6 +1146,7 @@ export type OutputUpdateWithoutBranchInput = {
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.OrderUpdateOneWithoutOutputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutOutputsNestedInput
+  baja?: Prisma.BajaUpdateOneWithoutOutputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOutputsNestedInput
 }
 
@@ -1017,6 +1154,7 @@ export type OutputUncheckedUpdateWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1029,6 +1167,67 @@ export type OutputUncheckedUpdateWithoutBranchInput = {
 
 export type OutputUncheckedUpdateManyWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  detail?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type OutputCreateManyBajaInput = {
+  id?: string
+  branchId: string
+  orderId?: string | null
+  transferId?: string | null
+  productId: string
+  quantity: number
+  price?: number
+  detail: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+}
+
+export type OutputUpdateWithoutBajaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  detail?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch?: Prisma.BranchUpdateOneRequiredWithoutOutputsNestedInput
+  order?: Prisma.OrderUpdateOneWithoutOutputsNestedInput
+  transfer?: Prisma.TransferUpdateOneWithoutOutputsNestedInput
+  product?: Prisma.ProductUpdateOneRequiredWithoutOutputsNestedInput
+}
+
+export type OutputUncheckedUpdateWithoutBajaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  detail?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type OutputUncheckedUpdateManyWithoutBajaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1045,6 +1244,7 @@ export type OutputCreateManyTransferInput = {
   id?: string
   branchId: string
   orderId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -1066,6 +1266,7 @@ export type OutputUpdateWithoutTransferInput = {
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutOutputsNestedInput
   order?: Prisma.OrderUpdateOneWithoutOutputsNestedInput
+  baja?: Prisma.BajaUpdateOneWithoutOutputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOutputsNestedInput
 }
 
@@ -1073,6 +1274,7 @@ export type OutputUncheckedUpdateWithoutTransferInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1087,6 +1289,7 @@ export type OutputUncheckedUpdateManyWithoutTransferInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1101,6 +1304,7 @@ export type OutputCreateManyOrderInput = {
   id?: string
   branchId: string
   transferId?: string | null
+  bajaId?: string | null
   productId: string
   quantity: number
   price?: number
@@ -1122,6 +1326,7 @@ export type OutputUpdateWithoutOrderInput = {
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch?: Prisma.BranchUpdateOneRequiredWithoutOutputsNestedInput
   transfer?: Prisma.TransferUpdateOneWithoutOutputsNestedInput
+  baja?: Prisma.BajaUpdateOneWithoutOutputsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOutputsNestedInput
 }
 
@@ -1129,6 +1334,7 @@ export type OutputUncheckedUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1143,6 +1349,7 @@ export type OutputUncheckedUpdateManyWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   branchId?: Prisma.StringFieldUpdateOperationsInput | string
   transferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bajaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1160,6 +1367,7 @@ export type OutputSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   branchId?: boolean
   orderId?: boolean
   transferId?: boolean
+  bajaId?: boolean
   productId?: boolean
   quantity?: boolean
   price?: boolean
@@ -1171,6 +1379,7 @@ export type OutputSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   order?: boolean | Prisma.Output$orderArgs<ExtArgs>
   transfer?: boolean | Prisma.Output$transferArgs<ExtArgs>
+  baja?: boolean | Prisma.Output$bajaArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["output"]>
 
@@ -1179,6 +1388,7 @@ export type OutputSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   branchId?: boolean
   orderId?: boolean
   transferId?: boolean
+  bajaId?: boolean
   productId?: boolean
   quantity?: boolean
   price?: boolean
@@ -1190,6 +1400,7 @@ export type OutputSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   order?: boolean | Prisma.Output$orderArgs<ExtArgs>
   transfer?: boolean | Prisma.Output$transferArgs<ExtArgs>
+  baja?: boolean | Prisma.Output$bajaArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["output"]>
 
@@ -1198,6 +1409,7 @@ export type OutputSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   branchId?: boolean
   orderId?: boolean
   transferId?: boolean
+  bajaId?: boolean
   productId?: boolean
   quantity?: boolean
   price?: boolean
@@ -1209,6 +1421,7 @@ export type OutputSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   order?: boolean | Prisma.Output$orderArgs<ExtArgs>
   transfer?: boolean | Prisma.Output$transferArgs<ExtArgs>
+  baja?: boolean | Prisma.Output$bajaArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["output"]>
 
@@ -1217,6 +1430,7 @@ export type OutputSelectScalar = {
   branchId?: boolean
   orderId?: boolean
   transferId?: boolean
+  bajaId?: boolean
   productId?: boolean
   quantity?: boolean
   price?: boolean
@@ -1227,23 +1441,26 @@ export type OutputSelectScalar = {
   updatedBy?: boolean
 }
 
-export type OutputOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branchId" | "orderId" | "transferId" | "productId" | "quantity" | "price" | "detail" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["output"]>
+export type OutputOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branchId" | "orderId" | "transferId" | "bajaId" | "productId" | "quantity" | "price" | "detail" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["output"]>
 export type OutputInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   order?: boolean | Prisma.Output$orderArgs<ExtArgs>
   transfer?: boolean | Prisma.Output$transferArgs<ExtArgs>
+  baja?: boolean | Prisma.Output$bajaArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 export type OutputIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   order?: boolean | Prisma.Output$orderArgs<ExtArgs>
   transfer?: boolean | Prisma.Output$transferArgs<ExtArgs>
+  baja?: boolean | Prisma.Output$bajaArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 export type OutputIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   order?: boolean | Prisma.Output$orderArgs<ExtArgs>
   transfer?: boolean | Prisma.Output$transferArgs<ExtArgs>
+  baja?: boolean | Prisma.Output$bajaArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 
@@ -1253,6 +1470,7 @@ export type $OutputPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     branch: Prisma.$BranchPayload<ExtArgs>
     order: Prisma.$OrderPayload<ExtArgs> | null
     transfer: Prisma.$TransferPayload<ExtArgs> | null
+    baja: Prisma.$BajaPayload<ExtArgs> | null
     product: Prisma.$ProductPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1260,6 +1478,7 @@ export type $OutputPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     branchId: string
     orderId: string | null
     transferId: string | null
+    bajaId: string | null
     productId: string
     quantity: number
     price: number
@@ -1665,6 +1884,7 @@ export interface Prisma__OutputClient<T, Null = never, ExtArgs extends runtime.T
   branch<T extends Prisma.BranchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   order<T extends Prisma.Output$orderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Output$orderArgs<ExtArgs>>): Prisma.Prisma__OrderClient<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   transfer<T extends Prisma.Output$transferArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Output$transferArgs<ExtArgs>>): Prisma.Prisma__TransferClient<runtime.Types.Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  baja<T extends Prisma.Output$bajaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Output$bajaArgs<ExtArgs>>): Prisma.Prisma__BajaClient<runtime.Types.Result.GetResult<Prisma.$BajaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1699,6 +1919,7 @@ export interface OutputFieldRefs {
   readonly branchId: Prisma.FieldRef<"Output", 'String'>
   readonly orderId: Prisma.FieldRef<"Output", 'String'>
   readonly transferId: Prisma.FieldRef<"Output", 'String'>
+  readonly bajaId: Prisma.FieldRef<"Output", 'String'>
   readonly productId: Prisma.FieldRef<"Output", 'String'>
   readonly quantity: Prisma.FieldRef<"Output", 'Int'>
   readonly price: Prisma.FieldRef<"Output", 'Float'>
@@ -2138,6 +2359,25 @@ export type Output$transferArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.TransferInclude<ExtArgs> | null
   where?: Prisma.TransferWhereInput
+}
+
+/**
+ * Output.baja
+ */
+export type Output$bajaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Baja
+   */
+  select?: Prisma.BajaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Baja
+   */
+  omit?: Prisma.BajaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BajaInclude<ExtArgs> | null
+  where?: Prisma.BajaWhereInput
 }
 
 /**

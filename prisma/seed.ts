@@ -80,6 +80,7 @@ async function main() {
         numberDocument: '123456789',
         typeDocument: TypeDocument.dni,
         name: 'Moises',
+        password: bcrypt.hashSync(SUPER_ADMIN_PASSWORD, salt),
         lastName: 'Ochoa',
         email: SUPER_ADMIN_EMAIL,
         createdBy: SUPER_ADMIN_EMAIL,
@@ -171,7 +172,6 @@ async function main() {
       where: { userId: user.id },
       update: {
         roleId: adminRole.id,
-        password: bcrypt.hashSync(SUPER_ADMIN_PASSWORD, salt),
         active: true,
         superStaff: true,
         branches: {
@@ -184,7 +184,6 @@ async function main() {
       create: {
         userId: user.id,
         roleId: adminRole.id,
-        password: bcrypt.hashSync(SUPER_ADMIN_PASSWORD, salt),
         active: true,
         superStaff: true,
         createdBy: SUPER_ADMIN_EMAIL,

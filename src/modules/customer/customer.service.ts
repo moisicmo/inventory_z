@@ -5,7 +5,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { PaginationDto, UserSelect } from '@/common';
 import { CustomerSelect, CustomerType } from './entities/customer.entity';
 import { PaginationResult } from '@/common/entities/pagination.entity';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class CustomerService {
 
@@ -22,11 +22,14 @@ export class CustomerService {
     if (userExists) {
       throw new Error('El cliente ya existe');
     }
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(numberDocument ?? 'withoutpassword', salt);
     return await this.prisma.user.create({
       data: {
         numberDocument,
         typeDocument,
         name,
+        password: hashedPassword,
         lastName,
         email,
         createdBy: userId,

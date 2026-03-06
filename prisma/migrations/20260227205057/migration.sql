@@ -16,6 +16,18 @@ CREATE TYPE "TypeReference" AS ENUM ('inputs', 'outputs');
 -- CreateEnum
 CREATE TYPE "TypeAction" AS ENUM ('manage', 'create', 'read', 'update', 'delete');
 
+-- CreateEnum
+CREATE TYPE "PaymentType" AS ENUM ('CONTADO', 'CUOTAS');
+
+-- CreateEnum
+CREATE TYPE "InstallmentStatus" AS ENUM ('PENDING', 'PAID', 'OVERDUE');
+
+-- CreateEnum
+CREATE TYPE "TypeBaja" AS ENUM ('VENCIMIENTO', 'DANIO', 'ROBO', 'PERDIDA', 'OTRO');
+
+-- CreateEnum
+CREATE TYPE "DebtStatus" AS ENUM ('PENDING', 'PAID');
+
 -- CreateTable
 CREATE TABLE "addresses" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -42,6 +54,10 @@ CREATE TABLE "users" (
     "name" VARCHAR NOT NULL,
     "last_name" VARCHAR NOT NULL,
     "email" VARCHAR,
+    "email_validated" BOOLEAN NOT NULL DEFAULT false,
+    "password" VARCHAR NOT NULL,
+    "phone" JSONB,
+    "code_validation" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "code_activation" VARCHAR,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -94,8 +110,6 @@ CREATE TABLE "customers" (
 CREATE TABLE "staffs" (
     "user_id" UUID NOT NULL,
     "role_id" UUID NOT NULL,
-    "password" VARCHAR NOT NULL,
-    "requiresPasswordChange" BOOLEAN NOT NULL DEFAULT true,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "super_staff" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -152,6 +166,42 @@ CREATE TABLE "providers" (
 );
 
 -- CreateTable
+CREATE TABLE "purchases" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "branch_id" UUID NOT NULL,
+    "provider_id" UUID NOT NULL,
+    "code" VARCHAR NOT NULL,
+    "discharge_date" TIMESTAMP(3) NOT NULL,
+    "payment_type" "PaymentType" NOT NULL,
+    "total_amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
+
+    CONSTRAINT "purchases_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "purchase_installments" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "purchase_id" UUID NOT NULL,
+    "installment_number" INTEGER NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "due_date" DATE NOT NULL,
+    "paid_at" TIMESTAMP(3),
+    "status" "InstallmentStatus" NOT NULL DEFAULT 'PENDING',
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
+
+    CONSTRAINT "purchase_installments_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "brands" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" VARCHAR NOT NULL,
@@ -187,6 +237,7 @@ CREATE TABLE "products" (
     "name" VARCHAR NOT NULL,
     "description" VARCHAR,
     "image" VARCHAR,
+    "ref_cost" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "bar_code" VARCHAR,
     "visible" BOOLEAN NOT NULL DEFAULT true,
     "active" BOOLEAN NOT NULL DEFAULT true,
@@ -251,11 +302,12 @@ CREATE TABLE "branches" (
 CREATE TABLE "inputs" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "branch_id" UUID NOT NULL,
+    "purchase_id" UUID,
     "transfer_id" UUID,
     "product_id" UUID NOT NULL,
-    "provider_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "type_unit" "TypeUnit" NOT NULL,
     "due_date" DATE,
     "detail" VARCHAR NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -272,6 +324,7 @@ CREATE TABLE "outputs" (
     "branch_id" UUID NOT NULL,
     "order_id" UUID,
     "transfer_id" UUID,
+    "baja_id" UUID,
     "product_id" UUID NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
@@ -282,6 +335,21 @@ CREATE TABLE "outputs" (
     "updated_by" TEXT,
 
     CONSTRAINT "outputs_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "bajas" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "branch_id" UUID NOT NULL,
+    "reason" "TypeBaja" NOT NULL,
+    "description" VARCHAR,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
+
+    CONSTRAINT "bajas_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -321,13 +389,51 @@ CREATE TABLE "orders" (
     "branch_id" UUID NOT NULL,
     "url" VARCHAR,
     "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "payment_type" "PaymentType" NOT NULL DEFAULT 'CONTADO',
+    "amount_paid" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "active" BOOLEAN NOT NULL DEFAULT true,
+    "state_sold" BOOLEAN NOT NULL DEFAULT false,
+    "delivered" BOOLEAN NOT NULL DEFAULT false,
+    "state_anulled" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
     "updated_by" TEXT,
 
     CONSTRAINT "orders_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "sale_debts" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "order_id" UUID NOT NULL,
+    "customer_id" UUID NOT NULL,
+    "branch_id" UUID NOT NULL,
+    "total_amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "paid_amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "status" "DebtStatus" NOT NULL DEFAULT 'PENDING',
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
+
+    CONSTRAINT "sale_debts_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "sale_payments" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "debt_id" UUID NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "pay_method" "MethodPay" NOT NULL DEFAULT 'cash',
+    "notes" VARCHAR,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
+
+    CONSTRAINT "sale_payments_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -350,6 +456,9 @@ CREATE TABLE "_BranchToStaff" (
 CREATE UNIQUE INDEX "users_number_document_key" ON "users"("number_document");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "users_code_validation_key" ON "users"("code_validation");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "sessions_token_key" ON "sessions"("token");
 
 -- CreateIndex
@@ -366,6 +475,12 @@ CREATE UNIQUE INDEX "permissions_action_subject_key" ON "permissions"("action", 
 
 -- CreateIndex
 CREATE UNIQUE INDEX "providers_name_key" ON "providers"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "purchases_code_key" ON "purchases"("code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "purchase_installments_purchase_id_installment_number_key" ON "purchase_installments"("purchase_id", "installment_number");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "brands_name_key" ON "brands"("name");
@@ -387,6 +502,9 @@ CREATE UNIQUE INDEX "branches_name_key" ON "branches"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "kardexs_reference_id_type_reference_key" ON "kardexs"("reference_id", "type_reference");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "sale_debts_order_id_key" ON "sale_debts"("order_id");
 
 -- CreateIndex
 CREATE INDEX "_PermissionToRole_B_index" ON "_PermissionToRole"("B");
@@ -419,6 +537,15 @@ ALTER TABLE "roles" ADD CONSTRAINT "roles_branch_id_fkey" FOREIGN KEY ("branch_i
 ALTER TABLE "providers" ADD CONSTRAINT "providers_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "purchases" ADD CONSTRAINT "purchases_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "purchases" ADD CONSTRAINT "purchases_provider_id_fkey" FOREIGN KEY ("provider_id") REFERENCES "providers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "purchase_installments" ADD CONSTRAINT "purchase_installments_purchase_id_fkey" FOREIGN KEY ("purchase_id") REFERENCES "purchases"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "products" ADD CONSTRAINT "products_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -440,13 +567,13 @@ ALTER TABLE "branches" ADD CONSTRAINT "branches_address_id_fkey" FOREIGN KEY ("a
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "inputs" ADD CONSTRAINT "inputs_purchase_id_fkey" FOREIGN KEY ("purchase_id") REFERENCES "purchases"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_transfer_id_fkey" FOREIGN KEY ("transfer_id") REFERENCES "transfers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "inputs" ADD CONSTRAINT "inputs_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "inputs" ADD CONSTRAINT "inputs_provider_id_fkey" FOREIGN KEY ("provider_id") REFERENCES "providers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -458,7 +585,13 @@ ALTER TABLE "outputs" ADD CONSTRAINT "outputs_order_id_fkey" FOREIGN KEY ("order
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_transfer_id_fkey" FOREIGN KEY ("transfer_id") REFERENCES "transfers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "outputs" ADD CONSTRAINT "outputs_baja_id_fkey" FOREIGN KEY ("baja_id") REFERENCES "bajas"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "outputs" ADD CONSTRAINT "outputs_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "bajas" ADD CONSTRAINT "bajas_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "kardexs" ADD CONSTRAINT "kardexs_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -483,6 +616,18 @@ ALTER TABLE "orders" ADD CONSTRAINT "orders_customer_id_fkey" FOREIGN KEY ("cust
 
 -- AddForeignKey
 ALTER TABLE "orders" ADD CONSTRAINT "orders_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "sale_debts" ADD CONSTRAINT "sale_debts_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "orders"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "sale_debts" ADD CONSTRAINT "sale_debts_customer_id_fkey" FOREIGN KEY ("customer_id") REFERENCES "customers"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "sale_debts" ADD CONSTRAINT "sale_debts_branch_id_fkey" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "sale_payments" ADD CONSTRAINT "sale_payments_debt_id_fkey" FOREIGN KEY ("debt_id") REFERENCES "sale_debts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PermissionToRole" ADD CONSTRAINT "_PermissionToRole_A_fkey" FOREIGN KEY ("A") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;

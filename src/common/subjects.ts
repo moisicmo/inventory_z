@@ -20,4 +20,8 @@ export enum TypeSubject {
   report = "reportes",
   delivery = "entregas",
   inventory = "inventarios",
+  purchase = "compras",
+  writeoff = "bajas",
+  accountsReceivable= "cuentas-por-cobrar",
+  accountsPayable = "cuentas-por-pagar",
 }

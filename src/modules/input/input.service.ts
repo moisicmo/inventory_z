@@ -19,9 +19,9 @@ export class InputService {
       data: products.map((e) => ({
         branchId,
         productId: e.productId,
-        providerId: e.providerId,
         quantity: e.quantity,
         price: e.price,
+        typeUnit: e.typeUnit,
         dueDate: e.dueDate,
         detail,
         createdBy: userId,

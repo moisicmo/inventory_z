@@ -1,15 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsNumber, IsOptional, IsUUID } from 'class-validator';
 import { Type } from 'class-transformer';
+import { TypeUnit } from '@/generated/prisma/enums';
 
 export class ProductInputDto {
-  @IsString()
-  @ApiProperty({ example: 'abc', description: 'Identificador del producto' })
+  @IsUUID()
+  @ApiProperty({ example: 'uuid', description: 'Identificador del producto' })
   productId: string;
-
-  @IsString()
-  @ApiProperty({ example: 'abc', description: 'Identificador del proveedor' })
-  providerId: string;
 
   @IsNumber()
   @ApiProperty({ example: 100, description: 'Cantidad de producto' })
@@ -18,6 +15,10 @@ export class ProductInputDto {
   @IsNumber()
   @ApiProperty({ example: 15.5, description: 'Precio del producto' })
   price: number;
+
+  @IsEnum(TypeUnit)
+  @ApiProperty({ enum: TypeUnit, description: 'Tipo de unidad (UNIDAD | CAJA)' })
+  typeUnit: TypeUnit;
 
   @IsOptional()
   @IsDate()

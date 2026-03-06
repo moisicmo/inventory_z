@@ -83,6 +83,16 @@ export type Permission = Prisma.PermissionModel
  */
 export type Provider = Prisma.ProviderModel
 /**
+ * Model Purchase
+ * 
+ */
+export type Purchase = Prisma.PurchaseModel
+/**
+ * Model PurchaseInstallment
+ * 
+ */
+export type PurchaseInstallment = Prisma.PurchaseInstallmentModel
+/**
  * Model Brand
  * 
  */
@@ -123,6 +133,11 @@ export type Input = Prisma.InputModel
  */
 export type Output = Prisma.OutputModel
 /**
+ * Model Baja
+ * 
+ */
+export type Baja = Prisma.BajaModel
+/**
  * Model Kardex
  * 
  */
@@ -137,3 +152,13 @@ export type Transfer = Prisma.TransferModel
  * 
  */
 export type Order = Prisma.OrderModel
+/**
+ * Model SaleDebt
+ * 
+ */
+export type SaleDebt = Prisma.SaleDebtModel
+/**
+ * Model SalePayment
+ * 
+ */
+export type SalePayment = Prisma.SalePaymentModel

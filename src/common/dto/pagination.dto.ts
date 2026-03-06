@@ -21,4 +21,16 @@ export class PaginationDto {
   @Type(() => String)
   keys?: string = '';
 
+  @IsOptional()
+  @Type(() => String)
+  categoryId?: string = '';
+
+  @IsOptional()
+  @Type(() => String)
+  brandId?: string = '';
+
+  @IsOptional()
+  @Type(() => String)
+  status?: string = '';
+
 }
