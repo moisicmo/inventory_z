@@ -107,12 +107,14 @@ export class OrderService {
 
   async confirmSale(id: string) {
     const order = await this.findOne(id);
-
+    console.log('hola');
     if (order.stateSold) {
       return { message: 'La venta ya fue confirmada anteriormente' };
     }
-
+    
+    console.log('hola');
     const pdfBuffer = await this.pdfService.generateInvoiceRoll(order);
+    console.log('hola');
     const { webViewLink } = await this.googledriveService.uploadFile(
       `ord${order.id}.pdf`,
       pdfBuffer,

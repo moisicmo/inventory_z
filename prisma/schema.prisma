@@ -260,8 +260,9 @@ model Product {
   prices         Price[]
   inputs         Input[]
   outputs        Output[]
-  kardexs        Kardex[]
-  transfers      Transfer[]
+  kardexs              Kardex[]
+  transfers            Transfer[]
+  transferRequestItems TransferRequestItem[]
 
   @@map("products")
 }
@@ -318,8 +319,10 @@ model Branch {
   orders        Order[]
   roles         Role[]
   prices        Price[]
-  fromTransfers Transfer[] @relation("TransferFromBranch")
-  toTransfers   Transfer[] @relation("TransferToBranch")
+  fromTransfers        Transfer[]        @relation("TransferFromBranch")
+  toTransfers          Transfer[]        @relation("TransferToBranch")
+  fromTransferRequests TransferRequest[] @relation("TransferRequestFromBranch")
+  toTransferRequests   TransferRequest[] @relation("TransferRequestToBranch")
   purchases     Purchase[]
   bajas         Baja[]
   debts         SaleDebt[]
@@ -418,13 +421,57 @@ model Transfer {
   updatedAt    DateTime @updatedAt @map("updated_at")
   createdBy    String   @map("created_by")
   updatedBy    String?  @map("updated_by")
-  fromBranch   Branch   @relation("TransferFromBranch", fields: [fromBranchId], references: [id])
-  toBranch     Branch   @relation("TransferToBranch", fields: [toBranchId], references: [id])
-  product      Product  @relation(fields: [productId], references: [id])
-  outputs      Output[]
-  inputs       Input[]
+  transferRequestId String?          @unique @map("transfer_request_id") @db.Uuid
+  fromBranch        Branch           @relation("TransferFromBranch", fields: [fromBranchId], references: [id])
+  toBranch          Branch           @relation("TransferToBranch", fields: [toBranchId], references: [id])
+  product           Product          @relation(fields: [productId], references: [id])
+  transferRequest   TransferRequest? @relation(fields: [transferRequestId], references: [id])
+  outputs           Output[]
+  inputs            Input[]
 
   @@map("transfers")
+}
+
+model TransferRequest {
+  id             String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fromBranchId   String                @map("from_branch_id") @db.Uuid
+  toBranchId     String                @map("to_branch_id") @db.Uuid
+  status         TransferRequestStatus @default(SOLICITADO)
+  note           String?               @db.VarChar
+  rejectionNote  String?               @map("rejection_note") @db.VarChar
+  observationNote String?              @map("observation_note") @db.VarChar
+  active         Boolean               @default(true)
+  createdAt      DateTime              @default(now()) @map("created_at")
+  updatedAt      DateTime              @updatedAt @map("updated_at")
+  createdBy      String                @map("created_by")
+  updatedBy      String?               @map("updated_by")
+  dispatchedBy   String?               @map("dispatched_by")
+  dispatchedAt   DateTime?             @map("dispatched_at")
+  receivedBy     String?               @map("received_by")
+  receivedAt     DateTime?             @map("received_at")
+  fromBranch     Branch                @relation("TransferRequestFromBranch", fields: [fromBranchId], references: [id])
+  toBranch       Branch                @relation("TransferRequestToBranch", fields: [toBranchId], references: [id])
+  items          TransferRequestItem[]
+  transfer       Transfer?
+
+  @@map("transfer_requests")
+}
+
+model TransferRequestItem {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  transferRequestId String          @map("transfer_request_id") @db.Uuid
+  productId         String          @map("product_id") @db.Uuid
+  quantityRequested Int             @map("quantity_requested") @db.Integer
+  quantityDispatched Int?           @map("quantity_dispatched") @db.Integer
+  typeUnit          TypeUnit        @map("type_unit")
+  price             Float           @default(0.0)
+  detail            String?         @db.VarChar
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  transferRequest   TransferRequest @relation(fields: [transferRequestId], references: [id])
+  product           Product         @relation(fields: [productId], references: [id])
+
+  @@map("transfer_request_items")
 }
 
 model Order {
@@ -546,4 +593,12 @@ enum TypeBaja {
 enum DebtStatus {
   PENDING
   PAID
+}
+
+enum TransferRequestStatus {
+  SOLICITADO
+  DESPACHADO
+  RECIBIDO
+  RECHAZADO
+  OBSERVADO
 }

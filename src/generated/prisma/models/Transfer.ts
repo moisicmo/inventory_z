@@ -48,6 +48,7 @@ export type TransferMinAggregateOutputType = {
   updatedAt: Date | null
   createdBy: string | null
   updatedBy: string | null
+  transferRequestId: string | null
 }
 
 export type TransferMaxAggregateOutputType = {
@@ -62,6 +63,7 @@ export type TransferMaxAggregateOutputType = {
   updatedAt: Date | null
   createdBy: string | null
   updatedBy: string | null
+  transferRequestId: string | null
 }
 
 export type TransferCountAggregateOutputType = {
@@ -76,6 +78,7 @@ export type TransferCountAggregateOutputType = {
   updatedAt: number
   createdBy: number
   updatedBy: number
+  transferRequestId: number
   _all: number
 }
 
@@ -102,6 +105,7 @@ export type TransferMinAggregateInputType = {
   updatedAt?: true
   createdBy?: true
   updatedBy?: true
+  transferRequestId?: true
 }
 
 export type TransferMaxAggregateInputType = {
@@ -116,6 +120,7 @@ export type TransferMaxAggregateInputType = {
   updatedAt?: true
   createdBy?: true
   updatedBy?: true
+  transferRequestId?: true
 }
 
 export type TransferCountAggregateInputType = {
@@ -130,6 +135,7 @@ export type TransferCountAggregateInputType = {
   updatedAt?: true
   createdBy?: true
   updatedBy?: true
+  transferRequestId?: true
   _all?: true
 }
 
@@ -231,6 +237,7 @@ export type TransferGroupByOutputType = {
   updatedAt: Date
   createdBy: string
   updatedBy: string | null
+  transferRequestId: string | null
   _count: TransferCountAggregateOutputType | null
   _avg: TransferAvgAggregateOutputType | null
   _sum: TransferSumAggregateOutputType | null
@@ -268,9 +275,11 @@ export type TransferWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Transfer"> | Date | string
   createdBy?: Prisma.StringFilter<"Transfer"> | string
   updatedBy?: Prisma.StringNullableFilter<"Transfer"> | string | null
+  transferRequestId?: Prisma.UuidNullableFilter<"Transfer"> | string | null
   fromBranch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   toBranch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  transferRequest?: Prisma.XOR<Prisma.TransferRequestNullableScalarRelationFilter, Prisma.TransferRequestWhereInput> | null
   outputs?: Prisma.OutputListRelationFilter
   inputs?: Prisma.InputListRelationFilter
 }
@@ -287,15 +296,18 @@ export type TransferOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  transferRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
   fromBranch?: Prisma.BranchOrderByWithRelationInput
   toBranch?: Prisma.BranchOrderByWithRelationInput
   product?: Prisma.ProductOrderByWithRelationInput
+  transferRequest?: Prisma.TransferRequestOrderByWithRelationInput
   outputs?: Prisma.OutputOrderByRelationAggregateInput
   inputs?: Prisma.InputOrderByRelationAggregateInput
 }
 
 export type TransferWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  transferRequestId?: string
   AND?: Prisma.TransferWhereInput | Prisma.TransferWhereInput[]
   OR?: Prisma.TransferWhereInput[]
   NOT?: Prisma.TransferWhereInput | Prisma.TransferWhereInput[]
@@ -312,9 +324,10 @@ export type TransferWhereUniqueInput = Prisma.AtLeast<{
   fromBranch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   toBranch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  transferRequest?: Prisma.XOR<Prisma.TransferRequestNullableScalarRelationFilter, Prisma.TransferRequestWhereInput> | null
   outputs?: Prisma.OutputListRelationFilter
   inputs?: Prisma.InputListRelationFilter
-}, "id">
+}, "id" | "transferRequestId">
 
 export type TransferOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -328,6 +341,7 @@ export type TransferOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  transferRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TransferCountOrderByAggregateInput
   _avg?: Prisma.TransferAvgOrderByAggregateInput
   _max?: Prisma.TransferMaxOrderByAggregateInput
@@ -350,6 +364,7 @@ export type TransferScalarWhereWithAggregatesInput = {
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Transfer"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Transfer"> | string
   updatedBy?: Prisma.StringNullableWithAggregatesFilter<"Transfer"> | string | null
+  transferRequestId?: Prisma.UuidNullableWithAggregatesFilter<"Transfer"> | string | null
 }
 
 export type TransferCreateInput = {
@@ -364,6 +379,7 @@ export type TransferCreateInput = {
   fromBranch: Prisma.BranchCreateNestedOneWithoutFromTransfersInput
   toBranch: Prisma.BranchCreateNestedOneWithoutToTransfersInput
   product: Prisma.ProductCreateNestedOneWithoutTransfersInput
+  transferRequest?: Prisma.TransferRequestCreateNestedOneWithoutTransferInput
   outputs?: Prisma.OutputCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputCreateNestedManyWithoutTransferInput
 }
@@ -380,6 +396,7 @@ export type TransferUncheckedCreateInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutTransferInput
 }
@@ -396,6 +413,7 @@ export type TransferUpdateInput = {
   fromBranch?: Prisma.BranchUpdateOneRequiredWithoutFromTransfersNestedInput
   toBranch?: Prisma.BranchUpdateOneRequiredWithoutToTransfersNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutTransfersNestedInput
+  transferRequest?: Prisma.TransferRequestUpdateOneWithoutTransferNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUpdateManyWithoutTransferNestedInput
 }
@@ -412,6 +430,7 @@ export type TransferUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutTransferNestedInput
 }
@@ -428,6 +447,7 @@ export type TransferCreateManyInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
 }
 
 export type TransferUpdateManyMutationInput = {
@@ -453,6 +473,7 @@ export type TransferUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TransferListRelationFilter = {
@@ -482,6 +503,7 @@ export type TransferCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrder
+  transferRequestId?: Prisma.SortOrder
 }
 
 export type TransferAvgOrderByAggregateInput = {
@@ -501,6 +523,7 @@ export type TransferMaxOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrder
+  transferRequestId?: Prisma.SortOrder
 }
 
 export type TransferMinOrderByAggregateInput = {
@@ -515,6 +538,7 @@ export type TransferMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrder
+  transferRequestId?: Prisma.SortOrder
 }
 
 export type TransferSumOrderByAggregateInput = {
@@ -680,6 +704,38 @@ export type TransferUpdateOneWithoutOutputsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TransferUpdateToOneWithWhereWithoutOutputsInput, Prisma.TransferUpdateWithoutOutputsInput>, Prisma.TransferUncheckedUpdateWithoutOutputsInput>
 }
 
+export type TransferCreateNestedOneWithoutTransferRequestInput = {
+  create?: Prisma.XOR<Prisma.TransferCreateWithoutTransferRequestInput, Prisma.TransferUncheckedCreateWithoutTransferRequestInput>
+  connectOrCreate?: Prisma.TransferCreateOrConnectWithoutTransferRequestInput
+  connect?: Prisma.TransferWhereUniqueInput
+}
+
+export type TransferUncheckedCreateNestedOneWithoutTransferRequestInput = {
+  create?: Prisma.XOR<Prisma.TransferCreateWithoutTransferRequestInput, Prisma.TransferUncheckedCreateWithoutTransferRequestInput>
+  connectOrCreate?: Prisma.TransferCreateOrConnectWithoutTransferRequestInput
+  connect?: Prisma.TransferWhereUniqueInput
+}
+
+export type TransferUpdateOneWithoutTransferRequestNestedInput = {
+  create?: Prisma.XOR<Prisma.TransferCreateWithoutTransferRequestInput, Prisma.TransferUncheckedCreateWithoutTransferRequestInput>
+  connectOrCreate?: Prisma.TransferCreateOrConnectWithoutTransferRequestInput
+  upsert?: Prisma.TransferUpsertWithoutTransferRequestInput
+  disconnect?: Prisma.TransferWhereInput | boolean
+  delete?: Prisma.TransferWhereInput | boolean
+  connect?: Prisma.TransferWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransferUpdateToOneWithWhereWithoutTransferRequestInput, Prisma.TransferUpdateWithoutTransferRequestInput>, Prisma.TransferUncheckedUpdateWithoutTransferRequestInput>
+}
+
+export type TransferUncheckedUpdateOneWithoutTransferRequestNestedInput = {
+  create?: Prisma.XOR<Prisma.TransferCreateWithoutTransferRequestInput, Prisma.TransferUncheckedCreateWithoutTransferRequestInput>
+  connectOrCreate?: Prisma.TransferCreateOrConnectWithoutTransferRequestInput
+  upsert?: Prisma.TransferUpsertWithoutTransferRequestInput
+  disconnect?: Prisma.TransferWhereInput | boolean
+  delete?: Prisma.TransferWhereInput | boolean
+  connect?: Prisma.TransferWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransferUpdateToOneWithWhereWithoutTransferRequestInput, Prisma.TransferUpdateWithoutTransferRequestInput>, Prisma.TransferUncheckedUpdateWithoutTransferRequestInput>
+}
+
 export type TransferCreateWithoutProductInput = {
   id?: string
   quantity: number
@@ -691,6 +747,7 @@ export type TransferCreateWithoutProductInput = {
   updatedBy?: string | null
   fromBranch: Prisma.BranchCreateNestedOneWithoutFromTransfersInput
   toBranch: Prisma.BranchCreateNestedOneWithoutToTransfersInput
+  transferRequest?: Prisma.TransferRequestCreateNestedOneWithoutTransferInput
   outputs?: Prisma.OutputCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputCreateNestedManyWithoutTransferInput
 }
@@ -706,6 +763,7 @@ export type TransferUncheckedCreateWithoutProductInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutTransferInput
 }
@@ -751,6 +809,7 @@ export type TransferScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Transfer"> | Date | string
   createdBy?: Prisma.StringFilter<"Transfer"> | string
   updatedBy?: Prisma.StringNullableFilter<"Transfer"> | string | null
+  transferRequestId?: Prisma.UuidNullableFilter<"Transfer"> | string | null
 }
 
 export type TransferCreateWithoutFromBranchInput = {
@@ -764,6 +823,7 @@ export type TransferCreateWithoutFromBranchInput = {
   updatedBy?: string | null
   toBranch: Prisma.BranchCreateNestedOneWithoutToTransfersInput
   product: Prisma.ProductCreateNestedOneWithoutTransfersInput
+  transferRequest?: Prisma.TransferRequestCreateNestedOneWithoutTransferInput
   outputs?: Prisma.OutputCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputCreateNestedManyWithoutTransferInput
 }
@@ -779,6 +839,7 @@ export type TransferUncheckedCreateWithoutFromBranchInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutTransferInput
 }
@@ -804,6 +865,7 @@ export type TransferCreateWithoutToBranchInput = {
   updatedBy?: string | null
   fromBranch: Prisma.BranchCreateNestedOneWithoutFromTransfersInput
   product: Prisma.ProductCreateNestedOneWithoutTransfersInput
+  transferRequest?: Prisma.TransferRequestCreateNestedOneWithoutTransferInput
   outputs?: Prisma.OutputCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputCreateNestedManyWithoutTransferInput
 }
@@ -819,6 +881,7 @@ export type TransferUncheckedCreateWithoutToBranchInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutTransferInput
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutTransferInput
 }
@@ -877,6 +940,7 @@ export type TransferCreateWithoutInputsInput = {
   fromBranch: Prisma.BranchCreateNestedOneWithoutFromTransfersInput
   toBranch: Prisma.BranchCreateNestedOneWithoutToTransfersInput
   product: Prisma.ProductCreateNestedOneWithoutTransfersInput
+  transferRequest?: Prisma.TransferRequestCreateNestedOneWithoutTransferInput
   outputs?: Prisma.OutputCreateNestedManyWithoutTransferInput
 }
 
@@ -892,6 +956,7 @@ export type TransferUncheckedCreateWithoutInputsInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
   outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutTransferInput
 }
 
@@ -923,6 +988,7 @@ export type TransferUpdateWithoutInputsInput = {
   fromBranch?: Prisma.BranchUpdateOneRequiredWithoutFromTransfersNestedInput
   toBranch?: Prisma.BranchUpdateOneRequiredWithoutToTransfersNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutTransfersNestedInput
+  transferRequest?: Prisma.TransferRequestUpdateOneWithoutTransferNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutTransferNestedInput
 }
 
@@ -938,6 +1004,7 @@ export type TransferUncheckedUpdateWithoutInputsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutTransferNestedInput
 }
 
@@ -953,6 +1020,7 @@ export type TransferCreateWithoutOutputsInput = {
   fromBranch: Prisma.BranchCreateNestedOneWithoutFromTransfersInput
   toBranch: Prisma.BranchCreateNestedOneWithoutToTransfersInput
   product: Prisma.ProductCreateNestedOneWithoutTransfersInput
+  transferRequest?: Prisma.TransferRequestCreateNestedOneWithoutTransferInput
   inputs?: Prisma.InputCreateNestedManyWithoutTransferInput
 }
 
@@ -968,6 +1036,7 @@ export type TransferUncheckedCreateWithoutOutputsInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
   inputs?: Prisma.InputUncheckedCreateNestedManyWithoutTransferInput
 }
 
@@ -999,6 +1068,7 @@ export type TransferUpdateWithoutOutputsInput = {
   fromBranch?: Prisma.BranchUpdateOneRequiredWithoutFromTransfersNestedInput
   toBranch?: Prisma.BranchUpdateOneRequiredWithoutToTransfersNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutTransfersNestedInput
+  transferRequest?: Prisma.TransferRequestUpdateOneWithoutTransferNestedInput
   inputs?: Prisma.InputUpdateManyWithoutTransferNestedInput
 }
 
@@ -1014,6 +1084,87 @@ export type TransferUncheckedUpdateWithoutOutputsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inputs?: Prisma.InputUncheckedUpdateManyWithoutTransferNestedInput
+}
+
+export type TransferCreateWithoutTransferRequestInput = {
+  id?: string
+  quantity: number
+  price?: number
+  detail?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  fromBranch: Prisma.BranchCreateNestedOneWithoutFromTransfersInput
+  toBranch: Prisma.BranchCreateNestedOneWithoutToTransfersInput
+  product: Prisma.ProductCreateNestedOneWithoutTransfersInput
+  outputs?: Prisma.OutputCreateNestedManyWithoutTransferInput
+  inputs?: Prisma.InputCreateNestedManyWithoutTransferInput
+}
+
+export type TransferUncheckedCreateWithoutTransferRequestInput = {
+  id?: string
+  fromBranchId: string
+  toBranchId: string
+  productId: string
+  quantity: number
+  price?: number
+  detail?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutTransferInput
+  inputs?: Prisma.InputUncheckedCreateNestedManyWithoutTransferInput
+}
+
+export type TransferCreateOrConnectWithoutTransferRequestInput = {
+  where: Prisma.TransferWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransferCreateWithoutTransferRequestInput, Prisma.TransferUncheckedCreateWithoutTransferRequestInput>
+}
+
+export type TransferUpsertWithoutTransferRequestInput = {
+  update: Prisma.XOR<Prisma.TransferUpdateWithoutTransferRequestInput, Prisma.TransferUncheckedUpdateWithoutTransferRequestInput>
+  create: Prisma.XOR<Prisma.TransferCreateWithoutTransferRequestInput, Prisma.TransferUncheckedCreateWithoutTransferRequestInput>
+  where?: Prisma.TransferWhereInput
+}
+
+export type TransferUpdateToOneWithWhereWithoutTransferRequestInput = {
+  where?: Prisma.TransferWhereInput
+  data: Prisma.XOR<Prisma.TransferUpdateWithoutTransferRequestInput, Prisma.TransferUncheckedUpdateWithoutTransferRequestInput>
+}
+
+export type TransferUpdateWithoutTransferRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fromBranch?: Prisma.BranchUpdateOneRequiredWithoutFromTransfersNestedInput
+  toBranch?: Prisma.BranchUpdateOneRequiredWithoutToTransfersNestedInput
+  product?: Prisma.ProductUpdateOneRequiredWithoutTransfersNestedInput
+  outputs?: Prisma.OutputUpdateManyWithoutTransferNestedInput
+  inputs?: Prisma.InputUpdateManyWithoutTransferNestedInput
+}
+
+export type TransferUncheckedUpdateWithoutTransferRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fromBranchId?: Prisma.StringFieldUpdateOperationsInput | string
+  toBranchId?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  outputs?: Prisma.OutputUncheckedUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutTransferNestedInput
 }
 
@@ -1028,6 +1179,7 @@ export type TransferCreateManyProductInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
 }
 
 export type TransferUpdateWithoutProductInput = {
@@ -1041,6 +1193,7 @@ export type TransferUpdateWithoutProductInput = {
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fromBranch?: Prisma.BranchUpdateOneRequiredWithoutFromTransfersNestedInput
   toBranch?: Prisma.BranchUpdateOneRequiredWithoutToTransfersNestedInput
+  transferRequest?: Prisma.TransferRequestUpdateOneWithoutTransferNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUpdateManyWithoutTransferNestedInput
 }
@@ -1056,6 +1209,7 @@ export type TransferUncheckedUpdateWithoutProductInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutTransferNestedInput
 }
@@ -1071,6 +1225,7 @@ export type TransferUncheckedUpdateManyWithoutProductInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TransferCreateManyFromBranchInput = {
@@ -1084,6 +1239,7 @@ export type TransferCreateManyFromBranchInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
 }
 
 export type TransferCreateManyToBranchInput = {
@@ -1097,6 +1253,7 @@ export type TransferCreateManyToBranchInput = {
   updatedAt?: Date | string
   createdBy: string
   updatedBy?: string | null
+  transferRequestId?: string | null
 }
 
 export type TransferUpdateWithoutFromBranchInput = {
@@ -1110,6 +1267,7 @@ export type TransferUpdateWithoutFromBranchInput = {
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   toBranch?: Prisma.BranchUpdateOneRequiredWithoutToTransfersNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutTransfersNestedInput
+  transferRequest?: Prisma.TransferRequestUpdateOneWithoutTransferNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUpdateManyWithoutTransferNestedInput
 }
@@ -1125,6 +1283,7 @@ export type TransferUncheckedUpdateWithoutFromBranchInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutTransferNestedInput
 }
@@ -1140,6 +1299,7 @@ export type TransferUncheckedUpdateManyWithoutFromBranchInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TransferUpdateWithoutToBranchInput = {
@@ -1153,6 +1313,7 @@ export type TransferUpdateWithoutToBranchInput = {
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fromBranch?: Prisma.BranchUpdateOneRequiredWithoutFromTransfersNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutTransfersNestedInput
+  transferRequest?: Prisma.TransferRequestUpdateOneWithoutTransferNestedInput
   outputs?: Prisma.OutputUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUpdateManyWithoutTransferNestedInput
 }
@@ -1168,6 +1329,7 @@ export type TransferUncheckedUpdateWithoutToBranchInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outputs?: Prisma.OutputUncheckedUpdateManyWithoutTransferNestedInput
   inputs?: Prisma.InputUncheckedUpdateManyWithoutTransferNestedInput
 }
@@ -1183,6 +1345,7 @@ export type TransferUncheckedUpdateManyWithoutToBranchInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1237,9 +1400,11 @@ export type TransferSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   updatedAt?: boolean
   createdBy?: boolean
   updatedBy?: boolean
+  transferRequestId?: boolean
   fromBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   toBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  transferRequest?: boolean | Prisma.Transfer$transferRequestArgs<ExtArgs>
   outputs?: boolean | Prisma.Transfer$outputsArgs<ExtArgs>
   inputs?: boolean | Prisma.Transfer$inputsArgs<ExtArgs>
   _count?: boolean | Prisma.TransferCountOutputTypeDefaultArgs<ExtArgs>
@@ -1257,9 +1422,11 @@ export type TransferSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   updatedAt?: boolean
   createdBy?: boolean
   updatedBy?: boolean
+  transferRequestId?: boolean
   fromBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   toBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  transferRequest?: boolean | Prisma.Transfer$transferRequestArgs<ExtArgs>
 }, ExtArgs["result"]["transfer"]>
 
 export type TransferSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1274,9 +1441,11 @@ export type TransferSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   updatedAt?: boolean
   createdBy?: boolean
   updatedBy?: boolean
+  transferRequestId?: boolean
   fromBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   toBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  transferRequest?: boolean | Prisma.Transfer$transferRequestArgs<ExtArgs>
 }, ExtArgs["result"]["transfer"]>
 
 export type TransferSelectScalar = {
@@ -1291,13 +1460,15 @@ export type TransferSelectScalar = {
   updatedAt?: boolean
   createdBy?: boolean
   updatedBy?: boolean
+  transferRequestId?: boolean
 }
 
-export type TransferOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fromBranchId" | "toBranchId" | "productId" | "quantity" | "price" | "detail" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy", ExtArgs["result"]["transfer"]>
+export type TransferOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fromBranchId" | "toBranchId" | "productId" | "quantity" | "price" | "detail" | "createdAt" | "updatedAt" | "createdBy" | "updatedBy" | "transferRequestId", ExtArgs["result"]["transfer"]>
 export type TransferInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fromBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   toBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  transferRequest?: boolean | Prisma.Transfer$transferRequestArgs<ExtArgs>
   outputs?: boolean | Prisma.Transfer$outputsArgs<ExtArgs>
   inputs?: boolean | Prisma.Transfer$inputsArgs<ExtArgs>
   _count?: boolean | Prisma.TransferCountOutputTypeDefaultArgs<ExtArgs>
@@ -1306,11 +1477,13 @@ export type TransferIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   fromBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   toBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  transferRequest?: boolean | Prisma.Transfer$transferRequestArgs<ExtArgs>
 }
 export type TransferIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fromBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   toBranch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  transferRequest?: boolean | Prisma.Transfer$transferRequestArgs<ExtArgs>
 }
 
 export type $TransferPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1319,6 +1492,7 @@ export type $TransferPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     fromBranch: Prisma.$BranchPayload<ExtArgs>
     toBranch: Prisma.$BranchPayload<ExtArgs>
     product: Prisma.$ProductPayload<ExtArgs>
+    transferRequest: Prisma.$TransferRequestPayload<ExtArgs> | null
     outputs: Prisma.$OutputPayload<ExtArgs>[]
     inputs: Prisma.$InputPayload<ExtArgs>[]
   }
@@ -1334,6 +1508,7 @@ export type $TransferPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     updatedAt: Date
     createdBy: string
     updatedBy: string | null
+    transferRequestId: string | null
   }, ExtArgs["result"]["transfer"]>
   composites: {}
 }
@@ -1731,6 +1906,7 @@ export interface Prisma__TransferClient<T, Null = never, ExtArgs extends runtime
   fromBranch<T extends Prisma.BranchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   toBranch<T extends Prisma.BranchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  transferRequest<T extends Prisma.Transfer$transferRequestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transfer$transferRequestArgs<ExtArgs>>): Prisma.Prisma__TransferRequestClient<runtime.Types.Result.GetResult<Prisma.$TransferRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   outputs<T extends Prisma.Transfer$outputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transfer$outputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inputs<T extends Prisma.Transfer$inputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transfer$inputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1773,6 +1949,7 @@ export interface TransferFieldRefs {
   readonly updatedAt: Prisma.FieldRef<"Transfer", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Transfer", 'String'>
   readonly updatedBy: Prisma.FieldRef<"Transfer", 'String'>
+  readonly transferRequestId: Prisma.FieldRef<"Transfer", 'String'>
 }
     
 
@@ -2166,6 +2343,25 @@ export type TransferDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Transfers to delete.
    */
   limit?: number
+}
+
+/**
+ * Transfer.transferRequest
+ */
+export type Transfer$transferRequestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransferRequest
+   */
+  select?: Prisma.TransferRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransferRequest
+   */
+  omit?: Prisma.TransferRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransferRequestInclude<ExtArgs> | null
+  where?: Prisma.TransferRequestWhereInput
 }
 
 /**

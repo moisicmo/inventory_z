@@ -95,3 +95,14 @@ export const DebtStatus = {
 } as const
 
 export type DebtStatus = (typeof DebtStatus)[keyof typeof DebtStatus]
+
+
+export const TransferRequestStatus = {
+  SOLICITADO: 'SOLICITADO',
+  DESPACHADO: 'DESPACHADO',
+  RECIBIDO: 'RECIBIDO',
+  RECHAZADO: 'RECHAZADO',
+  OBSERVADO: 'OBSERVADO'
+} as const
+
+export type TransferRequestStatus = (typeof TransferRequestStatus)[keyof typeof TransferRequestStatus]

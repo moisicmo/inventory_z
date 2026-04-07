@@ -28,6 +28,9 @@ CREATE TYPE "TypeBaja" AS ENUM ('VENCIMIENTO', 'DANIO', 'ROBO', 'PERDIDA', 'OTRO
 -- CreateEnum
 CREATE TYPE "DebtStatus" AS ENUM ('PENDING', 'PAID');
 
+-- CreateEnum
+CREATE TYPE "TransferRequestStatus" AS ENUM ('SOLICITADO', 'DESPACHADO', 'RECIBIDO', 'RECHAZADO', 'OBSERVADO');
+
 -- CreateTable
 CREATE TABLE "addresses" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -377,8 +380,47 @@ CREATE TABLE "transfers" (
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_by" TEXT NOT NULL,
     "updated_by" TEXT,
+    "transfer_request_id" UUID,
 
     CONSTRAINT "transfers_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "transfer_requests" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "from_branch_id" UUID NOT NULL,
+    "to_branch_id" UUID NOT NULL,
+    "status" "TransferRequestStatus" NOT NULL DEFAULT 'SOLICITADO',
+    "note" VARCHAR,
+    "rejection_note" VARCHAR,
+    "observation_note" VARCHAR,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "created_by" TEXT NOT NULL,
+    "updated_by" TEXT,
+    "dispatched_by" TEXT,
+    "dispatched_at" TIMESTAMP(3),
+    "received_by" TEXT,
+    "received_at" TIMESTAMP(3),
+
+    CONSTRAINT "transfer_requests_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "transfer_request_items" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "transfer_request_id" UUID NOT NULL,
+    "product_id" UUID NOT NULL,
+    "quantity_requested" INTEGER NOT NULL,
+    "quantity_dispatched" INTEGER,
+    "type_unit" "TypeUnit" NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "detail" VARCHAR,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "transfer_request_items_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -504,6 +546,9 @@ CREATE UNIQUE INDEX "branches_name_key" ON "branches"("name");
 CREATE UNIQUE INDEX "kardexs_reference_id_type_reference_key" ON "kardexs"("reference_id", "type_reference");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "transfers_transfer_request_id_key" ON "transfers"("transfer_request_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "sale_debts_order_id_key" ON "sale_debts"("order_id");
 
 -- CreateIndex
@@ -607,6 +652,21 @@ ALTER TABLE "transfers" ADD CONSTRAINT "transfers_to_branch_id_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "transfers" ADD CONSTRAINT "transfers_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfers" ADD CONSTRAINT "transfers_transfer_request_id_fkey" FOREIGN KEY ("transfer_request_id") REFERENCES "transfer_requests"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfer_requests" ADD CONSTRAINT "transfer_requests_from_branch_id_fkey" FOREIGN KEY ("from_branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfer_requests" ADD CONSTRAINT "transfer_requests_to_branch_id_fkey" FOREIGN KEY ("to_branch_id") REFERENCES "branches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfer_request_items" ADD CONSTRAINT "transfer_request_items_transfer_request_id_fkey" FOREIGN KEY ("transfer_request_id") REFERENCES "transfer_requests"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "transfer_request_items" ADD CONSTRAINT "transfer_request_items_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "orders" ADD CONSTRAINT "orders_staff_id_fkey" FOREIGN KEY ("staff_id") REFERENCES "staffs"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -4,6 +4,7 @@ import * as path from 'path';
 import PdfPrinter from 'pdfmake'; // ✅ solución limpia y estable
 import { buildInvoiceRollTemplate } from './template/generate-invoice-roll.template';
 import { buildPurchaseRollTemplate } from './template/generate-purchase-roll.template';
+import { buildTransferRequestRollTemplate } from './template/generate-transfer-request-roll.template';
 import { OrderType } from '@/modules/order/entities/order.entity';
 import { PurchaseFullType } from '@/modules/purchase/entities/purchase.entity';
 
@@ -43,6 +44,21 @@ export class PdfService {
 
   async generatePurchaseRoll(purchase: PurchaseFullType): Promise<Buffer> {
     const docDefinition = buildPurchaseRollTemplate(purchase);
+
+    return new Promise((resolve, reject) => {
+      const pdfDoc = this.printer.createPdfKitDocument(docDefinition);
+      const chunks: Buffer[] = [];
+
+      pdfDoc.on('data', (chunk) => chunks.push(chunk));
+      pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
+      pdfDoc.on('error', reject);
+
+      pdfDoc.end();
+    });
+  }
+
+  async generateTransferRequestRoll(data: any): Promise<Buffer> {
+    const docDefinition = buildTransferRequestRollTemplate(data);
 
     return new Promise((resolve, reject) => {
       const pdfDoc = this.printer.createPdfKitDocument(docDefinition);

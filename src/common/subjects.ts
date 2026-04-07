@@ -24,4 +24,6 @@ export enum TypeSubject {
   writeoff = "bajas",
   accountsReceivable= "cuentas-por-cobrar",
   accountsPayable = "cuentas-por-pagar",
+  transferRequest = "solicitudes-traspaso",
+  transferResponse = "respuestas-traspaso",
 }

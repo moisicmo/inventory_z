@@ -406,6 +406,8 @@ export const ModelName = {
   Baja: 'Baja',
   Kardex: 'Kardex',
   Transfer: 'Transfer',
+  TransferRequest: 'TransferRequest',
+  TransferRequestItem: 'TransferRequestItem',
   Order: 'Order',
   SaleDebt: 'SaleDebt',
   SalePayment: 'SalePayment'
@@ -424,7 +426,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "address" | "user" | "session" | "forgotPassword" | "customer" | "staff" | "role" | "permission" | "provider" | "purchase" | "purchaseInstallment" | "brand" | "category" | "product" | "price" | "unitConversion" | "branch" | "input" | "output" | "baja" | "kardex" | "transfer" | "order" | "saleDebt" | "salePayment"
+    modelProps: "address" | "user" | "session" | "forgotPassword" | "customer" | "staff" | "role" | "permission" | "provider" | "purchase" | "purchaseInstallment" | "brand" | "category" | "product" | "price" | "unitConversion" | "branch" | "input" | "output" | "baja" | "kardex" | "transfer" | "transferRequest" | "transferRequestItem" | "order" | "saleDebt" | "salePayment"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2056,6 +2058,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TransferRequest: {
+      payload: Prisma.$TransferRequestPayload<ExtArgs>
+      fields: Prisma.TransferRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransferRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransferRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.TransferRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransferRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>
+        }
+        findMany: {
+          args: Prisma.TransferRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>[]
+        }
+        create: {
+          args: Prisma.TransferRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>
+        }
+        createMany: {
+          args: Prisma.TransferRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransferRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.TransferRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>
+        }
+        update: {
+          args: Prisma.TransferRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.TransferRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransferRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransferRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.TransferRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.TransferRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransferRequest>
+        }
+        groupBy: {
+          args: Prisma.TransferRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransferRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransferRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransferRequestCountAggregateOutputType> | number
+        }
+      }
+    }
+    TransferRequestItem: {
+      payload: Prisma.$TransferRequestItemPayload<ExtArgs>
+      fields: Prisma.TransferRequestItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransferRequestItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransferRequestItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>
+        }
+        findFirst: {
+          args: Prisma.TransferRequestItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransferRequestItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>
+        }
+        findMany: {
+          args: Prisma.TransferRequestItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>[]
+        }
+        create: {
+          args: Prisma.TransferRequestItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>
+        }
+        createMany: {
+          args: Prisma.TransferRequestItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransferRequestItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>[]
+        }
+        delete: {
+          args: Prisma.TransferRequestItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>
+        }
+        update: {
+          args: Prisma.TransferRequestItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.TransferRequestItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransferRequestItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransferRequestItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.TransferRequestItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferRequestItemPayload>
+        }
+        aggregate: {
+          args: Prisma.TransferRequestItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransferRequestItem>
+        }
+        groupBy: {
+          args: Prisma.TransferRequestItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransferRequestItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransferRequestItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransferRequestItemCountAggregateOutputType> | number
+        }
+      }
+    }
     Order: {
       payload: Prisma.$OrderPayload<ExtArgs>
       fields: Prisma.OrderFieldRefs
@@ -2668,10 +2818,49 @@ export const TransferScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdBy: 'createdBy',
-  updatedBy: 'updatedBy'
+  updatedBy: 'updatedBy',
+  transferRequestId: 'transferRequestId'
 } as const
 
 export type TransferScalarFieldEnum = (typeof TransferScalarFieldEnum)[keyof typeof TransferScalarFieldEnum]
+
+
+export const TransferRequestScalarFieldEnum = {
+  id: 'id',
+  fromBranchId: 'fromBranchId',
+  toBranchId: 'toBranchId',
+  status: 'status',
+  note: 'note',
+  rejectionNote: 'rejectionNote',
+  observationNote: 'observationNote',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  dispatchedBy: 'dispatchedBy',
+  dispatchedAt: 'dispatchedAt',
+  receivedBy: 'receivedBy',
+  receivedAt: 'receivedAt'
+} as const
+
+export type TransferRequestScalarFieldEnum = (typeof TransferRequestScalarFieldEnum)[keyof typeof TransferRequestScalarFieldEnum]
+
+
+export const TransferRequestItemScalarFieldEnum = {
+  id: 'id',
+  transferRequestId: 'transferRequestId',
+  productId: 'productId',
+  quantityRequested: 'quantityRequested',
+  quantityDispatched: 'quantityDispatched',
+  typeUnit: 'typeUnit',
+  price: 'price',
+  detail: 'detail',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransferRequestItemScalarFieldEnum = (typeof TransferRequestItemScalarFieldEnum)[keyof typeof TransferRequestItemScalarFieldEnum]
 
 
 export const OrderScalarFieldEnum = {
@@ -2952,6 +3141,20 @@ export type ListEnumTypeReferenceFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'TransferRequestStatus'
+ */
+export type EnumTransferRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransferRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'TransferRequestStatus[]'
+ */
+export type ListEnumTransferRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransferRequestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'DebtStatus'
  */
 export type EnumDebtStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DebtStatus'>
@@ -3095,6 +3298,8 @@ export type GlobalOmitConfig = {
   baja?: Prisma.BajaOmit
   kardex?: Prisma.KardexOmit
   transfer?: Prisma.TransferOmit
+  transferRequest?: Prisma.TransferRequestOmit
+  transferRequestItem?: Prisma.TransferRequestItemOmit
   order?: Prisma.OrderOmit
   saleDebt?: Prisma.SaleDebtOmit
   salePayment?: Prisma.SalePaymentOmit

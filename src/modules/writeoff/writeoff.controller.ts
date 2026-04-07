@@ -17,6 +17,12 @@ export class WriteoffController {
     return this.writeoffService.create(user.id, dto);
   }
 
+  @Get('export')
+  @checkAbilities({ action: TypeAction.read, subject: TypeSubject.writeoff })
+  exportXlsx(@Query() paginationDto: PaginationDto) {
+    return this.writeoffService.exportXlsx(paginationDto);
+  }
+
   @Get()
   @checkAbilities({ action: TypeAction.read, subject: TypeSubject.writeoff })
   findAll(@Query() paginationDto: PaginationDto) {

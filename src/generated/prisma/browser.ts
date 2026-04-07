@@ -128,6 +128,16 @@ export type Kardex = Prisma.KardexModel
  */
 export type Transfer = Prisma.TransferModel
 /**
+ * Model TransferRequest
+ * 
+ */
+export type TransferRequest = Prisma.TransferRequestModel
+/**
+ * Model TransferRequestItem
+ * 
+ */
+export type TransferRequestItem = Prisma.TransferRequestItemModel
+/**
  * Model Order
  * 
  */

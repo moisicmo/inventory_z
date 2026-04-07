@@ -37,6 +37,7 @@ export const PurchaseSelectList = {
   totalAmount: true,
   active: true,
   createdAt: true,
+  createdBy: true,
   provider: { select: { id: true, name: true } },
   branch: { select: { id: true, name: true } },
   inputs: {
@@ -45,6 +46,7 @@ export const PurchaseSelectList = {
       quantity: true,
       price: true,
       typeUnit: true,
+      detail: true,
     },
   },
   _count: { select: { inputs: true, installments: true } },

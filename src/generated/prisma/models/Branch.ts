@@ -235,6 +235,8 @@ export type BranchWhereInput = {
   prices?: Prisma.PriceListRelationFilter
   fromTransfers?: Prisma.TransferListRelationFilter
   toTransfers?: Prisma.TransferListRelationFilter
+  fromTransferRequests?: Prisma.TransferRequestListRelationFilter
+  toTransferRequests?: Prisma.TransferRequestListRelationFilter
   purchases?: Prisma.PurchaseListRelationFilter
   bajas?: Prisma.BajaListRelationFilter
   debts?: Prisma.SaleDebtListRelationFilter
@@ -262,6 +264,8 @@ export type BranchOrderByWithRelationInput = {
   prices?: Prisma.PriceOrderByRelationAggregateInput
   fromTransfers?: Prisma.TransferOrderByRelationAggregateInput
   toTransfers?: Prisma.TransferOrderByRelationAggregateInput
+  fromTransferRequests?: Prisma.TransferRequestOrderByRelationAggregateInput
+  toTransferRequests?: Prisma.TransferRequestOrderByRelationAggregateInput
   purchases?: Prisma.PurchaseOrderByRelationAggregateInput
   bajas?: Prisma.BajaOrderByRelationAggregateInput
   debts?: Prisma.SaleDebtOrderByRelationAggregateInput
@@ -292,6 +296,8 @@ export type BranchWhereUniqueInput = Prisma.AtLeast<{
   prices?: Prisma.PriceListRelationFilter
   fromTransfers?: Prisma.TransferListRelationFilter
   toTransfers?: Prisma.TransferListRelationFilter
+  fromTransferRequests?: Prisma.TransferRequestListRelationFilter
+  toTransferRequests?: Prisma.TransferRequestListRelationFilter
   purchases?: Prisma.PurchaseListRelationFilter
   bajas?: Prisma.BajaListRelationFilter
   debts?: Prisma.SaleDebtListRelationFilter
@@ -352,6 +358,8 @@ export type BranchCreateInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -379,6 +387,8 @@ export type BranchUncheckedCreateInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -404,6 +414,8 @@ export type BranchUpdateInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -431,6 +443,8 @@ export type BranchUncheckedUpdateInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -747,6 +761,34 @@ export type BranchUpdateOneRequiredWithoutToTransfersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BranchUpdateToOneWithWhereWithoutToTransfersInput, Prisma.BranchUpdateWithoutToTransfersInput>, Prisma.BranchUncheckedUpdateWithoutToTransfersInput>
 }
 
+export type BranchCreateNestedOneWithoutFromTransferRequestsInput = {
+  create?: Prisma.XOR<Prisma.BranchCreateWithoutFromTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutFromTransferRequestsInput>
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutFromTransferRequestsInput
+  connect?: Prisma.BranchWhereUniqueInput
+}
+
+export type BranchCreateNestedOneWithoutToTransferRequestsInput = {
+  create?: Prisma.XOR<Prisma.BranchCreateWithoutToTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutToTransferRequestsInput>
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutToTransferRequestsInput
+  connect?: Prisma.BranchWhereUniqueInput
+}
+
+export type BranchUpdateOneRequiredWithoutFromTransferRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.BranchCreateWithoutFromTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutFromTransferRequestsInput>
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutFromTransferRequestsInput
+  upsert?: Prisma.BranchUpsertWithoutFromTransferRequestsInput
+  connect?: Prisma.BranchWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BranchUpdateToOneWithWhereWithoutFromTransferRequestsInput, Prisma.BranchUpdateWithoutFromTransferRequestsInput>, Prisma.BranchUncheckedUpdateWithoutFromTransferRequestsInput>
+}
+
+export type BranchUpdateOneRequiredWithoutToTransferRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.BranchCreateWithoutToTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutToTransferRequestsInput>
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutToTransferRequestsInput
+  upsert?: Prisma.BranchUpsertWithoutToTransferRequestsInput
+  connect?: Prisma.BranchWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BranchUpdateToOneWithWhereWithoutToTransferRequestsInput, Prisma.BranchUpdateWithoutToTransferRequestsInput>, Prisma.BranchUncheckedUpdateWithoutToTransferRequestsInput>
+}
+
 export type BranchCreateNestedOneWithoutOrdersInput = {
   create?: Prisma.XOR<Prisma.BranchCreateWithoutOrdersInput, Prisma.BranchUncheckedCreateWithoutOrdersInput>
   connectOrCreate?: Prisma.BranchCreateOrConnectWithoutOrdersInput
@@ -795,6 +837,8 @@ export type BranchCreateWithoutAddressInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -820,6 +864,8 @@ export type BranchUncheckedCreateWithoutAddressInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -887,6 +933,8 @@ export type BranchCreateWithoutStaffsInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -913,6 +961,8 @@ export type BranchUncheckedCreateWithoutStaffsInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -958,6 +1008,8 @@ export type BranchCreateWithoutRolesInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -984,6 +1036,8 @@ export type BranchUncheckedCreateWithoutRolesInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -1024,6 +1078,8 @@ export type BranchUpdateWithoutRolesInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -1050,6 +1106,8 @@ export type BranchUncheckedUpdateWithoutRolesInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -1075,6 +1133,8 @@ export type BranchCreateWithoutPurchasesInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
   address?: Prisma.AddressCreateNestedOneWithoutBranchesInput
@@ -1101,6 +1161,8 @@ export type BranchUncheckedCreateWithoutPurchasesInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
 }
@@ -1141,6 +1203,8 @@ export type BranchUpdateWithoutPurchasesInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
   address?: Prisma.AddressUpdateOneWithoutBranchesNestedInput
@@ -1167,6 +1231,8 @@ export type BranchUncheckedUpdateWithoutPurchasesInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
 }
@@ -1190,6 +1256,8 @@ export type BranchCreateWithoutPricesInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -1216,6 +1284,8 @@ export type BranchUncheckedCreateWithoutPricesInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -1256,6 +1326,8 @@ export type BranchUpdateWithoutPricesInput = {
   roles?: Prisma.RoleUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -1282,6 +1354,8 @@ export type BranchUncheckedUpdateWithoutPricesInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -1306,6 +1380,8 @@ export type BranchCreateWithoutInputsInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -1332,6 +1408,8 @@ export type BranchUncheckedCreateWithoutInputsInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -1372,6 +1450,8 @@ export type BranchUpdateWithoutInputsInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -1398,6 +1478,8 @@ export type BranchUncheckedUpdateWithoutInputsInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -1422,6 +1504,8 @@ export type BranchCreateWithoutOutputsInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -1448,6 +1532,8 @@ export type BranchUncheckedCreateWithoutOutputsInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -1488,6 +1574,8 @@ export type BranchUpdateWithoutOutputsInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -1514,6 +1602,8 @@ export type BranchUncheckedUpdateWithoutOutputsInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -1539,6 +1629,8 @@ export type BranchCreateWithoutBajasInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
   address?: Prisma.AddressCreateNestedOneWithoutBranchesInput
@@ -1565,6 +1657,8 @@ export type BranchUncheckedCreateWithoutBajasInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
 }
@@ -1605,6 +1699,8 @@ export type BranchUpdateWithoutBajasInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
   address?: Prisma.AddressUpdateOneWithoutBranchesNestedInput
@@ -1631,6 +1727,8 @@ export type BranchUncheckedUpdateWithoutBajasInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
 }
@@ -1654,6 +1752,8 @@ export type BranchCreateWithoutKaredxsInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -1680,6 +1780,8 @@ export type BranchUncheckedCreateWithoutKaredxsInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -1720,6 +1822,8 @@ export type BranchUpdateWithoutKaredxsInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -1746,6 +1850,8 @@ export type BranchUncheckedUpdateWithoutKaredxsInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -1770,6 +1876,8 @@ export type BranchCreateWithoutFromTransfersInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutBranchInput
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -1796,6 +1904,8 @@ export type BranchUncheckedCreateWithoutFromTransfersInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutBranchInput
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -1825,6 +1935,8 @@ export type BranchCreateWithoutToTransfersInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutBranchInput
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -1851,6 +1963,8 @@ export type BranchUncheckedCreateWithoutToTransfersInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutBranchInput
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -1891,6 +2005,8 @@ export type BranchUpdateWithoutFromTransfersInput = {
   roles?: Prisma.RoleUpdateManyWithoutBranchNestedInput
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -1917,6 +2033,8 @@ export type BranchUncheckedUpdateWithoutFromTransfersInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutBranchNestedInput
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -1952,6 +2070,8 @@ export type BranchUpdateWithoutToTransfersInput = {
   roles?: Prisma.RoleUpdateManyWithoutBranchNestedInput
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -1978,6 +2098,256 @@ export type BranchUncheckedUpdateWithoutToTransfersInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutBranchNestedInput
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
+  purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+  bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
+  debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
+}
+
+export type BranchCreateWithoutFromTransferRequestsInput = {
+  id?: string
+  type: string
+  name: string
+  bankAccount?: string | null
+  phone?: Prisma.BranchCreatephoneInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
+  karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
+  inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
+  outputs?: Prisma.OutputCreateNestedManyWithoutBranchInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBranchInput
+  roles?: Prisma.RoleCreateNestedManyWithoutBranchInput
+  prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
+  fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
+  toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
+  purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
+  bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
+  debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
+  address?: Prisma.AddressCreateNestedOneWithoutBranchesInput
+}
+
+export type BranchUncheckedCreateWithoutFromTransferRequestsInput = {
+  id?: string
+  addressId?: string | null
+  type: string
+  name: string
+  bankAccount?: string | null
+  phone?: Prisma.BranchCreatephoneInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
+  karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
+  inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
+  outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutBranchInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBranchInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutBranchInput
+  prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
+  fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
+  purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
+  bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
+  debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
+}
+
+export type BranchCreateOrConnectWithoutFromTransferRequestsInput = {
+  where: Prisma.BranchWhereUniqueInput
+  create: Prisma.XOR<Prisma.BranchCreateWithoutFromTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutFromTransferRequestsInput>
+}
+
+export type BranchCreateWithoutToTransferRequestsInput = {
+  id?: string
+  type: string
+  name: string
+  bankAccount?: string | null
+  phone?: Prisma.BranchCreatephoneInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  staffs?: Prisma.StaffCreateNestedManyWithoutBranchesInput
+  karedxs?: Prisma.KardexCreateNestedManyWithoutBranchInput
+  inputs?: Prisma.InputCreateNestedManyWithoutBranchInput
+  outputs?: Prisma.OutputCreateNestedManyWithoutBranchInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBranchInput
+  roles?: Prisma.RoleCreateNestedManyWithoutBranchInput
+  prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
+  fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
+  toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
+  bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
+  debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
+  address?: Prisma.AddressCreateNestedOneWithoutBranchesInput
+}
+
+export type BranchUncheckedCreateWithoutToTransferRequestsInput = {
+  id?: string
+  addressId?: string | null
+  type: string
+  name: string
+  bankAccount?: string | null
+  phone?: Prisma.BranchCreatephoneInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  updatedBy?: string | null
+  staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutBranchesInput
+  karedxs?: Prisma.KardexUncheckedCreateNestedManyWithoutBranchInput
+  inputs?: Prisma.InputUncheckedCreateNestedManyWithoutBranchInput
+  outputs?: Prisma.OutputUncheckedCreateNestedManyWithoutBranchInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBranchInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutBranchInput
+  prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
+  fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
+  bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
+  debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
+}
+
+export type BranchCreateOrConnectWithoutToTransferRequestsInput = {
+  where: Prisma.BranchWhereUniqueInput
+  create: Prisma.XOR<Prisma.BranchCreateWithoutToTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutToTransferRequestsInput>
+}
+
+export type BranchUpsertWithoutFromTransferRequestsInput = {
+  update: Prisma.XOR<Prisma.BranchUpdateWithoutFromTransferRequestsInput, Prisma.BranchUncheckedUpdateWithoutFromTransferRequestsInput>
+  create: Prisma.XOR<Prisma.BranchCreateWithoutFromTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutFromTransferRequestsInput>
+  where?: Prisma.BranchWhereInput
+}
+
+export type BranchUpdateToOneWithWhereWithoutFromTransferRequestsInput = {
+  where?: Prisma.BranchWhereInput
+  data: Prisma.XOR<Prisma.BranchUpdateWithoutFromTransferRequestsInput, Prisma.BranchUncheckedUpdateWithoutFromTransferRequestsInput>
+}
+
+export type BranchUpdateWithoutFromTransferRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.BranchUpdatephoneInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
+  karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
+  inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
+  outputs?: Prisma.OutputUpdateManyWithoutBranchNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBranchNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutBranchNestedInput
+  prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
+  fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
+  toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
+  purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
+  bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
+  debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
+  address?: Prisma.AddressUpdateOneWithoutBranchesNestedInput
+}
+
+export type BranchUncheckedUpdateWithoutFromTransferRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  addressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.BranchUpdatephoneInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
+  karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
+  inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
+  outputs?: Prisma.OutputUncheckedUpdateManyWithoutBranchNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBranchNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutBranchNestedInput
+  prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
+  fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
+  purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
+  bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
+  debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
+}
+
+export type BranchUpsertWithoutToTransferRequestsInput = {
+  update: Prisma.XOR<Prisma.BranchUpdateWithoutToTransferRequestsInput, Prisma.BranchUncheckedUpdateWithoutToTransferRequestsInput>
+  create: Prisma.XOR<Prisma.BranchCreateWithoutToTransferRequestsInput, Prisma.BranchUncheckedCreateWithoutToTransferRequestsInput>
+  where?: Prisma.BranchWhereInput
+}
+
+export type BranchUpdateToOneWithWhereWithoutToTransferRequestsInput = {
+  where?: Prisma.BranchWhereInput
+  data: Prisma.XOR<Prisma.BranchUpdateWithoutToTransferRequestsInput, Prisma.BranchUncheckedUpdateWithoutToTransferRequestsInput>
+}
+
+export type BranchUpdateWithoutToTransferRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.BranchUpdatephoneInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  staffs?: Prisma.StaffUpdateManyWithoutBranchesNestedInput
+  karedxs?: Prisma.KardexUpdateManyWithoutBranchNestedInput
+  inputs?: Prisma.InputUpdateManyWithoutBranchNestedInput
+  outputs?: Prisma.OutputUpdateManyWithoutBranchNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBranchNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutBranchNestedInput
+  prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
+  fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
+  toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
+  bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
+  debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
+  address?: Prisma.AddressUpdateOneWithoutBranchesNestedInput
+}
+
+export type BranchUncheckedUpdateWithoutToTransferRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  addressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.BranchUpdatephoneInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  staffs?: Prisma.StaffUncheckedUpdateManyWithoutBranchesNestedInput
+  karedxs?: Prisma.KardexUncheckedUpdateManyWithoutBranchNestedInput
+  inputs?: Prisma.InputUncheckedUpdateManyWithoutBranchNestedInput
+  outputs?: Prisma.OutputUncheckedUpdateManyWithoutBranchNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBranchNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutBranchNestedInput
+  prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
+  fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -2002,6 +2372,8 @@ export type BranchCreateWithoutOrdersInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtCreateNestedManyWithoutBranchInput
@@ -2028,6 +2400,8 @@ export type BranchUncheckedCreateWithoutOrdersInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
   debts?: Prisma.SaleDebtUncheckedCreateNestedManyWithoutBranchInput
@@ -2068,6 +2442,8 @@ export type BranchUpdateWithoutOrdersInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -2094,6 +2470,8 @@ export type BranchUncheckedUpdateWithoutOrdersInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -2119,6 +2497,8 @@ export type BranchCreateWithoutDebtsInput = {
   prices?: Prisma.PriceCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaCreateNestedManyWithoutBranchInput
   address?: Prisma.AddressCreateNestedOneWithoutBranchesInput
@@ -2145,6 +2525,8 @@ export type BranchUncheckedCreateWithoutDebtsInput = {
   prices?: Prisma.PriceUncheckedCreateNestedManyWithoutBranchInput
   fromTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutFromBranchInput
   toTransfers?: Prisma.TransferUncheckedCreateNestedManyWithoutToBranchInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutFromBranchInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedCreateNestedManyWithoutToBranchInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutBranchInput
   bajas?: Prisma.BajaUncheckedCreateNestedManyWithoutBranchInput
 }
@@ -2185,6 +2567,8 @@ export type BranchUpdateWithoutDebtsInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   address?: Prisma.AddressUpdateOneWithoutBranchesNestedInput
@@ -2211,6 +2595,8 @@ export type BranchUncheckedUpdateWithoutDebtsInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
 }
@@ -2248,6 +2634,8 @@ export type BranchUpdateWithoutAddressInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -2273,6 +2661,8 @@ export type BranchUncheckedUpdateWithoutAddressInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -2310,6 +2700,8 @@ export type BranchUpdateWithoutStaffsInput = {
   prices?: Prisma.PriceUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUpdateManyWithoutBranchNestedInput
@@ -2336,6 +2728,8 @@ export type BranchUncheckedUpdateWithoutStaffsInput = {
   prices?: Prisma.PriceUncheckedUpdateManyWithoutBranchNestedInput
   fromTransfers?: Prisma.TransferUncheckedUpdateManyWithoutFromBranchNestedInput
   toTransfers?: Prisma.TransferUncheckedUpdateManyWithoutToBranchNestedInput
+  fromTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutFromBranchNestedInput
+  toTransferRequests?: Prisma.TransferRequestUncheckedUpdateManyWithoutToBranchNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutBranchNestedInput
   bajas?: Prisma.BajaUncheckedUpdateManyWithoutBranchNestedInput
   debts?: Prisma.SaleDebtUncheckedUpdateManyWithoutBranchNestedInput
@@ -2370,6 +2764,8 @@ export type BranchCountOutputType = {
   prices: number
   fromTransfers: number
   toTransfers: number
+  fromTransferRequests: number
+  toTransferRequests: number
   purchases: number
   bajas: number
   debts: number
@@ -2385,6 +2781,8 @@ export type BranchCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   prices?: boolean | BranchCountOutputTypeCountPricesArgs
   fromTransfers?: boolean | BranchCountOutputTypeCountFromTransfersArgs
   toTransfers?: boolean | BranchCountOutputTypeCountToTransfersArgs
+  fromTransferRequests?: boolean | BranchCountOutputTypeCountFromTransferRequestsArgs
+  toTransferRequests?: boolean | BranchCountOutputTypeCountToTransferRequestsArgs
   purchases?: boolean | BranchCountOutputTypeCountPurchasesArgs
   bajas?: boolean | BranchCountOutputTypeCountBajasArgs
   debts?: boolean | BranchCountOutputTypeCountDebtsArgs
@@ -2466,6 +2864,20 @@ export type BranchCountOutputTypeCountToTransfersArgs<ExtArgs extends runtime.Ty
 /**
  * BranchCountOutputType without action
  */
+export type BranchCountOutputTypeCountFromTransferRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransferRequestWhereInput
+}
+
+/**
+ * BranchCountOutputType without action
+ */
+export type BranchCountOutputTypeCountToTransferRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransferRequestWhereInput
+}
+
+/**
+ * BranchCountOutputType without action
+ */
 export type BranchCountOutputTypeCountPurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PurchaseWhereInput
 }
@@ -2506,6 +2918,8 @@ export type BranchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   prices?: boolean | Prisma.Branch$pricesArgs<ExtArgs>
   fromTransfers?: boolean | Prisma.Branch$fromTransfersArgs<ExtArgs>
   toTransfers?: boolean | Prisma.Branch$toTransfersArgs<ExtArgs>
+  fromTransferRequests?: boolean | Prisma.Branch$fromTransferRequestsArgs<ExtArgs>
+  toTransferRequests?: boolean | Prisma.Branch$toTransferRequestsArgs<ExtArgs>
   purchases?: boolean | Prisma.Branch$purchasesArgs<ExtArgs>
   bajas?: boolean | Prisma.Branch$bajasArgs<ExtArgs>
   debts?: boolean | Prisma.Branch$debtsArgs<ExtArgs>
@@ -2568,6 +2982,8 @@ export type BranchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   prices?: boolean | Prisma.Branch$pricesArgs<ExtArgs>
   fromTransfers?: boolean | Prisma.Branch$fromTransfersArgs<ExtArgs>
   toTransfers?: boolean | Prisma.Branch$toTransfersArgs<ExtArgs>
+  fromTransferRequests?: boolean | Prisma.Branch$fromTransferRequestsArgs<ExtArgs>
+  toTransferRequests?: boolean | Prisma.Branch$toTransferRequestsArgs<ExtArgs>
   purchases?: boolean | Prisma.Branch$purchasesArgs<ExtArgs>
   bajas?: boolean | Prisma.Branch$bajasArgs<ExtArgs>
   debts?: boolean | Prisma.Branch$debtsArgs<ExtArgs>
@@ -2593,6 +3009,8 @@ export type $BranchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     prices: Prisma.$PricePayload<ExtArgs>[]
     fromTransfers: Prisma.$TransferPayload<ExtArgs>[]
     toTransfers: Prisma.$TransferPayload<ExtArgs>[]
+    fromTransferRequests: Prisma.$TransferRequestPayload<ExtArgs>[]
+    toTransferRequests: Prisma.$TransferRequestPayload<ExtArgs>[]
     purchases: Prisma.$PurchasePayload<ExtArgs>[]
     bajas: Prisma.$BajaPayload<ExtArgs>[]
     debts: Prisma.$SaleDebtPayload<ExtArgs>[]
@@ -3013,6 +3431,8 @@ export interface Prisma__BranchClient<T, Null = never, ExtArgs extends runtime.T
   prices<T extends Prisma.Branch$pricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$pricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fromTransfers<T extends Prisma.Branch$fromTransfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$fromTransfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   toTransfers<T extends Prisma.Branch$toTransfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$toTransfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fromTransferRequests<T extends Prisma.Branch$fromTransferRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$fromTransferRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  toTransferRequests<T extends Prisma.Branch$toTransferRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$toTransferRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   purchases<T extends Prisma.Branch$purchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bajas<T extends Prisma.Branch$bajasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$bajasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BajaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   debts<T extends Prisma.Branch$debtsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$debtsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SaleDebtPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3666,6 +4086,54 @@ export type Branch$toTransfersArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.TransferScalarFieldEnum | Prisma.TransferScalarFieldEnum[]
+}
+
+/**
+ * Branch.fromTransferRequests
+ */
+export type Branch$fromTransferRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransferRequest
+   */
+  select?: Prisma.TransferRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransferRequest
+   */
+  omit?: Prisma.TransferRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransferRequestInclude<ExtArgs> | null
+  where?: Prisma.TransferRequestWhereInput
+  orderBy?: Prisma.TransferRequestOrderByWithRelationInput | Prisma.TransferRequestOrderByWithRelationInput[]
+  cursor?: Prisma.TransferRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransferRequestScalarFieldEnum | Prisma.TransferRequestScalarFieldEnum[]
+}
+
+/**
+ * Branch.toTransferRequests
+ */
+export type Branch$toTransferRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransferRequest
+   */
+  select?: Prisma.TransferRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransferRequest
+   */
+  omit?: Prisma.TransferRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransferRequestInclude<ExtArgs> | null
+  where?: Prisma.TransferRequestWhereInput
+  orderBy?: Prisma.TransferRequestOrderByWithRelationInput | Prisma.TransferRequestOrderByWithRelationInput[]
+  cursor?: Prisma.TransferRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransferRequestScalarFieldEnum | Prisma.TransferRequestScalarFieldEnum[]
 }
 
 /**

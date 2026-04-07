@@ -49,7 +49,17 @@ export class PurchaseService {
       })),
     });
 
-    // 3. Crear cuotas si el pago es a cuotas
+    // 3. Actualizar el costo referencial de cada producto con el precio de esta compra
+    await Promise.all(
+      items.map((item) =>
+        this.prisma.product.update({
+          where: { id: item.productId },
+          data: { refCost: item.price },
+        }),
+      ),
+    );
+
+    // 4. Crear cuotas si el pago es a cuotas
     if (paymentType === PaymentType.CUOTAS && installments && installments.length > 0) {
       await this.prisma.purchaseInstallment.createMany({
         data: installments.map((inst) => ({
@@ -62,12 +72,12 @@ export class PurchaseService {
       });
     }
 
-    // 4. Actualizar kardex por cada input creado
+    // 5. Actualizar kardex por cada input creado
     const kardexLists = await Promise.all(
       inputs.map((input) => this.kardexService.findByReference(input.id, TypeReference.inputs)),
     );
 
-    // 5. Generar comprobante PDF
+    // 6. Generar comprobante PDF
     const purchaseFull = await this.findOne(purchase.id);
     const pdfBuffer = await this.pdfService.generatePurchaseRoll(purchaseFull);
 
@@ -77,7 +87,7 @@ export class PurchaseService {
     };
   }
 
-  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<PurchaseListType>> {
+  async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10, keys, branchId } = paginationDto;
 
     const where: any = { active: true };
@@ -94,16 +104,28 @@ export class PurchaseService {
     const total = await this.prisma.purchase.count({ where });
     const lastPage = Math.ceil(total / limit);
 
-    return {
-      data: await this.prisma.purchase.findMany({
-        skip: (page - 1) * limit,
-        take: limit,
-        where,
-        select: PurchaseSelectList,
-        orderBy: { createdAt: 'desc' },
-      }),
-      meta: { total, page, lastPage },
-    };
+    const purchases = await this.prisma.purchase.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      where,
+      select: PurchaseSelectList,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // Resolver nombres de usuarios creadores
+    const userIds = [...new Set(purchases.map((p) => p.createdBy))];
+    const users = await this.prisma.user.findMany({
+      where: { id: { in: userIds } },
+      select: { id: true, name: true, lastName: true },
+    });
+    const userMap = new Map(users.map((u) => [u.id, `${u.name} ${u.lastName}`]));
+
+    const data = purchases.map((p) => ({
+      ...p,
+      createdByName: userMap.get(p.createdBy) ?? 'Desconocido',
+    }));
+
+    return { data, meta: { total, page, lastPage } };
   }
 
   async findOne(id: string): Promise<PurchaseFullType> {

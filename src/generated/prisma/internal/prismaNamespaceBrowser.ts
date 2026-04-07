@@ -73,6 +73,8 @@ export const ModelName = {
   Baja: 'Baja',
   Kardex: 'Kardex',
   Transfer: 'Transfer',
+  TransferRequest: 'TransferRequest',
+  TransferRequestItem: 'TransferRequestItem',
   Order: 'Order',
   SaleDebt: 'SaleDebt',
   SalePayment: 'SalePayment'
@@ -445,10 +447,49 @@ export const TransferScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdBy: 'createdBy',
-  updatedBy: 'updatedBy'
+  updatedBy: 'updatedBy',
+  transferRequestId: 'transferRequestId'
 } as const
 
 export type TransferScalarFieldEnum = (typeof TransferScalarFieldEnum)[keyof typeof TransferScalarFieldEnum]
+
+
+export const TransferRequestScalarFieldEnum = {
+  id: 'id',
+  fromBranchId: 'fromBranchId',
+  toBranchId: 'toBranchId',
+  status: 'status',
+  note: 'note',
+  rejectionNote: 'rejectionNote',
+  observationNote: 'observationNote',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  dispatchedBy: 'dispatchedBy',
+  dispatchedAt: 'dispatchedAt',
+  receivedBy: 'receivedBy',
+  receivedAt: 'receivedAt'
+} as const
+
+export type TransferRequestScalarFieldEnum = (typeof TransferRequestScalarFieldEnum)[keyof typeof TransferRequestScalarFieldEnum]
+
+
+export const TransferRequestItemScalarFieldEnum = {
+  id: 'id',
+  transferRequestId: 'transferRequestId',
+  productId: 'productId',
+  quantityRequested: 'quantityRequested',
+  quantityDispatched: 'quantityDispatched',
+  typeUnit: 'typeUnit',
+  price: 'price',
+  detail: 'detail',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransferRequestItemScalarFieldEnum = (typeof TransferRequestItemScalarFieldEnum)[keyof typeof TransferRequestItemScalarFieldEnum]
 
 
 export const OrderScalarFieldEnum = {

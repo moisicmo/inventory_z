@@ -30,6 +30,7 @@ import { PurchaseModule } from './modules/purchase/purchase.module';
 import { WriteoffModule } from './modules/writeoff/writeoff.module';
 import { ReportModule } from './modules/report/report.module';
 import { SaleDebtModule } from './modules/sale-debt/sale-debt.module';
+import { TransferRequestModule } from './modules/transfer-request/transfer-request.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { SaleDebtModule } from './modules/sale-debt/sale-debt.module';
     WriteoffModule,
     ReportModule,
     SaleDebtModule,
+    TransferRequestModule,
   ],
   providers: [
     PrismaService,
